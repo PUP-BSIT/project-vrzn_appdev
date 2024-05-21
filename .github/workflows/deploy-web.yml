@@ -2,21 +2,13 @@ name: Deploy Web to EC2
 
 on:
   workflow_dispatch:
-    inputs:
-      branch:
-        description: 'Deploy Development Branch'
-        default: 'development'
-        required: true
-
+ 
 jobs:
   Deploy-EC2:
     runs-on: ubuntu-latest
-    if: github.event.inputs.branch == 'development'
     steps:
     - name: Checkout to Repo
       uses: actions/checkout@v2
-      with:
-        ref: ${{ github.event.inputs.branch }}
 
     - name: Move Angular App to Root
       run: mv -f ./SpaceShare.UI/* .
