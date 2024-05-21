@@ -10,9 +10,6 @@ jobs:
     - name: Checkout to Repo
       uses: actions/checkout@v2
 
-    - name: Move to Nest API
-      run: cd SpaceShare.API
-
     - name: Use Node.js 20.x to Build
       uses: actions/setup-node@v2
       with:
@@ -21,7 +18,7 @@ jobs:
     - name: Install Dependencies
       run: npm install
       working-directory: ./SpaceShare.API
-      
+
     - name: Build Nest API
       run: npm run build
       working-directory: ./SpaceShare.API
@@ -29,7 +26,10 @@ jobs:
     - name: Verify Build Directory
       run: ls -al ./SpaceShare.API/dist
 
-    - name: Transfer Build Folder to EC2 Instance
+    - name: Set Permissions for node_modules
+      run: chmod -R 755 ./SpaceShare.API/node_modules
+
+    - name: Transfer Build Folder and Node Modules to EC2 Instance
       uses: easingthemes/ssh-deploy@v2.1.4
       env:
         SSH_PRIVATE_KEY: ${{ secrets.AWS_DEPLOY_KEY }}
@@ -38,5 +38,5 @@ jobs:
         REMOTE_PORT: ${{ secrets.AWS_DEPLOY_PORT }}
         SOURCE: |
           ./SpaceShare.API/dist/
-          ./SpaceShare.API/node_modules/ 
+          ./SpaceShare.API/node_modules/
         TARGET: ${{ secrets.AWS_DEPLOY_TARGET }}/api
