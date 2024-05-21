@@ -1,7 +1,9 @@
 <!-- //TODO: Add SpaceShare Description here -->
 
-Environments: 
-- [TEST](http://13.229.233.16/)
-- UAT
-- PROD
+### Environments
+- [TEST](#)
+- [UAT](#)
+- [PROD](#)
 
+### Access SpaceShare
+[SpaceShare](https://spaceshare.site/) will be sharing soon!
