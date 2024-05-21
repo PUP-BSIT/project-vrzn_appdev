@@ -1,6 +1,7 @@
 name: Deploy Web to EC2
+
 on:
-  workflow_dispatch:
+  workflow_dispatch: {}
  
 jobs:
   Deploy-EC2:
