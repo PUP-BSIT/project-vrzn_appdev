@@ -10,9 +10,6 @@ jobs:
     - name: Checkout to Repo
       uses: actions/checkout@v2
 
-    - name: Move to Nest App Directory
-      run: cd SpaceShare.API
-
     - name: Use Node.js 20.x to Build
       uses: actions/setup-node@v2
       with:
@@ -20,11 +17,9 @@ jobs:
 
     - name: Install Dependencies
       run: npm install
-      working-directory: ./SpaceShare.API
 
     - name: Build Nest API
       run: npm run build
-      working-directory: ./SpaceShare.API
 
     - name: Verify Build Directory
       run: ls -al ./SpaceShare.API/dist
@@ -36,5 +31,7 @@ jobs:
         REMOTE_HOST: ${{ secrets.AWS_DEPLOY_HOST }}
         REMOTE_USER: ${{ secrets.AWS_DEPLOY_USER }}
         REMOTE_PORT: ${{ secrets.AWS_DEPLOY_PORT }}
-        SOURCE: "./SpaceShare.API/dist/"
+        SOURCE: |
+          ./SpaceShare.API/dist/
+          ./SpaceShare.API/node_modules/  # Add node_modules directory here
         TARGET: ${{ secrets.AWS_DEPLOY_TARGET }}/api
