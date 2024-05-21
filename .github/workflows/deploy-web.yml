@@ -2,9 +2,6 @@ name: Deploy Web to EC2
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      [ development ]
  
 jobs:
   Deploy-EC2:
