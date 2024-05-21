@@ -26,17 +26,19 @@ jobs:
     - name: Verify Build Directory
       run: ls -al ./SpaceShare.API/dist
 
-    - name: Set Permissions for node_modules
-      run: chmod -R 755 ./SpaceShare.API/node_modules
+    - name: Create Deployment Package
+      run: tar -czf deploy-package.tar.gz -C ./SpaceShare.API dist node_modules
 
-    - name: Transfer Build Folder and Node Modules to EC2 Instance
+    - name: Transfer Deployment Package to EC2 Instance
       uses: easingthemes/ssh-deploy@v2.1.4
       env:
         SSH_PRIVATE_KEY: ${{ secrets.AWS_DEPLOY_KEY }}
         REMOTE_HOST: ${{ secrets.AWS_DEPLOY_HOST }}
         REMOTE_USER: ${{ secrets.AWS_DEPLOY_USER }}
         REMOTE_PORT: ${{ secrets.AWS_DEPLOY_PORT }}
-        SOURCE: |
-          ./SpaceShare.API/dist/
-          ./SpaceShare.API/node_modules/
+        SOURCE: deploy-package.tar.gz
         TARGET: ${{ secrets.AWS_DEPLOY_TARGET }}/api
+
+    - name: Extract Deployment Package on EC2
+      run: |
+        ssh -i ${{ secrets.AWS_DEPLOY_KEY }} -p ${{ secrets.AWS_DEPLOY_PORT }} ${{ secrets.AWS_DEPLOY_USER }}@${{ secrets.AWS_DEPLOY_HOST }} 'tar -xzf ${{ secrets.AWS_DEPLOY_TARGET }}/api/deploy-package.tar.gz -C ${{ secrets.AWS_DEPLOY_TARGET }}/api'
