@@ -10,8 +10,8 @@ jobs:
     - name: Checkout to Repo
       uses: actions/checkout@v2
 
-    - name: Move to Nest App Directory
-      run: cd SpaceShare.API
+    - name: Move Nest API to Root
+      run: mv -f ./SpaceShare.API/* .
 
     - name: Use Node.js 20.x to Build
       uses: actions/setup-node@v2
