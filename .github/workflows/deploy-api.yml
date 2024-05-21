@@ -38,5 +38,5 @@ jobs:
         REMOTE_PORT: ${{ secrets.AWS_DEPLOY_PORT }}
         SOURCE: |
           ./SpaceShare.API/dist/
-          ./SpaceShare.API/node_modules/  # Add node_modules directory here
+          ./SpaceShare.API/node_modules/ 
         TARGET: ${{ secrets.AWS_DEPLOY_TARGET }}/api
