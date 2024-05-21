@@ -20,9 +20,11 @@ jobs:
 
     - name: Install Dependencies
       run: npm install
+      working-directory: ./SpaceShare.API
 
     - name: Build Nest API
       run: npm run build
+      working-directory: ./SpaceShare.API
 
     - name: Verify Build Directory
       run: ls -al ./SpaceShare.API/dist
