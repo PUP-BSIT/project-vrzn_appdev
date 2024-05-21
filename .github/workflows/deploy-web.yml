@@ -26,8 +26,7 @@ jobs:
 
     - name: Substitute variables in environment file
       run: |
-           ls
-           sed -i "s~apiUrl: '.*'~apiUrl: '${{ secrets.API_URL }}'~" environment/appsetting.ts
+           sed -i "s~apiUrl: '.*'~apiUrl: '${{ secrets.API_URL }}'~" environment/appsettings.ts
 
     - name: Build Angular Project
       run: CI=false npm run build
