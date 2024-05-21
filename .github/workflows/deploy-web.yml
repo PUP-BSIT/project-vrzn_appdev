@@ -24,6 +24,10 @@ jobs:
     - name: Install Dependencies
       run: npm install
 
+    - name: Substitute variables in environment file
+      run: |
+           sed -i "s~apiUrl: '.*'~apiUrl: '${{ secrets.API_URL }}'~" ./environment/appsetting.ts
+
     - name: Build Angular Project
       run: CI=false npm run build
 
