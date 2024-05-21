@@ -43,3 +43,8 @@ jobs:
     - name: Extract Deployment Package on EC2
       run: |
         ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p ${{ secrets.AWS_DEPLOY_PORT }} ${{ secrets.AWS_DEPLOY_USER }}@${{ secrets.AWS_DEPLOY_HOST }} 'tar -xzf ${{ secrets.AWS_DEPLOY_TARGET }}/api/deploy-package.tar.gz -C ${{ secrets.AWS_DEPLOY_TARGET }}/api'
+
+    - name: Restart PM2 on EC2 Instance
+      run: |
+        ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p ${{ secrets.AWS_DEPLOY_PORT }} ${{ secrets.AWS_DEPLOY_USER }}@${{ secrets.AWS_DEPLOY_HOST }} 'pm2 restart SpaceShare.Api'
+
