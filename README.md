@@ -14,7 +14,7 @@ Welcome to **Space Share**, an innovative platform that connects tenants and pro
 
 Access Space Share in different stages of deployment for testing and production:
 
-- **Dev Environment**: [DEV](#)
+- **Dev Environment**: [Space Share Dev](https://dev.spaceshare.site/)
 - **Staging Environment**: [Space Share UAT](https://uat.spaceshare.site/)
 - **Production Environment**: [Space Share Production](https://spaceshare.site/)
 
