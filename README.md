@@ -26,6 +26,6 @@ Access Space Share in different stages of deployment for testing and production:
 
 - **Project Manager/Developer**: Christian Harrel Go
 - **Technical Lead/Developer**: Jhean Khendrick Galope
-- **Quality Assurance/Developer**: Adrian Naoe
+- **Quality Assurance/Developer**: Andronicus Dimasacat
+- **Cyber Security/Developer**: Adrian Naoe
 - **UI/UX Designer/Developer**: Mark Ryan Odrunia
-- **Developer**: Andronicus Dimasacat
