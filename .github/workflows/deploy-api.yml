@@ -89,7 +89,7 @@ jobs:
       if: github.ref == 'refs/heads/uat'
       #added pm2 install here as its not detecting the pm2 installed on the ec2 instance
       run: |
-        ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p ${{ secrets.AWS_UAT_DEPLOY_PORT }} ${{ secrets.AWS_UAT_DEPLOY_USER }}@${{ secrets.AWS_UAT_DEPLOY_HOST }} 'sudo npm i -g pm2 && pm2 restart SpaceShare.Api'
+        ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p ${{ secrets.AWS_UAT_DEPLOY_PORT }} ${{ secrets.AWS_UAT_DEPLOY_USER }}@${{ secrets.AWS_UAT_DEPLOY_HOST }} 'pm2 restart SpaceShare.Api'
 
     - name: Restart PM2 on EC2 Instance (dev)
       if: github.ref == 'refs/heads/development'
