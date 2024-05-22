@@ -21,6 +21,7 @@ jobs:
     - name: Install Dependencies
       run: npm install
 
+      #TODO: change variable depending on the environment
     - name: Substitute variables in environment file
       run: |
            sed -i "s~apiUrl: '.*'~apiUrl: '${{ secrets.API_URL }}'~" environment/appsettings.ts
