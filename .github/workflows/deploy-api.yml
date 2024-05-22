@@ -1,4 +1,3 @@
-
 name: Deploy API to EC2
 
 on:
@@ -30,20 +29,68 @@ jobs:
     - name: Create Deployment Package
       run: tar -czf deploy-package.tar.gz -C ./SpaceShare.API dist node_modules
 
-    - name: Add SSH Key
+    - name: Add SSH Key (main)
+      if: github.ref == 'refs/heads/main'
       run: |
         mkdir -p ~/.ssh
         echo "${{ secrets.AWS_DEPLOY_KEY }}" > ~/.ssh/deploy_key
         chmod 600 ~/.ssh/deploy_key
 
-    - name: Transfer Deployment Package to EC2 Instance
+    - name: Add SSH Key (uat)
+      if: github.ref == 'refs/heads/uat'
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.AWS_UAT_DEPLOY_KEY }}" > ~/.ssh/deploy_key
+        chmod 600 ~/.ssh/deploy_key
+
+    - name: Add SSH Key (dev)
+      if: github.ref == 'refs/heads/development'
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.AWS_DEV_DEPLOY_KEY }}" > ~/.ssh/deploy_key
+        chmod 600 ~/.ssh/deploy_key
+
+    - name: Transfer Deployment Package to EC2 Instance (main)
+      if: github.ref == 'refs/heads/main'
       run: |
         scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -P ${{ secrets.AWS_DEPLOY_PORT }} deploy-package.tar.gz ${{ secrets.AWS_DEPLOY_USER }}@${{ secrets.AWS_DEPLOY_HOST }}:${{ secrets.AWS_DEPLOY_TARGET }}/api
 
-    - name: Extract Deployment Package on EC2
+    - name: Transfer Deployment Package to EC2 Instance (uat)
+      if: github.ref == 'refs/heads/uat'
+      run: |
+        scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -P ${{ secrets.AWS_UAT_DEPLOY_PORT }} deploy-package.tar.gz ${{ secrets.AWS_UAT_DEPLOY_USER }}@${{ secrets.AWS_UAT_DEPLOY_HOST }}:${{ secrets.AWS_UAT_DEPLOY_TARGET }}/api
+
+    - name: Transfer Deployment Package to EC2 Instance (dev)
+      if: github.ref == 'refs/heads/development'
+      run: |
+        scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -P ${{ secrets.AWS_DEV_DEPLOY_PORT }} deploy-package.tar.gz ${{ secrets.AWS_DEV_DEPLOY_USER }}@${{ secrets.AWS_DEV_DEPLOY_HOST }}:${{ secrets.AWS_DEV_DEPLOY_TARGET }}/api
+
+    - name: Extract Deployment Package on EC2 (main)
+      if: github.ref == 'refs/heads/main'
       run: |
         ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p ${{ secrets.AWS_DEPLOY_PORT }} ${{ secrets.AWS_DEPLOY_USER }}@${{ secrets.AWS_DEPLOY_HOST }} 'tar -xzf ${{ secrets.AWS_DEPLOY_TARGET }}/api/deploy-package.tar.gz -C ${{ secrets.AWS_DEPLOY_TARGET }}/api -o'
 
-    - name: Restart PM2 on EC2 Instance
+    - name: Extract Deployment Package on EC2 (uat)
+      if: github.ref == 'refs/heads/uat'
+      run: |
+        ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p ${{ secrets.AWS_UAT_DEPLOY_PORT }} ${{ secrets.AWS_UAT_DEPLOY_USER }}@${{ secrets.AWS_UAT_DEPLOY_HOST }} 'tar -xzf ${{ secrets.AWS_UAT_DEPLOY_TARGET }}/api/deploy-package.tar.gz -C ${{ secrets.AWS_UAT_DEPLOY_TARGET }}/api -o'
+
+    - name: Extract Deployment Package on EC2 (dev)
+      if: github.ref == 'refs/heads/development'
+      run: |
+        ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p ${{ secrets.AWS_DEV_DEPLOY_PORT }} ${{ secrets.AWS_DEV_DEPLOY_USER }}@${{ secrets.AWS_DEV_DEPLOY_HOST }} 'tar -xzf ${{ secrets.AWS_DEV_DEPLOY_TARGET }}/api/deploy-package.tar.gz -C ${{ secrets.AWS_DEV_DEPLOY_TARGET }}/api -o'
+
+    - name: Restart PM2 on EC2 Instance (main)
+      if: github.ref == 'refs/heads/main'
       run: |
         ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p ${{ secrets.AWS_DEPLOY_PORT }} ${{ secrets.AWS_DEPLOY_USER }}@${{ secrets.AWS_DEPLOY_HOST }} 'pm2 restart SpaceShare.Api'
+
+    - name: Restart PM2 on EC2 Instance (uat)
+      if: github.ref == 'refs/heads/uat'
+      run: |
+        ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p ${{ secrets.AWS_UAT_DEPLOY_PORT }} ${{ secrets.AWS_UAT_DEPLOY_USER }}@${{ secrets.AWS_UAT_DEPLOY_HOST }} 'pm2 restart SpaceShare.Api'
+
+    - name: Restart PM2 on EC2 Instance (dev)
+      if: github.ref == 'refs/heads/development'
+      run: |
+        ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p ${{ secrets.AWS_DEV_DEPLOY_PORT }} ${{ secrets.AWS_DEV_DEPLOY_USER }}@${{ secrets.AWS_DEV_DEPLOY_HOST }} 'pm2 restart SpaceShare.Api'
