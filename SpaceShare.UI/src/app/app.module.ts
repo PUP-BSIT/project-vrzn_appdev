@@ -15,6 +15,8 @@ import { PropertyComponent } from './property/property.component';
 import { VerificationComponent } from './landing/verification/verification.component';
 import { ListingComponent } from './listing/listing.component';
 import { AddListingComponent } from './add-listing/add-listing.component';
+import { ProfileComponent } from './profile/profile.component';
+import { SuccessComponent } from './success/success.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { AddListingComponent } from './add-listing/add-listing.component';
     PropertyComponent,
     VerificationComponent,
     ListingComponent,
-    AddListingComponent
+    AddListingComponent,
+    ProfileComponent,
+    SuccessComponent
   ],
   imports: [
     BrowserModule,
