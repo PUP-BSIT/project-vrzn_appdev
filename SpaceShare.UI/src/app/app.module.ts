@@ -10,8 +10,7 @@ import { RegisterComponent } from './landing/register/register.component';
 import { LoginComponent } from './landing/login/login.component';
 import { RecoverComponent } from './landing/recover/recover.component';
 import { AgreementComponent } from './landing/agreement/agreement.component';
-import { CardComponent } from './card/card.component';
-import { PropertyCardComponent } from './property-card/property-card.component';
+import { PropertyCardComponent } from './property_card/property-card.component';
 import { PropertyComponent } from './property/property.component';
 import { VerificationComponent } from './landing/verification/verification.component';
 import { ListingComponent } from './listing/listing.component';
@@ -26,7 +25,6 @@ import { AddListingComponent } from './add-listing/add-listing.component';
     LoginComponent,
     RecoverComponent,
     AgreementComponent,
-    CardComponent,
     PropertyCardComponent,
     PropertyComponent,
     VerificationComponent,
