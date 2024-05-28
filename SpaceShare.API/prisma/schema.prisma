@@ -132,8 +132,8 @@ model Booking {
   price   Float
   guest_count   Int   @default(1)
 
-  created_at  DateTime
-  updated_at  DateTime
+  created_at  DateTime    @default(now())
+  updated_at  DateTime    @updatedAt
 }
 
 
