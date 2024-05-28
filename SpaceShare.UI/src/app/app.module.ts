@@ -18,6 +18,8 @@ import { AddListingComponent } from './add-listing/add-listing.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SuccessComponent } from './success/success.component';
 import { CommonModule } from '@angular/common'; 
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,10 +38,12 @@ import { CommonModule } from '@angular/common';
     SuccessComponent
   ],
   imports: [
+    ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
