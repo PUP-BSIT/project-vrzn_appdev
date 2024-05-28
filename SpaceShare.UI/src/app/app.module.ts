@@ -17,7 +17,7 @@ import { ListingComponent } from './listing/listing.component';
 import { AddListingComponent } from './add-listing/add-listing.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SuccessComponent } from './success/success.component';
-
+import { CommonModule } from '@angular/common'; 
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +38,8 @@ import { SuccessComponent } from './success/success.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    CommonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
