@@ -10,7 +10,9 @@
             </svg>
             <input type="email" formControlName="email" placeholder="Email" (focus)="clearError('email')"/>
         </label>
-      <div *ngIf="emailControl.invalid && emailControl.touched" class="error-message text-red-500">Invalid email format</div>
+        @if(emailControl.invalid && emailControl.touched) {  
+          <div class="error-message text-red-500">Invalid email format</div>  
+      }
     </div>
     <div class="form-control">
       <label class="input input-bordered flex items-center gap-2 rounded-md mb-4 " [class.input-error]="passwordControl.invalid && passwordControl.touched">
@@ -19,7 +21,10 @@
         </svg>
         <input type="password" formControlName="password" class="grow" placeholder="Password" (focus)="clearError('password')"/>
       </label>
-      <div *ngIf="passwordControl.invalid && passwordControl.touched" class="error-message text-red-500">Password is required</div>
+      @if(passwordControl.invalid && passwordControl.touched) {  
+        <div class="error-message text-red-500">Password is required</div>  
+      }  
+
       <label class="label">
         <a href="#" class="label-text-alt link link-hover mt-3">Forgot password?</a>
       </label>
