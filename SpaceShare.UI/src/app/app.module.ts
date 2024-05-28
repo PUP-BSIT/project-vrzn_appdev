@@ -17,6 +17,8 @@ import { ListingComponent } from './listing/listing.component';
 import { AddListingComponent } from './add-listing/add-listing.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SuccessComponent } from './success/success.component';
+import { FooterComponent } from './footer/footer.component';
+import { SubscriptionComponent } from './subscription/subscription.component';
 import { CommonModule } from '@angular/common'; 
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -35,7 +37,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     ListingComponent,
     AddListingComponent,
     ProfileComponent,
-    SuccessComponent
+    SuccessComponent,
+    FooterComponent,
+    SubscriptionComponent
   ],
   imports: [
     ReactiveFormsModule,
