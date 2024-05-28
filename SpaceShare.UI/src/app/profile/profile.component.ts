@@ -15,9 +15,4 @@ export class ProfileComponent {
   password: string = '****************************';
 
   isEditMode: boolean = false;
-
-  onPhoneInput(event: Event) {
-    const input = event.target as HTMLInputElement;
-    input.value = input.value.replace(/\D/g, '');
-  }
 }
