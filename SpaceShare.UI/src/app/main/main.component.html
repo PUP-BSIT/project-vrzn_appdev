@@ -1,3 +1,8 @@
 <app-landing></app-landing>
-<app-property-card></app-property-card>
+<app-landing></app-landing>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    @for (card of cards; track cards) { 
+        <app-property-card></app-property-card>
+    }
+</div>
 <app-footer/>
