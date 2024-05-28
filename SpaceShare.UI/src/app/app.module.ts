@@ -17,6 +17,7 @@ import { ListingComponent } from './listing/listing.component';
 import { AddListingComponent } from './add-listing/add-listing.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SuccessComponent } from './success/success.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { SuccessComponent } from './success/success.component';
     ListingComponent,
     AddListingComponent,
     ProfileComponent,
-    SuccessComponent
+    SuccessComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
