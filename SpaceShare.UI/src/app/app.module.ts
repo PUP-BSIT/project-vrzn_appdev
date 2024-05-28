@@ -19,6 +19,9 @@ import { ProfileComponent } from './profile/profile.component';
 import { SuccessComponent } from './success/success.component';
 import { FooterComponent } from './footer/footer.component';
 import { SubscriptionComponent } from './subscription/subscription.component';
+import { CommonModule } from '@angular/common'; 
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HeaderLoggedinComponent } from './header-loggedin/header-loggedin.component';
 
 @NgModule({
@@ -42,9 +45,12 @@ import { HeaderLoggedinComponent } from './header-loggedin/header-loggedin.compo
     HeaderLoggedinComponent
   ],
   imports: [
+    ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    CommonModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
