@@ -18,6 +18,7 @@ import { AddListingComponent } from './add-listing/add-listing.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SuccessComponent } from './success/success.component';
 import { FooterComponent } from './footer/footer.component';
+import { SubscriptionComponent } from './subscription/subscription.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { FooterComponent } from './footer/footer.component';
     AddListingComponent,
     ProfileComponent,
     SuccessComponent,
-    FooterComponent
+    FooterComponent,
+    SubscriptionComponent
   ],
   imports: [
     BrowserModule,
