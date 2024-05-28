@@ -22,6 +22,8 @@ import { SubscriptionComponent } from './subscription/subscription.component';
 import { CommonModule } from '@angular/common'; 
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HeaderLoggedinComponent } from './header-loggedin/header-loggedin.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +41,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     ProfileComponent,
     SuccessComponent,
     FooterComponent,
-    SubscriptionComponent
+    SubscriptionComponent,
+    HeaderLoggedinComponent
   ],
   imports: [
     ReactiveFormsModule,
