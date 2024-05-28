@@ -19,6 +19,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { SuccessComponent } from './success/success.component';
 import { FooterComponent } from './footer/footer.component';
 import { SubscriptionComponent } from './subscription/subscription.component';
+import { HeaderLoggedinComponent } from './header-loggedin/header-loggedin.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { SubscriptionComponent } from './subscription/subscription.component';
     ProfileComponent,
     SuccessComponent,
     FooterComponent,
-    SubscriptionComponent
+    SubscriptionComponent,
+    HeaderLoggedinComponent
   ],
   imports: [
     BrowserModule,
