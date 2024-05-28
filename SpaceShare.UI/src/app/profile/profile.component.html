@@ -10,27 +10,33 @@
                     alt="Profile Image"
                     class="w-full h-40 rounded-lg shadow-lg mb-4">
                 <div class="flex w-full space-x-2">
-                    <button *ngIf="!isEditMode" class="btn btn-sm 
-                        btn-secondary flex-1"
-                        (click)="isEditMode = true">
-                        Edit
-                    </button>
-                    <button *ngIf="isEditMode" class="btn btn-sm 
-                        btn-primary flex-1"
-                        (click)="isEditMode = false">
-                        Save Changes
-                    </button>
+                    @if(!isEditMode) {
+                        <button class="btn btn-sm 
+                            btn-secondary flex-1"
+                            (click)="isEditMode = true">
+                            Edit
+                        </button>
+                    } @else {
+                        <button class="btn btn-sm 
+                            btn-primary flex-1"
+                            (click)="isEditMode = false">
+                            Save Changes
+                        </button>
+                    }
                 </div>
-                <button *ngIf="isEditMode" class="btn btn-sm 
-                    btn-error w-full"
-                    (click)="isEditMode = false">
-                    Cancel
-                </button>
-                <button *ngIf="!isEditMode" class="btn btn-sm 
-                    btn-error w-full"
-                    [disabled]="isEditMode">
-                    Delete Account
-                </button>
+                @if(isEditMode) {
+                    <button class="btn btn-sm 
+                        btn-error w-full"
+                        (click)="isEditMode = false">
+                        Cancel
+                    </button>
+                } @else {
+                    <button class="btn btn-sm 
+                        btn-error w-full"
+                        [disabled]="isEditMode">
+                        Delete Account
+                    </button>
+                }
             </div>                
         </div>
         <div class="sm:w-2/3 p-4 flex flex-col justify-between h-full">
