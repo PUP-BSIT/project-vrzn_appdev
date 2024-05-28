@@ -22,7 +22,6 @@ import { SubscriptionComponent } from './subscription/subscription.component';
 import { CommonModule } from '@angular/common'; 
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HeaderLoggedinComponent } from './header-loggedin/header-loggedin.component';
 import { NavbarComponent } from './landing/navbar/navbar.component';
 
 @NgModule({
@@ -43,7 +42,6 @@ import { NavbarComponent } from './landing/navbar/navbar.component';
     SuccessComponent,
     FooterComponent,
     SubscriptionComponent,
-    HeaderLoggedinComponent,
     NavbarComponent
   ],
   imports: [
