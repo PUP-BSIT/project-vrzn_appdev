@@ -15,22 +15,6 @@ export class ProfileComponent {
   password: string = '****************************';
 
   isEditMode: boolean = false;
-  isDeleteVisible: boolean = true;
-
-  toggleEditMode() {
-    this.isEditMode = !this.isEditMode;
-    this.isDeleteVisible = !this.isEditMode;
-  }
-
-  onSaveChanges() {
-    this.isEditMode = false;
-    this.isDeleteVisible = true;
-  }
-
-  onCancel() {
-    this.isEditMode = false;
-    this.isDeleteVisible = true;
-  }
 
   onPhoneInput(event: Event) {
     const input = event.target as HTMLInputElement;
