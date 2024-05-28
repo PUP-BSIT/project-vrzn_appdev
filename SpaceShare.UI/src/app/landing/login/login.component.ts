@@ -1,10 +1,45 @@
-import { Component } from '@angular/core';
+// login.component.ts
+import { Component, OnInit } from '@angular/core';
+import { 
+  FormGroup,
+  Validators,
+  FormBuilder,
+  AbstractControl,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
+  loginForm!: FormGroup;
 
+  constructor(private formBuilder: FormBuilder) {}
+
+  ngOnInit() {
+    this.loginForm = this.formBuilder.group({
+      email: [null, [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
+    });
+  }
+
+  onSubmit() {
+    if (!this.loginForm.valid) {
+      return;
+    }
+    console.log(this.loginForm.value);
+  }
+
+  get emailControl(): AbstractControl {
+    return this.loginForm.get('email')!;
+  }
+
+  get passwordControl(): AbstractControl {
+    return this.loginForm.get('password')!;
+  }
+
+  clearError(controlName: string) {
+    this.loginForm.get(controlName)?.markAsUntouched();
+  }
 }

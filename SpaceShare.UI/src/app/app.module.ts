@@ -19,6 +19,10 @@ import { ProfileComponent } from './profile/profile.component';
 import { SuccessComponent } from './success/success.component';
 import { FooterComponent } from './footer/footer.component';
 import { SubscriptionComponent } from './subscription/subscription.component';
+import { CommonModule } from '@angular/common'; 
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NavbarComponent } from './landing/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -37,12 +41,16 @@ import { SubscriptionComponent } from './subscription/subscription.component';
     ProfileComponent,
     SuccessComponent,
     FooterComponent,
-    SubscriptionComponent
+    SubscriptionComponent,
+    NavbarComponent
   ],
   imports: [
+    ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    CommonModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
