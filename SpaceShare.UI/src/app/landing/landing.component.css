@@ -14,3 +14,7 @@
 .label:hover {
   background-color: #d1d5db;
 }
+
+.custom-modal-width {
+  max-width:900px; 
+}
