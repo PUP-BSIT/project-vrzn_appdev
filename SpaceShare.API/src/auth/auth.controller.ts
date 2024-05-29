@@ -1,6 +1,5 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { Prisma } from '@prisma/client';
 import { SignInDto } from './dto/signin-auth.dto';
 import { CreateUserDto } from './dto/signup-auth.dto';
 
@@ -14,12 +13,12 @@ export class AuthController {
   }
 
   @Post('signin')
-  signin(@Body() dto: SignInDto): Promise<Object> {
-    return this.authService.signin(dto);
+  signin(@Body() dto: SignInDto, @Res() response): Promise<Object> {
+    return this.authService.signin(dto, response);
   }
 
   @Get('signout')
-  signout(): Promise<Object> {
-    return this.authService.signout();
+  signout(@Res() response): Promise<Object> {
+    return this.authService.signout(response);
   }
 }

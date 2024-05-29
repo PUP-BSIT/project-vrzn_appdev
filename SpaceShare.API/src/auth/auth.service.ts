@@ -3,10 +3,16 @@ import { PrismaService } from 'prisma/prisma.service';
 import { SignInDto } from './dto/signin-auth.dto';
 import { CreateUserDto } from './dto/signup-auth.dto';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt'
+import { jwtSecret } from 'src/utils/contants';
+import { Response } from 'express';
 
 @Injectable()
 export class AuthService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(
+    private prismaService: PrismaService,
+    private jwtService: JwtService,
+  ) {}
 
   async signup(user: CreateUserDto) {
     const { email, password, phone_number } = user;
@@ -39,7 +45,7 @@ export class AuthService {
     return { message: 'User sign up successful', user: createdUser };
   }
 
-  async signin(user: SignInDto) {
+  async signin(user: SignInDto, response: Response) {
     const { email, password } = user;
 
     const findUser = await this.prismaService.user.findFirst({
@@ -48,27 +54,38 @@ export class AuthService {
 
     if (!findUser) throw new BadRequestException('Wrong Credentials');
 
-    const isMatch = await this.comparePassword({
-        password: password,
-        hash: findUser.password
-    });
+    const isMatch = await this.comparePassword(password, findUser.password);
 
     if (!isMatch) throw new BadRequestException('Wrong Credentials');
 
-    return { message: 'User Signin Sucessful' };
+    const token = await this.signToken({
+      id: findUser.id,
+      email: findUser.email,
+    });
 
+    response.cookie('token', token);
+
+    return response.send({ success: true, message: 'Sign in successful' });
   }
 
-  async signout() {
-    return { message: 'User Signout Sucessful' };
+  async signout(response: Response) {
+    response.clearCookie('token');
+    return response.send({ success: true, message: 'Sign Out Successful' });
   }
 
+  // #region helper functions
   async hashPassword(password: string) {
     const saltOrRounds = 10;
     return await bcrypt.hash(password, saltOrRounds);
   }
 
-  async comparePassword(args: { password: string, hash: string }){
-    return await bcrypt.compare(args.password, args.hash);
+  async comparePassword(password: string, hash: string) {
+    return await bcrypt.compare(password, hash);
   }
+
+  async signToken(args: { id: number; email: string }) {
+    const payload = args;
+    return this.jwtService.signAsync(payload, { secret: jwtSecret });
+  }
+  // #endregion
 }
