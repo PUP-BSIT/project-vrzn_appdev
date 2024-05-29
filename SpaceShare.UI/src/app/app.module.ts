@@ -23,6 +23,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './landing/navbar/navbar.component';
+import { WishlistComponent } from './wishlist/wishlist.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { NavbarComponent } from './landing/navbar/navbar.component';
     SuccessComponent,
     FooterComponent,
     SubscriptionComponent,
-    NavbarComponent
+    NavbarComponent,
+    WishlistComponent
   ],
   imports: [
     ReactiveFormsModule,
