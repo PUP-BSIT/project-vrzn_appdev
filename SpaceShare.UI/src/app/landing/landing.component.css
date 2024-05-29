@@ -14,3 +14,14 @@
 .label:hover {
   background-color: #d1d5db;
 }
+
+.custom-modal-width {
+  max-width:900px; 
+}
+
+@media (min-width: 1024px) {
+  .lg\:custom-modal-width {
+    max-width: 900px;
+  }
+}
+
