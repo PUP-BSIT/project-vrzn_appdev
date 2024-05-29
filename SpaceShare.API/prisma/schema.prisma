@@ -26,7 +26,7 @@ model User {
   province    String?
   city    String
   postal_code   String
-  is_proprietor   Boolean
+  is_proprietor   Boolean   @default(false)
   created_at    DateTime    @default(now())
   updated_at    DateTime    @updatedAt
   properties    Property[]
