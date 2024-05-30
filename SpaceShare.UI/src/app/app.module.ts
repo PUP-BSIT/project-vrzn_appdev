@@ -24,6 +24,13 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './landing/navbar/navbar.component';
 import { WishlistComponent } from './wishlist/wishlist.component';
+import { CarouselComponent } from './property/carousel/carousel.component';
+import { FeaturesComponent } from './property/features/features.component';
+import { InfoComponent } from './property/info/info.component';
+import { DealComponent } from './property/info/deal/deal.component';
+import { HostComponent } from './property/features/host/host.component';
+import { TermsComponent } from './landing/agreement/terms/terms.component';
+import { PrivacyComponent } from './landing/agreement/privacy/privacy.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +51,14 @@ import { WishlistComponent } from './wishlist/wishlist.component';
     FooterComponent,
     SubscriptionComponent,
     NavbarComponent,
-    WishlistComponent
+    WishlistComponent,
+    CarouselComponent,
+    FeaturesComponent,
+    InfoComponent,
+    DealComponent,
+    HostComponent,
+    TermsComponent,
+    PrivacyComponent
   ],
   imports: [
     ReactiveFormsModule,
