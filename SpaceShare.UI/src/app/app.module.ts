@@ -58,7 +58,7 @@ import { ResetFormComponent } from './landing/reset_password/reset-form/reset-fo
     DealComponent,
     HostComponent,
     TermsComponent,
-    PrivacyComponent
+    PrivacyComponent,
     NavbarComponent,
     ResetPasswordComponent,
     ResetFormComponent,
