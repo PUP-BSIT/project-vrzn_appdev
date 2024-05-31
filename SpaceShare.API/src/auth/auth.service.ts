@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { SignInDto } from './dto/signin-auth.dto';
 import { CreateUserDto } from './dto/signup-auth.dto';
@@ -63,6 +63,7 @@ export class AuthService {
     });
 
     response.cookie('token', token);
+    response.cookie('id', findUser.id);
 
     return response.send({ success: true, message: 'Sign in successful' });
   }
@@ -70,6 +71,14 @@ export class AuthService {
   async signout(response: Response) {
     response.clearCookie('token');
     return response.send({ success: true, message: 'Sign Out Successful' });
+  }
+
+  async getUser(id: number) {
+    return await this.prismaService.user.findUnique({
+      where: {
+        id: id,
+      }
+    })
   }
 
   // #region helper functions
