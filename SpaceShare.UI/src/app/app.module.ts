@@ -23,6 +23,7 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './landing/navbar/navbar.component';
 import  { ResetPasswordComponent } from './landing/reset_password/reset-password.component';
+import { ResetFormComponent } from './landing/reset_password/reset-form/reset-form.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import  { ResetPasswordComponent } from './landing/reset_password/reset-password
     SubscriptionComponent,
     NavbarComponent,
     ResetPasswordComponent,
+    ResetFormComponent,
   ],
   imports: [
     ReactiveFormsModule,
