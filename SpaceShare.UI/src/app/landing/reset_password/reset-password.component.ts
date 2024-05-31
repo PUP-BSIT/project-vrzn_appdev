@@ -14,7 +14,6 @@ export class ResetPasswordComponent {
   ngOnInit() {
     this.resetForm = this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
     });
   }
 
@@ -23,9 +22,6 @@ export class ResetPasswordComponent {
     return this.resetForm.get('email')!;
   }
 
-  get passwordControl(): AbstractControl {
-    return this.resetForm.get('password')!;
-  }
 
   clearError(controlName: string) {
     this.resetForm.get(controlName)?.markAsUntouched();

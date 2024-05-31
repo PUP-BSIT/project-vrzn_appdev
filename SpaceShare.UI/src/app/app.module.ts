@@ -8,7 +8,6 @@ import { LandingComponent } from './landing/landing.component';
 import { MainComponent } from './main/main.component';
 import { RegisterComponent } from './landing/register/register.component';
 import { LoginComponent } from './landing/login/login.component';
-import { RecoverComponent } from './landing/recover/recover.component';
 import { AgreementComponent } from './landing/agreement/agreement.component';
 import { PropertyCardComponent } from './property_card/property-card.component';
 import { PropertyComponent } from './property/property.component';
@@ -23,7 +22,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './landing/navbar/navbar.component';
-import { ResetPasswordComponent } from './landing/reset-password/reset-password.component';
+import  { ResetPasswordComponent } from './landing/reset_password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +31,6 @@ import { ResetPasswordComponent } from './landing/reset-password/reset-password.
     MainComponent,
     RegisterComponent,
     LoginComponent,
-    RecoverComponent,
     AgreementComponent,
     PropertyCardComponent,
     PropertyComponent,
