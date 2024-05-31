@@ -8,7 +8,6 @@ import { LandingComponent } from './landing/landing.component';
 import { MainComponent } from './main/main.component';
 import { RegisterComponent } from './landing/register/register.component';
 import { LoginComponent } from './landing/login/login.component';
-import { RecoverComponent } from './landing/recover/recover.component';
 import { AgreementComponent } from './landing/agreement/agreement.component';
 import { PropertyCardComponent } from './property_card/property-card.component';
 import { PropertyComponent } from './property/property.component';
@@ -31,6 +30,8 @@ import { DealComponent } from './property/info/deal/deal.component';
 import { HostComponent } from './property/features/host/host.component';
 import { TermsComponent } from './landing/agreement/terms/terms.component';
 import { PrivacyComponent } from './landing/agreement/privacy/privacy.component';
+import  { ResetPasswordComponent } from './landing/reset_password/reset-password.component';
+import { ResetFormComponent } from './landing/reset_password/reset-form/reset-form.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,6 @@ import { PrivacyComponent } from './landing/agreement/privacy/privacy.component'
     MainComponent,
     RegisterComponent,
     LoginComponent,
-    RecoverComponent,
     AgreementComponent,
     PropertyCardComponent,
     PropertyComponent,
@@ -58,7 +58,10 @@ import { PrivacyComponent } from './landing/agreement/privacy/privacy.component'
     DealComponent,
     HostComponent,
     TermsComponent,
-    PrivacyComponent
+    PrivacyComponent,
+    NavbarComponent,
+    ResetPasswordComponent,
+    ResetFormComponent,
   ],
   imports: [
     ReactiveFormsModule,
