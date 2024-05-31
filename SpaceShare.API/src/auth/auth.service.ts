@@ -4,7 +4,6 @@ import { SignInDto } from './dto/signin-auth.dto';
 import { CreateUserDto } from './dto/signup-auth.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt'
-import { jwtSecret } from 'src/utils/contants';
 import { Response } from 'express';
 
 @Injectable()
@@ -85,7 +84,7 @@ export class AuthService {
 
   async signToken(args: { id: number; email: string }) {
     const payload = args;
-    return this.jwtService.signAsync(payload, { secret: jwtSecret });
+    return this.jwtService.signAsync(payload, { secret: process.env.JWT_SECRET });
   }
   // #endregion
 }
