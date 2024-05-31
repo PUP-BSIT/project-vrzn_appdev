@@ -1,5 +1,5 @@
-
-<div>
+@if(!showLink){
+  <div>
   <h1 class="text-3xl font-bold">Register Now!</h1>
   <form class="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2">
     <div>
@@ -45,7 +45,7 @@
     </div>
   
     <div class="col-span-1 md:col-span-2 flex justify-center">
-      <button class="w-full px-6 py-3 mt-4 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-[#8644a2] rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+      <button (click)="toggleLinkVisibility()" class="w-full px-6 py-3 mt-4 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-[#8644a2] rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
         Continue
       </button>
     </div>
@@ -55,6 +55,7 @@
       </a>
     </div>
     <div class="col-span-1 md:col-span-2 flex justify-center">
+      
       <p class="mt-6 text-center text-gray-500 dark:text-gray-400">
         By clicking “Continue” above, you acknowledge that you have read and
         understood, and agree to our <a href="#" class="text-violet-700 dark:text-violet-500">Terms & Conditions</a>
@@ -63,4 +64,11 @@
     </div>
   </form>
 </div>
-
+}@else{
+  <div class="flex justify-center items-center">
+    <div class="w-full max-w-96 mx-auto">
+      <app-verification></app-verification>
+    </div>
+  </div>
+  
+}
