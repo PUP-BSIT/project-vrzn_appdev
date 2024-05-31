@@ -23,6 +23,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './landing/navbar/navbar.component';
+import { ResetPasswordComponent } from './landing/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { NavbarComponent } from './landing/navbar/navbar.component';
     SuccessComponent,
     FooterComponent,
     SubscriptionComponent,
-    NavbarComponent
+    NavbarComponent,
+    ResetPasswordComponent,
   ],
   imports: [
     ReactiveFormsModule,
