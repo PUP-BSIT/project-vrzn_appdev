@@ -1,4 +1,5 @@
 <!-- login.component.html -->
+@if(!showLink){
 <h1 class="text-3xl font-bold grid justify-items-center">Login now!</h1>
 <div class="card shrink-1 w-full max-w-w bg-base-0">
   <form class="card-body" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
@@ -25,7 +26,7 @@
         <div class="error-message text-red-500">Password is required</div>  
       }  
       <label class="label">
-        <a href="#" class="label-text-alt link link-hover mt-3">Forgot password?</a>
+        <a href="#" (click)="toggleLinkVisibility()"  class="label-text-alt link link-hover mt-3">Forgot password?</a>
       </label>
     </div>
     <div class="form-control mt-6">
@@ -33,3 +34,10 @@
     </div>
   </form>
 </div>
+}@else{
+  <div class="flex justify-center items-center">
+    <div class="w-full max-w-96 mx-auto">
+      <app-reset-password></app-reset-password>
+    </div>
+  </div>
+}

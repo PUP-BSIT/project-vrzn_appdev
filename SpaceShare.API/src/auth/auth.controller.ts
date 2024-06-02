@@ -2,6 +2,7 @@ import { Body, Controller, Get, Post, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/signin-auth.dto';
 import { CreateUserDto } from './dto/signup-auth.dto';
+import { response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -20,5 +21,10 @@ export class AuthController {
   @Get('signout')
   signout(@Res() response): Promise<Object> {
     return this.authService.signout(response);
+  }
+
+  @Get('user/:id')
+  getUser(@Body() id: number): Promise<Object>{
+    return this.authService.getUser(id);
   }
 }

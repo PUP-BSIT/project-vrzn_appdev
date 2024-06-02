@@ -1,11 +1,6 @@
 // login.component.ts
-import { Component, OnInit } from '@angular/core';
-import { 
-  FormGroup,
-  Validators,
-  FormBuilder,
-  AbstractControl,
-} from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +8,8 @@ import {
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  @ViewChild('resetPasswordComponent') resetPasswordComponent!: LoginComponent;
+  showLink = false;
   loginForm!: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {}
@@ -41,5 +38,9 @@ export class LoginComponent implements OnInit {
 
   clearError(controlName: string) {
     this.loginForm.get(controlName)?.markAsUntouched();
+  }
+
+  toggleLinkVisibility() {
+    this.showLink = !this.showLink;
   }
 }
