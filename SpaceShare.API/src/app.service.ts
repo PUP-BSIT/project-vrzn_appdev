@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { TestModel } from 'model/TestModel';
 
 @Injectable()
 export class AppService {
-  getHello(): Object {
+  getHello(): TestModel {
     return {message: "testing world", state: "development"};
   }
 }
