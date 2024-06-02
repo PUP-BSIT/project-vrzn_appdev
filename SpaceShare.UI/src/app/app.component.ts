@@ -1,22 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environment/appsettings';
+import { AppService } from './app.service';
+import { TestModel } from '../../model/TestModel';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'], // Change "styleUrl" to "styleUrls"
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  // Implement OnInit interface
-  title = 'SpaceShare.UI';
 
-  constructor(private http: HttpClient) {}
+  constructor(private appService: AppService){}
 
   ngOnInit() {
-    // Implement ngOnInit method
-    this.http.get<Object>(environment.apiUrl).subscribe((data) => {
+    this.appService.getTestApi().subscribe((data: TestModel) => {
       console.log(data);
-      return data;
-    });
+    })
   }
 }
