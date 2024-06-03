@@ -4,14 +4,11 @@ import { environment } from '../../environment/appsettings';
 import { TestModel } from '../../model/TestModel';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AppService {
-
   constructor(private http: HttpClient) {}
 
-  getTestApi(): Observable<TestModel>{
+  getTestApi(): Observable<TestModel> {
     return this.http.get<TestModel>(environment.apiUrl);
   }
 }
