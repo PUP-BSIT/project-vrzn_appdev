@@ -1,17 +1,8 @@
 <app-navbar/>
 
-<!-- Modal Trigger -->
-<input type="checkbox" id="log-in-mdl" class="modal-toggle" />
-<div class="modal">
-  <div class="modal-box">
-    <app-login></app-login>
-    <div class="modal-action">
-      <label for="log-in-mdl" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">&#x2715;</label>  
-    </div>
-  </div>
-</div>
-<input type="checkbox" id="sign-up-mdl" class="modal-toggle" />
+<app-login></app-login>
 
+<input type="checkbox" id="sign-up-mdl" class="modal-toggle" />
 <div class="modal">
   <div class="modal-box md:mx-300 w-full sm:w-11/12 md:w-4/5 lg:custom-modal-width ml-2">
     <app-register></app-register>
@@ -20,7 +11,6 @@
     </div>
   </div>
 </div>
-
 
 
 <div class="flex justify-center space-x-4 p-4 relative z-10">

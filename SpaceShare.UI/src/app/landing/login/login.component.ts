@@ -1,5 +1,5 @@
 // login.component.ts
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/forms';
 
 @Component({
@@ -8,6 +8,7 @@ import { FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/fo
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+ @ViewChild('modalToggle') modalToggle!: ElementRef<HTMLInputElement>;
   @ViewChild('resetPasswordComponent') resetPasswordComponent!: LoginComponent;
   showLink = false;
   loginForm!: FormGroup;
@@ -26,6 +27,10 @@ export class LoginComponent implements OnInit {
       return;
     }
     console.log(this.loginForm.value);
+
+    // const credentials = this.loginForm.value;
+
+    this.closeModal();
   }
 
   get emailControl(): AbstractControl {
@@ -42,5 +47,11 @@ export class LoginComponent implements OnInit {
 
   toggleLinkVisibility() {
     this.showLink = !this.showLink;
+  }
+
+  closeModal() {
+    if (this.modalToggle) {
+      this.modalToggle.nativeElement.checked = false;
+    }
   }
 }
