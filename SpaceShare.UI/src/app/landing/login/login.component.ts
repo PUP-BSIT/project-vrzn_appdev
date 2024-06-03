@@ -1,6 +1,8 @@
 // login.component.ts
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/forms';
+import { LoginService } from './login.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -8,11 +10,12 @@ import { FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/fo
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+ @ViewChild('modalToggle') modalToggle!: ElementRef<HTMLInputElement>;
   @ViewChild('resetPasswordComponent') resetPasswordComponent!: LoginComponent;
   showLink = false;
   loginForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder, private loginService: LoginService, private cookieService: CookieService) {}
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -21,11 +24,19 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (!this.loginForm.valid) {
       return;
     }
-    console.log(this.loginForm.value);
+
+    this.loginService.login(this.loginForm.value).subscribe(data => {
+      if(data.success) {
+        this.cookieService.set('token', data.token) 
+        this.cookieService.set('id', data.id)
+        this.closeModal();
+        location.reload();
+      }
+    })
   }
 
   get emailControl(): AbstractControl {
@@ -42,5 +53,12 @@ export class LoginComponent implements OnInit {
 
   toggleLinkVisibility() {
     this.showLink = !this.showLink;
+  }
+
+  closeModal() {
+    if (this.modalToggle) {
+      console.log(this.modalToggle.nativeElement.value)
+      this.modalToggle.nativeElement.checked = false;
+    }
   }
 }

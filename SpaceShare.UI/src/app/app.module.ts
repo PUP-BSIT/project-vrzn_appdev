@@ -32,6 +32,9 @@ import { TermsComponent } from './landing/agreement/terms/terms.component';
 import { PrivacyComponent } from './landing/agreement/privacy/privacy.component';
 import  { ResetPasswordComponent } from './landing/reset_password/reset-password.component';
 import { ResetFormComponent } from './landing/reset_password/reset-form/reset-form.component';
+import { LoginService } from './landing/login/login.service';
+import { CookieService } from 'ngx-cookie-service';
+import { NavbarService } from './landing/navbar/navbar.service';
 
 @NgModule({
   declarations: [
@@ -71,7 +74,7 @@ import { ResetFormComponent } from './landing/reset_password/reset-form/reset-fo
     CommonModule,
     FormsModule
   ],
-  providers: [],
+  providers: [LoginService, CookieService, NavbarService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
