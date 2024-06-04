@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AgreementComponent } from '../agreement/agreement.component';
 import { VerificationComponent } from '../verification/verification.component';
 import { LocationService } from './location.service';
-import { Region, Province, City, Barangay } from '../../../model/location.model';
+import { Region, Province, City } from '../../../model/location.model';
+
 
 @Component({
   selector: 'app-register',
@@ -73,9 +74,7 @@ export class RegisterComponent implements OnInit {
     this.fillCities();
   }
    
- 
   onCityChange(): void {
-   
+   //For barangay if needed
   }
-
 }
