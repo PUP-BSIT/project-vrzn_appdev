@@ -61,11 +61,8 @@ export class AuthService {
       id: findUser.id,
       email: findUser.email,
     });
-
-    response.cookie('token', token);
-    response.cookie('id', findUser.id);
-
-    return response.send({ success: true, message: 'Sign in successful' });
+    
+    return response.send({ success: true, message: 'Sign in successful', token: token, id: findUser.id });
   }
 
   async signout(response: Response) {
