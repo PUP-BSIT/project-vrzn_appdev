@@ -48,7 +48,7 @@
                     rounded-box w-52">
                     <li><a class="font-bold">Profile</a></li>
                     <li><a class="font-bold">Subscription</a></li>
-                    <li><a class="font-bold">Terms and Conditions</a></li>
+                    <li><a class="font-bold" routerLink="/agreement">Terms and Conditions</a></li>
                     <li><a class="font-bold" (click)="signout()">Logout</a></li>
                 </ul>
             </div>
@@ -56,3 +56,4 @@
     }
     </div>
 </div>
+<router-outlet/>
