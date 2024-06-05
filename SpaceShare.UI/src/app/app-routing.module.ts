@@ -24,6 +24,7 @@ import { TermsComponent } from './landing/agreement/terms/terms.component';
 import { PrivacyComponent } from './landing/agreement/privacy/privacy.component';
 import  { ResetPasswordComponent } from './landing/reset_password/reset-password.component';
 import { ResetFormComponent } from './landing/reset_password/reset-form/reset-form.component';
+import { SubscriptionComponent } from './subscription/subscription.component';
 
 
 const routes: Routes = [
@@ -45,6 +46,7 @@ const routes: Routes = [
   { path: 'agreement/privacy', component: PrivacyComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'reset-password/reset-form', component: ResetFormComponent },
+  {path: 'subscription', component: SubscriptionComponent},
 ];
 
 @NgModule({
