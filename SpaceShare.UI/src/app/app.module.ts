@@ -35,6 +35,7 @@ import { ResetFormComponent } from './landing/reset_password/reset-form/reset-fo
 import { LoginService } from './landing/login/login.service';
 import { CookieService } from 'ngx-cookie-service';
 import { NavbarService } from './landing/navbar/navbar.service';
+import { LocationService } from './landing/register/location.service';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,7 @@ import { NavbarService } from './landing/navbar/navbar.service';
     CommonModule,
     FormsModule
   ],
-  providers: [LoginService, CookieService, NavbarService],
+  providers: [LoginService, CookieService, NavbarService,LocationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
