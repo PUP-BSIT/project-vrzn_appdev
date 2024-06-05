@@ -4,7 +4,6 @@ import { VerificationComponent } from '../verification/verification.component';
 import { LocationService } from './location.service';
 import { Region, Province, City } from '../../../model/location.model';
 
-
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -19,7 +18,6 @@ export class RegisterComponent implements OnInit {
   selectedRegion: string = '';
   selectedProvince: string = '';
   selectedCity: string = '';
-
 
   @ViewChild(VerificationComponent) verificationComponent!: AgreementComponent;
   showLink = false;
@@ -63,7 +61,7 @@ export class RegisterComponent implements OnInit {
       this.cities = [];
     } else if (level === 'city') {
       this.selectedCity = '';
-    } 
+    }
   }
 
   onRegionChange(): void {
@@ -73,8 +71,8 @@ export class RegisterComponent implements OnInit {
   onProvinceChange(): void {
     this.fillCities();
   }
-   
+
   onCityChange(): void {
-   //For barangay if needed
+    // For barangay if needed
   }
 }
