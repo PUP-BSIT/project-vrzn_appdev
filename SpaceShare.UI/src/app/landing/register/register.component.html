@@ -53,7 +53,8 @@
         class="mt-1 block w-full px-5 py-3 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40">
         <option selected="true" disabled>Choose Region</option>
         @for(region of regions; track region.region_code) {
-        <option [value]="region.region_code">{{ region.region_name }}</option>
+        <option [value]="region.region_code">
+          {{ region.region_name.toUpperCase() }}</option>
         }
       </select>
     </div>
@@ -64,12 +65,13 @@
         id="province"
         name="province"
         [(ngModel)]="selectedProvince"
+        [disabled]="!selectedRegion"
         (ngModelChange)="onProvinceChange()"
         class="mt-1 block w-full px-5 py-3 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40">
         <option selected="true" disabled>Choose Province</option>
         @for(province of provinces; track province.province_code) {
         <option [value]="province.province_code">
-          {{ province.province_name }}
+          {{ province.province_name.toUpperCase() }}
         </option>
         }
       </select>
@@ -82,10 +84,12 @@
         name="city"
         [(ngModel)]="selectedCity"
         (ngModelChange)="onCityChange()"
+        [disabled]="!selectedProvince"
         class="mt-1 block w-full px-5 py-3 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40">
         <option selected="true" disabled>Choose City</option>
         @for(city of cities; track city.city_code) {
-        <option [value]="city.city_code">{{ city.city_name }}</option>
+        <option [value]="city.city_code">
+          {{ city.city_name.toUpperCase() }}</option>
         }
       </select>
     </div>
