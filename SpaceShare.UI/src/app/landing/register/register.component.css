@@ -1,0 +1,7 @@
+
+select:disabled {
+    background-color: #f8f8f8;
+    color: #b0b0b0;
+    cursor: not-allowed;
+}
+  
