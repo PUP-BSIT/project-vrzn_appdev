@@ -7,6 +7,6 @@ import { Card } from '../../model/card.model';
   styleUrl: './property-card.component.css'
 })
 export class PropertyCardComponent {
-  @Input() card: Card | undefined;
+  @Input() card!: Card;
   @Input() cardId!: number;
 }
