@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Card } from '../../model/card.model';
 
 @Component({
   selector: 'app-property-card',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrl: './property-card.component.css'
 })
 export class PropertyCardComponent {
-
+  @Input() card: Card | undefined;
+  @Input() cardId!: number;
 }
