@@ -8,7 +8,6 @@ import { LandingComponent } from './landing/landing.component';
 import { MainComponent } from './main/main.component';
 import { RegisterComponent } from './landing/register/register.component';
 import { LoginComponent } from './landing/login/login.component';
-import { RecoverComponent } from './landing/recover/recover.component';
 import { AgreementComponent } from './landing/agreement/agreement.component';
 import { PropertyCardComponent } from './property_card/property-card.component';
 import { PropertyComponent } from './property/property.component';
@@ -19,6 +18,24 @@ import { ProfileComponent } from './profile/profile.component';
 import { SuccessComponent } from './success/success.component';
 import { FooterComponent } from './footer/footer.component';
 import { SubscriptionComponent } from './subscription/subscription.component';
+import { CommonModule } from '@angular/common'; 
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NavbarComponent } from './landing/navbar/navbar.component';
+import { WishlistComponent } from './wishlist/wishlist.component';
+import { CarouselComponent } from './property/carousel/carousel.component';
+import { FeaturesComponent } from './property/features/features.component';
+import { InfoComponent } from './property/info/info.component';
+import { DealComponent } from './property/info/deal/deal.component';
+import { HostComponent } from './property/features/host/host.component';
+import { TermsComponent } from './landing/agreement/terms/terms.component';
+import { PrivacyComponent } from './landing/agreement/privacy/privacy.component';
+import  { ResetPasswordComponent } from './landing/reset_password/reset-password.component';
+import { ResetFormComponent } from './landing/reset_password/reset-form/reset-form.component';
+import { LoginService } from './landing/login/login.service';
+import { CookieService } from 'ngx-cookie-service';
+import { NavbarService } from './landing/navbar/navbar.service';
+import { LocationService } from './landing/register/location.service';
 
 @NgModule({
   declarations: [
@@ -27,7 +44,6 @@ import { SubscriptionComponent } from './subscription/subscription.component';
     MainComponent,
     RegisterComponent,
     LoginComponent,
-    RecoverComponent,
     AgreementComponent,
     PropertyCardComponent,
     PropertyComponent,
@@ -37,14 +53,29 @@ import { SubscriptionComponent } from './subscription/subscription.component';
     ProfileComponent,
     SuccessComponent,
     FooterComponent,
-    SubscriptionComponent
+    SubscriptionComponent,
+    NavbarComponent,
+    WishlistComponent,
+    CarouselComponent,
+    FeaturesComponent,
+    InfoComponent,
+    DealComponent,
+    HostComponent,
+    TermsComponent,
+    PrivacyComponent,
+    NavbarComponent,
+    ResetPasswordComponent,
+    ResetFormComponent,
   ],
   imports: [
+    ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    CommonModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [LoginService, CookieService, NavbarService,LocationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

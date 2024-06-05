@@ -1,45 +1,59 @@
-<div class="navbar bg-base-300 rounded-box">
-  <div class="flex-1 px-2 lg:flex-none flex items-center">
-    <img src="../assets/logo.svg" alt="Logo" class="logo mr-2" />
-    <a class="text-2xl font-bold text-primary">Space Share</a>
-  </div>
-  <div class="flex justify-end flex-1 px-4">
-    <div class="flex items-stretch space-x-4">
-      <a class="btn rounded-btn bg-white text-primary">Log in</a>
-      <a class="btn rounded-btn bg-primary text-white">Sign Up</a>
+<app-navbar/>
+
+<app-login></app-login>
+
+<input type="checkbox" id="sign-up-mdl" class="modal-toggle" />
+<div class="modal">
+  <div class="modal-box md:mx-300 w-full sm:w-11/12 md:w-4/5 lg:custom-modal-width ml-2">
+    <app-register></app-register>
+    <div class="modal-action">
+      <label for="sign-up-mdl" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">&#x2715;</label>  
     </div>
   </div>
 </div>
-
 <div class="flex justify-center space-x-4 p-4 relative z-10">
   <div class="dropdown">
     <label tabindex="0" class="label">Choose a City</label>
     <ul
       tabindex="0"
-      class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52" >
-      <li><a>City 1</a></li>
-      <li><a>City 2</a></li>
-      <li><a>City 3</a></li>
+      class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-40" >
+      <li><a>Caloocan</a></li>
+      <li><a>Las Piñas</a></li>
+      <li><a>Makati</a></li>
+      <li><a>Malabon</a></li>
+      <li><a>Mandaluyong</a></li>
+      <li><a>Manila</a></li>
+      <li><a>Marikina</a></li>
+      <li><a>Muntinlupa</a></li>
+      <li><a>Navotas</a></li>
+      <li><a>Parañaque</a></li>
+      <li><a>Pasay</a></li>
+      <li><a>Pasig</a></li>
+      <li><a>Quezon City</a></li>
+      <li><a>San Juan</a></li>
+      <li><a>Taguig</a></li>
+      <li><a>Valenzuela</a></li>
     </ul>
   </div>
   <div class="dropdown">
     <label tabindex="0" class="label">Budget</label>
     <ul
       tabindex="0"
-      class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52" >
-      <li><a>Option 1</a></li>
-      <li><a>Option 2</a></li>
-      <li><a>Option 3</a></li>
+      class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-40" >
+      <li><a>0 - 5,000</a></li>
+      <li><a>5,000 - 10,000</a></li>
+      <li><a>10,000 - 15,000</a></li>
+      <li><a>15,000 - 20,000</a></li>
     </ul>
   </div>
   <div class="dropdown">
     <label tabindex="0" class="label">How many bedrooms?</label>
     <ul
       tabindex="0"
-      class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52" >
-      <li><a>1 Bedroom</a></li>
-      <li><a>2 Bedrooms</a></li>
-      <li><a>3 Bedrooms</a></li>
+      class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-40" >
+      <li><a>1 (One)</a></li>
+      <li><a>2 (Two)</a></li>
+      <li><a>3 or more</a></li>
     </ul>
   </div>
 </div>

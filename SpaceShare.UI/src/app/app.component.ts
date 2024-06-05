@@ -9,12 +9,16 @@ import { environment } from '../../environment/appsettings';
 export class AppComponent implements OnInit {
   // Implement OnInit interface
   title = 'SpaceShare.UI';
+  showModal: boolean = false;
 
+  closeModal() {
+    this.showModal = false;
+  }
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
     // Implement ngOnInit method
-    this.http.get<Object>(environment.apiUrl).subscribe((data) => {
+    this.http.get<Object>(`${environment.apiUrl}/api`).subscribe((data) => {
       console.log(data);
       return data;
     });
