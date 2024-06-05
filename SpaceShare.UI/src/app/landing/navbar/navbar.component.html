@@ -2,7 +2,7 @@
     <div class="container mx-auto max-w-screen-2xl flex justify-between items-center w-full">
         <div class="flex items-center">
             <img src="../assets/logo.svg" alt="Logo" class="logo mr-2 size-12" />
-            <a class="text-2xl font-bold text-primary">Space Share</a>
+            <a class="text-2xl font-bold text-primary" routerLink="/main">Space Share</a>
         </div>
     @if(!loggedIn) {
         <div class="flex items-center space-x-4">
@@ -35,13 +35,13 @@
                     menu-sm 
                     dropdown-content 
                     mt-3 
-                    z-[1] 
+                    z-20 
                     p-2 
                     shadow 
-                    bg-white 
-                    rounded-box w-52">
-                    <li><a class="font-bold">Profile</a></li>
-                    <li><a class="font-bold">Subscription</a></li>
+                    bg-base-100 
+                    rounded-box w-52 ">
+                    <li><a class="font-bold" routerLink="/profile">Profile</a></li>
+                    <li><a class="font-bold" routerLink="/subscription">Subscription</a></li>
                     <li><a class="font-bold" (click)="signout()">Logout</a></li>
                 </ul>
             </div>

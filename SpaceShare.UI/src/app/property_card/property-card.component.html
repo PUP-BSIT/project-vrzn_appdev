@@ -6,7 +6,7 @@
         class="w-full h-48 object-cover" />
     </figure>
     <div class="card-body p-4">
-      <h2 class="card-title text-lg font-semibold">{{ card?.title}}</h2>
+      <h2 class="card-title text-lg font-semibold">{{ card.title}}</h2>
       <p class="flex items-center text-gray-600 mb-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -22,13 +22,13 @@
             d="M10 10a2 2 0 110-4 2 2 0 010 4zm0-2a.5.5 0 100-1 .5.5 0 000 1z"
             clip-rule="evenodd" />
         </svg>
-        {{ card?.location }}
+        {{ card.location }}
       </p>
       <p class="text-gray-500 text-sm">
-        {{ card?.description }}
+        {{ card.description }}
       </p>
       <div class="card-actions justify-end mt-4">
-        <span class="text-lg font-bold">₱{{ card?.price?.toLocaleString() }}</span>
+        <span class="text-lg font-bold">₱{{ card.price.toLocaleString() }}</span>
       </div>
     </div>
 </div>
