@@ -41,7 +41,6 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent },
   { path: 'success', component: SuccessComponent },
   { path: 'wishlist', component: WishlistComponent },
-  { path: 'property/:id', component: CarouselComponent },
   { path: 'agreement/terms', component: TermsComponent },
   { path: 'agreement/privacy', component: PrivacyComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
