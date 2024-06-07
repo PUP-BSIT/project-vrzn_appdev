@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/forms';
+import { User } from '../../../model/user.model';
+import { RegisterService } from '../register/register.service';
 
 @Component({
   selector: 'app-verification',
@@ -8,8 +10,10 @@ import { FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/fo
 })
 export class VerificationComponent implements OnInit {
   otpForm!: FormGroup;
+  @Input() code!: number;
+  @Input() userToCreate!: User;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder, private readonly registerService: RegisterService) {}
 
   ngOnInit() {
     this.otpForm = this.formBuilder.group({
@@ -25,12 +29,18 @@ export class VerificationComponent implements OnInit {
     this.otpForm.get(controlName)?.markAsUntouched();
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (!this.otpForm.valid) {
       return;
     }
-    console.log(this.otpForm.value);
-    this.closeModal();
+
+    if (+this.otpForm.value.otp === +this.code) {
+      this.registerService.registerUser(this.userToCreate).subscribe(data => {
+        if(data.success){
+          this.closeModal();
+        }
+      })
+    }
   }
 
   closeModal() {

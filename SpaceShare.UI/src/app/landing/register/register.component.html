@@ -1,55 +1,40 @@
-@if(!showLink){
+@if(!showLink) {
 <div>
   <h1 class="text-3xl font-bold">Register Now!</h1>
-  <form class="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2">
+  <form class="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2" [formGroup]="registerForm">
     <div>
-      <input
-        type="text"
-        placeholder="First Name"
-        class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"/>
+      <input type="text" placeholder="First Name" formControlName="firstName"
+        class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+      @if(firstNameControl.invalid && firstNameControl.touched) {
+        <div class="error-message text-red-500 pl-3">First Name is required</div>
+      }
     </div>
 
     <div>
-      <input
-        type="text"
-        placeholder="Last Name"
-        class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"/>
+      <input type="text" placeholder="Last Name" formControlName="lastName"
+        class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
     </div>
 
     <div>
-      <input
-        type="text"
-        placeholder="Middle Name"
-        class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"/>
+      <input type="text" placeholder="Middle Name" formControlName="middleName"
+        class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
     </div>
     <div>
-      <input
-        type="text"
-        placeholder="Phone Number"
-        class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"/>
+      <input type="text" placeholder="Phone Number" formControlName="phoneNumber"
+        class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
     </div>
     <div>
-      <input
-        type="email"
-        placeholder="email@sample.com"
-        class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"/>
+      <input type="email" placeholder="email@sample.com" formControlName="email"
+        class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
     </div>
     <div>
-      <div>
-        <input
-          type="date"
-          placeholder="Birthday"
-          class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"/>
-      </div>
+      <input type="date" placeholder="Birthday" formControlName="birthdate"
+        class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
     </div>
 
     <div class="mb-4">
       <label for="region" class="block text-sm font-medium text-gray-700">Region:</label>
-      <select
-        id="region"
-        name="region"
-        [(ngModel)]="selectedRegion"
-        (ngModelChange)="onRegionChange()"
+      <select id="region" name="region" formControlName="region" (change)="onRegionChange()"
         class="mt-1 block w-full px-5 py-3 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40">
         <option selected="true" disabled>Choose Region</option>
         @for(region of regions; track region.region_code) {
@@ -61,12 +46,8 @@
 
     <div class="mb-1">
       <label for="province" class="block text-sm font-medium text-gray-700">Province:</label>
-      <select
-        id="province"
-        name="province"
-        [(ngModel)]="selectedProvince"
-        [disabled]="!selectedRegion"
-        (ngModelChange)="onProvinceChange()"
+      <select id="province" name="province" formControlName="province" [disabled]="!selectedRegion"
+        (change)="onProvinceChange()"
         class="mt-1 block w-full px-5 py-3 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40">
         <option selected="true" disabled>Choose Province</option>
         @for(province of provinces; track province.province_code) {
@@ -79,12 +60,7 @@
 
     <div class="mb-4">
       <label for="city" class="block text-sm font-medium text-gray-700">City:</label>
-      <select
-        id="city"
-        name="city"
-        [(ngModel)]="selectedCity"
-        (ngModelChange)="onCityChange()"
-        [disabled]="!selectedProvince"
+      <select id="city" name="city" formControlName="city" [disabled]="!selectedProvince"
         class="mt-1 block w-full px-5 py-3 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40">
         <option selected="true" disabled>Choose City</option>
         @for(city of cities; track city.city_code) {
@@ -95,36 +71,27 @@
     </div>
 
     <div>
-      <input
-        type="text"
-        placeholder="Postal Code"
-        class="block w-full px-5 py-3 mt-5 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"/>
+      <input type="text" placeholder="Postal Code" formControlName="postalCode"
+        class="block w-full px-5 py-3 mt-5 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
     </div>
     <div>
-      <input
-        type="password"
-        placeholder="Enter your password"
-        class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"/>
+      <input type="password" placeholder="Enter your password" formControlName="password"
+        class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
     </div>
 
     <div>
-      <input
-        type="password"
-        placeholder="Confirm your Password"
-        class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"/>
+      <input type="password" placeholder="Confirm your Password" formControlName="confirmPassword"
+        class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
     </div>
 
     <div class="col-span-1 md:col-span-2 flex justify-center">
-      <button
-        (click)="toggleLinkVisibility()"
+      <button (click)="handleSubmit()"
         class="w-full px-6 py-3 mt-4 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-[#8644a2] rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
         Continue
       </button>
     </div>
     <div class="col-span-1 md:col-span-2 flex justify-center">
-      <a
-        href="#"
-        class="text-sm text-blue-500 hover:underline dark:text-blue-400">
+      <a href="#" class="text-sm text-blue-500 hover:underline dark:text-blue-400">
         Already have an account?
       </a>
     </div>
@@ -139,11 +106,10 @@
     </div>
   </form>
 </div>
-}@else{
+} @else {
 <div class="flex justify-center items-center">
   <div class="w-full max-w-96 mx-auto">
-    <app-verification></app-verification>
+    <app-verification [code]="randomNumber" [userToCreate]="bodyToPass"/>
   </div>
 </div>
-
 }
