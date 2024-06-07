@@ -29,7 +29,7 @@ export class AuthController {
   }
 
   
-  @Get('verify')
+  @Post('verify')
   sendMailer(@Body() verification: verification) {
     return this.authService.sendMail(verification);
   }
