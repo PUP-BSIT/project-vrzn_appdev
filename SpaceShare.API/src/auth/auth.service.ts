@@ -5,12 +5,15 @@ import { CreateUserDto } from './dto/signup-auth.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt'
 import { Response } from 'express';
+import { MailerService } from '@nestjs-modules/mailer';
+import { verification } from './dto/verify.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
     private prismaService: PrismaService,
     private jwtService: JwtService,
+    private readonly mailService: MailerService
   ) {}
 
   async signup(user: CreateUserDto) {
@@ -76,6 +79,16 @@ export class AuthService {
         id: id,
       }
     })
+  }
+
+  async sendMail(body: verification) {
+    const email = await this.mailService.sendMail({
+      to: body.mailTo,
+      subject: 'SpaceShare Signup Verification',
+      text: `Welcome to SpaceShare! \nYour verification code is ${body.code}\nThis is an automatic email. Please do not reply.`,
+    });
+
+    return email;
   }
 
   // #region helper functions
