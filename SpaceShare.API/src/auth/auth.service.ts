@@ -44,7 +44,7 @@ export class AuthService {
       },
     });
 
-    return { message: 'User sign up successful', user: createdUser };
+    return { success: true, message: 'User sign up successful', user: createdUser };
   }
 
   async signin(user: SignInDto, response: Response) {
