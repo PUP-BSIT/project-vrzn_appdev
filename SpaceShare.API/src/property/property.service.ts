@@ -12,7 +12,6 @@ export class PropertyService {
   constructor(
     private prismaService: PrismaService,
     private s3Service: S3Service,
-    private authService: AuthService,
   ) {}
 
   async getProperties() {

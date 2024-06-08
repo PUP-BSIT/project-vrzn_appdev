@@ -12,6 +12,8 @@ export class VerificationComponent implements OnInit {
   otpForm!: FormGroup;
   @Input() code!: number;
   @Input() userToCreate!: User;
+  verified: boolean = false;
+  message!: string;
 
   constructor(private formBuilder: FormBuilder, private readonly registerService: RegisterService) {}
 
@@ -33,11 +35,13 @@ export class VerificationComponent implements OnInit {
     if (!this.otpForm.valid) {
       return;
     }
+    console.log(this);
 
     if (+this.otpForm.value.otp === +this.code) {
       this.registerService.registerUser(this.userToCreate).subscribe(data => {
         if(data.success){
-          this.closeModal();
+          this.verified = true;
+          this.message = data.message;
         }
       })
     }
