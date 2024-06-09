@@ -1,0 +1,202 @@
+<app-navbar></app-navbar>
+<body class="bg-white mt-10 mx-4 md:mx-40 rounded-2xl pt-10 shadow-2xl">
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold mb-7">Add new listing</h1>
+        <form class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-bold text-gray-700">
+                        Title</label>
+                    <input type="text" 
+                           placeholder="80 characters max" 
+                           class="input 
+                                  input-bordered 
+                                  w-full 
+                                  bg-white 
+                                  rounded-lg">
+                </div>
+                <div>
+                    <label class="block 
+                                  text-sm 
+                                  font-bold 
+                                  text-gray-700">Rent per month</label>
+                    <input type="number" 
+                           placeholder="PHP" 
+                           class="input 
+                           input-bordered 
+                           w-full 
+                           bg-white 
+                           rounded-lg">
+                </div>
+                <div>
+                    <label class="block 
+                                  text-sm 
+                                  font-bold 
+                                  text-gray-700">Bedroom</label>
+                    <select class="select 
+                                   select-bordered 
+                                   w-full 
+                                   bg-white 
+                                   rounded-lg">
+                        <option disabled selected>How many bedrooms?</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block 
+                                  text-sm 
+                                  font-bold 
+                                  text-gray-700">Guests</label>
+                    <input type="number" 
+                           placeholder="maximum guests" 
+                           class="input 
+                           input-bordered 
+                           w-full 
+                           bg-white 
+                           rounded-lg">
+                </div>
+                <div>
+                    <label class="block 
+                                  text-sm 
+                                  font-bold 
+                                  text-gray-700">Floor area</label>
+                    <input type="number" 
+                           placeholder="Floor area in square meters" 
+                           class="input 
+                                  input-bordered 
+                                  w-full 
+                                  bg-white 
+                                  rounded-lg">
+                </div>
+            </div>
+            <div>
+                <label class="block 
+                              text-sm 
+                              font-bold 
+                              text-gray-700">Description</label>
+                <textarea class="textarea 
+                                 textarea-bordered 
+                                 w-full h-40 
+                                 bg-white 
+                                 rounded-lg" 
+                          placeholder="80 characters max"></textarea>
+            </div>
+            <div>
+                <label class="block 
+                              text-xl 
+                              font-bold 
+                              text-gray-700">
+                              Upload photos of your apartment</label>
+                <div class="mt-2 
+                            flex 
+                            items-center 
+                            justify-center 
+                            border-2 
+                            border-dashed 
+                            border-gray-300 
+                            rounded-lg h-32 
+                            cursor-pointer">
+                    <span class="text-gray-400">Click here to upload</span>
+                </div>
+                <input type="file" 
+                       class="hidden" 
+                       multiple>
+            </div>
+            <div>
+                <label class="block text-xl 
+                              font-bold 
+                              text-gray-700">Where is it located?</label>
+                <div class="grid 
+                            grid-cols-1 
+                            md:grid-cols-5 
+                            gap-4 
+                            mt-2">
+                    <div>
+                        <label class="block 
+                                      text-sm 
+                                      font-bold 
+                                      text-gray-700">Region</label>
+                        <select class="select 
+                                       select-bordered 
+                                       w-full 
+                                       bg-white 
+                                       rounded-lg">
+                            <option disabled selected>Select region</option>
+                            <option>NCR</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block 
+                                      text-sm 
+                                      font-bold 
+                                      text-gray-700">City</label>
+                        <select class="select 
+                                       select-bordered 
+                                       w-full 
+                                       bg-white 
+                                       rounded-lg">
+                            <option disabled selected>Select city</option>
+                            <option>Caloocan</option>
+                            <option>Las Piñas</option>
+                            <option>Makati</option>
+                            <option>Malabon</option>
+                            <option>Mandaluyong</option>
+                            <option>Manila</option>
+                            <option>Marikina</option>
+                            <option>Muntinlupa</option>
+                            <option>Navotas</option>
+                            <option>Parañaque</option>
+                            <option>Pasay</option>
+                            <option>Pasig</option>
+                            <option>Quezon City</option>
+                            <option>San Juan</option>
+                            <option>Taguig</option>
+                            <option>Valenzuela</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block 
+                                      text-sm font-bold 
+                                      text-gray-700">Zip code</label>
+                        <input type="number" 
+                               placeholder="Zip code" 
+                               class="input 
+                                      input-bordered 
+                                      w-full 
+                                      bg-white 
+                                      rounded-lg">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block 
+                                      text-sm 
+                                      font-bold 
+                                      text-gray-700">Address Line</label>
+                        <input type="text" 
+                               placeholder="House no, Street name" 
+                               class="input 
+                                      input-bordered 
+                                      w-full 
+                                      bg-white 
+                                      rounded-lg">
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-end">
+                <button type="submit" 
+                        class="btn 
+                             btn-primary 
+                               bg-primary 
+                               text-white 
+                               font-bold 
+                               border-none">
+                        Upload listing
+                </button>
+            </div>
+        </form>
+    </div>
+</body>
+<app-footer></app-footer>

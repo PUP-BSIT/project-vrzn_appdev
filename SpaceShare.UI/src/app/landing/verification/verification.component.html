@@ -1,0 +1,33 @@
+@if(verified){
+  <app-success [message]="message"/>
+} 
+@else {
+  <p class="mt-6 mx-4 text-center text-violet-500 text-2xl font-bold">
+    One Time Password (OTP) Verification
+  </p>
+  <p class="mt-6 mx-4 text-center text-black">
+    To complete your registration Input 6-digits Code and please check your email (and your spam folder) for a one-time verification code and enter it here to verify your account.
+  </p>
+  <form class="card-body" [formGroup]="otpForm" (ngSubmit)="onSubmit()">
+  <div class="form-control">
+    <label class="input input-bordered flex items-center gap-2 rounded-md mb-3" [class.input-error]="otpControl.invalid && otpControl.touched">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70">
+        <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
+        <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
+      </svg>
+      <input type="text" formControlName="otp" placeholder="Verify Code" (focus)="clearError('otp')" required class="block w-full rounded-md border-0 py-1.5" />
+    </label>
+    @if(otpControl.invalid && otpControl.touched) {
+      <div class="error-message text-red-500">Invalid OTP format</div>
+    }
+  </div>
+  <div class="form-control mt-6">
+    <button class="btn bg-[#8644a2] text-white" [disabled]="otpControl.invalid">Verify</button>
+  </div>
+  </form>
+  <div class="col-span-1 md:col-span-2 flex justify-center">
+    <a href="#" class="text-sm text-blue-500 hover:underline dark:text-blue-400">
+        Resend OTP Code
+    </a>
+  </div>
+}
