@@ -5,20 +5,24 @@ import {
   PutObjectCommandInput,
   PutObjectCommandOutput,
 } from '@aws-sdk/client-s3';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class S3Service {
-  private region = process.env.S3_REGION;
+
+  constructor(private configService: ConfigService){}
+
+  private region = this.configService.get<string>('S3_REGION');
   private s3 = new S3Client({
     region: this.region,
     credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      accessKeyId: this.configService.get<string>('AWS_ACCESS_KEY'),
+      secretAccessKey: this.configService.get<string>('AWS_SECRET_ACCESS_KEY'),
     },
   });
 
   async uploadFile(file: Express.Multer.File, key: string) {
-    const bucket = process.env.S3_BUCKET;
+    const bucket = this.configService.get<string>('S3_BUCKET');
     const input: PutObjectCommandInput = {
       Body: file.buffer,
       Bucket: bucket,

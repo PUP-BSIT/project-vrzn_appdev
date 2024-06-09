@@ -7,12 +7,14 @@ import { JwtService } from '@nestjs/jwt'
 import { Response } from 'express';
 import { MailerService } from '@nestjs-modules/mailer';
 import { verification } from './dto/verify.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     private prismaService: PrismaService,
     private jwtService: JwtService,
+    private configService: ConfigService,
     private readonly mailService: MailerService
   ) {}
 
@@ -103,7 +105,9 @@ export class AuthService {
 
   async signToken(args: { id: number; email: string }) {
     const payload = args;
-    return this.jwtService.signAsync(payload, { secret: process.env.JWT_SECRET });
+    return this.jwtService.signAsync(payload, { 
+      secret: this.configService.get<string>('JWT_SECRET') 
+    });
   }
   // #endregion
 }

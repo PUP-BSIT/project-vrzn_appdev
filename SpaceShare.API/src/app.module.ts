@@ -5,28 +5,24 @@ import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from 'prisma/prisma.module';
 import { PropertyModule } from './property/property.module';
 import { S3Module } from './s3/s3.module';
-import { MailerModule } from '@nestjs-modules/mailer';
+import { MailerModule, MailerService } from '@nestjs-modules/mailer';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { mailerConfig } from './auth/mailer/mailer.config';
+import { AuthService } from './auth/auth.service';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     AuthModule,
     PrismaModule,
     PropertyModule,
     S3Module,
-    MailerModule.forRoot({
-      transport: {
-        host: 'smtp.gmail.com',
-        port: 587,
-        secure: false,
-        auth: {
-          user: process.env.EMAIL_USERNAME,
-          pass: process.env.EMAIL_PASSWORD,
-        },
-        defaults: {
-          from: '"SpaceShare" <spacesharevrzn@gmail.com>',
-        },
-        preview: true,
-      },
+    MailerModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => mailerConfig(configService),
+      inject: [ConfigService]
     }),
   ],
   controllers: [AppController],
