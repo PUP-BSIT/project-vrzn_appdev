@@ -8,7 +8,6 @@ import {
   FormBuilder,
   FormGroup,
   Validators,
-  ValidationErrors,ValidatorFn
 } from '@angular/forms';
 import { User } from '../../../model/user.model';
 import { RegisterService } from './register.service';
