@@ -47,10 +47,16 @@ export class RegisterComponent implements OnInit {
     this.loadRegions();
 
     this.registerForm = this.formBuilder.group({
-      firstName: ['', [Validators.required]],
+      firstName: ['', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(60),
+        Validators.pattern(/^(?!.*?[^aeiou]{5})(?!.*?[aeiou]{3})[a-z]*$/)
+      ]],
+
       lastName: ['', [Validators.required]],
       middleName: [''],
-      phoneNumber: ['',[Validators.required], [Validators.pattern('^[0-9]*$')]],
+      phoneNumber: ['',[Validators.required]],
   
       email: ['', [Validators.required, Validators.email]],
       birthdate: ['', [Validators.required]],
