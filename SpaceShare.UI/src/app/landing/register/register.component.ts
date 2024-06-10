@@ -58,9 +58,8 @@ export class RegisterComponent implements OnInit {
         Validators.maxLength(60),
         Validators.pattern(/^(?!.*?[^aeiou]{5})(?!.*?[aeiou]{3})[a-z]*$/)
       ]],
-      middleName: [''],
+      middleName: ['',Validators.pattern(/^(?!.*?[^aeiou]{5})(?!.*?[aeiou]{3})[a-z]*$/)],
       phoneNumber: ['',[Validators.required, Validators.pattern(/^[0-9]{11}$/)]],
-  
       email: ['', [Validators.required, Validators.email]],
       birthdate: ['', [Validators.required]],
       region: ['', [Validators.required]],
