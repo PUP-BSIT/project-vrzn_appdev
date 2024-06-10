@@ -12,7 +12,9 @@
           @if(firstNameControl.errors?.['minlength'] || firstNameControl.errors?.['maxlength']) {
             <div class="error-message text-red-500 pl-3">Name must be 2 to 60 alphabets</div>
           }
-
+          @if (firstNameControl.errors?.['pattern']) {
+            <div class="error-message text-red-500 pl-3">Must Enter Valid First Name</div>
+          }
       }
 
     </div>
