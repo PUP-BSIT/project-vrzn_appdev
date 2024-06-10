@@ -15,14 +15,19 @@
             @if (firstNameControl.errors?.['pattern']) {
               <div class="error-message text-red-500 pl-3">Must Enter Valid First Name</div>
             }
-      }
+        }
     </div>
 
     <div>
       <input type="text" placeholder="Last Name" formControlName="lastName"
         class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
         @if(lastNameControl.invalid && lastNameControl.touched) {
-          <div class="error-message text-red-500 pl-3">Last Name is required</div>
+          @if (lastNameControl.errors?.['required']) {
+            <div class="error-message text-red-500 pl-3">Last Name Must Not Null</div>
+            }
+            @if(lastNameControl.errors?.['minlength'] || lastNameControl.errors?.['maxlength']) {
+              <div class="error-message text-red-500 pl-3">Name must be 2 to 60 alphabets</div>
+            }
         }
     </div>
 
