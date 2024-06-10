@@ -8,10 +8,11 @@ import {
   FormBuilder,
   FormGroup,
   Validators,
+  ValidatorFn,ValidationErrors
 } from '@angular/forms';
 import { User } from '../../../model/user.model';
 import { RegisterService } from './register.service';
-
+import { CustomValidators } from '../register/custom-validators'; 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -58,10 +59,16 @@ export class RegisterComponent implements OnInit {
         Validators.maxLength(60),
         Validators.pattern(/^(?!.*?[^aeiou]{5})(?!.*?[aeiou]{3})[a-z]*$/)
       ]],
-      middleName: ['',Validators.pattern(/^(?!.*?[^aeiou]{5})(?!.*?[aeiou]{3})[a-z]*$/)],
-      phoneNumber: ['',[Validators.required, Validators.pattern(/^[0-9]{11}$/)]],
+      middleName: ['',
+        Validators.pattern(/^(?!.*?[^aeiou]{5})(?!.*?[aeiou]{3})[a-z]*$/)],
+      phoneNumber: ['',[
+        Validators.required, 
+        Validators.pattern(/^[0-9]{11}$/)
+      ]],
       email: ['', [Validators.required, Validators.email]],
-      birthdate: ['', [Validators.required]],
+
+      
+      birthdate: ['', [Validators.required, CustomValidators.adultAgeValidator('birthdate')]],
       region: ['', [Validators.required]],
       province: [{ value: '', disabled: true }, [Validators.required]],
       city: [{ value: '', disabled: true }, [Validators.required]],
@@ -69,8 +76,10 @@ export class RegisterComponent implements OnInit {
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
     });
+
   }
 
+  
 
   get firstNameControl(): AbstractControl {
     return this.registerForm.get('firstName')!;
@@ -210,4 +219,5 @@ export class RegisterComponent implements OnInit {
     const max = 999999; 
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
+  
 }
