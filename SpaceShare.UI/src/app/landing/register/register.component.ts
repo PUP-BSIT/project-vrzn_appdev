@@ -57,8 +57,7 @@ export class RegisterComponent implements OnInit {
       ]],
 
       lastName: ['', [
-        Validators.required, Validators.minLength(2),
-        Validators.maxLength(60),
+        Validators.required,
         Validators.pattern(/^(?!.*?[^aeiou]{5})(?!.*?[aeiou]{3})[a-z]*$/)
       ]],
 
