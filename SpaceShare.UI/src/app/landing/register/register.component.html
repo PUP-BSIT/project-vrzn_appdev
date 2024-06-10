@@ -9,7 +9,7 @@
           @if (firstNameControl.errors?.['required']) {
             <div class="error-message text-red-500 pl-3">First Name Must Not Null</div>
             }
-            @if(firstNameControl.errors?.['minlength'] || firstNameControl.errors?.['maxlength']) {
+            @if(firstNameControl.errors?.['minlength'] && firstNameControl.errors?.['maxlength']) {
               <div class="error-message text-red-500 pl-3">Name must be 2 to 60 alphabets</div>
             }
             @if (firstNameControl.errors?.['pattern']) {
@@ -24,9 +24,6 @@
         @if(lastNameControl.invalid && lastNameControl.touched) {
           @if (lastNameControl.errors?.['required']) {
             <div class="error-message text-red-500 pl-3">Last Name Must Not Null</div>
-            }
-            @if(lastNameControl.errors?.['minlength'] || lastNameControl.errors?.['maxlength']) {
-              <div class="error-message text-red-500 pl-3">Name must be 2 to 60 alphabets</div>
             }
             @if(lastNameControl.errors?.['pattern']) {
               <div class="error-message text-red-500 pl-3">Must Enter Valid Last Name</div>
@@ -161,12 +158,16 @@
         }
       </div>
 
-    <div class="col-span-1 md:col-span-2 flex justify-center">
-      <button (click)="handleSubmit()"
-        class="w-full px-6 py-3 mt-4 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-[#8644a2] rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
-        Continue
-      </button>
-    </div>
+      <div class="col-span-1 md:col-span-2 flex justify-center">
+        <button 
+          (click)="handleSubmit()"
+          [disabled]="!registerForm.valid"
+          [ngClass]="{'disabled-button': !registerForm.valid}"
+          class="w-full px-6 py-3 mt-4 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-[#8644a2] rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+          Continue
+        </button>
+      </div>
+      
 
     <div class="col-span-1 md:col-span-2 flex justify-center">
       <a href="#" class="text-sm text-blue-500 hover:underline dark:text-blue-400">
