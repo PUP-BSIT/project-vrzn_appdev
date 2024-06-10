@@ -25,6 +25,12 @@
     <div>
       <input type="text" placeholder="Phone Number" formControlName="phoneNumber"
         class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+        @if(phoneNumberControl.invalid && phoneNumberControl.touched) {
+          @if (phoneNumberControl.errors?.['required']) {
+          <div class="error-message text-red-500 pl-3">Phone Not must not null</div>
+          }
+          <!-- <div class="error-message text-red-500 pl-3">Last Name is required</div> -->
+        }
     </div>
     <div>
       <input type="email" placeholder="email@sample.com" formControlName="email"
@@ -93,7 +99,7 @@
         Continue
       </button>
     </div>
-    
+
     <div class="col-span-1 md:col-span-2 flex justify-center">
       <a href="#" class="text-sm text-blue-500 hover:underline dark:text-blue-400">
         Already have an account?
