@@ -1,4 +1,4 @@
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn,FormControl } from '@angular/forms';
 
 export class CustomValidators {
   static adultAgeValidator(fieldName: string): ValidatorFn {
@@ -23,5 +23,26 @@ export class CustomValidators {
     };
   }
 
+  
 }
+export interface ValidationResult {
+  [key: string]: boolean;
+}
+
+export class PasswordValidator {
+  public static strong(control: FormControl): ValidationResult | null {
+    const hasNumber = /\d/.test(control.value);
+    const hasUpper = /[A-Z]/.test(control.value);
+    const hasLower = /[a-z]/.test(control.value);
+    const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(control.value);
+    const valid = hasNumber && hasUpper && hasLower && hasSpecial;
+
+    if (!valid) {
+      // return what's not valid
+      return { strong: true };
+    }
+    return null;
+  }
+}
+
 
