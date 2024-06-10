@@ -58,17 +58,30 @@
     </div>
     <div>
       <input type="email" placeholder="email@sample.com" formControlName="email"
-        class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+        class="block w-full px-5 py-3 mt-7 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
         @if(emailControl.invalid && emailControl.touched) {
           @if (emailControl.errors?.['required']) {
           <div class="error-message text-red-500 pl-3">Must Input Email Address </div>
           }
+          @if (emailControl.errors?.['email']) {
+            <div class="error-message text-red-500 pl-3">Must Input Valid Email Address</div>
+          }
         }
     </div>
     <div>
-      <input type="date" placeholder="Birthday" formControlName="birthdate"
-        class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+      <label for="birthdate" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+      <input type="date" id="birthdate" formControlName="birthdate"
+        class="block w-full px-4 py-2.5 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+      @if(birthdateControl.invalid && birthdateControl.touched) {
+        @if (birthdateControl.errors?.['required']) {
+          <div class="error-message text-red-500 pl-3">Date of Birth must not be null</div>
+        }
+        @if (birthdateControl.errors?.['adultAge']) {
+          <div class="error-message text-red-500 pl-3">Enter Valid Birthday and Must be 18 Years Old</div>
+        }
+      }
     </div>
+    
 
     <div class="mb-4">
       <label for="region" class="block text-sm font-medium text-gray-700">Region:</label>
