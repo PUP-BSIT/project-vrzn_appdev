@@ -1,4 +1,4 @@
-import { AbstractControl, ValidationErrors, ValidatorFn,FormControl } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn, FormControl, FormGroup } from '@angular/forms';
 
 export class CustomValidators {
   static adultAgeValidator(fieldName: string): ValidatorFn {
@@ -6,7 +6,7 @@ export class CustomValidators {
       const birthdate = control.value;
 
       if (!birthdate) {
-        return null; 
+        return null;
       }
 
       // Calculate age based on the birthdate
@@ -16,15 +16,14 @@ export class CustomValidators {
 
       // Check if age is less than 18
       if (age < 18) {
-        return { 'adultAge': { fieldName } }; 
+        return { 'adultAge': { fieldName } };
       }
 
-      return null; 
+      return null;
     };
   }
-
-  
 }
+
 export interface ValidationResult {
   [key: string]: boolean;
 }
@@ -43,6 +42,20 @@ export class PasswordValidator {
     }
     return null;
   }
+
 }
+export const MatchPasswordValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  const formGroup = control.parent;
+  if (!formGroup) {
+    return null;
+  }
 
+  const password = formGroup.get('password');
+  const confirmPassword = formGroup.get('confirmPassword');
 
+  if (!password || !confirmPassword || password.value !== confirmPassword.value) {
+    return { passwordMismatch: true };
+  }
+
+  return null;
+};
