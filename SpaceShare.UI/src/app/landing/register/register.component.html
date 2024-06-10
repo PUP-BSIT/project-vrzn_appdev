@@ -72,14 +72,14 @@
       <label for="birthdate" class="block text-sm font-medium text-gray-700">Date of Birth</label>
       <input type="date" id="birthdate" formControlName="birthdate"
         class="block w-full px-4 py-2.5 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
-      @if(birthdateControl.invalid && birthdateControl.touched) {
-        @if (birthdateControl.errors?.['required']) {
-          <div class="error-message text-red-500 pl-3">Date of Birth must not be null</div>
+        @if(birthdateControl.invalid && birthdateControl.touched) {
+          @if (birthdateControl.errors?.['required']) {
+            <div class="error-message text-red-500 pl-3">Date of Birth must not be null</div>
+          }
+          @if (birthdateControl.errors?.['adultAge']) {
+            <div class="error-message text-red-500 pl-3">Enter Valid Birthday and Must be 18 Years Old</div>
+          }
         }
-        @if (birthdateControl.errors?.['adultAge']) {
-          <div class="error-message text-red-500 pl-3">Enter Valid Birthday and Must be 18 Years Old</div>
-        }
-      }
     </div>
     
 
@@ -87,7 +87,7 @@
       <label for="region" class="block text-sm font-medium text-gray-700">Region:</label>
       <select id="region" name="region" formControlName="region" (change)="onRegionChange()"
         class="mt-1 block w-full px-5 py-3 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40">
-        <option selected="true" disabled>Choose Region</option>
+        <option value="" selected disabled>Choose Region</option>
         @for(region of regions; track region.region_code) {
         <option [value]="region.region_code">
           {{ region.region_name.toUpperCase() }}</option>
@@ -100,7 +100,7 @@
       <select id="province" name="province" formControlName="province" [disabled]="!selectedRegion"
         (change)="onProvinceChange()"
         class="mt-1 block w-full px-5 py-3 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40">
-        <option selected="true" disabled>Choose Province</option>
+        <option value="" selected disabled>Choose Province</option> <!-- Default option -->
         @for(province of provinces; track province.province_code) {
         <option [value]="province.province_code">
           {{ province.province_name.toUpperCase() }}
@@ -108,11 +108,13 @@
         }
       </select>
     </div>
+    
 
     <div class="mb-4">
       <label for="city" class="block text-sm font-medium text-gray-700">City:</label>
       <select id="city" name="city" formControlName="city" [disabled]="!selectedProvince"
         class="mt-1 block w-full px-5 py-3 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40">
+        <option value="" selected disabled>Choose City</option>
         <option selected="true" disabled>Choose City</option>
         @for(city of cities; track city.city_code) {
         <option [value]="city.city_code">
@@ -124,6 +126,14 @@
     <div>
       <input type="text" placeholder="Postal Code" formControlName="postalCode"
         class="block w-full px-5 py-3 mt-5 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+        @if(postalCodeControl.invalid && postalCodeControl.touched) {
+          @if (postalCodeControl.errors?.['required']) {
+            <div class="error-message text-red-500 pl-3">Postal code must not be null</div>
+          }
+          @if(postalCodeControl.errors?.['pattern']) {
+            <div class="error-message text-red-500 pl-3">Must be 4-digit and No Alphanumeric Characters</div>
+          }
+        }
     </div>
     <div>
       <input type="password" placeholder="Enter your password" formControlName="password"
