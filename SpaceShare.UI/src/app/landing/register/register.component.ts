@@ -8,15 +8,18 @@ import {
   FormBuilder,
   FormGroup,
   Validators,
+  ValidationErrors,ValidatorFn
 } from '@angular/forms';
 import { User } from '../../../model/user.model';
 import { RegisterService } from './register.service';
-import { CustomValidators } from '../register/custom-validators'; 
+import { CustomValidators, PasswordValidator, MatchPasswordValidator} from '../register/custom-validators'; 
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
+
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
 
@@ -36,7 +39,7 @@ export class RegisterComponent implements OnInit {
   toggleLinkVisibility() {
     this.showLink = !this.showLink;
   }
-
+  showPasswordRequirements: boolean = false;
   constructor(
     private locationService: LocationService,
     private formBuilder: FormBuilder,
@@ -53,17 +56,21 @@ export class RegisterComponent implements OnInit {
         Validators.maxLength(60),
         Validators.pattern(/^(?!.*?[^aeiou]{5})(?!.*?[aeiou]{3})[a-z]*$/)
       ]],
+
       lastName: ['', [
         Validators.required, Validators.minLength(2),
         Validators.maxLength(60),
         Validators.pattern(/^(?!.*?[^aeiou]{5})(?!.*?[aeiou]{3})[a-z]*$/)
       ]],
+
       middleName: ['',
         Validators.pattern(/^(?!.*?[^aeiou]{5})(?!.*?[aeiou]{3})[a-z]*$/)],
+
       phoneNumber: ['',[
         Validators.required, 
         Validators.pattern(/^[0-9]{11}$/)
       ]],
+
       email: ['', [Validators.required, Validators.email]],
 
       
@@ -71,17 +78,17 @@ export class RegisterComponent implements OnInit {
       region: ['', [Validators.required,]],
       province: [{ value: '', disabled: true }, [Validators.required]],
       city: [{ value: '', disabled: true } , [Validators.required]],
+
       postalCode: ['', [ 
         Validators.required, 
         Validators.pattern(/^\d{4}$/)
       ]],
-      password: ['', Validators.required],
-      confirmPassword: ['', Validators.required],
+
+      password: ['', [Validators.required,  PasswordValidator.strong]],
+      confirmPassword: ['', [Validators.required, MatchPasswordValidator]],
     });
 
   }
-
-  
 
   get firstNameControl(): AbstractControl {
     return this.registerForm.get('firstName')!;
