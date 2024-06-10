@@ -8,7 +8,6 @@ import {
   FormBuilder,
   FormGroup,
   Validators,
-  ValidatorFn,ValidationErrors
 } from '@angular/forms';
 import { User } from '../../../model/user.model';
 import { RegisterService } from './register.service';
@@ -69,10 +68,13 @@ export class RegisterComponent implements OnInit {
 
       
       birthdate: ['', [Validators.required, CustomValidators.adultAgeValidator('birthdate')]],
-      region: ['', [Validators.required]],
+      region: ['', [Validators.required,]],
       province: [{ value: '', disabled: true }, [Validators.required]],
-      city: [{ value: '', disabled: true }, [Validators.required]],
-      postalCode: ['', Validators.required],
+      city: [{ value: '', disabled: true } , [Validators.required]],
+      postalCode: ['', [ 
+        Validators.required, 
+        Validators.pattern(/^\d{4}$/)
+      ]],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
     });
