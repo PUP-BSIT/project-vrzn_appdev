@@ -138,6 +138,14 @@
     <div>
       <input type="password" placeholder="Enter your password" formControlName="password"
         class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+        @if(passwordControl.invalid && passwordControl.touched) {
+          @if (passwordControl.errors?.['required']) {
+            <div class="error-message text-red-500 pl-3">Password must not be null</div>
+          }
+          @if(passwordControl.errors?.['strong']) {
+            <div class="error-message text-red-500 pl-3">Must have at least one number, one lowercase letter, one uppercase letter and one special Characters</div>
+          }
+        }
     </div>
 
     <div>
