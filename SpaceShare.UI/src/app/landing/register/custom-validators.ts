@@ -1,4 +1,3 @@
-// custom-validators.ts
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export class CustomValidators {
