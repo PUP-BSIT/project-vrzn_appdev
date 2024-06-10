@@ -37,9 +37,15 @@
     <div>
       <input type="text" placeholder="Middle Name" formControlName="middleName"
         class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+        @if(middleNameControl.invalid && middleNameControl.touched) {
+          @if (middleNameControl.errors?.['pattern']) {
+            <div class="error-message text-red-500 pl-3">Must Enter Valid Middle Name</div>
+            }
+           
+        }
     </div>
     <div>
-      <input type="text" placeholder="Phone Number" formControlName="phoneNumber"  required pattern="^09\d{9}$" 
+      <input type="text" placeholder="Phone Number" formControlName="phoneNumber"  
         class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
         @if(phoneNumberControl.invalid && phoneNumberControl.touched) {
           @if (phoneNumberControl.errors?.['required']) {
@@ -53,6 +59,11 @@
     <div>
       <input type="email" placeholder="email@sample.com" formControlName="email"
         class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+        @if(emailControl.invalid && emailControl.touched) {
+          @if (emailControl.errors?.['required']) {
+          <div class="error-message text-red-500 pl-3">Must Input Email Address </div>
+          }
+        }
     </div>
     <div>
       <input type="date" placeholder="Birthday" formControlName="birthdate"
