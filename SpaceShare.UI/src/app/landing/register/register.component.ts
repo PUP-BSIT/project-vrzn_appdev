@@ -50,17 +50,19 @@ export class RegisterComponent implements OnInit {
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       middleName: [''],
-      phoneNumber: ['', [Validators.required]],
+      phoneNumber: ['',[Validators.required], [Validators.pattern('^[0-9]*$')]],
+  
       email: ['', [Validators.required, Validators.email]],
       birthdate: ['', [Validators.required]],
       region: ['', [Validators.required]],
-      province: ['', [Validators.required]],
-      city: ['', [Validators.required]],
+      province: [{ value: '', disabled: true }, [Validators.required]],
+      city: [{ value: '', disabled: true }, [Validators.required]],
       postalCode: ['', Validators.required],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
     });
   }
+
 
   get firstNameControl(): AbstractControl {
     return this.registerForm.get('firstName')!;
@@ -157,6 +159,9 @@ export class RegisterComponent implements OnInit {
       );
       this.selectedProvince = '';
       this.selectedCity = ''; 
+      this.cities = [];
+      this.registerForm.controls['province'].enable();
+      this.registerForm.controls['city'].disable();
     });
   }
 
@@ -167,6 +172,7 @@ export class RegisterComponent implements OnInit {
       );
       this.cities.sort((a, b) => a.city_name.localeCompare(b.city_name));
       this.selectedCity = '';
+      this.registerForm.controls['city'].enable();
     });
   }
 
@@ -175,6 +181,7 @@ export class RegisterComponent implements OnInit {
       this.selectedProvince = '';
       this.selectedCity = '';
       this.cities = [];
+      this.registerForm.controls['city'].disable();
     } else if (level === 'city') {
       this.selectedCity = '';
     }
