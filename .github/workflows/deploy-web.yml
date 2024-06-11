@@ -19,7 +19,7 @@ jobs:
         node-version: 20.x
 
     - name: Install Dependencies
-      run: npm install
+      run: npm install --force
 
       #TODO: change variable depending on the environment
     - name: Substitute variables in environment file (prod)

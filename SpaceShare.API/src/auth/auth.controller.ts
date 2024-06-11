@@ -2,6 +2,7 @@ import { Body, Controller, Get, Post, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/signin-auth.dto';
 import { CreateUserDto } from './dto/signup-auth.dto';
+import { verification } from './dto/verify.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -25,5 +26,11 @@ export class AuthController {
   @Get('user/:id')
   getUser(@Body() id: number): Promise<Object>{
     return this.authService.getUser(id);
+  }
+
+  
+  @Post('verify')
+  sendMailer(@Body() verification: verification) {
+    return this.authService.sendMail(verification);
   }
 }

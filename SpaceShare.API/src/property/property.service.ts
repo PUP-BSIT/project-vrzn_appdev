@@ -12,7 +12,6 @@ export class PropertyService {
   constructor(
     private prismaService: PrismaService,
     private s3Service: S3Service,
-    private authService: AuthService,
   ) {}
 
   async getProperties() {
@@ -55,10 +54,10 @@ export class PropertyService {
 
   async createProperty(
     property: Prisma.PropertyCreateInput,
-    file: Express.Multer.File,
+    files: Express.Multer.File[],
     request: Request,
   ) {
-    const userId = request.cookies['id'];
+    const userId = parseInt(request.cookies['id'], 10);
     const createdProperty = await this.prismaService.property.create({
       data: {
         title: property.title,
@@ -77,16 +76,23 @@ export class PropertyService {
         },
       },
     });
-    const key = `${Date.now()}${file[0].originalname}`;
-    const imageUrl = await this.s3Service.uploadFile(file[0], key);
 
-    const image = await this.prismaService.images.create({
-      data: {
-        property_id: createdProperty.id,
-        image_url: imageUrl,
-      },
-    });
+    const imageArray : { property_id: number, image_url: string }[] = [];
 
-    return { createdProperty, image };
+    await Promise.all(files.map(async (file) => {
+      const key = `${Date.now()}${file.originalname}`;
+      const imageUrl = await this.s3Service.uploadFile(file, key);
+
+      const image = await this.prismaService.images.create({
+        data: {
+          property_id: createdProperty.id,
+          image_url: imageUrl,
+        }
+      });
+
+      imageArray.push(image);
+    }));
+
+    return { createdProperty, imageArray };
   }
 }
