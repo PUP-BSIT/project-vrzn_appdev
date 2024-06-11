@@ -11,12 +11,14 @@ import {
 } from '@angular/forms';
 import { User } from '../../../model/user.model';
 import { RegisterService } from './register.service';
+import { CustomValidators, PasswordValidator, MatchPasswordValidator} from '../register/custom-validators'; 
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
+
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
 
@@ -36,7 +38,7 @@ export class RegisterComponent implements OnInit {
   toggleLinkVisibility() {
     this.showLink = !this.showLink;
   }
-
+  showPasswordRequirements: boolean = false;
   constructor(
     private locationService: LocationService,
     private formBuilder: FormBuilder,
@@ -47,19 +49,43 @@ export class RegisterComponent implements OnInit {
     this.loadRegions();
 
     this.registerForm = this.formBuilder.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      middleName: [''],
-      phoneNumber: ['', [Validators.required]],
+      firstName: ['', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(60),
+        Validators.pattern(/^(?!.*?[^aeiou]{5})(?!.*?[aeiou]{3})[a-z]*$/)
+      ]],
+
+      lastName: ['', [
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z]*$/)
+      ]],
+
+      middleName: ['',
+        Validators.pattern(/^(?!.*?[^aeiou]{5})(?!.*?[aeiou]{3})[a-z]*$/)],
+
+      phoneNumber: ['',[
+        Validators.required, 
+        Validators.pattern(/^[0-9]{11}$/)
+      ]],
+
       email: ['', [Validators.required, Validators.email]],
-      birthdate: ['', [Validators.required]],
-      region: ['', [Validators.required]],
-      province: ['', [Validators.required]],
-      city: ['', [Validators.required]],
-      postalCode: ['', Validators.required],
-      password: ['', Validators.required],
-      confirmPassword: ['', Validators.required],
+
+      
+      birthdate: ['', [Validators.required, CustomValidators.adultAgeValidator('birthdate')]],
+      region: ['', [Validators.required,]],
+      province: [{ value: '', disabled: true }, [Validators.required]],
+      city: [{ value: '', disabled: true } , [Validators.required]],
+
+      postalCode: ['', [ 
+        Validators.required, 
+        Validators.pattern(/^\d{4}$/)
+      ]],
+
+      password: ['', [Validators.required,  PasswordValidator.strong]],
+      confirmPassword: ['', [Validators.required, MatchPasswordValidator]],
     });
+
   }
 
   get firstNameControl(): AbstractControl {
@@ -157,6 +183,9 @@ export class RegisterComponent implements OnInit {
       );
       this.selectedProvince = '';
       this.selectedCity = ''; 
+      this.cities = [];
+      this.registerForm.controls['province'].enable();
+      this.registerForm.controls['city'].disable();
     });
   }
 
@@ -167,6 +196,7 @@ export class RegisterComponent implements OnInit {
       );
       this.cities.sort((a, b) => a.city_name.localeCompare(b.city_name));
       this.selectedCity = '';
+      this.registerForm.controls['city'].enable();
     });
   }
 
@@ -175,6 +205,7 @@ export class RegisterComponent implements OnInit {
       this.selectedProvince = '';
       this.selectedCity = '';
       this.cities = [];
+      this.registerForm.controls['city'].disable();
     } else if (level === 'city') {
       this.selectedCity = '';
     }
@@ -195,4 +226,5 @@ export class RegisterComponent implements OnInit {
     const max = 999999; 
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
+  
 }

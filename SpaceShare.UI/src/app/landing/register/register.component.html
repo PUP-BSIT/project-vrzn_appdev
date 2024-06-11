@@ -3,40 +3,88 @@
   <h1 class="text-3xl font-bold">Register Now!</h1>
   <form class="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2" [formGroup]="registerForm">
     <div>
-      <input type="text" placeholder="First Name" formControlName="firstName"
+      <input type="text" placeholder="First Name" formControlName="firstName" 
         class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
-      @if(firstNameControl.invalid && firstNameControl.touched) {
-        <div class="error-message text-red-500 pl-3">First Name is required</div>
-      }
+        @if(firstNameControl.invalid && firstNameControl.touched) {
+          @if (firstNameControl.errors?.['required']) {
+            <div class="error-message text-red-500 pl-3">First Name Must Not Null</div>
+            }
+            @if(firstNameControl.errors?.['minlength'] && firstNameControl.errors?.['maxlength']) {
+              <div class="error-message text-red-500 pl-3">Name must be 2 to 60 alphabets</div>
+            }
+            @if (firstNameControl.errors?.['pattern']) {
+              <div class="error-message text-red-500 pl-3">Must Enter Valid First Name</div>
+            }
+        }
     </div>
 
     <div>
       <input type="text" placeholder="Last Name" formControlName="lastName"
         class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+        @if(lastNameControl.invalid && lastNameControl.touched) {
+          @if (lastNameControl.errors?.['required']) {
+            <div class="error-message text-red-500 pl-3">Last Name Must Not Null</div>
+            }
+            @if(lastNameControl.errors?.['pattern']) {
+              <div class="error-message text-red-500 pl-3">Must Enter Valid Last Name</div>
+            }
+        }
     </div>
 
     <div>
       <input type="text" placeholder="Middle Name" formControlName="middleName"
         class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+        @if(middleNameControl.invalid && middleNameControl.touched) {
+          @if (middleNameControl.errors?.['pattern']) {
+            <div class="error-message text-red-500 pl-3">Must Enter Valid Middle Name</div>
+            }
+      
+        }
     </div>
     <div>
-      <input type="text" placeholder="Phone Number" formControlName="phoneNumber"
+      <input type="text" placeholder="Phone Number" formControlName="phoneNumber"  
         class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+        @if(phoneNumberControl.invalid && phoneNumberControl.touched) {
+          @if (phoneNumberControl.errors?.['required']) {
+          <div class="error-message text-red-500 pl-3">Phone No: Must Not Null</div>
+          }
+          @if(phoneNumberControl.errors?.['pattern']) {
+            <div class="error-message text-red-500 pl-3">Input Valid Phone No Format ex: 09123456789</div>
+          }
+        }
     </div>
     <div>
       <input type="email" placeholder="email@sample.com" formControlName="email"
-        class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+        class="block w-full px-5 py-3 mt-7 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+        @if(emailControl.invalid && emailControl.touched) {
+          @if (emailControl.errors?.['required']) {
+          <div class="error-message text-red-500 pl-3">Must Input Email Address </div>
+          }
+          @if (emailControl.errors?.['email']) {
+            <div class="error-message text-red-500 pl-3">Must Input Valid Email Address</div>
+          }
+        }
     </div>
     <div>
-      <input type="date" placeholder="Birthday" formControlName="birthdate"
-        class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+      <label for="birthdate" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+      <input type="date" id="birthdate" formControlName="birthdate"
+        class="block w-full px-4 py-2.5 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+        @if(birthdateControl.invalid && birthdateControl.touched) {
+          @if (birthdateControl.errors?.['required']) {
+            <div class="error-message text-red-500 pl-3">Date of Birth must not be null</div>
+          }
+          @if (birthdateControl.errors?.['adultAge']) {
+            <div class="error-message text-red-500 pl-3">Enter Valid Birthday and Must be 18 Years Old</div>
+          }
+        }
     </div>
+    
 
     <div class="mb-4">
       <label for="region" class="block text-sm font-medium text-gray-700">Region:</label>
       <select id="region" name="region" formControlName="region" (change)="onRegionChange()"
         class="mt-1 block w-full px-5 py-3 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40">
-        <option selected="true" disabled>Choose Region</option>
+        <option value="" selected disabled>Choose Region</option>
         @for(region of regions; track region.region_code) {
         <option [value]="region.region_code">
           {{ region.region_name.toUpperCase() }}</option>
@@ -49,7 +97,7 @@
       <select id="province" name="province" formControlName="province" [disabled]="!selectedRegion"
         (change)="onProvinceChange()"
         class="mt-1 block w-full px-5 py-3 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40">
-        <option selected="true" disabled>Choose Province</option>
+        <option value="" selected disabled>Choose Province</option> <!-- Default option -->
         @for(province of provinces; track province.province_code) {
         <option [value]="province.province_code">
           {{ province.province_name.toUpperCase() }}
@@ -57,11 +105,13 @@
         }
       </select>
     </div>
+    
 
     <div class="mb-4">
       <label for="city" class="block text-sm font-medium text-gray-700">City:</label>
       <select id="city" name="city" formControlName="city" [disabled]="!selectedProvince"
         class="mt-1 block w-full px-5 py-3 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40">
+        <option value="" selected disabled>Choose City</option>
         <option selected="true" disabled>Choose City</option>
         @for(city of cities; track city.city_code) {
         <option [value]="city.city_code">
@@ -73,23 +123,52 @@
     <div>
       <input type="text" placeholder="Postal Code" formControlName="postalCode"
         class="block w-full px-5 py-3 mt-5 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+        @if(postalCodeControl.invalid && postalCodeControl.touched) {
+          @if (postalCodeControl.errors?.['required']) {
+            <div class="error-message text-red-500 pl-3">Postal code must not be null</div>
+          }
+          @if(postalCodeControl.errors?.['pattern']) {
+            <div class="error-message text-red-500 pl-3">Must be 4-digit and No Alphanumeric Characters</div>
+          }
+        }
     </div>
     <div>
       <input type="password" placeholder="Enter your password" formControlName="password"
         class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+        @if(passwordControl.invalid && passwordControl.touched) {
+          @if (passwordControl.errors?.['required']) {
+            <div class="error-message text-red-500 pl-3">Password must not be null</div>
+          }
+          @if(passwordControl.errors?.['strong']) {
+            <div class="error-message text-red-500 pl-3">Must have at least one number, one lowercase letter, one uppercase letter and one special Characters</div>
+          }
+        }
     </div>
 
     <div>
       <input type="password" placeholder="Confirm your Password" formControlName="confirmPassword"
         class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
-    </div>
+        @if(confirmPasswordControl.invalid && confirmPasswordControl.touched) {
+          @if (confirmPasswordControl.errors?.['required']) {
+            <div class="error-message text-red-500 pl-3">Confirm Password must not be null</div>
+          }
+          @if(confirmPasswordControl.errors?.['passwordMismatch']) {
+            <div class="error-message text-red-500 pl-3">Passwords do not match</div>
+          }
+        }
+      </div>
 
-    <div class="col-span-1 md:col-span-2 flex justify-center">
-      <button (click)="handleSubmit()"
-        class="w-full px-6 py-3 mt-4 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-[#8644a2] rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
-        Continue
-      </button>
-    </div>
+      <div class="col-span-1 md:col-span-2 flex justify-center">
+        <button 
+          (click)="handleSubmit()"
+          [disabled]="!registerForm.valid"
+          [ngClass]="{'disabled-button': !registerForm.valid}"
+          class="w-full px-6 py-3 mt-4 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-[#8644a2] rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+          Continue
+        </button>
+      </div>
+      
+
     <div class="col-span-1 md:col-span-2 flex justify-center">
       <a href="#" class="text-sm text-blue-500 hover:underline dark:text-blue-400">
         Already have an account?
