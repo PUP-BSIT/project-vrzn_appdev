@@ -59,7 +59,7 @@ export class VerificationComponent implements OnInit {
           }
         );
       } else {
-        this.errorMessage = 'Invalid OTP';
+        this.errorMessage = 'Incorrect Code';
       }
     } catch {
       this.errorMessage = 'An unexpected error occurred. Please try again later.';
