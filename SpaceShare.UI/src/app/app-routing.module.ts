@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './auth/auth.guard';
+
 import { LandingComponent } from './landing/landing.component';
 import { MainComponent } from './main/main.component';
 import { RegisterComponent } from './landing/register/register.component';
@@ -18,7 +20,6 @@ import  { ResetPasswordComponent } from './landing/reset_password/reset-password
 import { ResetFormComponent } from './landing/reset_password/reset-form/reset-form.component';
 import { SubscriptionComponent } from './subscription/subscription.component';
 
-
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: MainComponent },
@@ -29,15 +30,15 @@ const routes: Routes = [
   { path: 'property/:id', component: PropertyComponent },
   { path: 'verification', component: VerificationComponent },
   { path: 'listing', component: ListingComponent },
-  { path: 'listing/add', component: AddListingComponent },
-  { path: 'profile', component: ProfileComponent },
+  { path: 'listing/add', component: AddListingComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'success', component: SuccessComponent },
-  { path: 'wishlist', component: WishlistComponent },
+  { path: 'wishlist', component: WishlistComponent, canActivate: [AuthGuard] },
   { path: 'agreement/terms', component: TermsComponent },
   { path: 'agreement/privacy', component: PrivacyComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'reset-password/reset-form', component: ResetFormComponent },
-  {path: 'subscription', component: SubscriptionComponent},
+  {path: 'subscription', component: SubscriptionComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
