@@ -53,7 +53,7 @@ export class RegisterComponent implements OnInit {
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(60),
-        Validators.pattern(/^(?!.*?[^aeiou]{5})(?!.*?[aeiou]{3})[a-z]*$/)
+        Validators.pattern(/^[a-zA-Z]*$/)
       ]],
 
       lastName: ['', [
@@ -62,7 +62,7 @@ export class RegisterComponent implements OnInit {
       ]],
 
       middleName: ['',
-        Validators.pattern(/^(?!.*?[^aeiou]{5})(?!.*?[aeiou]{3})[a-z]*$/)],
+        Validators.pattern(/^[a-zA-Z]*$/)],
 
       phoneNumber: ['',[
         Validators.required, 
