@@ -43,6 +43,7 @@ import { NavbarService } from './landing/navbar/navbar.service';
 import { LocationService } from './landing/register/location.service';
 import { CookieComponent } from './landing/agreement/cookie/cookie.component';
 import { AboutComponent } from './landing/agreement/about/about.component';
+import { PresskitComponent } from './landing/agreement/presskit/presskit.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { AboutComponent } from './landing/agreement/about/about.component';
     ResetFormComponent,
     CookieComponent,
     AboutComponent,
+    PresskitComponent,
   ],
   imports: [
     ReactiveFormsModule,
