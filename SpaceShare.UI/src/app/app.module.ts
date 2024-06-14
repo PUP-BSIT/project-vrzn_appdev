@@ -44,6 +44,7 @@ import { LocationService } from './landing/register/location.service';
 import { CookieComponent } from './landing/agreement/cookie/cookie.component';
 import { AboutComponent } from './landing/agreement/about/about.component';
 import { PresskitComponent } from './landing/agreement/presskit/presskit.component';
+import { RentingComponent } from './landing/agreement/renting/renting.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { PresskitComponent } from './landing/agreement/presskit/presskit.compone
     CookieComponent,
     AboutComponent,
     PresskitComponent,
+    RentingComponent,
   ],
   imports: [
     ReactiveFormsModule,
