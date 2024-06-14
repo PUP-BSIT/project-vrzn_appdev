@@ -1,5 +1,16 @@
 <!-- login.component.html -->
 <h1 class="text-3xl font-bold grid justify-items-center">Login now!</h1>
+  <div class="mt-4 mx-4 text-left text-black">
+    Password Requirements:
+    <ul class="list-disc list-inside">
+      <li>A lowercase character</li>
+      <li>A special character</li>
+      <li>An uppercase character</li>
+      <li>A numeric character</li>
+      <li>A minimum of 8 characters</li>
+      <li>An alphabetic character</li>
+    </ul>
+  </div>
     <div class="card shrink-1 w-full max-w-w bg-base-0">
       <form class="card-body" [formGroup]="passForm" (ngSubmit)="onSubmit()">
         <div class="form-control">
