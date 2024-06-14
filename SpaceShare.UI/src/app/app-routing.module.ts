@@ -20,6 +20,7 @@ import { ResetPasswordComponent } from './landing/reset_password/reset-password.
 import { ResetFormComponent } from './landing/reset_password/reset-form/reset-form.component';
 import { SubscriptionComponent } from './subscription/subscription.component';
 import { CookieComponent } from './landing/agreement/cookie/cookie.component';
+import { AboutComponent } from './landing/agreement/about/about.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -38,6 +39,7 @@ const routes: Routes = [
   { path: 'agreement/terms', component: TermsComponent },
   { path: 'agreement/privacy', component: PrivacyComponent },
   { path: 'agreement/cookie', component: CookieComponent},
+  { path: 'agreement/about', component: AboutComponent},
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'reset-password/reset-form', component: ResetFormComponent },
   { path: 'subscription', component: SubscriptionComponent, canActivate: [AuthGuard] },
