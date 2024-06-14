@@ -41,6 +41,7 @@ import { LoginService } from './landing/login/login.service';
 import { CookieService } from 'ngx-cookie-service';
 import { NavbarService } from './landing/navbar/navbar.service';
 import { LocationService } from './landing/register/location.service';
+import { CookieComponent } from './landing/agreement/cookie/cookie.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { LocationService } from './landing/register/location.service';
     NavbarComponent,
     ResetPasswordComponent,
     ResetFormComponent,
+    CookieComponent,
   ],
   imports: [
     ReactiveFormsModule,

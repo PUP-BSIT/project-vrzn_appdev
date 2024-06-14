@@ -16,9 +16,10 @@ import { SuccessComponent } from './success/success.component';
 import { WishlistComponent } from './wishlist/wishlist.component';
 import { TermsComponent } from './landing/agreement/terms/terms.component';
 import { PrivacyComponent } from './landing/agreement/privacy/privacy.component';
-import  { ResetPasswordComponent } from './landing/reset_password/reset-password.component';
+import { ResetPasswordComponent } from './landing/reset_password/reset-password.component';
 import { ResetFormComponent } from './landing/reset_password/reset-form/reset-form.component';
 import { SubscriptionComponent } from './subscription/subscription.component';
+import { CookieComponent } from './landing/agreement/cookie/cookie.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -36,9 +37,11 @@ const routes: Routes = [
   { path: 'wishlist', component: WishlistComponent, canActivate: [AuthGuard] },
   { path: 'agreement/terms', component: TermsComponent },
   { path: 'agreement/privacy', component: PrivacyComponent },
+  { path: 'agreement/cookie', component: CookieComponent},
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'reset-password/reset-form', component: ResetFormComponent },
-  {path: 'subscription', component: SubscriptionComponent, canActivate: [AuthGuard] },
+  { path: 'subscription', component: SubscriptionComponent, canActivate: [AuthGuard] },
+
 ];
 
 @NgModule({
