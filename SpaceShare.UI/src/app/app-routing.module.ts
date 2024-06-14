@@ -22,6 +22,7 @@ import { SubscriptionComponent } from './subscription/subscription.component';
 import { CookieComponent } from './landing/agreement/cookie/cookie.component';
 import { AboutComponent } from './landing/agreement/about/about.component';
 import { PresskitComponent } from './landing/agreement/presskit/presskit.component';
+import { RentingComponent } from './landing/agreement/renting/renting.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -42,6 +43,7 @@ const routes: Routes = [
   { path: 'agreement/cookie', component: CookieComponent},
   { path: 'agreement/about', component: AboutComponent},
   { path: 'agreement/presskit', component: PresskitComponent},
+  { path: 'agreement/renting', component: RentingComponent},
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'reset-password/reset-form', component: ResetFormComponent },
   { path: 'subscription', component: SubscriptionComponent, canActivate: [AuthGuard] },
