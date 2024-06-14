@@ -21,6 +21,7 @@ import { ResetFormComponent } from './landing/reset_password/reset-form/reset-fo
 import { SubscriptionComponent } from './subscription/subscription.component';
 import { CookieComponent } from './landing/agreement/cookie/cookie.component';
 import { AboutComponent } from './landing/agreement/about/about.component';
+import { PresskitComponent } from './landing/agreement/presskit/presskit.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -40,6 +41,7 @@ const routes: Routes = [
   { path: 'agreement/privacy', component: PrivacyComponent },
   { path: 'agreement/cookie', component: CookieComponent},
   { path: 'agreement/about', component: AboutComponent},
+  { path: 'agreement/presskit', component: PresskitComponent},
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'reset-password/reset-form', component: ResetFormComponent },
   { path: 'subscription', component: SubscriptionComponent, canActivate: [AuthGuard] },
