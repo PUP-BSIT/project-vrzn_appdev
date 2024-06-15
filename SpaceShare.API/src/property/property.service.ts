@@ -68,9 +68,10 @@ export class PropertyService {
         postal_code: property.postal_code,
         price: +property.price,
         status: !!property.status,
-        rating: +property.rating,
         capacity: +property.capacity,
         city: property.city,
+        area: +property.area,
+        bedroom: +property.bedroom,
         property: {
           connect: { id: +userId },
         },

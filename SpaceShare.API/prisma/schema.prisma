@@ -51,8 +51,10 @@ model Property {
   postal_code   String
   price   Int
   status    Boolean
-  rating    Float
+  rating    Float?
   capacity    Int
+  bedroom   Int
+  area    Int
 
   created_at    DateTime    @default(now())
   updated_at    DateTime    @updatedAt
