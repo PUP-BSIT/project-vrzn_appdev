@@ -45,6 +45,8 @@ import { CookieComponent } from './landing/agreement/cookie/cookie.component';
 import { AboutComponent } from './landing/agreement/about/about.component';
 import { PresskitComponent } from './landing/agreement/presskit/presskit.component';
 import { RentingComponent } from './landing/agreement/renting/renting.component';
+import { RegisterService } from './landing/register/register.service';
+import { AddListingService } from './add-listing/add-listing.service';
 
 @NgModule({
   declarations: [
@@ -104,7 +106,9 @@ import { RentingComponent } from './landing/agreement/renting/renting.component'
       useFactory: (authService: AuthService, router: Router) => 
           new AuthGuard(authService, router),
       deps: [AuthService, Router]
-    }
+    },
+    RegisterService,
+    AddListingService
   ],
   bootstrap: [AppComponent]
 })
