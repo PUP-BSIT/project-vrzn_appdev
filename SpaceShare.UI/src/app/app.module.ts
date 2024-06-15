@@ -45,6 +45,7 @@ import { CookieComponent } from './landing/agreement/cookie/cookie.component';
 import { AboutComponent } from './landing/agreement/about/about.component';
 import { PresskitComponent } from './landing/agreement/presskit/presskit.component';
 import { RentingComponent } from './landing/agreement/renting/renting.component';
+import { PaginationComponent } from './landing/pagination/pagination.component';
 
 @NgModule({
   declarations: [
@@ -79,6 +80,7 @@ import { RentingComponent } from './landing/agreement/renting/renting.component'
     AboutComponent,
     PresskitComponent,
     RentingComponent,
+    PaginationComponent,
   ],
   imports: [
     ReactiveFormsModule,
