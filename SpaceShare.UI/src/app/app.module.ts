@@ -1,8 +1,15 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common'; 
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
+import { RouterModule, Routes, Router } from '@angular/router'; 
 import { AppRoutingModule } from './app-routing.module';
+import { AuthService } from './auth/auth.service';
+import { AuthGuard } from './auth/auth.guard';
+
 import { AppComponent } from './app.component';
 import { LandingComponent } from './landing/landing.component';
 import { MainComponent } from './main/main.component';
@@ -18,9 +25,6 @@ import { ProfileComponent } from './profile/profile.component';
 import { SuccessComponent } from './success/success.component';
 import { FooterComponent } from './footer/footer.component';
 import { SubscriptionComponent } from './subscription/subscription.component';
-import { CommonModule } from '@angular/common'; 
-import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './landing/navbar/navbar.component';
 import { WishlistComponent } from './wishlist/wishlist.component';
 import { CarouselComponent } from './property/carousel/carousel.component';
@@ -32,10 +36,17 @@ import { TermsComponent } from './landing/agreement/terms/terms.component';
 import { PrivacyComponent } from './landing/agreement/privacy/privacy.component';
 import  { ResetPasswordComponent } from './landing/reset_password/reset-password.component';
 import { ResetFormComponent } from './landing/reset_password/reset-form/reset-form.component';
+
 import { LoginService } from './landing/login/login.service';
 import { CookieService } from 'ngx-cookie-service';
 import { NavbarService } from './landing/navbar/navbar.service';
 import { LocationService } from './landing/register/location.service';
+import { CookieComponent } from './landing/agreement/cookie/cookie.component';
+import { AboutComponent } from './landing/agreement/about/about.component';
+import { PresskitComponent } from './landing/agreement/presskit/presskit.component';
+import { RentingComponent } from './landing/agreement/renting/renting.component';
+import { RegisterService } from './landing/register/register.service';
+import { AddListingService } from './add-listing/add-listing.service';
 
 @NgModule({
   declarations: [
@@ -66,6 +77,10 @@ import { LocationService } from './landing/register/location.service';
     NavbarComponent,
     ResetPasswordComponent,
     ResetFormComponent,
+    CookieComponent,
+    AboutComponent,
+    PresskitComponent,
+    RentingComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -73,9 +88,28 @@ import { LocationService } from './landing/register/location.service';
     AppRoutingModule,
     HttpClientModule,
     CommonModule,
-    FormsModule
+    FormsModule,
   ],
-  providers: [LoginService, CookieService, NavbarService,LocationService],
+  providers: [
+    LoginService, 
+    CookieService, 
+    NavbarService, 
+    LocationService, 
+    {
+      provide: AuthService,
+      useFactory: (cookieService: CookieService) => 
+          new AuthService(cookieService),
+      deps: [CookieService]
+    }, 
+    {
+      provide: AuthGuard,
+      useFactory: (authService: AuthService, router: Router) => 
+          new AuthGuard(authService, router),
+      deps: [AuthService, Router]
+    },
+    RegisterService,
+    AddListingService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

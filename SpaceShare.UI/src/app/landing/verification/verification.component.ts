@@ -14,12 +14,17 @@ export class VerificationComponent implements OnInit {
   @Input() userToCreate!: User;
   verified: boolean = false;
   message!: string;
+  errorMessage: string = '';
 
   constructor(private formBuilder: FormBuilder, private readonly registerService: RegisterService) {}
 
   ngOnInit() {
     this.otpForm = this.formBuilder.group({
       otp: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
+    });
+
+    this.otpControl.valueChanges.subscribe(() => {
+      this.errorMessage = '';
     });
   }
 
@@ -29,6 +34,7 @@ export class VerificationComponent implements OnInit {
 
   clearError(controlName: string) {
     this.otpForm.get(controlName)?.markAsUntouched();
+    this.errorMessage = '';
   }
 
   async onSubmit() {
@@ -36,16 +42,29 @@ export class VerificationComponent implements OnInit {
       return;
     }
     console.log(this);
-
-    if (+this.otpForm.value.otp === +this.code) {
-      this.registerService.registerUser(this.userToCreate).subscribe(data => {
-        if(data.success){
-          this.verified = true;
-          this.message = data.message;
-        }
-      })
+  
+    try {
+      if (+this.otpForm.value.otp === +this.code) {
+        this.registerService.registerUser(this.userToCreate).subscribe(
+          (data) => {
+            if (data.success) {
+              this.verified = true;
+              this.message = data.message;
+            } else {
+              this.errorMessage = 'Verification failed. Please try again.';
+            }
+          },
+          () => {
+            this.errorMessage = 'An unexpected error occurred. Please try again later.';
+          }
+        );
+      } else {
+        this.errorMessage = 'Incorrect Code';
+      }
+    } catch {
+      this.errorMessage = 'An unexpected error occurred. Please try again later.';
     }
-  }
+  }  
 
   closeModal() {
     const modal = document.getElementById('my_modal_3') as HTMLDialogElement;
@@ -53,5 +72,4 @@ export class VerificationComponent implements OnInit {
       modal.close();
     }
   }
-
 }
