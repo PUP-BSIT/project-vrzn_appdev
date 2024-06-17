@@ -5,9 +5,10 @@
   <p class="mt-6 mx-4 text-center text-violet-500 text-2xl font-bold">
     One Time Password (OTP) Verification
   </p>
-  <p class="mt-6 mx-4 text-center text-black">
-    To complete your registration Input 6-digits Code and please check your email (and your spam folder) for a one-time verification code and enter it here to verify your account.
+  <p>
+    To complete your registration, input the 6-digit code we've sent on <span class="font-bold text-green-500">{{ email }}</span> and please check your email (and your spam folder) for a one-time verification code and enter it here to verify your account.
   </p>
+  
   @if(errorMessage) {  
     <div class="error-message text-red-500 gap-2 rounded-md mb-3 mt-8">
       <div role="alert" class="alert alert-error">
