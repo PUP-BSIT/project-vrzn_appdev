@@ -10,6 +10,7 @@ import { RegisterService } from '../register/register.service';
 })
 export class VerificationComponent implements OnInit {
   otpForm!: FormGroup;
+  @Input() email!: string;
   @Input() code!: number;
   @Input() userToCreate!: User;
   verified: boolean = false;
