@@ -188,7 +188,7 @@
 } @else {
 <div class="flex justify-center items-center">
   <div class="w-full max-w-96 mx-auto">
-    <app-verification [code]="randomNumber" [userToCreate]="bodyToPass"/>
+    <app-verification [email]="registerForm.get('email')?.value" [code]="randomNumber" [userToCreate]="bodyToPass"/>
   </div>
 </div>
 }
