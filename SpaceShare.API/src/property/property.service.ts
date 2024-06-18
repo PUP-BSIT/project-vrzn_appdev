@@ -26,6 +26,11 @@ export class PropertyService {
         status: true,
         rating: true,
         capacity: true,
+        images: {
+          select: {
+            image_url: true,
+          }
+        }
       },
     });
   }
