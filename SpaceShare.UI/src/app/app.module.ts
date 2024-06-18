@@ -47,6 +47,7 @@ import { PresskitComponent } from './landing/agreement/presskit/presskit.compone
 import { RentingComponent } from './landing/agreement/renting/renting.component';
 import { RegisterService } from './landing/register/register.service';
 import { AddListingService } from './add-listing/add-listing.service';
+import { MainService } from './main/main.service';
 
 @NgModule({
   declarations: [
@@ -108,7 +109,8 @@ import { AddListingService } from './add-listing/add-listing.service';
       deps: [AuthService, Router]
     },
     RegisterService,
-    AddListingService
+    AddListingService,
+    MainService
   ],
   bootstrap: [AppComponent]
 })
