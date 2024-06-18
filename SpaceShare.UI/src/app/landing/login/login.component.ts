@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  async onSubmit() {
+  onSubmit() {
     if (!this.loginForm.valid) {
       return;
     }
