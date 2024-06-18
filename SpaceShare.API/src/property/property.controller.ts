@@ -19,13 +19,11 @@ import { Express, Request } from 'express';
 export class PropertyController {
   constructor(private readonly propertyService: PropertyService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Get()
   async getProperties() {
     return await this.propertyService.getProperties();
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get(':id')
   async getProperty(@Param() id: number) {
     return await this.propertyService.getProperty(id);
@@ -40,5 +38,11 @@ export class PropertyController {
     @Req() request: Request,
   ) {
     return await this.propertyService.createProperty(property, files, request);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post()
+  async rateProperty(@Body() propertyRating: { id: number, rating: number }){
+    return await this.propertyService.rateProperty(propertyRating);
   }
 }

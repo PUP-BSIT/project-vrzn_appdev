@@ -101,4 +101,15 @@ export class PropertyService {
 
     return { createdProperty, imageArray };
   }
+
+  async rateProperty(propertyRating: { id: number, rating: number }){
+    return await this.prismaService.property.update({
+      where: {
+        id: propertyRating.id,
+      },
+      data: {
+        rating: propertyRating.rating,
+      },
+    })
+  }
 }
