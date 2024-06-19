@@ -41,7 +41,10 @@ export class AddListingComponent implements OnInit {
       description: ['', [Validators.required, Validators.maxLength(300)]],
       region: [this.defaultRegionCode, Validators.required],
       city: ['', Validators.required],
-      postal_code: ['', Validators.required],
+      postal_code: ['', [ 
+        Validators.required, 
+        Validators.pattern(/^\d{4}$/)
+      ]],
       barangay: ['', Validators.required],
       files: ['', Validators.required],
     });
@@ -87,6 +90,10 @@ export class AddListingComponent implements OnInit {
 
   get cityControl(): AbstractControl {
     return this.propertyForm.get('city')!;
+  }
+
+  get postalCodeControl(): AbstractControl {
+    return this.propertyForm.get('postal_code')!;
   }
 
   loadCitiesByRegion(regionCode: string): void {

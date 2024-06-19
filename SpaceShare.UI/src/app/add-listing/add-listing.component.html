@@ -163,6 +163,14 @@
                     <div>
                         <label class="block text-sm font-bold text-gray-700">Zip code</label>
                         <input type="number" placeholder="Zip code" class="input input-bordered w-full bg-white rounded-lg" formControlName="postal_code">
+                        @if(postalCodeControl.invalid && postalCodeControl.touched) {
+                            @if (postalCodeControl.errors?.['required']) {
+                              <div class="error-message text-red-500 pl-3">Postal code must not be null</div>
+                            }
+                            @if(postalCodeControl.errors?.['pattern']) {
+                              <div class="error-message text-red-500 pl-3">Must be 4-digit and No Alphanumeric Characters</div>
+                            }
+                          }
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-sm font-bold text-gray-700">Address Line</label>
