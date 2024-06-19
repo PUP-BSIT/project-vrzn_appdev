@@ -49,6 +49,8 @@ export class PropertyService {
         status: true,
         rating: true,
         capacity: true,
+        area: true,
+        bedroom: true,
         images: {
           select: {
             image_url: true,
