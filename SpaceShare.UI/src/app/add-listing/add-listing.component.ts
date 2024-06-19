@@ -31,7 +31,7 @@ export class AddListingComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private addListingService: AddListingService,
-    private locationService: LocationService,
+    private locationService: LocationService
   ) {}
 
   ngOnInit(): void {
@@ -105,8 +105,8 @@ export class AddListingComponent implements OnInit {
 
   loadCitiesByRegion(regionCode: string): void {
     this.locationService.getCities().subscribe((data: City[]) => {
-      this.cities = data.filter(
-        (entry: City) => entry.province_code.startsWith(regionCode)
+      this.cities = data.filter((entry: City) =>
+        entry.province_code.startsWith(regionCode)
       );
     });
   }
