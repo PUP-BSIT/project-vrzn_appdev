@@ -21,6 +21,9 @@ export class AddListingComponent implements OnInit {
   regions: Region[] = [];
   cities: City[] = [];
   fileError: string | null = null;
+  submissionSuccess: boolean = false;
+  maxImages: number = 4; 
+  imageLimitExceeded: boolean = false; // Flag to show image limit exceeded alert
 
   defaultRegionCode: string = '13';
   selectedProvince: string = '';
@@ -45,7 +48,7 @@ export class AddListingComponent implements OnInit {
         Validators.required, 
         Validators.pattern(/^\d{4}$/)
       ]],
-      barangay: ['', Validators.required],
+      barangay: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(70)]],
       files: ['', Validators.required],
     });
 
@@ -96,6 +99,10 @@ export class AddListingComponent implements OnInit {
     return this.propertyForm.get('postal_code')!;
   }
 
+  get barangayControl(): AbstractControl {
+    return this.propertyForm.get('barangay')!;
+  }
+
   loadCitiesByRegion(regionCode: string): void {
     this.locationService.getCities().subscribe((data: City[]) => {
       this.cities = data.filter(
@@ -109,6 +116,14 @@ export class AddListingComponent implements OnInit {
       const validFileTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'];
       const files = Array.from(event.target.files) as File[];
       const validFiles = files.filter(file => validFileTypes.includes(file.type));
+
+      // Check if exceeding maximum number of images
+      if (validFiles.length + this.images.length > this.maxImages) {
+        this.imageLimitExceeded = true;
+        return;
+      } else {
+        this.imageLimitExceeded = false;
+      }
       
       if (validFiles.length !== files.length) {
         this.fileError = 'Some files have invalid formats. Only JPEG, PNG, GIF, and SVG formats are allowed.';
@@ -116,10 +131,13 @@ export class AddListingComponent implements OnInit {
         this.fileError = null;
       }
 
-      this.images = validFiles.map(file => ({
-        file,
-        preview: URL.createObjectURL(file)
-      }));
+      this.images = [
+        ...this.images,
+        ...validFiles.map(file => ({
+          file,
+          preview: URL.createObjectURL(file)
+        }))
+      ];
 
       this.propertyForm.patchValue({
         files: this.images.map(image => image.file)
@@ -136,7 +154,7 @@ export class AddListingComponent implements OnInit {
     this.propertyForm.get('files')!.updateValueAndValidity();
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (!this.propertyForm.valid) return;
 
     const selectedRegion = this.regions.find(r => r.region_code === this.defaultRegionCode)?.region_name;
@@ -147,8 +165,22 @@ export class AddListingComponent implements OnInit {
     };
 
     const files: File[] = this.images.map(image => image.file);
-    this.addListingService.createProperty(propertyData, files).subscribe(data =>
-      console.log(data)
-    );
+    this.addListingService.createProperty(propertyData, files).subscribe({
+      next: data => {
+        console.log(data);
+        this.submissionSuccess = true;
+
+        setTimeout(() => {
+          this.submissionSuccess = false;
+        }, 2000);
+
+        this.propertyForm.reset();
+        this.images = [];
+      },
+      error: err => {
+        console.error(err);
+        this.submissionSuccess = false;
+      }
+    });
   }
 }
