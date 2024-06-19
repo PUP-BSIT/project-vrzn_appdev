@@ -48,6 +48,7 @@ import { RentingComponent } from './landing/agreement/renting/renting.component'
 import { RegisterService } from './landing/register/register.service';
 import { AddListingService } from './add-listing/add-listing.service';
 import { MainService } from './main/main.service';
+import { PropertyService } from './property/property.service';
 
 @NgModule({
   declarations: [
@@ -110,7 +111,8 @@ import { MainService } from './main/main.service';
     },
     RegisterService,
     AddListingService,
-    MainService
+    MainService,
+    PropertyService
   ],
   bootstrap: [AppComponent]
 })

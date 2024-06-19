@@ -49,12 +49,19 @@ export class PropertyService {
         status: true,
         rating: true,
         capacity: true,
+        area: true,
+        bedroom: true,
+        images: {
+          select: {
+            image_url: true,
+          },
+        }
       },
     });
 
     if (!property) throw new NotFoundException();
 
-    return { property };
+    return  property;
   }
 
   async createProperty(

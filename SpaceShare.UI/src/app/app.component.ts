@@ -10,6 +10,7 @@ export class AppComponent implements OnInit {
   // Implement OnInit interface
   title = 'SpaceShare.UI';
   showModal: boolean = false;
+  phoneNumber!: string;
 
   closeModal() {
     this.showModal = false;
@@ -19,7 +20,6 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     // Implement ngOnInit method
     this.http.get<Object>(`${environment.apiUrl}/api`).subscribe((data) => {
-      console.log(data);
       return data;
     });
   }

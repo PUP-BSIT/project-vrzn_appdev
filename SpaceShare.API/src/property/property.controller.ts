@@ -25,8 +25,8 @@ export class PropertyController {
   }
 
   @Get(':id')
-  async getProperty(@Param() id: number) {
-    return await this.propertyService.getProperty(id);
+  async getProperty(@Param('id') id: string) {
+    return await this.propertyService.getProperty(+id);
   }
 
   @UseGuards(JwtAuthGuard)

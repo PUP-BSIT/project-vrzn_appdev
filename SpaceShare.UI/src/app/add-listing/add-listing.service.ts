@@ -5,10 +5,9 @@ import { environment } from '../../../environment/appsettings';
 
 @Injectable()
 export class AddListingService {
+  constructor(private httpService: HttpClient) {}
 
-  constructor(private httpService: HttpClient) { }
-
-  createProperty(property : Property, files: File[]) {
+  createProperty(property: Property, files: File[]) {
     const formData = new FormData();
 
     // Append property data
@@ -27,6 +26,9 @@ export class AddListingService {
 
     const headers = new HttpHeaders().set('Accept', 'application/json');
 
-    return this.httpService.post(url, formData, { headers: headers, withCredentials: true });
+    return this.httpService.post(url, formData, {
+      headers: headers,
+      withCredentials: true,
+    });
   }
 }
