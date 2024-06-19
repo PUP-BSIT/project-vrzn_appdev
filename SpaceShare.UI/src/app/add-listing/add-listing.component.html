@@ -44,7 +44,18 @@
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-gray-700">Guests</label>
-                    <input type="number" placeholder="maximum guests" class="input input-bordered w-full bg-white rounded-lg" formControlName="capacity">
+                    <input type="number" placeholder="maximum guests" class="input input-bordered w-full bg-white rounded-lg" formControlName="capacity" [class.input-error]="capacityControl.invalid && capacityControl.touched">
+                    @if(capacityControl.touched && capacityControl) {
+                        @if (capacityControl.errors?.['required']) {
+                          <div class="error-message text-red-500 mt-2 pl-1">Define the Space Capacity</div>
+                          }
+                          @if(capacityControl.errors?.['min']) {
+                            <div class="error-message text-red-500 mt-2 pl-1">Input Realistic Space Capacity</div>
+                          }
+                          @if(capacityControl.errors?.['max']) {
+                            <div class="error-message text-red-500 mt-2 pl-1">Input Capacity treshold at 50</div>
+                          }
+                      }
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-gray-700">Floor area</label>
