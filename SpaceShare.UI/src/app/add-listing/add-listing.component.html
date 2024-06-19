@@ -22,7 +22,7 @@
                 <div>
                     <label class="block text-sm font-bold text-gray-700">Rent per month</label>
                     <input type="number" placeholder="PHP" class="input input-bordered w-full bg-white rounded-lg" formControlName="price" [class.input-error]="priceControl.invalid && priceControl.touched">
-                    @if(priceControl.touched && priceControl) {
+                    @if(priceControl.touched && priceControl.invalid) {
                         @if (priceControl.errors?.['required']) {
                           <div class="error-message text-red-500 mt-2 pl-1">Define the Space Price</div>
                           }
@@ -33,7 +33,7 @@
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-gray-700">Bedroom</label>
-                    <select class="select select-bordered w-full bg-white rounded-lg" formControlName="bedroom">
+                    <select class="select select-bordered w-full bg-white rounded-lg" formControlName="bedroom" [class.input-error]="bedroomControl.invalid && bedroomControl.touched">
                         <option disabled selected>How many bedrooms?</option>
                         <option>1</option>
                         <option>2</option>
@@ -41,11 +41,16 @@
                         <option>4</option>
                         <option>5</option>
                     </select>
+                    @if(bedroomControl.touched && bedroomControl.invalid) {
+                        @if (bedroomControl.errors?.['required']) {
+                          <div class="error-message text-red-500 mt-2 pl-1">Fill the Space Bedroom</div>
+                          }
+                      }
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-gray-700">Guests</label>
                     <input type="number" placeholder="maximum guests" class="input input-bordered w-full bg-white rounded-lg" formControlName="capacity" [class.input-error]="capacityControl.invalid && capacityControl.touched">
-                    @if(capacityControl.touched && capacityControl) {
+                    @if(capacityControl.touched && capacityControl.invalid) {
                         @if (capacityControl.errors?.['required']) {
                           <div class="error-message text-red-500 mt-2 pl-1">Define the Space Capacity</div>
                           }

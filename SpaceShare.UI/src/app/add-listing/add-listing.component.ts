@@ -76,6 +76,11 @@ export class AddListingComponent implements OnInit {
     return this.propertyForm.get('capacity')!;
   }
 
+  get bedroomControl(): AbstractControl { 
+    return this.propertyForm.get('bedroom')!;
+  }
+
+
   loadCitiesByRegion(regionCode: string): void {
     this.locationService.getCities().subscribe((data: City[]) => {
       this.cities = data.filter(
