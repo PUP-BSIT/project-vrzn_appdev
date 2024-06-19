@@ -9,5 +9,6 @@ export interface Property {
   city: string;
   postal_code: number;
   barangay: string;
+  owner_id: number;
   [key: string]: string | number | undefined;
 }

@@ -7,9 +7,9 @@
            class="rounded-xl w-96" />
     </figure>
     <div class="card-body items-center">
-        <b class="text-lg text-black">Name: Juan Dela Cruz</b>
-        <b class="text-lg text-black">Phone Number: +639******677</b>
-        <b class="text-lg text-black">Email: examplegmail.com</b>
+        <b class="text-lg text-black">Name: {{ owner?.first_name }} {{ owner?.surname }}</b>
+        <b class="text-lg text-black">Phone Number: {{ owner?.phone_number?.[0]?.number }}</b>
+        <b class="text-lg text-black">Email: {{ owner?.email }}</b>
         <p class="text-center mt-4 w-9/12">By clicking Contact Seller, 
             you are accepting Spaceshare's <a href="#" 
             class="text-blue-600"> Terms and Conditions</a> 
