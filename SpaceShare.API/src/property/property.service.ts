@@ -59,7 +59,7 @@ export class PropertyService {
 
     if (!property) throw new NotFoundException();
 
-    return { property };
+    return  property;
   }
 
   async createProperty(
