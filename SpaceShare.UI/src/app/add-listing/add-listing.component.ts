@@ -2,17 +2,28 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AddListingService } from './add-listing.service';
 import { Property } from '../../model/property.model';
+import { LocationService } from '../landing/register/location.service';
+import { Region, City } from '../../model/location.model';
 
 @Component({
   selector: 'app-add-listing',
   templateUrl: './add-listing.component.html',
-  styleUrl: './add-listing.component.css',
+  styleUrls: ['./add-listing.component.css'],
 })
 export class AddListingComponent implements OnInit {
   propertyForm!: FormGroup;
   images: File[] = [];
+  regions: Region[] = [];
+  cities: City[] = [];
 
-  constructor(private formBuilder: FormBuilder, private addListingService: AddListingService) {}
+  defaultRegionCode: string = '13'; 
+  selectedProvince: string = '';
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private addListingService: AddListingService,
+    private locationService: LocationService,
+  ) {}
 
   ngOnInit(): void {
     this.propertyForm = this.formBuilder.group({
@@ -22,11 +33,21 @@ export class AddListingComponent implements OnInit {
       capacity: ['', Validators.required],
       area: ['', Validators.required],
       description: [],
-      region: ['', Validators.required],
+      region: [this.defaultRegionCode, Validators.required], 
       city: ['', Validators.required],
       postal_code: ['', Validators.required],
       barangay: ['', Validators.required],
       files: ['', Validators.required],
+    });
+
+    this.loadCitiesByRegion(this.defaultRegionCode);
+  }
+
+  loadCitiesByRegion(regionCode: string): void {
+    this.locationService.getCities().subscribe((data: City[]) => {
+      this.cities = data.filter(
+        (entry: City) => entry.province_code.startsWith(regionCode)
+      );
     });
   }
 
@@ -41,11 +62,19 @@ export class AddListingComponent implements OnInit {
   }
 
   onSubmit() {
-    if(!this.propertyForm.valid) return;
-    const propertyData: Property = this.propertyForm.value;
+    if (!this.propertyForm.valid) return;
+
+    // Get the selected region name based on defaultRegionCode
+    const selectedRegion = this.regions.find(r => r.region_code === this.defaultRegionCode)?.region_name;
+
+    const propertyData: Property = {
+      ...this.propertyForm.value,
+      region: selectedRegion || 'National Capital Region (NCR)', 
+    };
+
     const files: File[] = this.images;
     this.addListingService.createProperty(propertyData, files).subscribe(data => 
       console.log(data)
-    )
+    );
   }
 }
