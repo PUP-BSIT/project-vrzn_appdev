@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {   
+import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  Validators, } from '@angular/forms';
+  Validators
+} from '@angular/forms';
 import { AddListingService } from './add-listing.service';
 import { Property } from '../../model/property.model';
 import { LocationService } from '../landing/register/location.service';
@@ -16,11 +17,12 @@ import { Region, City } from '../../model/location.model';
 })
 export class AddListingComponent implements OnInit {
   propertyForm!: FormGroup;
-  images: File[] = [];
+  images: { file: File, preview: string }[] = [];
   regions: Region[] = [];
   cities: City[] = [];
+  fileError: string | null = null;
 
-  defaultRegionCode: string = '13'; 
+  defaultRegionCode: string = '13';
   selectedProvince: string = '';
 
   constructor(
@@ -31,21 +33,13 @@ export class AddListingComponent implements OnInit {
 
   ngOnInit(): void {
     this.propertyForm = this.formBuilder.group({
-      title: ['', 
-          [
-            Validators.required,
-            Validators.minLength(5),
-            Validators.maxLength(30)]],
+      title: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
       price: ['', [Validators.required, this.priceValidator]],
       bedroom: ['', Validators.required],
-      capacity: ['', [
-              Validators.required,
-              Validators.min(1), 
-              Validators.max(50)]],
-
-      area: ['', Validators.required],
-      description: [],
-      region: [this.defaultRegionCode, Validators.required], 
+      capacity: ['', [Validators.required, Validators.min(1), Validators.max(50)]],
+      area: ['', [Validators.required, Validators.min(80), Validators.max(1000)]],
+      description: ['', [Validators.required, Validators.maxLength(300)]],
+      region: [this.defaultRegionCode, Validators.required],
       city: ['', Validators.required],
       postal_code: ['', Validators.required],
       barangay: ['', Validators.required],
@@ -54,7 +48,7 @@ export class AddListingComponent implements OnInit {
 
     this.loadCitiesByRegion(this.defaultRegionCode);
   }
-  
+
   priceValidator(control: AbstractControl): { [key: string]: boolean } | null {
     const value = control.value;
     if (isNaN(value) || value < 0.01 || value > 10000000) {
@@ -63,23 +57,37 @@ export class AddListingComponent implements OnInit {
     return null;
   }
 
-
   get titleControl(): AbstractControl {
     return this.propertyForm.get('title')!;
   }
-  
+
   get priceControl(): AbstractControl {
     return this.propertyForm.get('price')!;
   }
-  
+
   get capacityControl(): AbstractControl {
     return this.propertyForm.get('capacity')!;
   }
 
-  get bedroomControl(): AbstractControl { 
+  get bedroomControl(): AbstractControl {
     return this.propertyForm.get('bedroom')!;
   }
 
+  get areaControl(): AbstractControl {
+    return this.propertyForm.get('area')!;
+  }
+
+  get descriptionControl(): AbstractControl {
+    return this.propertyForm.get('description')!;
+  }
+
+  get filesControl(): AbstractControl {
+    return this.propertyForm.get('files')!;
+  }
+
+  get cityControl(): AbstractControl {
+    return this.propertyForm.get('city')!;
+  }
 
   loadCitiesByRegion(regionCode: string): void {
     this.locationService.getCities().subscribe((data: City[]) => {
@@ -91,27 +99,48 @@ export class AddListingComponent implements OnInit {
 
   onFileChange(event: any): void {
     if (event.target.files.length > 0) {
-      this.images = Array.from(event.target.files);
+      const validFileTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'];
+      const files = Array.from(event.target.files) as File[];
+      const validFiles = files.filter(file => validFileTypes.includes(file.type));
+      
+      if (validFiles.length !== files.length) {
+        this.fileError = 'Some files have invalid formats. Only JPEG, PNG, GIF, and SVG formats are allowed.';
+      } else {
+        this.fileError = null;
+      }
+
+      this.images = validFiles.map(file => ({
+        file,
+        preview: URL.createObjectURL(file)
+      }));
+
       this.propertyForm.patchValue({
-        files: this.images
+        files: this.images.map(image => image.file)
       });
       this.propertyForm.get('files')!.updateValueAndValidity();
     }
   }
 
+  removeImage(index: number): void {
+    this.images.splice(index, 1);
+    this.propertyForm.patchValue({
+      files: this.images.map(image => image.file)
+    });
+    this.propertyForm.get('files')!.updateValueAndValidity();
+  }
+
   onSubmit() {
     if (!this.propertyForm.valid) return;
 
-    // Get the selected region name based on defaultRegionCode
     const selectedRegion = this.regions.find(r => r.region_code === this.defaultRegionCode)?.region_name;
 
     const propertyData: Property = {
       ...this.propertyForm.value,
-      region: selectedRegion || 'National Capital Region (NCR)', 
+      region: selectedRegion || 'National Capital Region (NCR)',
     };
 
-    const files: File[] = this.images;
-    this.addListingService.createProperty(propertyData, files).subscribe(data => 
+    const files: File[] = this.images.map(image => image.file);
+    this.addListingService.createProperty(propertyData, files).subscribe(data =>
       console.log(data)
     );
   }

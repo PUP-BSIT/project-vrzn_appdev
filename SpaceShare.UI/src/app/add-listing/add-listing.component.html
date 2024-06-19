@@ -65,15 +65,79 @@
                 <div>
                     <label class="block text-sm font-bold text-gray-700">Floor area</label>
                     <input type="number" placeholder="Floor area in square meters" class="input input-bordered w-full bg-white rounded-lg" formControlName="area">
+                    @if(areaControl.touched && areaControl.invalid) {
+                        @if (areaControl.errors?.['required']) {
+                          <div class="error-message text-red-500 mt-2 pl-1">Define the Space Area</div>
+                          }
+                          @if(areaControl.errors?.['min']) {
+                            <div class="error-message text-red-500 mt-2 pl-1">Input Realistic Space Area</div>
+                          }
+                          @if(areaControl.errors?.['max']) {
+                            <div class="error-message text-red-500 mt-2 pl-1">Input Capacity threshold at 1,000 square meter</div>
+                          }
+                      }
                 </div>
             </div>
             <div>
                 <label class="block text-sm font-bold text-gray-700">Description</label>
-                <textarea class="textarea textarea-bordered w-full h-40 bg-white rounded-lg" placeholder="80 characters max" formControlName="description"></textarea>
-            </div>
-            <div>
+                <textarea 
+                  class="textarea textarea-bordered resize-none w-full h-40 bg-white rounded-lg"
+                  placeholder="Maximum 200 characters"
+                  formControlName="description"
+                  maxlength="200"
+                ></textarea>
+                <div class="text-right text-xs text-gray-600 mt-1">
+                  Characters remaining: {{ 200 - propertyForm.get('description')?.value?.length }}
+                </div>
+                @if(descriptionControl.touched && descriptionControl.invalid) {
+                    @if (descriptionControl.errors?.['required']) {
+                      <div class="error-message text-red-500 mt-1 pl-1">Fill out the description about the Space you want to share</div>
+                      }
+                      @if(areaControl.errors?.['max']) {
+                        <div class="error-message text-red-500 mt-2 pl-1">Make short and concise for better Space Details</div>
+                      }
+                  }
+              </div>
+            <!-- <div>
                 <input type="file" id="fileUpload" (change)="onFileChange($event)" multiple>
-            </div>
+            </div> -->
+            <div class="flex items-center justify-center w-full">
+                <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                  <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                    <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                    </svg>
+                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                  </div>
+                  <input id="dropzone-file" type="file" class="hidden" (change)="onFileChange($event)" multiple>
+                </label>
+                @if(filesControl.touched && filesControl.invalid) {
+                    @if (filesControl.errors?.['required']) {
+                      <div class="error-message text-red-500 mt-1 pl-1">Share some Space View </div>
+                      }
+                  }
+              </div>
+              
+            <div>@if(fileError) {<div class="text-red-500 text-sm mt-2">{{ fileError }}</div>}</div>
+            
+              <div class="flex flex-wrap mt-4">
+                <div *ngFor="let image of images; let i = index" class="w-1/4 p-2 relative">
+                  <div class="w-full h-40 overflow-hidden flex items-center justify-center bg-gray-200 rounded-lg">
+                    <img [src]="image.preview" alt="Image Preview" class="object-cover h-full w-full">
+                  </div>
+                  <button (click)="removeImage(i)" class="absolute top-0 right-0 mt-2 mr-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 focus:outline-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                  </button>
+                  <a [href]="image.preview" target="_blank" class="absolute bottom-0 right-0 mb-2 mr-2 bg-blue-500 text-white rounded-lg px-2 py-1 hover:bg-blue-600 focus:outline-none">
+                    Preview
+                  </a>
+                </div>
+              </div>
+              
+              
             <div>
                 <label class="block text-xl font-bold text-gray-700">Where is it located?</label>
                 <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mt-2">
@@ -90,6 +154,11 @@
                                   {{ city.city_name.toUpperCase() }}</option>
                                 }
                         </select>
+                        @if(cityControl.touched && cityControl.invalid) {
+                            @if (cityControl.errors?.['required']) {
+                              <div class="error-message text-red-500 mt-2 pl-1">Select City</div>
+                              }
+                          }
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-gray-700">Zip code</label>
