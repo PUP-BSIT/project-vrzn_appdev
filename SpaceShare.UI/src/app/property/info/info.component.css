@@ -3,3 +3,19 @@
     overflow-y: auto;
   }
   
+      /* CSS for skeleton loading */
+.skeleton-loading {
+    background-color: #f0f0f0;
+    /* Light gray background */
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.skeleton-line {
+    height: 16px;
+    background-color: #e0e0e0;
+    /* Gray lines for skeleton */
+    margin-bottom: 8px;
+    /* Adjust as per your design */
+}

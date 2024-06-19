@@ -17,7 +17,6 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {
     this.mainService.getProperties().subscribe(
       (data: Card[]) => {
-        console.log(data);
         this.cards = data;
       },
       (error) => {

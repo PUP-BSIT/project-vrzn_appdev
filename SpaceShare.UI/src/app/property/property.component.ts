@@ -1,10 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Property } from '../../model/property.model';
+import { PropertyService } from './property.service';
 
 @Component({
   selector: 'app-property',
   templateUrl: './property.component.html',
-  styleUrl: './property.component.css'
+  styleUrls: ['./property.component.css'],
 })
-export class PropertyComponent {
+export class PropertyComponent implements OnInit {
+  propertyId!: number;
+  property!: Property;
 
+  constructor(
+    private route: ActivatedRoute,
+    private propertyService: PropertyService
+  ) {}
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      this.propertyId = +params.get('id')!;
+
+      setTimeout(() => {
+        this.propertyService.getProperty(this.propertyId).subscribe((data) => {
+          this.property = data;
+          console.log('parent', this.property);
+        });
+      }, 2000); // Delay of 2000 milliseconds (2 seconds)
+    });
+  }
 }
