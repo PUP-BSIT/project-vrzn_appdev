@@ -16,13 +16,13 @@ export class AddListingComponent implements OnInit {
   regions: Region[] = [];
   cities: City[] = [];
 
-  defaultRegionCode: string = '13'; 
+  defaultRegionCode: string = '13';
   selectedProvince: string = '';
 
   constructor(
     private formBuilder: FormBuilder,
     private addListingService: AddListingService,
-    private locationService: LocationService,
+    private locationService: LocationService
   ) {}
 
   ngOnInit(): void {
@@ -33,7 +33,7 @@ export class AddListingComponent implements OnInit {
       capacity: ['', Validators.required],
       area: ['', Validators.required],
       description: [],
-      region: [this.defaultRegionCode, Validators.required], 
+      region: [this.defaultRegionCode, Validators.required],
       city: ['', Validators.required],
       postal_code: ['', Validators.required],
       barangay: ['', Validators.required],
@@ -45,8 +45,8 @@ export class AddListingComponent implements OnInit {
 
   loadCitiesByRegion(regionCode: string): void {
     this.locationService.getCities().subscribe((data: City[]) => {
-      this.cities = data.filter(
-        (entry: City) => entry.province_code.startsWith(regionCode)
+      this.cities = data.filter((entry: City) =>
+        entry.province_code.startsWith(regionCode)
       );
     });
   }
@@ -55,7 +55,7 @@ export class AddListingComponent implements OnInit {
     if (event.target.files.length > 0) {
       this.images = Array.from(event.target.files);
       this.propertyForm.patchValue({
-        files: this.images
+        files: this.images,
       });
       this.propertyForm.get('files')!.updateValueAndValidity();
     }
@@ -65,16 +65,18 @@ export class AddListingComponent implements OnInit {
     if (!this.propertyForm.valid) return;
 
     // Get the selected region name based on defaultRegionCode
-    const selectedRegion = this.regions.find(r => r.region_code === this.defaultRegionCode)?.region_name;
+    const selectedRegion = this.regions.find(
+      (r) => r.region_code === this.defaultRegionCode
+    )?.region_name;
 
     const propertyData: Property = {
       ...this.propertyForm.value,
-      region: selectedRegion || 'National Capital Region (NCR)', 
+      region: selectedRegion || 'National Capital Region (NCR)',
     };
 
     const files: File[] = this.images;
-    this.addListingService.createProperty(propertyData, files).subscribe(data => 
-      console.log(data)
-    );
+    this.addListingService
+      .createProperty(propertyData, files)
+      .subscribe((data) => console.log(data));
   }
 }
