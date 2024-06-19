@@ -3,6 +3,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
-  styleUrl: '../agreement.component.css'
+  styleUrls: ['../agreement.component.css', './about.component.css']
 })
 export class AboutComponent {}
