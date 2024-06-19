@@ -1,5 +1,11 @@
 <app-navbar></app-navbar>
 <body class="bg-white mt-10 mx-4 md:mx-40 rounded-2xl pt-10 shadow-2xl">
+    <div *ngIf="submissionSuccess" role="alert" class="alert alert-success">
+        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>Your listing has been successfully added!</span>
+      </div>           
     <div class="container mx-auto p-4">
         <h1 class="text-3xl font-bold mb-7">Add new listing</h1>
         <form class="space-y-6" [formGroup]="propertyForm" (submit)="onSubmit()">
@@ -118,8 +124,14 @@
                       }
                   }
               </div>
-              
-            <div>@if(fileError) {<div class="text-red-500 text-sm mt-2">{{ fileError }}</div>}</div>
+
+            @if(imageLimitExceeded){
+                <div role="alert" class="alert alert-warning">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                    <span> You can only upload a maximum of 4 images.</span>
+                  </div>
+                }
+            @if(fileError) {<div class="text-red-500 text-sm mt-2">{{ fileError }}</div>}
             
               <div class="flex flex-wrap mt-4">
                 <div *ngFor="let image of images; let i = index" class="w-1/4 p-2 relative">
@@ -175,11 +187,22 @@
                     <div class="md:col-span-2">
                         <label class="block text-sm font-bold text-gray-700">Address Line</label>
                         <input type="text" placeholder="House no, Street name" class="input input-bordered w-full bg-white rounded-lg" formControlName="barangay">
+                        @if(barangayControl.invalid && barangayControl.touched) {
+                            @if (barangayControl.errors?.['required']) {
+                              <div class="error-message text-red-500 pl-3">Address of the space cant be null</div>
+                            }
+                            @if (barangayControl.errors?.['minlength']) {
+                                <div class="error-message text-red-500 pl-3">Address of the space are too short </div>
+                              }
+                            @if(barangayControl.errors?.['maxlength']) {
+                                <div class="error-message text-red-500 mt-2 pl-1">Make short and concise for better Space Details</div>
+                            }
+                          }
                     </div>
                 </div>
             </div>
             <div class="flex justify-end">
-                <button type="submit" class="btn btn-primary bg-primary text-white font-bold border-none">Upload listing</button>
+                <button type="submit" class="btn btn-primary bg-primary text-white font-bold border-none" [disabled]="!propertyForm.valid">Upload listing</button>
             </div>
         </form>
     </div>
