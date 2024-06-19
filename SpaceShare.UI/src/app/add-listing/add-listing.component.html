@@ -6,7 +6,18 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm font-bold text-gray-700">Title</label>
-                    <input type="text" placeholder="80 characters max" class="input input-bordered w-full bg-white rounded-lg" formControlName="title">
+                    <input type="text" placeholder="80 characters max" class="input input-bordered w-full bg-white rounded-lg" formControlName="title"  [class.input-error]="titleControl.invalid && titleControl.touched">
+                    @if(titleControl.touched && titleControl.invalid) {
+                        @if (titleControl.errors?.['required']) {
+                          <div class="error-message text-red-500 mt-2 pl-1">Title Must Not Null</div>
+                          }
+                          @if(titleControl.errors?.['minlength']) {
+                            <div class="error-message text-red-500 pl-3">Title is too Short Enter Meaningful Title</div>
+                          }
+                          @if (titleControl.errors?.['maxlength']) {
+                            <div class="error-message text-red-500 pl-3">Title is too long make it short and clear</div>
+                          }
+                      }
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-gray-700">Rent per month</label>

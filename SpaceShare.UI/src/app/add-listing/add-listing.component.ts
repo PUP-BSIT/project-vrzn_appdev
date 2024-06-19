@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {   
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators, } from '@angular/forms';
 import { AddListingService } from './add-listing.service';
 import { Property } from '../../model/property.model';
 import { LocationService } from '../landing/register/location.service';
@@ -27,7 +31,10 @@ export class AddListingComponent implements OnInit {
 
   ngOnInit(): void {
     this.propertyForm = this.formBuilder.group({
-      title: ['', Validators.required],
+      title: ['', 
+          [Validators.required,
+          Validators.minLength(5),
+          Validators.maxLength(30)]],
       price: ['', Validators.required],
       bedroom: ['', Validators.required],
       capacity: ['', Validators.required],
@@ -42,6 +49,11 @@ export class AddListingComponent implements OnInit {
 
     this.loadCitiesByRegion(this.defaultRegionCode);
   }
+
+  get titleControl(): AbstractControl {
+    return this.propertyForm.get('title')!;
+  }
+  
 
   loadCitiesByRegion(regionCode: string): void {
     this.locationService.getCities().subscribe((data: City[]) => {
