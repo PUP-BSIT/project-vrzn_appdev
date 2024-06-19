@@ -16,11 +16,6 @@
                             (click)="isEditMode = true">
                             Edit
                         </button>
-                        <button class="btn btn-sm 
-                            btn-error w-full"
-                            [disabled]="isEditMode">
-                            Delete Account
-                        </button>
                     } @else {
                         <button class="btn btn-sm 
                             btn-primary w-full"
@@ -78,14 +73,6 @@
                 </label>
                 <p class="text-gray-800 text-xl font-medium">
                     {{ email }}
-                </p>
-            </div>
-            <div class="mt-4">
-                <label class="font-semibold text-3xl" for="password">
-                    <span class="label-text">Password</span>
-                </label>
-                <p class="text-gray-800 text-xl font-medium">
-                    {{ password }}
                 </p>
             </div>
         </div>
