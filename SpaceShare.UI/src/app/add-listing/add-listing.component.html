@@ -21,7 +21,15 @@
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-gray-700">Rent per month</label>
-                    <input type="number" placeholder="PHP" class="input input-bordered w-full bg-white rounded-lg" formControlName="price">
+                    <input type="number" placeholder="PHP" class="input input-bordered w-full bg-white rounded-lg" formControlName="price" [class.input-error]="priceControl.invalid && priceControl.touched">
+                    @if(priceControl.touched && priceControl) {
+                        @if (priceControl.errors?.['required']) {
+                          <div class="error-message text-red-500 mt-2 pl-1">Define the Space Price</div>
+                          }
+                          @if(priceControl.errors?.['priceInvalid']) {
+                            <div class="error-message text-red-500 mt-2 pl-1">Invalid Price Input Realistic Value</div>
+                          }
+                      }
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-gray-700">Bedroom</label>

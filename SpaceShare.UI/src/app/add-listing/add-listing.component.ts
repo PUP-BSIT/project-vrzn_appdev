@@ -35,7 +35,7 @@ export class AddListingComponent implements OnInit {
           [Validators.required,
           Validators.minLength(5),
           Validators.maxLength(30)]],
-      price: ['', Validators.required],
+      price: ['', [Validators.required, this.priceValidator] ],
       bedroom: ['', Validators.required],
       capacity: ['', Validators.required],
       area: ['', Validators.required],
@@ -49,12 +49,26 @@ export class AddListingComponent implements OnInit {
 
     this.loadCitiesByRegion(this.defaultRegionCode);
   }
+  
+  priceValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    const value = control.value;
+    if (value === null || value === undefined || value === '') {
+      return null;
+    }
+    if (isNaN(value) || value < 0.01 || value > 10000) {
+      return { priceInvalid: true };
+    }
+    return null;
+  }
 
   get titleControl(): AbstractControl {
     return this.propertyForm.get('title')!;
   }
   
-
+  get priceControl(): AbstractControl {
+    return this.propertyForm.get('price')!;
+  }
+  
   loadCitiesByRegion(regionCode: string): void {
     this.locationService.getCities().subscribe((data: City[]) => {
       this.cities = data.filter(
