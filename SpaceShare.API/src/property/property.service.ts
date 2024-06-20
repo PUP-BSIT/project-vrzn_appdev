@@ -29,8 +29,8 @@ export class PropertyService {
         images: {
           select: {
             image_url: true,
-          }
-        }
+          },
+        },
       },
     });
   }
@@ -55,13 +55,13 @@ export class PropertyService {
           select: {
             image_url: true,
           },
-        }
+        },
       },
     });
 
     if (!property) throw new NotFoundException();
 
-    return  property;
+    return property;
   }
 
   async createProperty(
@@ -90,26 +90,28 @@ export class PropertyService {
       },
     });
 
-    const imageArray : { property_id: number, image_url: string }[] = [];
+    const imageArray: { property_id: number; image_url: string }[] = [];
 
-    await Promise.all(files.map(async (file) => {
-      const key = `${Date.now()}${file.originalname}`;
-      const imageUrl = await this.s3Service.uploadFile(file, key);
+    await Promise.all(
+      files.map(async (file) => {
+        const key = `${Date.now()}${file.originalname}`;
+        const imageUrl = await this.s3Service.uploadFile(file, key);
 
-      const image = await this.prismaService.images.create({
-        data: {
-          property_id: createdProperty.id,
-          image_url: imageUrl,
-        }
-      });
+        const image = await this.prismaService.images.create({
+          data: {
+            property_id: createdProperty.id,
+            image_url: imageUrl,
+          },
+        });
 
-      imageArray.push(image);
-    }));
+        imageArray.push(image);
+      }),
+    );
 
     return { createdProperty, imageArray };
   }
 
-  async rateProperty(propertyRating: { id: number, rating: number }){
+  async rateProperty(propertyRating: { id: number; rating: number }) {
     return await this.prismaService.property.update({
       where: {
         id: propertyRating.id,
@@ -117,6 +119,15 @@ export class PropertyService {
       data: {
         rating: propertyRating.rating,
       },
-    })
+    });
+  }
+
+  async wishlist(hello: { user_id: number; property_id: number }) {
+    return await this.prismaService.wishlist.create({
+      data: {
+        user_id: hello.user_id,
+        property_id: hello.property_id,
+      }
+    });
   }
 }

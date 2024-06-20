@@ -29,6 +29,11 @@ export class PropertyController {
     return await this.propertyService.getProperty(+id);
   }
 
+  @Post('wishlist')
+  async wishlist(@Body() hello : { user_id: number, property_id: number }){
+    return await this.propertyService.wishlist(hello);
+  }
+
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FilesInterceptor('files'))
   @Post()
