@@ -29,7 +29,14 @@ export class AuthController {
     return await this.authService.getUser(+id);
   }
 
-  
+  @Post('update')
+  async updateUser(
+    @Body() body: { user: User; oldPhoneNumber: string; newPhoneNumber: string }
+  ) {
+    const { user, oldPhoneNumber, newPhoneNumber } = body;
+    return await this.authService.updateUser(user, oldPhoneNumber, newPhoneNumber);
+  }
+
   @Post('verify')
   sendMailer(@Body() verification: verification) {
     return this.authService.sendMail(verification);
