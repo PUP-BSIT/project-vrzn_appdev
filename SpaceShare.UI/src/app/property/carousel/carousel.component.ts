@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnChanges, OnInit, Query, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnInit, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
 import { Property } from '../../../model/property.model';
 import { first } from 'rxjs';
 
@@ -12,11 +12,14 @@ export class CarouselComponent implements OnInit, OnChanges {
   @ViewChildren('carouselItems') carouselItems!: QueryList<ElementRef<HTMLDivElement>>; 
   propertyLoaded: boolean = false;
   images!: { image_url: string }[];
+  currentIndex: number = 0;
 
   ngOnInit(): void {
     if (this.property) {
       this.propertyLoaded = true;
+      this.images = this.property.images;
       this.showItem(0);
+      this.startAutoSlide();
     }
   }
 
@@ -29,15 +32,23 @@ export class CarouselComponent implements OnInit, OnChanges {
       //why does this work and this.showItem doesnt lol
       setTimeout(() => {
         this.showItem(0);
-      }, 0)
+        this.startAutoSlide();
+      }, 0);
     }
   }
 
   showItem(index: number) {
-    if(!this.carouselItems) return;
+    if (!this.carouselItems) return;
 
     const items = this.carouselItems.toArray();
-    items.forEach((i) => {i.nativeElement.classList.remove('active')});
+    items.forEach((i) => { i.nativeElement.classList.remove('active'); });
     items[index].nativeElement.classList.add('active');
+  }
+
+  startAutoSlide() {
+    setInterval(() => {
+      this.currentIndex = (this.currentIndex + 1) % this.images.length;
+      this.showItem(this.currentIndex);
+    }, 10000);
   }
 }
