@@ -1,21 +1,22 @@
 .carousel-item {
-    width: 100%;
-    align-items: center;
-    justify-content: center;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
 .carousel-item img {
-    border-radius: 20px;
-    height: 400px;
-    width: 70%;
-    object-fit: cover;
-    margin-top: 50px;
+  border-radius: 20px;
+  height: 400px;
+  width: 70%;
+  object-fit: cover;
+  margin-top: 50px;
 }
 
 .carousel-item {
-  display: none;
+display: none;
+transition: all 0.5s ease;
 }
 
 .carousel-item.active {
-  display: flex;
+display: flex;
 }
