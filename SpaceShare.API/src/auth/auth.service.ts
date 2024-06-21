@@ -93,6 +93,7 @@ export class AuthService {
         first_name: true,
         surname: true,
         email: true,
+        birthdate: true,
         phone_number: {
           select: {
             number: true,
