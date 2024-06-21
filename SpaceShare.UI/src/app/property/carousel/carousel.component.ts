@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, OnChanges, OnInit, Query, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import { Property } from '../../../model/property.model';
+import { first } from 'rxjs';
 
 @Component({
   selector: 'app-carousel',
@@ -10,10 +11,7 @@ export class CarouselComponent implements OnInit, OnChanges {
   @Input() property!: Property;
   @ViewChildren('carouselItems') carouselItems!: QueryList<ElementRef<HTMLDivElement>>; 
   propertyLoaded: boolean = false;
-  images!: string[];
-  firstImage!: string;
-  secondImage!: string;
-  thirdImage!: string;
+  images!: { image_url: string }[];
 
   ngOnInit(): void {
     if (this.property) {
@@ -25,12 +23,10 @@ export class CarouselComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['property'] && !changes['property'].firstChange) {
       this.property = { ...changes['property'].currentValue };
-      this.firstImage = this.property.images?.[0].image_url;
-      this.secondImage = this.property.images?.[1].image_url;
-      this.thirdImage = this.property.images?.[2].image_url;
+      this.images = this.property.images;
       this.propertyLoaded = true;
 
-      //why does this work and this.showItem() doesnt lol
+      //why does this work and this.showItem doesnt lol
       setTimeout(() => {
         this.showItem(0);
       }, 0)

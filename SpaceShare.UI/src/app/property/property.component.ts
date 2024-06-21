@@ -24,9 +24,8 @@ export class PropertyComponent implements OnInit {
       setTimeout(() => {
         this.propertyService.getProperty(this.propertyId).subscribe((data) => {
           this.property = data;
-          console.log('parent', this.property);
         });
-      }, 2000); // Delay of 2000 milliseconds (2 seconds)
+      }, 1000);
     });
   }
 }
