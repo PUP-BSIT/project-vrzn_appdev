@@ -51,7 +51,6 @@ import { MainService } from './main/main.service';
 import { PropertyService } from './property/property.service';
 import { WentWrongComponent } from './went-wrong/went-wrong.component';
 import { CardSkeletonComponent } from './card-skeleton/card-skeleton.component';
-import { PaginationComponent } from './landing/pagination/pagination.component';
 
 @NgModule({
   declarations: [
@@ -88,7 +87,6 @@ import { PaginationComponent } from './landing/pagination/pagination.component';
     RentingComponent,
     WentWrongComponent,
     CardSkeletonComponent,
-    PaginationComponent,
   ],
   imports: [
     ReactiveFormsModule,
