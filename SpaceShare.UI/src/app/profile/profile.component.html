@@ -13,7 +13,7 @@
                     </svg>
                 </div>
                 @if(!isEditMode) {
-                    <button class="btn btn-sm btn-secondary w-full" (click)="isEditMode = true">
+                    <button class="btn btn-sm btn-secondary w-full" (click)="editMode()">
                         Edit
                     </button>
                 } @else {
@@ -62,7 +62,7 @@
                             <span class="label-text">Birthday</span>
                         </label>
                         <p class="text-gray-800 text-xl font-medium">
-                            {{ formatDate(currentUser.birthdate.toString()) }}
+                            {{ formatDate(currentUser.birthdate.toString(), "display") }}
                         </p>
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environment/appsettings';
-import { User } from '../../model/user.model';
+import { User, UserToUpdate } from '../../model/user.model';
 
 @Injectable()
 export class ProfileService {
@@ -9,7 +9,15 @@ export class ProfileService {
 
   url = `${environment.apiUrl}/auth`;
 
-  isProfile(user_id: number) {
+  getUserProfile(user_id: number) {
     return this.http.get<User>(`${this.url}/${user_id}`);
+  }
+
+  updateUserProfile(userToUpdate: {
+    user: UserToUpdate;
+    oldPhoneNumber: string;
+    newPhoneNumber: string;
+  }) {
+    return this.http.post(`${this.url}/update`, userToUpdate);
   }
 }

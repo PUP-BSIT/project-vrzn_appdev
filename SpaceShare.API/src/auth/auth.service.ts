@@ -104,6 +104,8 @@ export class AuthService {
   }
 
   async updateUser(user: User, oldPhoneNumber: string, newPhoneNumber: string) {
+    const formattedBirthdate = new Date(user.birthdate).toISOString();
+
     return await this.prismaService.user.update({
       where: {
         id: user.id,
@@ -111,7 +113,7 @@ export class AuthService {
       data: {
         first_name: user.first_name,
         surname: user.surname,
-        birthdate: user.birthdate,
+        birthdate: formattedBirthdate,
         phone_number: {
           updateMany: {
             where: {
