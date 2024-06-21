@@ -1,16 +1,36 @@
 <app-landing></app-landing>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center">
-    @if(loaded) {
-        @for (card of paginatedCards; track card.id) { 
-            <app-property-card [card]="card" [cardId]="card.id"></app-property-card>
-        }
-    } @else {
-        <app-card-skeleton></app-card-skeleton>
+<div class="container mx-auto px-4 py-8">
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 
+        gap-6 place-items-center">
+    @if(loaded) { @for (card of paginatedCards; track card.id) {
+    <app-property-card [card]="card" [cardId]="card.id">
+        
+    </app-property-card>
+    } } @else {
+    <app-card-skeleton
+      *ngFor="let n of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+    </app-card-skeleton>
     }
-</div>
-<div class="pagination-controls">
-    <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
-    <span>Page {{currentPage}} of {{totalPages}}</span>
-    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+  </div>
+  <div class="pagination-controls flex justify-center items-center mt-8">
+    <button
+      (click)="previousPage()"
+      [disabled]="currentPage === 1"
+      class="bg-primary text-white py-2 px-4 rounded transition-colors 
+        duration-300 disabled:bg-gray-400 hover:bg-[#9A58B6]">
+            Previous
+    </button>
+    <span class="mx-4 text-lg font-semibold">
+        Page {{ currentPage }} of {{ totalPages }}
+    </span>
+    <button
+      (click)="nextPage()"
+      [disabled]="currentPage === totalPages"
+      class="bg-primary text-white py-2 px-4 rounded transition-colors 
+        duration-300 disabled:bg-gray-400 hover:bg-[#9A58B6]">
+            Next
+    </button>
+  </div>
 </div>
 <app-footer></app-footer>
