@@ -123,38 +123,68 @@ export class PropertyService {
   }
 
   async wishlist(wishlistItem: { user_id: number; property_id: number }) {
-    const { user_id, property_id} = wishlistItem;
+    const { user_id, property_id } = wishlistItem;
 
     const deleteResult = await this.prismaService.wishlist.deleteMany({
       where: {
         user_id,
         property_id,
-      }
-    })
+      },
+    });
 
-    if(deleteResult.count) return { message: "Removed from wishlist" };
+    if (deleteResult.count) return { message: 'Removed from wishlist' };
 
     await this.prismaService.wishlist.create({
       data: {
         user_id,
         property_id,
-      }
+      },
     });
 
-    return { message: "Added to wishlist" };
+    return { message: 'Added to wishlist' };
   }
 
-  async isWishlisted(wishlistItem: { user_id: number, property_id: number}){
-    const {user_id, property_id } = wishlistItem;
-    const wishlisted = await this.prismaService.wishlist.findMany({
-        where: {
-          user_id: +user_id,
-          property_id: +property_id,
+  async getWishlistedProperty(user_id: number) {
+    const wishlistedProperties = await this.prismaService.wishlist.findMany({
+      where: {
+        user_id: +user_id,
+      },
+      include: {
+        property: {
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            city: true,
+            barangay: true,
+            price: true,
+            status: true,
+            rating: true,
+            capacity: true,
+            images: {
+              select: {
+                image_url: true,
+              },
+            },
+          },
         },
-    })
+      },
+    });
 
-    if(wishlisted.length > 0) return true
+    return wishlistedProperties.map((wishlistItem) => wishlistItem.property);
+  }
 
-    return false
+  async isWishlisted(wishlistItem: { user_id: number; property_id: number }) {
+    const { user_id, property_id } = wishlistItem;
+    const wishlisted = await this.prismaService.wishlist.findMany({
+      where: {
+        user_id: +user_id,
+        property_id: +property_id,
+      },
+    });
+
+    if (wishlisted.length > 0) return true;
+
+    return false;
   }
 }

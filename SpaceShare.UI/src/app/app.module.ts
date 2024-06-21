@@ -51,6 +51,7 @@ import { MainService } from './main/main.service';
 import { PropertyService } from './property/property.service';
 import { WentWrongComponent } from './went-wrong/went-wrong.component';
 import { ProfileService } from './profile/profile.service';
+import { CardSkeletonComponent } from './card-skeleton/card-skeleton.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { ProfileService } from './profile/profile.service';
     PresskitComponent,
     RentingComponent,
     WentWrongComponent,
+    CardSkeletonComponent,
   ],
   imports: [
     ReactiveFormsModule,

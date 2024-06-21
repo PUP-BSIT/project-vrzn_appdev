@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 export class MainComponent implements OnInit {
   cards: Card[] = [];
   subscription!: Subscription;
+  loaded = false
 
   constructor(private mainService: MainService) {}
 
@@ -23,5 +24,9 @@ export class MainComponent implements OnInit {
         console.error('Error fetching properties:', error);
       }
     );
+
+    setTimeout(() => {
+      this.loaded = true
+    }, 1000)
   }
 }
