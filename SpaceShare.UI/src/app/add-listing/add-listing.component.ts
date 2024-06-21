@@ -166,19 +166,17 @@ export class AddListingComponent implements OnInit {
 
     const files: File[] = this.images.map(image => image.file);
     this.addListingService.createProperty(propertyData, files).subscribe({
-      next: data => {
-        console.log(data);
+      next: () => {
         this.submissionSuccess = true;
 
         setTimeout(() => {
           this.submissionSuccess = false;
-        }, 2000);
+        }, 500);
 
         this.propertyForm.reset();
         this.images = [];
       },
-      error: err => {
-        console.error(err);
+      error: () => {
         this.submissionSuccess = false;
       }
     });

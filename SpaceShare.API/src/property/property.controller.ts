@@ -30,8 +30,8 @@ export class PropertyController {
   }
 
   @Post('wishlist')
-  async wishlist(@Body() hello : { user_id: number, property_id: number }){
-    return await this.propertyService.wishlist(hello);
+  async wishlist(@Body() wishlistItem : { user_id: number, property_id: number }){
+    return await this.propertyService.wishlist(wishlistItem);
   }
 
   @UseGuards(JwtAuthGuard)

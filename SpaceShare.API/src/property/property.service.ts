@@ -122,12 +122,25 @@ export class PropertyService {
     });
   }
 
-  async wishlist(hello: { user_id: number; property_id: number }) {
-    return await this.prismaService.wishlist.create({
+  async wishlist(wishlistItem: { user_id: number; property_id: number }) {
+    const { user_id, property_id} = wishlistItem;
+
+    const deleteResult = await this.prismaService.wishlist.deleteMany({
+      where: {
+        user_id,
+        property_id,
+      }
+    })
+
+    if(deleteResult.count) return { message: "Removed from wishlist" };
+
+    await this.prismaService.wishlist.create({
       data: {
-        user_id: hello.user_id,
-        property_id: hello.property_id,
+        user_id,
+        property_id,
       }
     });
+
+    return { message: "Added to wishlist" };
   }
 }
