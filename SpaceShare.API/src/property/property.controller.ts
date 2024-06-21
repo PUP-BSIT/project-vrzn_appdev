@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  Query,
   Req,
   UploadedFiles,
   UseGuards,
@@ -24,13 +25,23 @@ export class PropertyController {
     return await this.propertyService.getProperties();
   }
 
+  @Get('wishlist')
+  async isWishlisted(
+    @Query('user_id') user_id: number,
+    @Query('property_id') property_id: number,
+  ) {
+    return await this.propertyService.isWishlisted({ user_id, property_id });
+  }
+
   @Get(':id')
   async getProperty(@Param('id') id: string) {
     return await this.propertyService.getProperty(+id);
   }
 
   @Post('wishlist')
-  async wishlist(@Body() wishlistItem : { user_id: number, property_id: number }){
+  async wishlist(
+    @Body() wishlistItem: { user_id: number; property_id: number },
+  ) {
     return await this.propertyService.wishlist(wishlistItem);
   }
 
@@ -47,7 +58,7 @@ export class PropertyController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  async rateProperty(@Body() propertyRating: { id: number, rating: number }){
+  async rateProperty(@Body() propertyRating: { id: number; rating: number }) {
     return await this.propertyService.rateProperty(propertyRating);
   }
 }
