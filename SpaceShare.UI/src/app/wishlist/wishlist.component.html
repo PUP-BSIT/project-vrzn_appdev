@@ -2,9 +2,18 @@
 <div class="mx-20 my-10">
     <h1 class="text-4xl font-bold">Saved Searches</h1>
     <div class="mt-4 flex flex-wrap">
-        @for (card of wishlistedItem; track card.id) {
-        <app-property-card [card]="card" [cardId]="card.id" class="m-2" />
+        @if(loaded){
+            @for (card of wishlistedItem; track card.id) {
+                <app-property-card [card]="card" [cardId]="card.id" class="m-2" />
+            }
+        } @else {
+            <div class="flex gap-6 mt-4">
+                <app-card-skeleton></app-card-skeleton>
+                <app-card-skeleton></app-card-skeleton>
+                <app-card-skeleton></app-card-skeleton>
+            </div>
         }
+
     </div>
 </div>
 <app-footer></app-footer>
