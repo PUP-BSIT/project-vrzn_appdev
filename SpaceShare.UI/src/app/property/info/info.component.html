@@ -4,9 +4,16 @@
     <h2 class="text-3xl text-black font-bold">{{ property.title }}</h2>
 
     <!-- Address -->
-    <p class="font-medium text-xl text-gray-600">
+    <p class="flex items-center text-gray-600 mb-2 font-medium text-xl">
+        <svg xmlns="http://www.w3.org/2000/svg" 
+             class="h-5 w-5 mr-1 text-red-500" 
+             viewBox="0 0 20 20" 
+             fill="currentColor">
+            <path fill-rule="evenodd" 
+                  d="M10 0c3.78 0 6.863 3.083 6.863 6.863 0 6.252-6.863 12.137-6.863 12.137S3.137 13.115 3.137 6.863C3.137 3.083 6.22 0 10 0zm0 9a2.75 2.75 0 100-5.5 2.75 2.75 0 000 5.5z" clip-rule="evenodd" />
+          </svg>
         {{ property.barangay }}, {{ property.city }} City
-    </p>
+      </p>
 
     <!-- Price -->
     <p class="text-5xl font-semibold text-green-800 mt-2">
