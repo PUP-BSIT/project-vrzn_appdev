@@ -50,6 +50,7 @@ import { AddListingService } from './add-listing/add-listing.service';
 import { MainService } from './main/main.service';
 import { PropertyService } from './property/property.service';
 import { WentWrongComponent } from './went-wrong/went-wrong.component';
+import { ProfileService } from './profile/profile.service';
 
 @NgModule({
   declarations: [
@@ -114,7 +115,8 @@ import { WentWrongComponent } from './went-wrong/went-wrong.component';
     RegisterService,
     AddListingService,
     MainService,
-    PropertyService
+    PropertyService,
+    ProfileService
   ],
   bootstrap: [AppComponent]
 })
