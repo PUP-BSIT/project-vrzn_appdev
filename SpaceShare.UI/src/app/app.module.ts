@@ -49,6 +49,7 @@ import { RegisterService } from './landing/register/register.service';
 import { AddListingService } from './add-listing/add-listing.service';
 import { MainService } from './main/main.service';
 import { PropertyService } from './property/property.service';
+import { WentWrongComponent } from './went-wrong/went-wrong.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { PropertyService } from './property/property.service';
     AboutComponent,
     PresskitComponent,
     RentingComponent,
+    WentWrongComponent,
   ],
   imports: [
     ReactiveFormsModule,
