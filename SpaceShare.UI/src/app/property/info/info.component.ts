@@ -21,6 +21,7 @@ export class InfoComponent implements OnInit, OnChanges {
   property_id!: number;
   wishlistItem!: { user_id: number, property_id: number };
   user_id = this.cookie.get('id');
+  isLoggedIn = false;
 
   constructor(private infoService: InfoService, private cookie: CookieService){}
 
@@ -37,6 +38,9 @@ export class InfoComponent implements OnInit, OnChanges {
           if(data) this.isWishlisted = data;
         }
       )
+
+      if(this.user_id) this.isLoggedIn = true;
+      
       this.propertyLoaded = true;
     }
   }
