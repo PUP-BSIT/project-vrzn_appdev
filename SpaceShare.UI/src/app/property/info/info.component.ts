@@ -15,6 +15,7 @@ import { Property } from '../../../model/property.model';
 export class InfoComponent implements OnInit, OnChanges {
   @Input() property!: Property;
   propertyLoaded: boolean = false;
+  isWishlisted: boolean = false;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['property'] && !changes['property'].firstChange) {
@@ -27,5 +28,9 @@ export class InfoComponent implements OnInit, OnChanges {
     if (this.property) {
       this.propertyLoaded = true;
     }
+  }
+
+  toggleWishlist() {
+    this.isWishlisted = !this.isWishlisted;
   }
 }

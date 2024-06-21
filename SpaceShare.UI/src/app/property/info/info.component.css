@@ -19,3 +19,8 @@
     margin-bottom: 8px;
     /* Adjust as per your design */
 }
+
+.heart-icon.red {
+    fill: #E60023;
+    stroke: #E60023;
+}
