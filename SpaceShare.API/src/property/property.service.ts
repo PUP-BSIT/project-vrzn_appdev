@@ -143,4 +143,18 @@ export class PropertyService {
 
     return { message: "Added to wishlist" };
   }
+
+  async isWishlisted(wishlistItem: { user_id: number, property_id: number}){
+    const {user_id, property_id } = wishlistItem;
+    const wishlisted = await this.prismaService.wishlist.findMany({
+        where: {
+          user_id: +user_id,
+          property_id: +property_id,
+        },
+    })
+
+    if(wishlisted.length > 0) return true
+
+    return false
+  }
 }
