@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-cookie',
   templateUrl: './cookie.component.html',
-  styleUrl: './cookie.component.css'
+  styleUrl: '../agreement.component.css'
 })
 export class CookieComponent {
 

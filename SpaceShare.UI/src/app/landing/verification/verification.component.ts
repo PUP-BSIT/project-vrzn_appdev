@@ -10,11 +10,13 @@ import { RegisterService } from '../register/register.service';
 })
 export class VerificationComponent implements OnInit {
   otpForm!: FormGroup;
+  @Input() email!: string;
   @Input() code!: number;
   @Input() userToCreate!: User;
   verified: boolean = false;
   message!: string;
   errorMessage: string = '';
+  showlink: boolean = true;
 
   constructor(private formBuilder: FormBuilder, private readonly registerService: RegisterService) {}
 
@@ -65,6 +67,10 @@ export class VerificationComponent implements OnInit {
       this.errorMessage = 'An unexpected error occurred. Please try again later.';
     }
   }  
+
+  goBack() {
+    this.showlink = false;
+  }
 
   closeModal() {
     const modal = document.getElementById('my_modal_3') as HTMLDialogElement;

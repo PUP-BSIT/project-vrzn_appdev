@@ -1,72 +1,107 @@
 <div>
+    @if(propertyLoaded) {
     <div class="flex flex-wrap justify-evenly">
         <div class="flex-col 
-                    items-center 
-                    justify-center
-                    rounded-lg 
-                    p-2 
-                    w-36 
-                    h-36 
-                    text-center 
-                    bg-base-100 
-                    shadow-xl 
-                    m-2">
-            <div class="flex items-center justify-center">  
-                <img src="../../assets/bed.png" 
-                     alt="Bedroom Icon" 
-                     class="w-15 h-14 mt-4 mb-5">
+                                items-center 
+                                justify-center
+                                rounded-lg 
+                                p-2 
+                                w-36 
+                                h-36 
+                                text-center 
+                                bg-base-100 
+                                shadow-xl 
+                                m-2">
+            <div class="flex items-center justify-center">
+                <img src="../../assets/bed.png" alt="Bedroom Icon" class="w-15 h-14 mt-4 mb-5">
             </div>
             <span class="w-full 
-                         inline 
-                         font-bold  
-                         text-black
-                         text-lg">Bedroom: 2
+                                     inline 
+                                     font-bold  
+                                     text-black
+                                     text-lg">Bedroom: {{ property.bedroom }}
             </span>
         </div>
         <div class="flex-col 
-                    items-center 
-                    justify-center 
-                    rounded-lg 
-                    p-2 
-                    w-36 
-                    h-36 
-                    text-center 
-                    bg-base-100 
-                    shadow-xl m-2">
+                                items-center 
+                                justify-center 
+                                rounded-lg 
+                                p-2 
+                                w-36 
+                                h-36 
+                                text-center 
+                                bg-base-100 
+                                shadow-xl m-2">
             <div class="flex items-center justify-center">
-                <img src="../../assets/area.png" 
-                 alt="Area Icon" 
-                 class="w-14 h-14 mt-4 mb-5">
+                <img src="../../assets/area.png" alt="Area Icon" class="w-14 h-14 mt-4 mb-5">
             </div>
             <span class="w-full 
-                         inline 
-                         font-bold 
-                         text-lg 
-                         text-black">120m²
+                                     inline 
+                                     font-bold 
+                                     text-lg 
+                                     text-black">{{ property.area }}m²
             </span>
         </div>
         <div class="flex-col 
-                    items-center 
-                    justify-center 
-                    rounded-lg 
-                    p-2 
-                    w-36 
-                    h-36 
-                    text-center 
-                    bg-base-100 
-                    shadow-xl m-2">
+                                items-center 
+                                justify-center 
+                                rounded-lg 
+                                p-2 
+                                w-36 
+                                h-36 
+                                text-center 
+                                bg-base-100 
+                                shadow-xl m-2">
             <div class="flex items-center justify-center">
-                <img src="../../assets/guest.png " 
-                 alt="Guest Icon" 
-                 class="w-14 h-14 mt-4 mb-5">
+                <img src="../../assets/guest.png " alt="Guest Icon" class="w-14 h-14 mt-4 mb-5">
             </div>
             <span class="w-full 
-                         inline 
-                         font-bold 
-                         text-lg 
-                         text-black">Guest: 4
+                                     inline 
+                                     font-bold 
+                                     text-lg 
+                                     text-black">Guest: {{ property.capacity }}
             </span>
         </div>
     </div>
-    <app-host></app-host>
+    <app-host [ownerId]="property.owner_id"/>
+    } @else {
+    <div class="flex flex-wrap justify-evenly">
+        <div
+            class="flex-col items-center justify-center rounded-lg p-2 w-36 h-36 text-center bg-base-100 shadow-xl m-2 animate-pulse">
+            <div class="flex items-center justify-center">
+                <div class="skeleton-image w-14 h-14 rounded-full bg-gray-200 animate-pulse"></div>
+            </div>
+            <div class="skeleton-text w-full h-5 mt-4 mb-5 bg-gray-200 animate-pulse"></div>
+        </div>
+        <div
+            class="flex-col items-center justify-center rounded-lg p-2 w-36 h-36 text-center bg-base-100 shadow-xl m-2 animate-pulse">
+            <div class="flex items-center justify-center">
+                <div class="skeleton-image w-14 h-14 rounded-full bg-gray-200 animate-pulse"></div>
+            </div>
+            <div class="skeleton-text w-full h-5 mt-4 mb-5 bg-gray-200 animate-pulse"></div>
+        </div>
+        <div
+            class="flex-col items-center justify-center rounded-lg p-2 w-36 h-36 text-center bg-base-100 shadow-xl m-2 animate-pulse">
+            <div class="flex items-center justify-center">
+                <div class="skeleton-image w-14 h-14 rounded-full bg-gray-200 animate-pulse"></div>
+            </div>
+            <div class="skeleton-text w-full h-5 mt-4 mb-5 bg-gray-200 animate-pulse"></div>
+        </div>
+    </div>
+    <div class="card w-full bg-base-100 shadow-xl mt-10 animate-pulse">
+        <b class="font-bold text-3xl text-black text-center mt-5">
+            Meet your Host!</b>
+        <div class="flex items-center justify-center mt-5">
+            <div class="skeleton-image w-20 h-20 rounded-full bg-gray-200 animate-pulse"></div>
+        </div>
+        <div class="card-body items-center">
+            <div class="skeleton-text w-full h-5 mt-2 bg-gray-200 animate-pulse"></div>
+            <div class="skeleton-text w-full h-5 mt-2 bg-gray-200 animate-pulse"></div>
+            <div class="skeleton-text w-full h-5 mt-2 bg-gray-200 animate-pulse"></div>
+            <div class="skeleton-text w-center mt-4 w-9/12 h-5 bg-gray-200 animate-pulse"></div>
+            <div class="card-actions justify-end">
+            </div>
+        </div>
+    </div>
+    }
 </div>

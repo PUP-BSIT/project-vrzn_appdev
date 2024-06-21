@@ -4,9 +4,7 @@ import { SignupResponse, User, Verificaion } from '../../../model/user.model';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environment/appsettings';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class RegisterService {
 
   constructor(private httpService: HttpClient) { }

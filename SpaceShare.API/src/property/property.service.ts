@@ -26,6 +26,11 @@ export class PropertyService {
         status: true,
         rating: true,
         capacity: true,
+        images: {
+          select: {
+            image_url: true,
+          },
+        },
       },
     });
   }
@@ -44,12 +49,19 @@ export class PropertyService {
         status: true,
         rating: true,
         capacity: true,
+        area: true,
+        bedroom: true,
+        images: {
+          select: {
+            image_url: true,
+          },
+        },
       },
     });
 
     if (!property) throw new NotFoundException();
 
-    return { property };
+    return property;
   }
 
   async createProperty(
@@ -68,31 +80,111 @@ export class PropertyService {
         postal_code: property.postal_code,
         price: +property.price,
         status: !!property.status,
-        rating: +property.rating,
         capacity: +property.capacity,
         city: property.city,
+        area: +property.area,
+        bedroom: +property.bedroom,
         property: {
           connect: { id: +userId },
         },
       },
     });
 
-    const imageArray : { property_id: number, image_url: string }[] = [];
+    const imageArray: { property_id: number; image_url: string }[] = [];
 
-    await Promise.all(files.map(async (file) => {
-      const key = `${Date.now()}${file.originalname}`;
-      const imageUrl = await this.s3Service.uploadFile(file, key);
+    await Promise.all(
+      files.map(async (file) => {
+        const key = `${Date.now()}${file.originalname}`;
+        const imageUrl = await this.s3Service.uploadFile(file, key);
 
-      const image = await this.prismaService.images.create({
-        data: {
-          property_id: createdProperty.id,
-          image_url: imageUrl,
-        }
-      });
+        const image = await this.prismaService.images.create({
+          data: {
+            property_id: createdProperty.id,
+            image_url: imageUrl,
+          },
+        });
 
-      imageArray.push(image);
-    }));
+        imageArray.push(image);
+      }),
+    );
 
     return { createdProperty, imageArray };
+  }
+
+  async rateProperty(propertyRating: { id: number; rating: number }) {
+    return await this.prismaService.property.update({
+      where: {
+        id: propertyRating.id,
+      },
+      data: {
+        rating: propertyRating.rating,
+      },
+    });
+  }
+
+  async wishlist(wishlistItem: { user_id: number; property_id: number }) {
+    const { user_id, property_id } = wishlistItem;
+
+    const deleteResult = await this.prismaService.wishlist.deleteMany({
+      where: {
+        user_id,
+        property_id,
+      },
+    });
+
+    if (deleteResult.count) return { message: 'Removed from wishlist' };
+
+    await this.prismaService.wishlist.create({
+      data: {
+        user_id,
+        property_id,
+      },
+    });
+
+    return { message: 'Added to wishlist' };
+  }
+
+  async getWishlistedProperty(user_id: number) {
+    const wishlistedProperties = await this.prismaService.wishlist.findMany({
+      where: {
+        user_id: +user_id,
+      },
+      include: {
+        property: {
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            city: true,
+            barangay: true,
+            price: true,
+            status: true,
+            rating: true,
+            capacity: true,
+            images: {
+              select: {
+                image_url: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return wishlistedProperties.map((wishlistItem) => wishlistItem.property);
+  }
+
+  async isWishlisted(wishlistItem: { user_id: number; property_id: number }) {
+    const { user_id, property_id } = wishlistItem;
+    const wishlisted = await this.prismaService.wishlist.findMany({
+      where: {
+        user_id: +user_id,
+        property_id: +property_id,
+      },
+    });
+
+    if (wishlisted.length > 0) return true;
+
+    return false;
   }
 }

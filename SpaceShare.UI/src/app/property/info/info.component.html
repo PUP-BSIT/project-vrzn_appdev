@@ -1,51 +1,81 @@
 <div>
-    <h2 class="text-3xl text-black font-bold">Apartment for rent</h2>
+@if(propertyLoaded) {
+    <!-- Title -->
+    <h2 class="text-3xl text-black font-bold">{{ property.title }}</h2>
+
+    <!-- Address -->
     <p class="font-medium text-xl text-gray-600">
-        19 unknown st., South signal Village, Taguig City</p>
-    <p class="text-5xl font-semibold text-green-800 mt-2">PHP 5,000 / month</p>
-    <div class="scrollable-content my-7">
+        {{ property.barangay }}, {{ property.city }} City
+    </p>
+
+    <!-- Price -->
+    <p class="text-5xl font-semibold text-green-800 mt-2">
+        PHP {{ property.price.toLocaleString() }} / month
+    </p>
+
+    <!-- Description -->
+    <div class="scrollable-contentxa my-7">
         <p class="text-gray-500 mt-2">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-            Phasellus libero dolor, bibendum ac venenatis vel, 
-            eleifend sed lectus. Lorem ipsum dolor sit amet, consectetur 
-            adipiscing elit. Phasellus libero dolor, bibendum ac venenatis vel, 
-            eleifend sed lectus. Lorem ipsum dolor sit amet.
-            eleifend sed lectus. Lorem ipsum dolor sit amet, consectetur 
-            adipiscing elit. Phasellus libero dolor, bibendum ac venenatis vel, 
-            eleifend sed lectus. Lorem ipsum dolor sit amet.
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-            Phasellus libero dolor, bibendum ac venenatis vel, 
-            eleifend sed lectus. Lorem ipsum dolor sit amet, consectetur 
-            adipiscing elit. Phasellus libero dolor, bibendum ac venenatis vel, 
-            eleifend sed lectus. Lorem ipsum dolor sit amet.
-            eleifend sed lectus. Lorem ipsum dolor sit amet, consectetur 
-            adipiscing elit. Phasellus libero dolor, bibendum ac venenatis vel, 
-            eleifend sed lectus. Lorem ipsum dolor sit amet. Phasellus libero 
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-            Phasellus libero dolor, bibendum ac venenatis vel, 
-            eleifend sed lectus. Lorem ipsum dolor sit amet, consectetur 
-            adipiscing elit. Phasellus libero dolor, bibendum ac venenatis vel, 
-            eleifend sed lectus. Lorem ipsum dolor sit amet.
-            eleifend sed lectus. Lorem ipsum dolor sit amet, consectetur 
-            adipiscing elit. Phasellus libero dolor, bibendum ac venenatis vel, 
-            eleifend sed lectus. Lorem ipsum dolor sit amet. Phasellus libero 
-            dolor.
+            {{ property.description }}
         </p>
     </div>
-    <div>
-        <button class="btn my-2 border-gray-300">
-            <svg xmlns="http://www.w3.org/2000/svg" 
-                class="h-6 w-6" 
-                fill="none" 
-                viewBox="0 0 24 24" 
-                stroke="currentColor">
-            <path stroke-linecap="round" 
-                  stroke-linejoin="round" 
-                  stroke-width="2" 
-                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+
+    @if(isLoggedIn) {
+        <!-- wishlist -->
+        <div>
+            <button (click)="toggleWishlist()" class="btn my-2 border-gray-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 heart-icon" [ngClass]="{'red': isWishlisted}" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                 </svg>
-            Save to wishlist
+                {{ isWishlisted ? 'Added to wishlist' : 'Save to wishlist' }}
+            </button>
+        </div>
+
+        <!-- app-deal component  -->
+        <app-deal />
+    }
+
+} @else {
+    <!-- Title -->
+    <h2 class="text-3xl text-black font-bold skeleton-loading">&nbsp;</h2>
+        
+    <!-- Address -->
+    <p class="font-medium text-xl text-gray-600 skeleton-loading">&nbsp;</p>
+    
+    <!-- Price -->
+    <p class="text-5xl font-semibold text-green-800 mt-2 skeleton-loading">&nbsp;</p>
+    
+    <!-- Description -->
+    <div class="scrollable-contentxa my-7 skeleton-loading">
+        <div class="skeleton-line"></div>
+        <div class="skeleton-line"></div>
+        <div class="skeleton-line"></div>
+        <div class="skeleton-line"></div>
+        <div class="skeleton-line"></div>
+        <!-- Add more skeleton lines to match the height and structure of actual content -->
+    </div>
+    
+    <!-- Save button -->
+    <div>
+        <button class="btn my-2 w-4/12 border-gray-300 skeleton-loading">
         </button>
     </div>
-    <app-deal></app-deal>
+        
+    <!-- App-deal component -->
+    <app-deal *ngIf="propertyLoaded"></app-deal>
+    <div class="card card-side bg-base-100 shadow-xl mt-10 justify-center">
+        <div class="card-body items-center text-center">
+            <h2 class="text-black text-3xl font-bold">
+                <span class="skeleton skeleton-text"></span>
+            </h2>
+            <div class="flex items-center justify-center w-full mt-4">
+                <div class="skeleton skeleton-input w-full max-w-xs"></div>
+                <button class="btn ml-2text-white w-2/6 btn-primary bg-primary border-none skeleton-loading">&nbsp;</button>
+            </div>
+        </div>
+    </div>
+
+}
 </div>

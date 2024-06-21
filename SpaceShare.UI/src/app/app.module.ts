@@ -45,7 +45,12 @@ import { CookieComponent } from './landing/agreement/cookie/cookie.component';
 import { AboutComponent } from './landing/agreement/about/about.component';
 import { PresskitComponent } from './landing/agreement/presskit/presskit.component';
 import { RentingComponent } from './landing/agreement/renting/renting.component';
-import { PaginationComponent } from './landing/pagination/pagination.component';
+import { RegisterService } from './landing/register/register.service';
+import { AddListingService } from './add-listing/add-listing.service';
+import { MainService } from './main/main.service';
+import { PropertyService } from './property/property.service';
+import { WentWrongComponent } from './went-wrong/went-wrong.component';
+import { CardSkeletonComponent } from './card-skeleton/card-skeleton.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +85,8 @@ import { PaginationComponent } from './landing/pagination/pagination.component';
     AboutComponent,
     PresskitComponent,
     RentingComponent,
-    PaginationComponent,
+    WentWrongComponent,
+    CardSkeletonComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -106,7 +112,11 @@ import { PaginationComponent } from './landing/pagination/pagination.component';
       useFactory: (authService: AuthService, router: Router) => 
           new AuthGuard(authService, router),
       deps: [AuthService, Router]
-    }
+    },
+    RegisterService,
+    AddListingService,
+    MainService,
+    PropertyService
   ],
   bootstrap: [AppComponent]
 })
