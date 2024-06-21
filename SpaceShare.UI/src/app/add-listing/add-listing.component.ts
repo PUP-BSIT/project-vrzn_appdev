@@ -52,7 +52,7 @@ export class AddListingComponent implements OnInit {
       ],
       area: [
         '',
-        [Validators.required, Validators.min(80), Validators.max(1000)],
+        [Validators.required, Validators.min(10), Validators.max(60)],
       ],
       description: ['', [Validators.required, Validators.maxLength(300)]],
       region: [this.defaultRegionCode, Validators.required],
@@ -128,40 +128,6 @@ export class AddListingComponent implements OnInit {
     });
   }
 
-  // onFileChange(event: any): void {
-  //   if (event.target.files.length > 0) {
-  //     const validFileTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'];
-  //     const files = Array.from(event.target.files) as File[];
-  //     const validFiles = files.filter(file => validFileTypes.includes(file.type));
-
-  //     // Check if exceeding maximum number of images
-  //     if (validFiles.length + this.images.length > this.maxImages) {
-  //       this.imageLimitExceeded = true;
-  //       return;
-  //     } else {
-  //       this.imageLimitExceeded = false;
-  //     }
-
-  //     if (validFiles.length !== files.length) {
-  //       this.fileError = 'Some files have invalid formats. Only JPEG, PNG, GIF, and SVG formats are allowed.';
-  //     } else {
-  //       this.fileError = null;
-  //     }
-
-  //     this.images = [
-  //       ...this.images,
-  //       ...validFiles.map(file => ({
-  //         file,
-  //         preview: URL.createObjectURL(file)
-  //       }))
-  //     ];
-
-  //     this.propertyForm.patchValue({
-  //       files: this.images.map(image => image.file)
-  //     });
-  //     this.propertyForm.get('files')!.updateValueAndValidity();
-  //   }
-  // }
 
   onFileChange(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
@@ -239,9 +205,11 @@ export class AddListingComponent implements OnInit {
       next: () => {
         this.submissionSuccess = true;
 
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
         setTimeout(() => {
           this.submissionSuccess = false;
-        }, 500);
+        }, 2000);
 
         this.propertyForm.reset();
         this.images = [];
