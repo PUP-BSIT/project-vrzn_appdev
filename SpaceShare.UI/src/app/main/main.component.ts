@@ -16,7 +16,7 @@ export class MainComponent implements OnInit {
   loaded = false;
 
   currentPage: number = 1;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 9;
   totalPages: number = 1;
 
   uniqueCities: string[] = [];
