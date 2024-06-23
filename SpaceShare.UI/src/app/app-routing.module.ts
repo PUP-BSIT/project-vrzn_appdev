@@ -23,6 +23,7 @@ import { CookieComponent } from './landing/agreement/cookie/cookie.component';
 import { AboutComponent } from './landing/agreement/about/about.component';
 import { PresskitComponent } from './landing/agreement/presskit/presskit.component';
 import { RentingComponent } from './landing/agreement/renting/renting.component';
+import { WentWrongComponent } from './went-wrong/went-wrong.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -47,7 +48,8 @@ const routes: Routes = [
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'reset-password/reset-form', component: ResetFormComponent },
   { path: 'subscription', component: SubscriptionComponent, canActivate: [AuthGuard] },
-
+  { path: 'subscription', component: SubscriptionComponent, canActivate: [AuthGuard] },
+  { path: '**', component: WentWrongComponent }
 ];
 
 @NgModule({
