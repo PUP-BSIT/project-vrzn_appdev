@@ -90,12 +90,12 @@
                 <label class="block text-sm font-bold text-gray-700">Description</label>
                 <textarea 
                   class="textarea textarea-bordered resize-none w-full h-40 bg-white rounded-lg"
-                  placeholder="Maximum 200 characters"
+                  placeholder="Maximum 300 characters"
                   formControlName="description"
-                  maxlength="200"
+                  maxlength="300"
                 ></textarea>
                 <div class="text-right text-xs text-gray-600 mt-1">
-                  Characters remaining: {{ 200 - propertyForm.get('description')?.value?.length }}
+                  Characters remaining: {{ 300 - propertyForm.get('description')?.value?.length }}
                 </div>
                 @if(descriptionControl.touched && descriptionControl.invalid) {
                     @if (descriptionControl.errors?.['required']) {

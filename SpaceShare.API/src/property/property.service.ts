@@ -25,6 +25,7 @@ export class PropertyService {
         price: true,
         status: true,
         rating: true,
+        bedroom: true,
         capacity: true,
         images: {
           select: {

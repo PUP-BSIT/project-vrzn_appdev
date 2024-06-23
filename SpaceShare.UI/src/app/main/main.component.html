@@ -1,16 +1,20 @@
-<app-landing/>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center">
-    @if(loaded) {
-        @for (card of cards; track card.id) { 
-            <app-property-card [card]="card" [cardId]="card.id"/>
+<app-landing></app-landing>
+<div class="container mx-auto px-4 py-8">
+  <app-filtration [uniqueCities]="uniqueCities" (filtersChanged)="onFiltersChanged($event)"/>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center">
+    @if(loaded){
+        @for (card of paginatedCards; track card.id) {
+            <app-property-card [card]="card" [cardId]="card.id" />
         }
     } @else {
-        <app-card-skeleton/>
-        <app-card-skeleton/>
-        <app-card-skeleton/>
-        <app-card-skeleton/>
-        <app-card-skeleton/>
-        <app-card-skeleton />
+        @for (n of [1,2,3,4,5,6,7,8,9]; track $index) {
+            <app-card-skeleton/>
+        }
     }
+  </div>
+  @if(cards.length > 9){
+    <app-pagination [currentPage]="currentPage" [totalPages]="totalPages"
+      (pageChanged)="onPageChanged($event)"/>
+  }
 </div>
-<app-footer/>
+<app-footer></app-footer>

@@ -10,4 +10,5 @@ export type Card = {
   images: { image_url: string }[];
   rating: number | null;
   status: boolean;
+  bedroom: number;
 };
