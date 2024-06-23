@@ -65,6 +65,33 @@ export class PropertyService {
     return property;
   }
 
+  async getOwnProperties(id: number){
+    return await this.prismaService.property.findMany({
+      where: {
+        owner_id: id,
+      },
+      select: {
+        id: true,
+        owner_id: true,
+        title: true,
+        description: true,
+        city: true,
+        barangay: true,
+        price: true,
+        status: true,
+        rating: true,
+        capacity: true,
+        area: true,
+        bedroom: true,
+        images: {
+          select: {
+            image_url: true,
+          },
+        },
+      },
+    });
+  }
+
   async createProperty(
     property: Prisma.PropertyCreateInput,
     files: Express.Multer.File[],

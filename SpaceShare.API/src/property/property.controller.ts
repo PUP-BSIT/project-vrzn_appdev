@@ -33,6 +33,11 @@ export class PropertyController {
     return await this.propertyService.isWishlisted({ user_id, property_id });
   }
 
+  @Get('owned')
+  async getOwnProperties(@Query('user_id') id: number){
+    return await this.propertyService.getOwnProperties(+id);
+  }
+
   @Get('wishlist/user')
   async getWishlistedProperties(@Query('user_id') user_id: number) {
     return await this.propertyService.getWishlistedProperty(+user_id);
