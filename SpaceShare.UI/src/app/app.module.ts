@@ -54,6 +54,7 @@ import { PaginationComponent } from './pagination/pagination.component';
 import { FiltrationComponent } from './filtration/filtration.component';
 import { OwnedComponent } from './owned/owned.component';
 import { OwnedService } from './owned/owned.service';
+import { PropertyCardService } from './property_card/property-card.service';
 
 @NgModule({
   declarations: [
@@ -122,7 +123,8 @@ import { OwnedService } from './owned/owned.service';
     AddListingService,
     MainService,
     PropertyService,
-    OwnedService
+    OwnedService,
+    PropertyCardService
   ],
   bootstrap: [AppComponent]
 })

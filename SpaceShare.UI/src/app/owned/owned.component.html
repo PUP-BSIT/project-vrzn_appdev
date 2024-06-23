@@ -4,7 +4,7 @@
     <div class="mt-4 flex flex-wrap">
         @if(loaded){
         @for (card of ownedItems; track card.id) {
-            <app-property-card [card]="card" [cardId]="card.id" class="m-2" />
+            <app-property-card [card]="card" [cardId]="card.id" [owned]="true" (cardDeleted)="onCardDeleted($event)" class="m-2" />
         }
         } @else {
         <div class="flex gap-6 mt-4">

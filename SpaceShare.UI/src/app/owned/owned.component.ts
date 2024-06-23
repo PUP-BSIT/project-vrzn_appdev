@@ -25,4 +25,8 @@ export class OwnedComponent {
         this.loaded = true;
       }, 800);
   }
+
+  onCardDeleted(cardId: number) {
+    this.ownedItems = this.ownedItems.filter(card => cardId !== card.id);
+  }
 }
