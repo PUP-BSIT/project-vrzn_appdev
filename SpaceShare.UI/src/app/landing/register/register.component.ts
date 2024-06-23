@@ -136,11 +136,32 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.get('confirmPassword')!;
   }
 
+  areRequiredFieldsValid(page: number): boolean {
+    switch (page) {
+      case 1:
+        return this.firstNameControl.valid &&
+               this.lastNameControl.valid &&
+               this.phoneNumberControl.valid &&
+               this.emailControl.valid &&
+               this.birthdateControl.valid;
+      case 2:
+        return this.regionControl.valid &&
+               this.provinceControl.valid &&
+               this.cityControl.valid &&
+               this.postalCodeControl.valid;
+      case 3:
+        return this.passwordControl.valid &&
+               this.confirmPasswordControl.valid;
+      default:
+        return false;
+    }
+  }
+
   nextPage() {
-    if(this.firstPage){
+    if (this.firstPage && this.areRequiredFieldsValid(1)) {
       this.firstPage = false;
       this.secondPage = true;
-    } else if(this.secondPage){
+    } else if (this.secondPage && this.areRequiredFieldsValid(2)) {
       this.secondPage = false;
       this.thirdPage = true;
     }
