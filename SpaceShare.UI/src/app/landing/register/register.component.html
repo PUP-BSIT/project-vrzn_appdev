@@ -1,4 +1,7 @@
 @if(!showLink) {
+  <input type="checkbox" id="sign-up-mdl" class="modal-toggle" #modalToggle/>
+  <div class="modal">
+    <div class="modal-box md:mx-300 w-full sm:w-11/12 md:w-4/5 lg:custom-modal-width ml-2">
 <div>
   <h1 class="text-3xl font-bold">Register Now!</h1>
   <form class="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2" [formGroup]="registerForm">
@@ -170,9 +173,9 @@
       
 
     <div class="col-span-1 md:col-span-2 flex justify-center">
-      <a href="#" class="text-sm text-blue-500 hover:underline dark:text-blue-400">
+      <label for="log-in-mdl" class="text-sm text-blue-500 hover:underline dark:text-blue-400" (click)="closeModal()">
         Already have an account?
-      </a>
+      </label>
     </div>
     <div class="col-span-1 md:col-span-2 flex justify-center">
       <p class="mt-6 text-center text-gray-500 dark:text-gray-400">
@@ -184,6 +187,11 @@
       </p>
     </div>
   </form>
+</div>
+    <div class="modal-action">
+      <label for="sign-up-mdl" class="btn btn-sm btn-circle btn-ghost text-lg absolute right-2 top-2">&#x2715;</label>  
+    </div>
+  </div>
 </div>
 } @else {
     <app-verification [email]="registerForm.get('email')?.value" [code]="randomNumber" [userToCreate]="bodyToPass"/>
