@@ -7,7 +7,9 @@
             <app-property-card [card]="card" [cardId]="card.id" />
         }
     } @else {
-        <app-card-skeleton *ngFor="let n of [1, 2, 3, 4, 5, 6, 7, 8, 9]" />
+        @for (n of [1,2,3,4,5,6,7,8,9]; track $index) {
+            <app-card-skeleton/>
+        }
     }
   </div>
   <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" (pageChanged)="onPageChanged($event)"></app-pagination>
