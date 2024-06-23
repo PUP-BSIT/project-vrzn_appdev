@@ -20,6 +20,9 @@ import { CustomValidators, PasswordValidator, MatchPasswordValidator} from '../r
 })
 export class RegisterComponent implements OnInit {
   @ViewChild('modalToggle') modalToggle!: ElementRef<HTMLInputElement>;
+  firstPage = true;
+  secondPage = false;
+  thirdPage = false;
   registerForm!: FormGroup;
 
   regions: Region[] = [];
@@ -131,6 +134,26 @@ export class RegisterComponent implements OnInit {
 
   get confirmPasswordControl(): AbstractControl {
     return this.registerForm.get('confirmPassword')!;
+  }
+
+  nextPage() {
+    if(this.firstPage){
+      this.firstPage = false;
+      this.secondPage = true;
+    } else if(this.secondPage){
+      this.secondPage = false;
+      this.thirdPage = true;
+    }
+  }
+
+  prevPage(){
+    if(this.thirdPage){
+      this.thirdPage = false;
+      this.secondPage = true;
+    }else if(this.secondPage){
+      this.secondPage = false;
+      this.firstPage = true;
+    }
   }
 
   handleSubmit(): void {
