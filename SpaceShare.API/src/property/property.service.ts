@@ -139,6 +139,30 @@ export class PropertyService {
     return { createdProperty, imageArray };
   }
 
+  async deleteProperty(id: number){
+    await this.prismaService.images.deleteMany({
+      where: {
+        property_id: id,
+      }
+    })
+
+    await this.prismaService.wishlist.deleteMany({
+      where: {
+        property_id: id
+      }
+    })
+
+    const deleted = await this.prismaService.property.delete({
+      where: {
+        id,
+      }
+    })
+
+    if(deleted) return { success: true, message: 'Property Deleted' }
+
+    return { success: false, message: 'Something Went Wrong' }; 
+  }
+
   async rateProperty(propertyRating: { id: number; rating: number }) {
     return await this.prismaService.property.update({
       where: {

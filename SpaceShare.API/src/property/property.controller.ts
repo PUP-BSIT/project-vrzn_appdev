@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -46,6 +47,11 @@ export class PropertyController {
   @Get(':id')
   async getProperty(@Param('id') id: string) {
     return await this.propertyService.getProperty(+id);
+  }
+
+  @Delete(':id')
+  async deleteProperty(@Param('id') id: string){
+    return await this.propertyService.deleteProperty(+id);
   }
 
   @Post('wishlist')
