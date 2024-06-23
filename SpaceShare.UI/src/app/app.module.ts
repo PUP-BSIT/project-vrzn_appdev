@@ -11,7 +11,6 @@ import { AuthService } from './auth/auth.service';
 import { AuthGuard } from './auth/auth.guard';
 
 import { AppComponent } from './app.component';
-import { LandingComponent } from './landing/landing.component';
 import { MainComponent } from './main/main.component';
 import { RegisterComponent } from './landing/register/register.component';
 import { LoginComponent } from './landing/login/login.component';
@@ -57,7 +56,6 @@ import { FiltrationComponent } from './filtration/filtration.component';
 @NgModule({
   declarations: [
     AppComponent,
-    LandingComponent,
     MainComponent,
     RegisterComponent,
     LoginComponent,
