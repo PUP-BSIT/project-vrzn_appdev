@@ -164,7 +164,8 @@
                       }
                     </div>
                     <div class="col-span-1 md:col-span-2 flex justify-center">
-                      <button (click)="nextPage()" class="w-full px-6 py-3 mt-4 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-[#8644a2] rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+                      <button (click)="nextPage()" [disabled]="!areRequiredFieldsValid(2)" [ngClass]="{'disabled-button': !areRequiredFieldsValid(2)}"
+                        class="w-full px-6 py-3 mt-4 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-[#8644a2] rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
                         Continue
                       </button>
                     </div>
