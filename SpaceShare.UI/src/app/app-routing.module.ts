@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
 
-import { LandingComponent } from './landing/landing.component';
 import { MainComponent } from './main/main.component';
 import { RegisterComponent } from './landing/register/register.component';
 import { LoginComponent } from './landing/login/login.component';
@@ -23,11 +22,11 @@ import { CookieComponent } from './landing/agreement/cookie/cookie.component';
 import { AboutComponent } from './landing/agreement/about/about.component';
 import { PresskitComponent } from './landing/agreement/presskit/presskit.component';
 import { RentingComponent } from './landing/agreement/renting/renting.component';
+import { WentWrongComponent } from './went-wrong/went-wrong.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: MainComponent },
-  { path: 'landing', component: LandingComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'agreement', component: AgreementComponent },
@@ -47,7 +46,8 @@ const routes: Routes = [
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'reset-password/reset-form', component: ResetFormComponent },
   { path: 'subscription', component: SubscriptionComponent, canActivate: [AuthGuard] },
-
+  { path: 'subscription', component: SubscriptionComponent, canActivate: [AuthGuard] },
+  { path: '**', component: WentWrongComponent }
 ];
 
 @NgModule({

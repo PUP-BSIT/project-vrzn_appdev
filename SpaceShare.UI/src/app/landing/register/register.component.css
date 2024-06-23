@@ -16,3 +16,31 @@ button.disabled {
   cursor: not-allowed; 
   pointer-events: none;
 }
+
+.logo {
+  height: 40px;
+  width: auto;
+}
+
+.label {
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 4px;
+  background-color: #e5e7eb;
+  color: #111827;
+}
+
+.label:hover {
+  background-color: #d1d5db;
+}
+
+.custom-modal-width {
+  max-width:900px; 
+}
+
+@media (min-width: 1024px) {
+  .lg\:custom-modal-width {
+    max-width: 900px;
+  }
+}
+
