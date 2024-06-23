@@ -55,7 +55,7 @@ export class MainComponent implements OnInit {
       this.filteredCards = this.cards.filter((card) => {
         return (
           (!filters.selectedCity || card.city === filters.selectedCity) &&
-          (!filters.selectedBedrooms || card.bedroom === filters.selectedBedrooms) &&
+          (!filters.selectedBedrooms || card.bedroom === +filters.selectedBedrooms) &&
           card.price >= filters.minPrice &&
           card.price <= filters.maxPrice
         );
