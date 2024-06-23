@@ -58,7 +58,7 @@ export class RegisterComponent implements OnInit {
           Validators.required,
           Validators.minLength(2),
           Validators.maxLength(60),
-          Validators.pattern(/^[a-zA-Z]*$/),
+          Validators.pattern('^[a-zA-Z ]*$'),
         ],
       ],
 
@@ -149,9 +149,6 @@ export class RegisterComponent implements OnInit {
                this.provinceControl.valid &&
                this.cityControl.valid &&
                this.postalCodeControl.valid;
-      case 3:
-        return this.passwordControl.valid &&
-               this.confirmPasswordControl.valid;
       default:
         return false;
     }

@@ -28,19 +28,19 @@
         <form class="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2" [formGroup]="registerForm">
           @if (firstPage) {
                     <div>
-                      <input type="text" placeholder="First Name" formControlName="firstName"
+                      <input type="text" placeholder="Your Name" formControlName="firstName"
                         class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
-                      @if(firstNameControl.invalid && firstNameControl.touched) {
-                        @if (firstNameControl.errors?.['required']) {
-                        <div class="error-message text-red-500 pl-3">First Name Must Not Null</div>
-                        }
-                        @if(firstNameControl.errors?.['minlength'] && firstNameControl.errors?.['maxlength']) {
-                        <div class="error-message text-red-500 pl-3">Name must be 2 to 60 alphabets</div>
-                        }
-                        @if (firstNameControl.errors?.['pattern']) {
-                        <div class="error-message text-red-500 pl-3">Must Enter Valid First Name</div>
-                        }
-                      }
+                          @if(firstNameControl.invalid && firstNameControl.touched) {
+                            @if (firstNameControl.errors?.['required']) {
+                            <div class="error-message text-red-500 pl-3">First Name Must Not Null</div>
+                            }
+                            @if(firstNameControl.errors?.['minlength'] && firstNameControl.errors?.['maxlength']) {
+                            <div class="error-message text-red-500 pl-3">Name must be 2 to 60 alphabets</div>
+                            }
+                            @if (firstNameControl.errors?.['pattern']) {
+                            <div class="error-message text-red-500 pl-3">Must Enter Valid First Name</div>
+                            }
+                          }
                     </div>
                     
                     <div>
