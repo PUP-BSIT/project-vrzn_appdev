@@ -1,152 +1,16 @@
 <app-landing></app-landing>
 <div class="container mx-auto px-4 py-8">
-    <div class="filter-controls flex flex-wrap justify-between 
-        items-center mb-6 space-y-4 sm:space-y-0">
-        <div class="w-full sm:w-auto mb-4 sm:mb-0">
-            <label for="city" class="block text-sm font-medium text-gray-700">
-                City
-            </label>
-            <select
-                id="city"
-                [(ngModel)]="selectedCity"
-                (change)="applyFilters()"
-                class="mt-1 block w-full sm:w-64 pl-3 pr-10 py-2 border 
-                border-gray-300 bg-white rounded-md shadow-sm 
-                focus:outline-none focus:ring-indigo-500 
-                focus:border-indigo-500 sm:text-sm">
-                <option value="">All Cities</option>
-                <option *ngFor="let city of uniqueCities" [value]="city">
-                    {{ city }}
-                </option>
-            </select>
-        </div>
-        <div class="relative w-full sm:w-auto mb-4 sm:mb-0">
-            <label for="price" class="block text-sm font-medium text-gray-700">
-                Price Range
-            </label>
-            <button
-                class="mt-1 block w-full sm:w-64 pl-3 pr-10 py-2 border 
-                border-gray-300 bg-white rounded-md shadow-sm 
-                focus:outline-none focus:ring-indigo-500 
-                focus:border-indigo-500 sm:text-sm"
-                (click)="togglePriceDropdown()">
-                {{ priceRangeLabel }}
-            </button>
-            <div
-                *ngIf="isPriceDropdownOpen"
-                class="absolute z-10 w-full sm:w-64 bg-white border 
-                border-gray-300 rounded-md shadow-lg mt-1 p-4">
-                <div class="mb-2">
-                    <button
-                        (click)="setPriceRange(0, 1000)"
-                        class="block w-full text-left px-4 py-2 
-                        hover:bg-gray-100">
-                            Below PHP 1k
-                    </button>
-                    <button
-                        (click)="setPriceRange(1000, 2000)"
-                        class="block w-full text-left px-4 py-2 
-                        hover:bg-gray-100">
-                        PHP 1k to 2k
-                    </button>
-                    <button
-                        (click)="setPriceRange(2000, 3000)"
-                        class="block w-full text-left px-4 py-2 
-                        hover:bg-gray-100">
-                        PHP 2k to 3k
-                    </button>
-                    <button
-                        (click)="setPriceRange(3000, 5000)"
-                        class="block w-full text-left px-4 py-2 
-                        hover:bg-gray-100">
-                        PHP 3k to 5k
-                    </button>
-                </div>
-                <div class="mb-4">
-                    <div class="flex items-center">
-                        <input
-                            type="number"
-                            [(ngModel)]="minPrice"
-                            class="block w-full pl-3 pr-2 py-2 border 
-                            border-gray-300 bg-white rounded-md shadow-sm 
-                            focus:outline-none focus:ring-indigo-500 
-                            focus:border-indigo-500 sm:text-sm"
-                            placeholder="Min"
-                        />
-                        <span class="mx-2">-</span>
-                        <input
-                            type="number"
-                            [(ngModel)]="maxPrice"
-                            class="block w-full pl-3 pr-2 py-2 border 
-                            border-gray-300 bg-white rounded-md shadow-sm 
-                            focus:outline-none focus:ring-indigo-500 
-                            focus:border-indigo-500 sm:text-sm"
-                            placeholder="Max"
-                        />
-                    </div>
-                </div>
-                <div class="flex justify-between">
-                    <button (click)="clearPriceFilters()" 
-                    class="btn btn-secondary">
-                        Clear
-                    </button>
-                    <button (click)="applyFilters()" 
-                    class="btn bg-primary text-white hover:bg-[#9A58B6]">
-                        Apply
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="w-full sm:w-auto mb-4 sm:mb-0">
-            <label for="bedrooms" class="block text-sm font-medium 
-            text-gray-700">
-                Bedrooms
-            </label>
-            <select
-                id="bedrooms"
-                [(ngModel)]="selectedBedrooms"
-                (change)="applyFilters()"
-                class="mt-1 block w-full sm:w-64 pl-3 pr-10 py-2 border 
-                border-gray-300 bg-white rounded-md shadow-sm 
-                focus:outline-none focus:ring-indigo-500 
-                focus:border-indigo-500 sm:text-sm" >
-                <option value="">Any</option>
-                <option *ngFor="let bedroom of bedroomOptions" 
-                    [value]="bedroom">{{ bedroom }}
-                </option>
-            </select>
-        </div>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 
-        gap-6 place-items-center">
-        @if(loaded) { 
-            @for (card of paginatedCards; track card.id) {
-                <app-property-card [card]="card" [cardId]="card.id"/>
-            } 
-        } @else {
-            <app-card-skeleton *ngFor="let n of 
-                [1, 2, 3, 4, 5, 6, 7, 8, 9]">
-            </app-card-skeleton>
-        }
-    </div>
-    <div class="pagination-controls flex justify-center items-center mt-8">
-        <button
-            (click)="previousPage()"
-            [disabled]="currentPage === 1"
-            class="bg-primary text-white py-2 px-4 rounded transition-colors 
-            duration-300 disabled:bg-gray-400 hover:bg-[#9A58B6]"> 
-                Previous
-        </button>
-        <span class="mx-4 text-lg font-semibold">
-            Page {{ currentPage }} of {{ totalPages }}
-        </span>
-        <button
-            (click)="nextPage()"
-            [disabled]="currentPage === totalPages"
-            class="bg-primary text-white py-2 px-4 rounded transition-colors 
-            duration-300 disabled:bg-gray-400 hover:bg-[#9A58B6]">
-                Next
-        </button>
-    </div>
+  <app-filtration [uniqueCities]="uniqueCities" (filtersChanged)="onFiltersChanged($event)"></app-filtration>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center">
+    <ng-container *ngIf="loaded; else loading">
+      <ng-container *ngFor="let card of paginatedCards; trackBy: trackByCardId">
+        <app-property-card [card]="card" [cardId]="card.id"></app-property-card>
+      </ng-container>
+    </ng-container>
+    <ng-template #loading>
+      <app-card-skeleton *ngFor="let n of [1, 2, 3, 4, 5, 6, 7, 8, 9]"></app-card-skeleton>
+    </ng-template>
+  </div>
+  <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" (pageChanged)="onPageChanged($event)"></app-pagination>
 </div>
 <app-footer></app-footer>
