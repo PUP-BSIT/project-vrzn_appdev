@@ -23,6 +23,7 @@ import { AboutComponent } from './landing/agreement/about/about.component';
 import { PresskitComponent } from './landing/agreement/presskit/presskit.component';
 import { RentingComponent } from './landing/agreement/renting/renting.component';
 import { WentWrongComponent } from './went-wrong/went-wrong.component';
+import { OwnedComponent } from './owned/owned.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -30,6 +31,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'agreement', component: AgreementComponent },
+  { path: 'property/owned', component: OwnedComponent },
   { path: 'property/:id', component: PropertyComponent },
   { path: 'verification', component: VerificationComponent },
   { path: 'listing', component: ListingComponent },

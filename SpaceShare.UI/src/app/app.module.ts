@@ -52,6 +52,8 @@ import { WentWrongComponent } from './went-wrong/went-wrong.component';
 import { CardSkeletonComponent } from './card-skeleton/card-skeleton.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { FiltrationComponent } from './filtration/filtration.component';
+import { OwnedComponent } from './owned/owned.component';
+import { OwnedService } from './owned/owned.service';
 
 @NgModule({
   declarations: [
@@ -89,6 +91,7 @@ import { FiltrationComponent } from './filtration/filtration.component';
     CardSkeletonComponent,
     PaginationComponent,
     FiltrationComponent,
+    OwnedComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -118,7 +121,8 @@ import { FiltrationComponent } from './filtration/filtration.component';
     RegisterService,
     AddListingService,
     MainService,
-    PropertyService
+    PropertyService,
+    OwnedService
   ],
   bootstrap: [AppComponent]
 })
