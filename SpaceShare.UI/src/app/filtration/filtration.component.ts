@@ -11,17 +11,18 @@ export class FiltrationComponent implements OnInit {
 
   bedroomOptions: number[] = [1, 2, 3, 4, 5];
 
-  selectedCity: string = '';
+  selectedCity = '';
   minPrice: number = 0;
   maxPrice: number = 10000000;
-  selectedBedrooms: number | null = null;
+  selectedBedrooms = '';
 
   isPriceDropdownOpen: boolean = false;
   priceRangeLabel: string = 'Select Price Range';
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   applyFilters(): void {
     this.filtersChanged.emit({
