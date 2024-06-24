@@ -49,6 +49,6 @@ export class CarouselComponent implements OnInit, OnChanges {
     setInterval(() => {
       this.currentIndex = (this.currentIndex + 1) % this.images.length;
       this.showItem(this.currentIndex);
-    }, 10000);
+    }, 5000);
   }
 }
