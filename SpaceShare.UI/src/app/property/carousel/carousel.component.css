@@ -1,7 +1,5 @@
 .carousel-item {
-  width: 100%;
-  align-items: center;
-  justify-content: center;
+  display: none;
 }
 
 .carousel-item img {
@@ -12,11 +10,6 @@
   margin-top: 50px;
 }
 
-.carousel-item {
-display: none;
-transition: all 0.5s ease;
-}
-
 .carousel-item.active {
-display: flex;
+  display: flex;
 }
