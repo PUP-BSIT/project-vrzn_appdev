@@ -72,7 +72,7 @@
                         <label class="font-semibold text-3xl" for="first-name">
                             <span class="label-text">First Name</span>
                         </label>
-                        <input class="input input-bordered w-full text-xl font-medium text-gray-800" type="text" id="first-name" formControlName="firstName">
+                        <input class="input input-bordered w-full px-5 py-3 placeholder-gray-400 bg-white border border-gray-200 rounded-xl focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40 text-xl font-medium text-gray-800" type="text" id="first-name" formControlName="firstName">
                         @if(firstNameControl.invalid && firstNameControl.touched) {
                             @if (firstNameControl.errors?.['required']) {
                               <div class="error-message text-red-500 pl-3">First Name Must Not Null</div>
@@ -89,7 +89,7 @@
                         <label class="font-semibold text-3xl" for="last-name">
                             <span class="label-text">Last Name</span>
                         </label>
-                        <input class="input input-bordered w-full text-xl font-medium text-gray-800" type="text" id="last-name" formControlName="lastName">
+                        <input class="input input-bordered w-full px-5 py-3 placeholder-gray-400 bg-white border border-gray-200 rounded-xl focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40 text-xl font-medium text-gray-800" type="text" id="last-name" formControlName="lastName">
                         @if(lastNameControl.invalid && lastNameControl.touched) {
                             @if (lastNameControl.errors?.['required']) {
                               <div class="error-message text-red-500 pl-3">Last Name Must Not Null</div>
@@ -106,7 +106,7 @@
                         <label class="font-semibold text-3xl" for="phone">
                             <span class="label-text">Phone</span>
                         </label>
-                        <input class="input input-bordered w-full text-xl font-medium text-gray-800" type="text" id="phone" formControlName="phoneNumber">
+                        <input class="input input-bordered w-full px-5 py-3 placeholder-gray-400 bg-white border border-gray-200 rounded-xl focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40 text-xl font-medium text-gray-800" type="text" id="phone" formControlName="phoneNumber">
                         @if(phoneNumberControl.invalid && phoneNumberControl.touched) {
                             @if (phoneNumberControl.errors?.['required']) {
                             <div class="error-message text-red-500 pl-3">Phone No: Must Not Null</div>
@@ -120,7 +120,7 @@
                         <label class="font-semibold text-3xl" for="birthday">
                             <span class="label-text">Birthdate</span>
                         </label>
-                        <input class="input input-bordered w-full text-xl font-medium text-gray-800" type="date" id="birthday" formControlName="birthdate">
+                        <input class="input input-bordered w-full px-5 py-3 placeholder-gray-400 bg-white border border-gray-200 rounded-xl focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40 text-xl font-medium text-gray-800" type="date" id="birthday" formControlName="birthdate">
                         @if(birthdateControl.invalid && birthdateControl.touched) {
                             @if (birthdateControl.errors?.['required']) {
                               <div class="error-message text-red-500 pl-3">Date of Birth must not be null</div>

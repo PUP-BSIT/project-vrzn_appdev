@@ -54,7 +54,14 @@ export class AddListingComponent implements OnInit {
         '',
         [Validators.required, Validators.min(10), Validators.max(60)],
       ],
-      description: ['', [Validators.required, Validators.maxLength(300)]],
+      description: [
+        '', 
+        [
+          Validators.required, 
+          Validators.minLength(220), 
+          Validators.maxLength(320)
+        ],
+      ],
       region: [this.defaultRegionCode, Validators.required],
       city: ['', Validators.required],
       postal_code: ['', [Validators.required, Validators.pattern(/^\d{4}$/)]],
@@ -186,6 +193,12 @@ export class AddListingComponent implements OnInit {
       files: this.images.map((image) => image.file),
     });
     this.propertyForm.get('files')!.updateValueAndValidity();
+    this.resetFileInput();
+  }
+  
+  resetFileInput(): void {
+    const inputElement = document.querySelector('#dropzone-file') as HTMLInputElement;
+    inputElement.value = ''; // Reset the value of the file input field
   }
 
   onSubmit(): void {
