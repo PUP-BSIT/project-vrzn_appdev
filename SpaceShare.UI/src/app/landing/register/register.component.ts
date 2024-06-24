@@ -48,9 +48,7 @@ export class RegisterComponent implements OnInit {
   toggleLinkVisibility() {
     this.showLink = !this.showLink;
   }
-
   showPasswordRequirements: boolean = false;
-
   constructor(
     private locationService: LocationService,
     private formBuilder: FormBuilder,
@@ -92,7 +90,9 @@ export class RegisterComponent implements OnInit {
         '',
         [Validators.required, Validators.pattern(/^[0-9]{11}$/)],
       ],
+
       email: ['', [Validators.required, Validators.email]],
+
       birthdate: [
         '',
         [Validators.required, CustomValidators.adultAgeValidator('birthdate')],
@@ -100,7 +100,9 @@ export class RegisterComponent implements OnInit {
       region: ['', [Validators.required]],
       province: [{ value: '', disabled: true }, [Validators.required]],
       city: [{ value: '', disabled: true }, [Validators.required]],
+
       postalCode: ['', [Validators.required, Validators.pattern(/^\d{4}$/)]],
+
       password: ['', [Validators.required, PasswordValidator.strong]],
       confirmPassword: ['', [Validators.required, MatchPasswordValidator]],
     });
