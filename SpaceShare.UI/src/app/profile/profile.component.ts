@@ -97,7 +97,6 @@ export class ProfileComponent implements OnInit {
       this.currentUser.surname === lastName &&
       this.currentUser.phone_number[0].number === phoneNumber &&
       this.formatDate(this.currentUser.birthdate.toString()) === birthdate) {
-      console.log('No changes detected, no update needed.');
       return;
     }
 
