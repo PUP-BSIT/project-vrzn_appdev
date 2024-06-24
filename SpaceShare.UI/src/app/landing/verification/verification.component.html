@@ -2,12 +2,10 @@
   <div class="flex justify-center items-center">
     <div class="w-full max-w-96 mx-auto">
       @if(verified) {
-        <app-success [message]="message"/>
-      } 
+        <app-success [message]="message"></app-success>
+        <div class="mt-2 text-center text-gray-600">Auto-closing in {{ countdownSeconds }} seconds...</div>
+      }
       @else {
-        <div class="modal-action">
-          <label for="verification-mdl" class="btn btn-sm btn-circle btn-ghost font-bold text-2xl absolute left-2 top-2" showlink = true (click)="goBack()">&#8592;</label>  
-        </div>
         <p class="mt-6 mx-4 text-center text-violet-500 text-2xl font-bold">
           One Time Password (OTP) Verification
         </p>
