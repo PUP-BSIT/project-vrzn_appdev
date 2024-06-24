@@ -93,17 +93,13 @@ export class ProfileComponent implements OnInit {
 
     const { firstName, lastName, phoneNumber, birthdate } = this.editForm.value;
 
-    if(this.currentUser.first_name === firstName &&
-       this.currentUser.surname === lastName && 
-       this.currentUser.phone_number[0].number === phoneNumber &&
-       this.currentUser.birthdate === birthdate) {
-        console.log("invalid");
-        return;
-       };
-
-
-
-  
+    if (this.currentUser.first_name === firstName &&
+      this.currentUser.surname === lastName &&
+      this.currentUser.phone_number[0].number === phoneNumber &&
+      this.formatDate(this.currentUser.birthdate.toString()) === birthdate) {
+      console.log('No changes detected, no update needed.');
+      return;
+    }
 
     const user: UserToUpdate = {
         id: +this.user_id,
