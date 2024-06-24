@@ -12,25 +12,14 @@ import {
 import { User } from '../../../model/user.model';
 import { RegisterService } from './register.service';
 import { CustomValidators, PasswordValidator, MatchPasswordValidator } from '../register/custom-validators';
+import { FormData } from '../../../model/formdata.model';
 
-interface FormData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
-  birthdate: Date;
-  region: string;
-  province: string;
-  city: string;
-  postalCode: string;
-}
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
-
 export class RegisterComponent implements OnInit {
   @ViewChild('modalToggle') modalToggle!: ElementRef<HTMLInputElement>;
   firstPage = true;
@@ -119,6 +108,7 @@ export class RegisterComponent implements OnInit {
     });
   }
 
+  //#region getter functions
   get firstNameControl(): AbstractControl {
     return this.registerForm.get('firstName')!;
   }
@@ -166,6 +156,7 @@ export class RegisterComponent implements OnInit {
   get confirmPasswordControl(): AbstractControl {
     return this.registerForm.get('confirmPassword')!;
   }
+  //#endregion
 
   getValidationClass(control: AbstractControl): string {
     if (control.valid && control.touched) {
