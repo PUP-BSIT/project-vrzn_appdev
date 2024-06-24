@@ -8,6 +8,8 @@ import { Response } from 'express';
 import { MailerService } from '@nestjs-modules/mailer';
 import { verification } from './dto/verify.dto';
 import { ConfigService } from '@nestjs/config';
+import { User } from '@prisma/client';
+import { IsPhoneNumber } from 'class-validator';
 
 @Injectable()
 export class AuthService {
@@ -15,7 +17,7 @@ export class AuthService {
     private prismaService: PrismaService,
     private jwtService: JwtService,
     private configService: ConfigService,
-    private readonly mailService: MailerService
+    private readonly mailService: MailerService,
   ) {}
 
   async signup(user: CreateUserDto) {
@@ -46,7 +48,11 @@ export class AuthService {
       },
     });
 
-    return { success: true, message: 'User sign up successful', user: createdUser };
+    return {
+      success: true,
+      message: 'User sign up successful',
+      user: createdUser,
+    };
   }
 
   async signin(user: SignInDto, response: Response) {
@@ -66,8 +72,13 @@ export class AuthService {
       id: findUser.id,
       email: findUser.email,
     });
-    
-    return response.send({ success: true, message: 'Sign in successful', token: token, id: findUser.id });
+
+    return response.send({
+      success: true,
+      message: 'Sign in successful',
+      token: token,
+      id: findUser.id,
+    });
   }
 
   async signout(response: Response) {
@@ -82,13 +93,39 @@ export class AuthService {
         first_name: true,
         surname: true,
         email: true,
+        birthdate: true,
         phone_number: {
           select: {
-            number: true
-          }
-        }
-      }
-    })
+            number: true,
+          },
+        },
+      },
+    });
+  }
+
+  async updateUser(user: User, oldPhoneNumber: string, newPhoneNumber: string) {
+    const formattedBirthdate = new Date(user.birthdate).toISOString();
+
+    return await this.prismaService.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        first_name: user.first_name,
+        surname: user.surname,
+        birthdate: formattedBirthdate,
+        phone_number: {
+          updateMany: {
+            where: {
+              number: oldPhoneNumber,
+            },
+            data: {
+              number: newPhoneNumber,
+            },
+          },
+        },
+      },
+    });
   }
 
   async sendMail(body: verification) {
@@ -113,8 +150,8 @@ export class AuthService {
 
   async signToken(args: { id: number; email: string }) {
     const payload = args;
-    return this.jwtService.signAsync(payload, { 
-      secret: this.configService.get<string>('JWT_SECRET') 
+    return this.jwtService.signAsync(payload, {
+      secret: this.configService.get<string>('JWT_SECRET'),
     });
   }
   // #endregion

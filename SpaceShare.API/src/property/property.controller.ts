@@ -1,9 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
+  Query,
   Req,
   UploadedFiles,
   UseGuards,
@@ -24,14 +26,39 @@ export class PropertyController {
     return await this.propertyService.getProperties();
   }
 
+  @Get('wishlist')
+  async isWishlisted(
+    @Query('user_id') user_id: number,
+    @Query('property_id') property_id: number,
+  ) {
+    return await this.propertyService.isWishlisted({ user_id, property_id });
+  }
+
+  @Get('owned')
+  async getOwnProperties(@Query('user_id') id: number){
+    return await this.propertyService.getOwnProperties(+id);
+  }
+
+  @Get('wishlist/user')
+  async getWishlistedProperties(@Query('user_id') user_id: number) {
+    return await this.propertyService.getWishlistedProperty(+user_id);
+  }
+
   @Get(':id')
   async getProperty(@Param('id') id: string) {
     return await this.propertyService.getProperty(+id);
   }
 
+  @Delete(':id')
+  async deleteProperty(@Param('id') id: string){
+    return await this.propertyService.deleteProperty(+id);
+  }
+
   @Post('wishlist')
-  async wishlist(@Body() hello : { user_id: number, property_id: number }){
-    return await this.propertyService.wishlist(hello);
+  async wishlist(
+    @Body() wishlistItem: { user_id: number; property_id: number },
+  ) {
+    return await this.propertyService.wishlist(wishlistItem);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -47,7 +74,7 @@ export class PropertyController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  async rateProperty(@Body() propertyRating: { id: number, rating: number }){
+  async rateProperty(@Body() propertyRating: { id: number; rating: number }) {
     return await this.propertyService.rateProperty(propertyRating);
   }
 }

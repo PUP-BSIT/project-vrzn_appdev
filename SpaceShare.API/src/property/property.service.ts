@@ -25,6 +25,7 @@ export class PropertyService {
         price: true,
         status: true,
         rating: true,
+        bedroom: true,
         capacity: true,
         images: {
           select: {
@@ -62,6 +63,33 @@ export class PropertyService {
     if (!property) throw new NotFoundException();
 
     return property;
+  }
+
+  async getOwnProperties(id: number){
+    return await this.prismaService.property.findMany({
+      where: {
+        owner_id: id,
+      },
+      select: {
+        id: true,
+        owner_id: true,
+        title: true,
+        description: true,
+        city: true,
+        barangay: true,
+        price: true,
+        status: true,
+        rating: true,
+        capacity: true,
+        area: true,
+        bedroom: true,
+        images: {
+          select: {
+            image_url: true,
+          },
+        },
+      },
+    });
   }
 
   async createProperty(
@@ -111,6 +139,30 @@ export class PropertyService {
     return { createdProperty, imageArray };
   }
 
+  async deleteProperty(id: number){
+    await this.prismaService.images.deleteMany({
+      where: {
+        property_id: id,
+      }
+    })
+
+    await this.prismaService.wishlist.deleteMany({
+      where: {
+        property_id: id
+      }
+    })
+
+    const deleted = await this.prismaService.property.delete({
+      where: {
+        id,
+      }
+    })
+
+    if(deleted) return { success: true, message: 'Property Deleted' }
+
+    return { success: false, message: 'Something Went Wrong' }; 
+  }
+
   async rateProperty(propertyRating: { id: number; rating: number }) {
     return await this.prismaService.property.update({
       where: {
@@ -122,12 +174,69 @@ export class PropertyService {
     });
   }
 
-  async wishlist(hello: { user_id: number; property_id: number }) {
-    return await this.prismaService.wishlist.create({
-      data: {
-        user_id: hello.user_id,
-        property_id: hello.property_id,
-      }
+  async wishlist(wishlistItem: { user_id: number; property_id: number }) {
+    const { user_id, property_id } = wishlistItem;
+
+    const deleteResult = await this.prismaService.wishlist.deleteMany({
+      where: {
+        user_id,
+        property_id,
+      },
     });
+
+    if (deleteResult.count) return { message: 'Removed from wishlist' };
+
+    await this.prismaService.wishlist.create({
+      data: {
+        user_id,
+        property_id,
+      },
+    });
+
+    return { message: 'Added to wishlist' };
+  }
+
+  async getWishlistedProperty(user_id: number) {
+    const wishlistedProperties = await this.prismaService.wishlist.findMany({
+      where: {
+        user_id: +user_id,
+      },
+      include: {
+        property: {
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            city: true,
+            barangay: true,
+            price: true,
+            status: true,
+            rating: true,
+            capacity: true,
+            images: {
+              select: {
+                image_url: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return wishlistedProperties.map((wishlistItem) => wishlistItem.property);
+  }
+
+  async isWishlisted(wishlistItem: { user_id: number; property_id: number }) {
+    const { user_id, property_id } = wishlistItem;
+    const wishlisted = await this.prismaService.wishlist.findMany({
+      where: {
+        user_id: +user_id,
+        property_id: +property_id,
+      },
+    });
+
+    if (wishlisted.length > 0) return true;
+
+    return false;
   }
 }

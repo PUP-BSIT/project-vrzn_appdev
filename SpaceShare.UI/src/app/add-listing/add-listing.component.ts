@@ -17,12 +17,12 @@ import { Region, City } from '../../model/location.model';
 })
 export class AddListingComponent implements OnInit {
   propertyForm!: FormGroup;
-  images: { file: File, preview: string }[] = [];
+  images: { file: File; preview: string }[] = [];
   regions: Region[] = [];
   cities: City[] = [];
   fileError: string | null = null;
   submissionSuccess: boolean = false;
-  maxImages: number = 4; 
+  maxImages: number = 4;
   imageLimitExceeded: boolean = false; // Flag to show image limit exceeded alert
 
   defaultRegionCode: string = '13';
@@ -36,19 +36,36 @@ export class AddListingComponent implements OnInit {
 
   ngOnInit(): void {
     this.propertyForm = this.formBuilder.group({
-      title: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
+      title: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(5),
+          Validators.maxLength(30),
+        ],
+      ],
       price: ['', [Validators.required, this.priceValidator]],
       bedroom: ['', Validators.required],
-      capacity: ['', [Validators.required, Validators.min(1), Validators.max(50)]],
-      area: ['', [Validators.required, Validators.min(80), Validators.max(1000)]],
+      capacity: [
+        '',
+        [Validators.required, Validators.min(1), Validators.max(50)],
+      ],
+      area: [
+        '',
+        [Validators.required, Validators.min(10), Validators.max(60)],
+      ],
       description: ['', [Validators.required, Validators.maxLength(300)]],
       region: [this.defaultRegionCode, Validators.required],
       city: ['', Validators.required],
-      postal_code: ['', [ 
-        Validators.required, 
-        Validators.pattern(/^\d{4}$/)
-      ]],
-      barangay: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(70)]],
+      postal_code: ['', [Validators.required, Validators.pattern(/^\d{4}$/)]],
+      barangay: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(5),
+          Validators.maxLength(70),
+        ],
+      ],
       files: ['', Validators.required],
     });
 
@@ -111,45 +128,62 @@ export class AddListingComponent implements OnInit {
     });
   }
 
-  onFileChange(event: any): void {
-    if (event.target.files.length > 0) {
-      const validFileTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'];
-      const files = Array.from(event.target.files) as File[];
-      const validFiles = files.filter(file => validFileTypes.includes(file.type));
 
-      // Check if exceeding maximum number of images
-      if (validFiles.length + this.images.length > this.maxImages) {
-        this.imageLimitExceeded = true;
-        return;
-      } else {
-        this.imageLimitExceeded = false;
-      }
-      
-      if (validFiles.length !== files.length) {
-        this.fileError = 'Some files have invalid formats. Only JPEG, PNG, GIF, and SVG formats are allowed.';
+  onFileChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+
+    if (inputElement.files && inputElement.files.length > 0) {
+      const files = Array.from(inputElement.files) as File[];
+      const validFileTypes = [
+        'image/jpeg',
+        'image/png',
+        'image/gif',
+        'image/svg+xml',
+      ];
+      const validFiles: File[] = [];
+      const invalidFiles: File[] = [];
+
+      files.forEach((file) => {
+        if (validFileTypes.includes(file.type)) {
+          validFiles.push(file);
+        } else {
+          invalidFiles.push(file);
+        }
+      });
+
+      // Check if any files are invalid
+      if (invalidFiles.length > 0) {
+        this.fileError =
+          'Some files have invalid formats. Only JPEG, PNG, GIF, and SVG formats are allowed.';
       } else {
         this.fileError = null;
       }
 
-      this.images = [
-        ...this.images,
-        ...validFiles.map(file => ({
-          file,
-          preview: URL.createObjectURL(file)
-        }))
-      ];
+      // Check if exceeding maximum number of images
+      if (validFiles.length + this.images.length > this.maxImages) {
+        this.imageLimitExceeded = true;
+      } else {
+        this.imageLimitExceeded = false;
+        this.images = [
+          ...this.images,
+          ...validFiles.map((file) => ({
+            file,
+            preview: URL.createObjectURL(file),
+          })),
+        ];
 
-      this.propertyForm.patchValue({
-        files: this.images.map(image => image.file)
-      });
-      this.propertyForm.get('files')!.updateValueAndValidity();
+        this.propertyForm.patchValue({
+          files: this.images.map((image) => image.file),
+        });
+        this.propertyForm.get('files')!.updateValueAndValidity();
+      }
     }
   }
 
   removeImage(index: number): void {
     this.images.splice(index, 1);
     this.propertyForm.patchValue({
-      files: this.images.map(image => image.file)
+      files: this.images.map((image) => image.file),
     });
     this.propertyForm.get('files')!.updateValueAndValidity();
   }
@@ -157,18 +191,21 @@ export class AddListingComponent implements OnInit {
   onSubmit(): void {
     if (!this.propertyForm.valid) return;
 
-    const selectedRegion = this.regions.find(r => r.region_code === this.defaultRegionCode)?.region_name;
+    const selectedRegion = this.regions.find(
+      (r) => r.region_code === this.defaultRegionCode
+    )?.region_name;
 
     const propertyData: Property = {
       ...this.propertyForm.value,
       region: selectedRegion || 'National Capital Region (NCR)',
     };
 
-    const files: File[] = this.images.map(image => image.file);
+    const files: File[] = this.images.map((image) => image.file);
     this.addListingService.createProperty(propertyData, files).subscribe({
-      next: data => {
-        console.log(data);
+      next: () => {
         this.submissionSuccess = true;
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
 
         setTimeout(() => {
           this.submissionSuccess = false;
@@ -177,10 +214,9 @@ export class AddListingComponent implements OnInit {
         this.propertyForm.reset();
         this.images = [];
       },
-      error: err => {
-        console.error(err);
+      error: () => {
         this.submissionSuccess = false;
-      }
+      },
     });
   }
 }

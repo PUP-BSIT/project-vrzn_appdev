@@ -37,20 +37,23 @@
               <div class="error-message text-red-500">Password is required</div>  
             }  
             <label class="label">
-              <button (click)="toggleLinkVisibility()" class="label-text-alt link link-hover mt-3" >Forgot password?</button>
+              <button (click)="toggleLinkVisibility()" type="button" class="label-text-alt link link-hover mt-3" >Forgot password?</button>
             </label>
           </div>
           <div class="form-control mt-6">
-            <button class="btn bg-[#8644a2] text-white" [disabled]="loginForm.invalid">Login</button>
+            <button class="btn bg-[#8644a2] text-white" type="submit" [disabled]="loginForm.invalid">Login</button>
           </div>
         </form>
       </div>
     }@else{
-        <div class="flex justify-center items-center">
-          <div class="w-full max-w-96 mx-auto">
-            <app-reset-password></app-reset-password>
-          </div>
+      <div class="flex justify-center items-center">
+        <div class="w-full max-w-96 mx-auto">
+          <app-reset-password></app-reset-password>
         </div>
+        <div class="modal-action">
+          <label for="verification-mdl" class="btn btn-sm btn-circle btn-ghost font-bold text-2xl absolute left-2 top-2" (click)="toggleLinkVisibility()">&#8592;</label>
+        </div>
+      </div>
     }
     <div class="modal-action">
       <label for="log-in-mdl" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">&#x2715;</label>  
