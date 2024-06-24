@@ -1,7 +1,7 @@
 @if(propertyLoaded){
   <div class="carousel w-full">
     @for(image of images; track image) {
-      <div class="carousel-item w-full" #carouselItems>
+      <div class="carousel-item w-full items-center justify-center transition-all ease-in-out" #carouselItems>
         <img src="{{ image.image_url }}" class="w-full" />
       </div>
     }

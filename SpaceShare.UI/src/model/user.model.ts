@@ -17,6 +17,13 @@ export interface User {
   phone_number: PhoneNumber[];
 }
 
+export interface UserToUpdate {
+  id: number;
+  first_name: string;
+  surname: string,
+  birthdate: Date
+}
+
 export interface Verificaion {
   code: number;
   mailTo: string

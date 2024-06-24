@@ -6,20 +6,26 @@ export class CustomValidators {
       const birthdate = control.value;
 
       if (!birthdate) {
-        return null;
+        return null;  // Return null if no birthdate is provided
       }
 
       // Calculate age based on the birthdate
       const today = new Date();
       const birthDate = new Date(birthdate);
-      const age = today.getFullYear() - birthDate.getFullYear();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
 
-      // Check if age is less than 18
-      if (age < 18) {
+      // Adjust age if the birthdate hasn't occurred yet this year
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+
+      // Check if age is less than 18 or more than 110
+      if (age < 18 || age > 110) {
         return { 'adultAge': { fieldName } };
       }
 
-      return null;
+      return null;  
     };
   }
 }
