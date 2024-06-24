@@ -54,7 +54,14 @@ export class AddListingComponent implements OnInit {
         '',
         [Validators.required, Validators.min(10), Validators.max(60)],
       ],
-      description: ['', [Validators.required, Validators.maxLength(300)]],
+      description: [
+        '', 
+        [
+          Validators.required, 
+          Validators.minLength(220), 
+          Validators.maxLength(320)
+        ],
+      ],
       region: [this.defaultRegionCode, Validators.required],
       city: ['', Validators.required],
       postal_code: ['', [Validators.required, Validators.pattern(/^\d{4}$/)]],
