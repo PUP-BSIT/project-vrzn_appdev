@@ -38,8 +38,8 @@
                 @if (firstNameControl.errors?.['required']) {
                   <div class="error-message text-red-500 pl-3">First Name Must Not Null</div>
                 }
-                @if (firstNameControl.errors?.['minlength'] && firstNameControl.errors?.['maxlength']) {
-                  <div class="error-message text-red-500 pl-3">Name must be 2 to 60 alphabets</div>
+                @if (firstNameControl.errors?.['maxlength']) {
+                  <div class="error-message text-red-500 pl-3">First Name must be at least 1 to 60 Characters</div>
                 }
                 @if (firstNameControl.errors?.['pattern']) {
                   <div class="error-message text-red-500 pl-3">Must Enter Valid First Name</div>
@@ -53,6 +53,9 @@
                 @if (lastNameControl.errors?.['required']) {
                   <div class="error-message text-red-500 pl-3">Last Name Must Not Null</div>
                 }
+                @if (lastNameControl.errors?.['maxlength']) {
+                  <div class="error-message text-red-500 pl-3">Last Name must be at least 1 to 60 Characters</div>
+                }
                 @if (lastNameControl.errors?.['pattern']) {
                   <div class="error-message text-red-500 pl-3">Must Enter Valid Last Name</div>
                 }
@@ -64,6 +67,9 @@
               @if (middleNameControl.invalid && middleNameControl.touched) {
                 @if (middleNameControl.errors?.['pattern']) {
                   <div class="error-message text-red-500 pl-3">Must Enter Valid Middle Name</div>
+                }
+                @if (middleNameControl.errors?.['maxlength']) {
+                  <div class="error-message text-red-500 pl-3">Middle Name must be at least 1 to 60 Characters</div>
                 }
               }
             </div>
