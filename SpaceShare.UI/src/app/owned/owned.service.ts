@@ -4,12 +4,12 @@ import { environment } from '../../../environment/appsettings';
 import { Card } from '../../model/card.model';
 
 @Injectable()
-export class MainService {
+export class OwnedService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private httpClient: HttpClient) { }
 
-  getProperties(){
-    const url = `${environment.apiUrl}/property`;
-    return this.http.get<Card[]>(url);
+  getOwnProperties(id: number){
+    const url = `${environment.apiUrl}/property/owned?user_id=${id}`;
+    return this.httpClient.get<Card[]>(url);
   }
 }

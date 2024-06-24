@@ -11,7 +11,6 @@ import { AuthService } from './auth/auth.service';
 import { AuthGuard } from './auth/auth.guard';
 
 import { AppComponent } from './app.component';
-import { LandingComponent } from './landing/landing.component';
 import { MainComponent } from './main/main.component';
 import { RegisterComponent } from './landing/register/register.component';
 import { LoginComponent } from './landing/login/login.component';
@@ -52,11 +51,15 @@ import { PropertyService } from './property/property.service';
 import { WentWrongComponent } from './went-wrong/went-wrong.component';
 import { ProfileService } from './profile/profile.service';
 import { CardSkeletonComponent } from './card-skeleton/card-skeleton.component';
+import { PaginationComponent } from './pagination/pagination.component';
+import { FiltrationComponent } from './filtration/filtration.component';
+import { OwnedComponent } from './owned/owned.component';
+import { OwnedService } from './owned/owned.service';
+import { PropertyCardService } from './property_card/property-card.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LandingComponent,
     MainComponent,
     RegisterComponent,
     LoginComponent,
@@ -88,6 +91,9 @@ import { CardSkeletonComponent } from './card-skeleton/card-skeleton.component';
     RentingComponent,
     WentWrongComponent,
     CardSkeletonComponent,
+    PaginationComponent,
+    FiltrationComponent,
+    OwnedComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -118,7 +124,8 @@ import { CardSkeletonComponent } from './card-skeleton/card-skeleton.component';
     AddListingService,
     MainService,
     PropertyService,
-    ProfileService
+    OwnedService,
+    PropertyCardService
   ],
   bootstrap: [AppComponent]
 })

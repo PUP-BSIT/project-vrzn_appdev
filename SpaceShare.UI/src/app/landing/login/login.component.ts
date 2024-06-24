@@ -46,8 +46,10 @@ export class LoginComponent implements OnInit {
           if (data.success) {
             this.cookieService.set('token', data.token);
             this.cookieService.set('id', data.id);
-            this.closeModal();
-            location.reload();
+            setTimeout(() => {
+              this.closeModal();
+              location.reload();
+            }, 500);
           }
         },
         (error: HttpErrorResponse) => {

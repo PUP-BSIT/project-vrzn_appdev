@@ -25,6 +25,7 @@ export class PropertyService {
         price: true,
         status: true,
         rating: true,
+        bedroom: true,
         capacity: true,
         images: {
           select: {
@@ -62,6 +63,33 @@ export class PropertyService {
     if (!property) throw new NotFoundException();
 
     return property;
+  }
+
+  async getOwnProperties(id: number){
+    return await this.prismaService.property.findMany({
+      where: {
+        owner_id: id,
+      },
+      select: {
+        id: true,
+        owner_id: true,
+        title: true,
+        description: true,
+        city: true,
+        barangay: true,
+        price: true,
+        status: true,
+        rating: true,
+        capacity: true,
+        area: true,
+        bedroom: true,
+        images: {
+          select: {
+            image_url: true,
+          },
+        },
+      },
+    });
   }
 
   async createProperty(
@@ -109,6 +137,30 @@ export class PropertyService {
     );
 
     return { createdProperty, imageArray };
+  }
+
+  async deleteProperty(id: number){
+    await this.prismaService.images.deleteMany({
+      where: {
+        property_id: id,
+      }
+    })
+
+    await this.prismaService.wishlist.deleteMany({
+      where: {
+        property_id: id
+      }
+    })
+
+    const deleted = await this.prismaService.property.delete({
+      where: {
+        id,
+      }
+    })
+
+    if(deleted) return { success: true, message: 'Property Deleted' }
+
+    return { success: false, message: 'Something Went Wrong' }; 
   }
 
   async rateProperty(propertyRating: { id: number; rating: number }) {

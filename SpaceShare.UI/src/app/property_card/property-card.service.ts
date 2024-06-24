@@ -1,15 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environment/appsettings';
-import { Card } from '../../model/card.model';
 
 @Injectable()
-export class MainService {
+export class PropertyCardService {
 
   constructor(private http: HttpClient) { }
 
-  getProperties(){
-    const url = `${environment.apiUrl}/property`;
-    return this.http.get<Card[]>(url);
+  deleteProperty(id: number){
+    const url = `${environment.apiUrl}/property/${id}`
+    return this.http.delete<{ success: boolean, message: string }>(url);
   }
 }

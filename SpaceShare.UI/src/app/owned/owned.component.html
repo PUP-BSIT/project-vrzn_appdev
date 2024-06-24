@@ -1,0 +1,18 @@
+<app-navbar></app-navbar>
+<div class="mx-20 my-10">
+    <h1 class="text-4xl font-bold">My Properties</h1>
+    <div class="mt-4 flex flex-wrap">
+        @if(loaded){
+        @for (card of ownedItems; track card.id) {
+            <app-property-card [card]="card" [cardId]="card.id" [owned]="true" (cardDeleted)="onCardDeleted($event)" class="m-2" />
+        }
+        } @else {
+        <div class="flex gap-6 mt-4">
+            <app-card-skeleton></app-card-skeleton>
+            <app-card-skeleton></app-card-skeleton>
+            <app-card-skeleton></app-card-skeleton>
+        </div>
+        }
+    </div>
+</div>
+<app-footer></app-footer>

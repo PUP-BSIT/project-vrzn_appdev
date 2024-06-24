@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AgreementComponent } from '../agreement/agreement.component';
 import { VerificationComponent } from '../verification/verification.component';
 import { LocationService } from './location.service';
@@ -18,8 +18,11 @@ import { CustomValidators, PasswordValidator, MatchPasswordValidator} from '../r
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
-
 export class RegisterComponent implements OnInit {
+  @ViewChild('modalToggle') modalToggle!: ElementRef<HTMLInputElement>;
+  firstPage = true;
+  secondPage = false;
+  thirdPage = false;
   registerForm!: FormGroup;
 
   regions: Region[] = [];
@@ -49,43 +52,40 @@ export class RegisterComponent implements OnInit {
     this.loadRegions();
 
     this.registerForm = this.formBuilder.group({
-      firstName: ['', [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(60),
-        Validators.pattern(/^[a-zA-Z]*$/)
-      ]],
+      firstName: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(60),
+          Validators.pattern(/^[a-zA-Z]*$/),
+        ],
+      ],
 
-      lastName: ['', [
-        Validators.required,
-        Validators.pattern(/^[a-zA-Z]*$/)
-      ]],
+      lastName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]*$/)]],
 
-      middleName: ['',
-        Validators.pattern(/^[a-zA-Z]*$/)],
+      middleName: ['', Validators.pattern(/^[a-zA-Z]*$/)],
 
-      phoneNumber: ['',[
-        Validators.required, 
-        Validators.pattern(/^[0-9]{11}$/)
-      ]],
+      phoneNumber: [
+        '',
+        [Validators.required, Validators.pattern(/^[0-9]{11}$/)],
+      ],
 
       email: ['', [Validators.required, Validators.email]],
 
-      
-      birthdate: ['', [Validators.required, CustomValidators.adultAgeValidator('birthdate')]],
-      region: ['', [Validators.required,]],
+      birthdate: [
+        '',
+        [Validators.required, CustomValidators.adultAgeValidator('birthdate')],
+      ],
+      region: ['', [Validators.required]],
       province: [{ value: '', disabled: true }, [Validators.required]],
-      city: [{ value: '', disabled: true } , [Validators.required]],
+      city: [{ value: '', disabled: true }, [Validators.required]],
 
-      postalCode: ['', [ 
-        Validators.required, 
-        Validators.pattern(/^\d{4}$/)
-      ]],
+      postalCode: ['', [Validators.required, Validators.pattern(/^\d{4}$/)]],
 
-      password: ['', [Validators.required,  PasswordValidator.strong]],
+      password: ['', [Validators.required, PasswordValidator.strong]],
       confirmPassword: ['', [Validators.required, MatchPasswordValidator]],
     });
-
   }
 
   get firstNameControl(): AbstractControl {
@@ -136,6 +136,26 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.get('confirmPassword')!;
   }
 
+  nextPage() {
+    if(this.firstPage){
+      this.firstPage = false;
+      this.secondPage = true;
+    } else if(this.secondPage){
+      this.secondPage = false;
+      this.thirdPage = true;
+    }
+  }
+
+  prevPage(){
+    if(this.thirdPage){
+      this.thirdPage = false;
+      this.secondPage = true;
+    }else if(this.secondPage){
+      this.secondPage = false;
+      this.firstPage = true;
+    }
+  }
+
   handleSubmit(): void {
     this.toggleLinkVisibility();
 
@@ -152,11 +172,13 @@ export class RegisterComponent implements OnInit {
       province: data.province,
       city: data.city,
       postal_code: data.postalCode,
-      phone_number: [{
-        number: data.phoneNumber,
-        number_type: "mobile"
-      }]
-    }
+      phone_number: [
+        {
+          number: data.phoneNumber,
+          number_type: 'mobile',
+        },
+      ],
+    };
 
     this.bodyToPass = body;
 
@@ -164,7 +186,9 @@ export class RegisterComponent implements OnInit {
 
     const verify = { code: +this.randomNumber, mailTo: data.email };
 
-    this.registerService.sendMail(verify).subscribe(data => console.log(data))
+    this.registerService
+      .sendMail(verify)
+      .subscribe((data) => console.log(data));
   }
 
   loadRegions(): void {
@@ -182,7 +206,7 @@ export class RegisterComponent implements OnInit {
         a.province_name.localeCompare(b.province_name)
       );
       this.selectedProvince = '';
-      this.selectedCity = ''; 
+      this.selectedCity = '';
       this.cities = [];
       this.registerForm.controls['province'].enable();
       this.registerForm.controls['city'].disable();
@@ -223,8 +247,14 @@ export class RegisterComponent implements OnInit {
 
   generateRandomSixDigitNumber(): number {
     const min = 100000;
-    const max = 999999; 
+    const max = 999999;
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
-  
+
+  closeModal() {
+    if (this.modalToggle) {
+      console.log(this.modalToggle.nativeElement.value);
+      this.modalToggle.nativeElement.checked = false;
+    }
+  }
 }
