@@ -193,6 +193,12 @@ export class AddListingComponent implements OnInit {
       files: this.images.map((image) => image.file),
     });
     this.propertyForm.get('files')!.updateValueAndValidity();
+    this.resetFileInput();
+  }
+  
+  resetFileInput(): void {
+    const inputElement = document.querySelector('#dropzone-file') as HTMLInputElement;
+    inputElement.value = ''; // Reset the value of the file input field
   }
 
   onSubmit(): void {
