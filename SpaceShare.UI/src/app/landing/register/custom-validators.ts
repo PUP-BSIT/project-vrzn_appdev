@@ -48,8 +48,8 @@ export class PasswordValidator {
     }
     return null;
   }
-}
 
+}
 export const MatchPasswordValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const formGroup = control.parent;
   if (!formGroup) {
