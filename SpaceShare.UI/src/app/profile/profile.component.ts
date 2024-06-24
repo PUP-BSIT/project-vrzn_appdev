@@ -32,17 +32,19 @@ export class ProfileComponent implements OnInit {
     });
 
     this.editForm = this.formBuilder.group({
-      firstName: [
-        '',
+      firstName: ['',
         [
           Validators.required,
-          Validators.minLength(2),
           Validators.maxLength(60),
-          Validators.pattern(/^[a-zA-Z]*$/),
-        ],
-      ],
+          Validators.pattern('^[a-zA-ZñÑ \\-]*$'),
+        ]],
 
-      lastName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]*$/)]],
+      lastName: ['', 
+        [
+          Validators.required,  
+          Validators.pattern('^[a-zA-ZñÑ \\-]*$'),
+          Validators.maxLength(60)
+        ]],
 
       phoneNumber: [
         '',
