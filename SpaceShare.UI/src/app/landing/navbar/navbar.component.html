@@ -15,7 +15,7 @@
         <div class="flex items-center space-x-1">
             <div class="tooltip tooltip-bottom" data-tip="Wishlist">
                 <div role="button" tabindex="0"
-                    class="btn btn-ghost btn-circle bg-white hover:bg-white border-none shadow-none mr-3" routerLink="/wishlist">
+                    class="btn btn-ghost btn-circle bg-white hover:bg-white border-none shadow-none mr-5" routerLink="/wishlist">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9 ml-3 heart-icon" [ngClass]="{'red': isOnWishlistPage()}"
                         fill="none" stroke="black" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="tooltip tooltip-bottom" data-tip="Add Property">
-                <div tabindex="0" role="button" class="btn btn-circle bg-white border-none hover:bg-white" routerLink="/listing/add">
+                <div tabindex="0" role="button" class="btn btn-circle bg-white border-none hover:bg-white house-image" routerLink="/listing/add">
                     <div class="indicator">
                         <img src="../../../assets/add_property.png" alt="house-icon" class="h5 w5">
                     </div>
@@ -32,7 +32,7 @@
             </div>   
             <div class="dropdown dropdown-end">
                 <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar mx-5 border-gray-50">
-                    <div class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                    <div class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full">
                         <svg class="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
