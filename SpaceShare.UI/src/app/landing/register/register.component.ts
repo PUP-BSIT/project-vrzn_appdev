@@ -11,7 +11,7 @@ import {
 } from '@angular/forms';
 import { User } from '../../../model/user.model';
 import { RegisterService } from './register.service';
-import { CustomValidators, PasswordValidator, MatchPasswordValidator} from '../register/custom-validators'; 
+import { CustomValidators, PasswordValidator, MatchPasswordValidator } from '../register/custom-validators';
 
 @Component({
   selector: 'app-register',
@@ -41,7 +41,9 @@ export class RegisterComponent implements OnInit {
   toggleLinkVisibility() {
     this.showLink = !this.showLink;
   }
+
   showPasswordRequirements: boolean = false;
+
   constructor(
     private locationService: LocationService,
     private formBuilder: FormBuilder,
@@ -58,21 +60,25 @@ export class RegisterComponent implements OnInit {
           Validators.required,
           Validators.minLength(2),
           Validators.maxLength(60),
-          Validators.pattern(/^[a-zA-Z]*$/),
+          Validators.pattern(/^[a-zA-ZñÑ\s]*$/),
         ],
       ],
-
-      lastName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]*$/)]],
-
-      middleName: ['', Validators.pattern(/^[a-zA-Z]*$/)],
-
+      lastName: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^[a-zA-ZñÑ\s\-]*$/),
+        ],
+      ],
+      middleName: [
+        '',
+        Validators.pattern(/^[a-zA-ZñÑ\s]*$/),
+      ],
       phoneNumber: [
         '',
         [Validators.required, Validators.pattern(/^[0-9]{11}$/)],
       ],
-
       email: ['', [Validators.required, Validators.email]],
-
       birthdate: [
         '',
         [Validators.required, CustomValidators.adultAgeValidator('birthdate')],
@@ -80,9 +86,7 @@ export class RegisterComponent implements OnInit {
       region: ['', [Validators.required]],
       province: [{ value: '', disabled: true }, [Validators.required]],
       city: [{ value: '', disabled: true }, [Validators.required]],
-
       postalCode: ['', [Validators.required, Validators.pattern(/^\d{4}$/)]],
-
       password: ['', [Validators.required, PasswordValidator.strong]],
       confirmPassword: ['', [Validators.required, MatchPasswordValidator]],
     });
@@ -136,21 +140,46 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.get('confirmPassword')!;
   }
 
+  isFirstPageValid(): boolean {
+    return this.firstNameControl.valid &&
+           this.lastNameControl.valid &&
+           this.middleNameControl.valid &&
+           this.phoneNumberControl.valid &&
+           this.emailControl.valid &&
+           this.birthdateControl.valid;
+  }
+
+  isSecondPageValid(): boolean {
+    return this.regionControl.valid &&
+           this.provinceControl.valid &&
+           this.cityControl.valid &&
+           this.postalCodeControl.valid;
+  }
+
+  isThirdPageValid(): boolean {
+    return this.passwordControl.valid &&
+           this.confirmPasswordControl.valid;
+  }
+
   nextPage() {
-    if(this.firstPage){
-      this.firstPage = false;
-      this.secondPage = true;
-    } else if(this.secondPage){
-      this.secondPage = false;
-      this.thirdPage = true;
+    if (this.firstPage) {
+      if (this.isFirstPageValid()) {
+        this.firstPage = false;
+        this.secondPage = true;
+      }
+    } else if (this.secondPage) {
+      if (this.isSecondPageValid()) {
+        this.secondPage = false;
+        this.thirdPage = true;
+      }
     }
   }
 
-  prevPage(){
-    if(this.thirdPage){
+  prevPage() {
+    if (this.thirdPage) {
       this.thirdPage = false;
       this.secondPage = true;
-    }else if(this.secondPage){
+    } else if (this.secondPage) {
       this.secondPage = false;
       this.firstPage = true;
     }
