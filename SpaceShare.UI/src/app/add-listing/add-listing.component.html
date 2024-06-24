@@ -90,28 +90,32 @@
             </div>
                 
             <div>
-                <label class="block text-sm font-bold text-gray-700">Description</label>
-                <textarea 
-                  class="textarea textarea-bordered resize-none w-full h-40 bg-white rounded-lg"
-                  placeholder="Minumum of 220 characters"
-                  formControlName="description"
-                  maxlength="320"
-                ></textarea>
-                <div class="text-right text-xs text-gray-600 mt-1">
-                  Characters remaining: {{ 320 - propertyForm.get('description')?.value?.length }}
-                </div>
-                @if(descriptionControl.touched && descriptionControl.invalid) {
+              <label class="block text-sm font-bold text-gray-700">Description</label>
+              <textarea 
+                class="textarea textarea-bordered resize-none w-full h-40 bg-white rounded-lg"
+                placeholder="Minumum of 220 characters"
+                formControlName="description"
+                maxlength="320"
+              ></textarea>
+              <div class="flex justify-between mb-8">
+                <div class="error-message text-red-500 pl-1 mt-1 flex-1">
+                  @if(descriptionControl.touched && descriptionControl.invalid) {
                     @if (descriptionControl.errors?.['required']) {
-                      <div class="error-message text-red-500 mt-1 pl-1">Fill out the description about the Space you want to share</div>
+                      Fill out the description about the Space you want to Share
                       }
                     @if(propertyForm.get('description')?.value?.length > 0 && propertyForm.get('description')?.value?.length < 220) {
-                      <div class="error-message text-red-500 mt-1 pl-1">Description too short must provide credible information about the space.</div>
+                      Description too short, you must provide credible information about the space
                     }
                     @if(areaControl.errors?.['max']) {
-                        <div class="error-message text-red-500 mt-2 pl-1">Make short and concise for better Space Details</div>
-                      }
+                       Make short and concise for better Space Details
+                    }
                   }
+                </div>
+                  <div class="text-right text-xs text-gray-600 flex-1 mt-2">
+                    Characters remaining: {{ 320 - propertyForm.get('description')?.value?.length }}
+                  </div>
               </div>
+            </div> 
             <!-- <div>
                 <input type="file" id="fileUpload" (change)="onFileChange($event)" multiple>
             </div> -->
