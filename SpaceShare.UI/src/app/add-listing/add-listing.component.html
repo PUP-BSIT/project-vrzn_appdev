@@ -152,21 +152,23 @@
                   </div>
                 }
             
-              <div class="flex flex-wrap mt-4">
-                <div *ngFor="let image of images; let i = index" class="w-1/4 p-2 relative">
-                  <div class="w-full h-40 overflow-hidden flex items-center justify-center bg-gray-200 rounded-lg">
-                    <img [src]="image.preview" alt="Image Preview" class="object-cover h-full w-full">
+            <div class="flex flex-wrap mt-4">
+                @for(image of images; track $index) {
+                  <div class="w-1/4 p-2 relative">
+                      <div class="w-full h-40 overflow-hidden flex items-center justify-center bg-gray-200 rounded-lg">
+                        <img [src]="image.preview" alt="Image Preview" class="object-cover h-full w-full">
+                      </div>
+                      <button (click)="removeImage($index)" class="absolute top-0 right-0 mt-2 mr-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 focus:outline-none">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                      </button>
+                      <a [href]="image.preview" target="_blank" class="absolute bottom-0 right-0 mb-2 mr-2 bg-blue-500 text-white rounded-lg px-2 py-1 hover:bg-blue-600 focus:outline-none">
+                        Preview
+                      </a>
                   </div>
-                  <button (click)="removeImage(i)" class="absolute top-0 right-0 mt-2 mr-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 focus:outline-none">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                  </button>
-                  <a [href]="image.preview" target="_blank" class="absolute bottom-0 right-0 mb-2 mr-2 bg-blue-500 text-white rounded-lg px-2 py-1 hover:bg-blue-600 focus:outline-none">
-                    Preview
-                  </a>
-                </div>
-              </div>
+                }
+            </div>
                      
             <div>
                 <label class="block text-xl font-bold text-gray-700">Where is it located?</label>
