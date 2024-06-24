@@ -124,6 +124,7 @@ import { PropertyCardService } from './property_card/property-card.service';
     AddListingService,
     MainService,
     PropertyService,
+    ProfileService,
     OwnedService,
     PropertyCardService
   ],
