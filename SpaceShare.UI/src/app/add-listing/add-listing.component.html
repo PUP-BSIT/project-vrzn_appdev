@@ -39,53 +39,56 @@
                           }
                       }
                 </div>
-                <div>
-                    <label class="block text-sm font-bold text-gray-700">Bedroom</label>
-                    <select class="select select-bordered w-full bg-white rounded-lg" formControlName="bedroom" [class.input-error]="bedroomControl.invalid && bedroomControl.touched">
-                        <option disabled selected>How many bedrooms?</option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
-                    @if(bedroomControl.touched && bedroomControl.invalid) {
-                        @if (bedroomControl.errors?.['required']) {
-                          <div class="error-message text-red-500 mt-2 pl-1">Fill the Space Bedroom</div>
-                          }
-                      }
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-gray-700">Guests</label>
-                    <input type="number" placeholder="maximum guests" class="input input-bordered w-full bg-white rounded-lg" formControlName="capacity" [class.input-error]="capacityControl.invalid && capacityControl.touched">
-                    @if(capacityControl.touched && capacityControl.invalid) {
-                        @if (capacityControl.errors?.['required']) {
-                          <div class="error-message text-red-500 mt-2 pl-1">Define the Space Capacity</div>
-                          }
-                          @if(capacityControl.errors?.['min']) {
-                            <div class="error-message text-red-500 mt-2 pl-1">Input Realistic Space Capacity</div>
-                          }
-                          @if(capacityControl.errors?.['max']) {
-                            <div class="error-message text-red-500 mt-2 pl-1">Input Capacity treshold at 50</div>
-                          }
-                      }
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-gray-700">Floor area</label>
-                    <input type="number" placeholder="Floor area in square meters" class="input input-bordered w-full bg-white rounded-lg" formControlName="area">
-                    @if(areaControl.touched && areaControl.invalid) {
-                        @if (areaControl.errors?.['required']) {
-                          <div class="error-message text-red-500 mt-2 pl-1">Define the Space Area</div>
-                          }
-                          @if(areaControl.errors?.['min']) {
-                            <div class="error-message text-red-500 mt-2 pl-1">Input Realistic Space Area</div>
-                          }
-                          @if(areaControl.errors?.['max']) {
-                            <div class="error-message text-red-500 mt-2 pl-1">Input Capacity threshold at 1,000 square meter</div>
-                          }
-                      }
-                </div>
             </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-sm font-bold text-gray-700">Bedroom</label>
+                <select class="select select-bordered w-full bg-white rounded-lg" formControlName="bedroom" [class.input-error]="bedroomControl.invalid && bedroomControl.touched">
+                    <option disabled selected>How many bedrooms?</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+                @if(bedroomControl.touched && bedroomControl.invalid) {
+                    @if (bedroomControl.errors?.['required']) {
+                      <div class="error-message text-red-500 mt-2 pl-1">Fill the Space Bedroom</div>
+                      }
+                  }
+              </div>
+              <div>
+                <label class="block text-sm font-bold text-gray-700">Guests</label>
+                <input type="number" placeholder="maximum guests" class="input input-bordered w-full bg-white rounded-lg" formControlName="capacity" [class.input-error]="capacityControl.invalid && capacityControl.touched">
+                @if(capacityControl.touched && capacityControl.invalid) {
+                    @if (capacityControl.errors?.['required']) {
+                      <div class="error-message text-red-500 mt-2 pl-1">Define the Space Capacity</div>
+                      }
+                      @if(capacityControl.errors?.['min']) {
+                        <div class="error-message text-red-500 mt-2 pl-1">Input Realistic Space Capacity</div>
+                      }
+                      @if(capacityControl.errors?.['max']) {
+                        <div class="error-message text-red-500 mt-2 pl-1">Input Capacity treshold at 50</div>
+                      }
+                  }
+              </div>
+              <div>
+                <label class="block text-sm font-bold text-gray-700">Floor area</label>
+                <input type="number" placeholder="Floor area in square meters" class="input input-bordered w-full bg-white rounded-lg" formControlName="area">
+                @if(areaControl.touched && areaControl.invalid) {
+                    @if (areaControl.errors?.['required']) {
+                      <div class="error-message text-red-500 mt-2 pl-1">Define the Space Area</div>
+                      }
+                      @if(areaControl.errors?.['min']) {
+                        <div class="error-message text-red-500 mt-2 pl-1">Input Realistic Space Area</div>
+                      }
+                      @if(areaControl.errors?.['max']) {
+                        <div class="error-message text-red-500 mt-2 pl-1">Input Capacity threshold at 1,000 square meter</div>
+                      }
+                  }
+              </div>
+            </div>
+                
             <div>
                 <label class="block text-sm font-bold text-gray-700">Description</label>
                 <textarea 
