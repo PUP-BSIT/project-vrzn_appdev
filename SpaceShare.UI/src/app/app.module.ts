@@ -49,6 +49,7 @@ import { AddListingService } from './add-listing/add-listing.service';
 import { MainService } from './main/main.service';
 import { PropertyService } from './property/property.service';
 import { WentWrongComponent } from './went-wrong/went-wrong.component';
+import { ProfileService } from './profile/profile.service';
 import { CardSkeletonComponent } from './card-skeleton/card-skeleton.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { FiltrationComponent } from './filtration/filtration.component';
@@ -123,6 +124,7 @@ import { PropertyCardService } from './property_card/property-card.service';
     AddListingService,
     MainService,
     PropertyService,
+    ProfileService,
     OwnedService,
     PropertyCardService
   ],
