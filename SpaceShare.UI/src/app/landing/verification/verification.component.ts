@@ -17,6 +17,7 @@ export class VerificationComponent implements OnInit {
   message!: string;
   errorMessage: string = '';
   showlink: boolean = true;
+  countdownSeconds: number = 3; 
 
   constructor(private formBuilder: FormBuilder, private readonly registerService: RegisterService) {}
 
@@ -43,7 +44,6 @@ export class VerificationComponent implements OnInit {
     if (!this.otpForm.valid) {
       return;
     }
-    console.log(this);
   
     try {
       if (+this.otpForm.value.otp === +this.code) {
@@ -52,6 +52,7 @@ export class VerificationComponent implements OnInit {
             if (data.success) {
               this.verified = true;
               this.message = data.message;
+              this.startCountdown();
             } else {
               this.errorMessage = 'Verification failed. Please try again.';
             }
@@ -67,6 +68,18 @@ export class VerificationComponent implements OnInit {
       this.errorMessage = 'An unexpected error occurred. Please try again later.';
     }
   }  
+
+  startCountdown() {
+    const interval = setInterval(() => {
+      if (this.countdownSeconds > 0) {
+        this.countdownSeconds--;
+      } else {
+        clearInterval(interval);
+        this.closeModal();
+        location.reload();
+      }
+    }, 1000); 
+  }
 
   goBack() {
     this.showlink = false;
