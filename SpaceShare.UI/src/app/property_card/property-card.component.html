@@ -23,7 +23,8 @@
           <div class="card-actions mt-4 justify-between">
              <div class="flex flex-row gap-2">
                <button class="btn btn-outline">edit</button>
-               <button class="btn btn-outline" (click)="deleteCard(cardId)">delete</button>
+               <button class="btn btn-outline" (click)="openModal()">Delete</button>
+                <app-confirm (confirmDelete)="onDeleteConfirmed()"></app-confirm>
              </div>
             <span class="text-lg font-bold">₱{{ card.price.toLocaleString() }}</span>
           </div>
@@ -35,15 +36,14 @@
     </div>
 </div>
 @if(isDeleting){
-  <div class="toast toast-center">
-    <div class="alert alert-info">
-      <span>Property being deleted...</span>
-    </div>
+    <span class="loading loading-dots loading-lg"></span>
     @if(isDeleted){
+      <div class="toast toast-center">
       <div class="alert alert-success">
-        <span>Card deleted successfully.</span>
+        <span class="text-white">Card deleted successfully.</span>
       </div>
+    </div>
     }
-  </div>
+  
 }
 
