@@ -261,9 +261,17 @@ export class RegisterComponent implements OnInit {
 
   loadRegions(): void {
     this.locationService.getRegions().subscribe((data: Region[]) => {
-      this.regions = data;
+      this.regions = this.prioritizeNCR(data);
     });
   }
+  
+  prioritizeNCR(regions: Region[]): Region[] {
+    const ncrRegion = regions.find(region => region.region_code === '13');
+    const otherRegions = regions.filter(region => region.region_code !== '13');
+    
+    return ncrRegion ? [ncrRegion, ...otherRegions] : regions;
+  }
+
 
   fillProvinces(): void {
     this.locationService.getProvinces().subscribe((data: Province[]) => {
