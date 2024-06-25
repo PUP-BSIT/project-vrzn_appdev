@@ -56,6 +56,8 @@ import { FiltrationComponent } from './filtration/filtration.component';
 import { OwnedComponent } from './owned/owned.component';
 import { OwnedService } from './owned/owned.service';
 import { PropertyCardService } from './property_card/property-card.service';
+import { SuccessfulComponent } from './successful/successful.component';
+import { WaitComponent } from './wait/wait.component';
 
 @NgModule({
   declarations: [
@@ -94,6 +96,8 @@ import { PropertyCardService } from './property_card/property-card.service';
     PaginationComponent,
     FiltrationComponent,
     OwnedComponent,
+    SuccessfulComponent,
+    WaitComponent,
   ],
   imports: [
     ReactiveFormsModule,
