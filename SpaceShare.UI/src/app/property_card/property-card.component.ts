@@ -26,6 +26,7 @@ export class PropertyCardComponent {
       if (data.success) {
         setTimeout(() => {
           this.isDeleted = true;
+          this.openDeletedModal();
           setTimeout(() => {
             this.isDeleting = false;
             this.isDeleted = false;
@@ -44,17 +45,31 @@ export class PropertyCardComponent {
   }
 
   openModal() {
-    const modal: any = document.getElementById('my_modal_4');
+    const modal: any = document.querySelector('#my_modal_4');
     if (modal) {
       modal.showModal();
     }
   }
 
   closeModal() {
-    const modal: any = document.getElementById('my_modal_4');
+    const modal: any = document.querySelector('#my_modal_4');
     if (modal) {
       modal.close();
     }
   }
-}
 
+  openDeletedModal() {
+    const modal: any = document.querySelector('#deleted_modal');
+    if (modal) {
+      modal.showModal();
+    }
+  }
+
+  closeDeletedModal() {
+    const modal: any = document.querySelector('#deleted_modal');
+    if (modal) {
+      modal.close();
+    }
+    this.isDeleted = false;
+  }
+}
