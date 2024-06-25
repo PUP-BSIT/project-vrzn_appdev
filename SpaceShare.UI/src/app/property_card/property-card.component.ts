@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, viewChild } from '@angular/core';
 import { Card } from '../../model/card.model';
 import { PropertyCardService } from './property-card.service';
 
@@ -15,41 +15,38 @@ export class PropertyCardComponent {
   isDeleting: boolean = false;
   isDeleted: boolean = false;
 
+  @ViewChild(`myModal`) modalElement!: ElementRef;
+
   constructor(private cardService: PropertyCardService) {}
 
   deleteCard(id: number) {
-    this.closeModal(id);
-    
+    this.closeModal();
+
     this.isDeleting = true;
 
-    this.cardService.deleteProperty(+this.cardId).subscribe((data) => {
+    this.cardService.deleteProperty(id).subscribe((data) => {
       if (data.success) {
         setTimeout(() => {
           this.isDeleted = true;
           setTimeout(() => {
             this.isDeleting = false;
             this.isDeleted = false;
-            this.cardDeleted.emit(this.cardId);
+            this.cardDeleted.emit(id);
           }, 800);
         }, 2000);
       } else {
         this.isDeleting = false;
       }
     });
-
   }
 
-  closeModal(id: number) {
-    const modal = document.getElementById(`my_modal_${id}`) as HTMLDialogElement;
-    if (modal) {
-      modal.close();
-    }
+  closeModal() {
+    const modal = this.modalElement.nativeElement as HTMLDialogElement;
+    modal.close();
   }
 
-  openConfirmationModal(id: number) {
-    const modal = document.querySelector(`#my_modal_${id}`) as HTMLDialogElement;
-    if (modal) {
-      modal.showModal();
-    }
+  openConfirmationModal() {
+     const modal = this.modalElement.nativeElement as HTMLDialogElement;
+     modal.showModal();
   }
 }
