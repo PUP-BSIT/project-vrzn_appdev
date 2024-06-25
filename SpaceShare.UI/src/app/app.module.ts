@@ -56,6 +56,7 @@ import { FiltrationComponent } from './filtration/filtration.component';
 import { OwnedComponent } from './owned/owned.component';
 import { OwnedService } from './owned/owned.service';
 import { PropertyCardService } from './property_card/property-card.service';
+import { ConfirmComponent } from './confirm/confirm.component';
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import { PropertyCardService } from './property_card/property-card.service';
     PaginationComponent,
     FiltrationComponent,
     OwnedComponent,
+    ConfirmComponent,
   ],
   imports: [
     ReactiveFormsModule,
