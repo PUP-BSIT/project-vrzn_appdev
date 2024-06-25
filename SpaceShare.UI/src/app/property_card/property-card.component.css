@@ -1,4 +1,30 @@
 .card {
-    max-width: 400px;
-    margin: auto;
+  max-width: 400px;
+  margin: auto;
+}
+
+.modal.modal-open {
+  display: block;
+}
+
+#deleted_modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed; 
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50; 
+  backdrop-filter: blur(
+    5px
+  ); 
+}
+
+#deleted_modal .modal-box {
+  max-width: 90%; 
+  width: auto;
+  margin: 0 auto;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
 }
