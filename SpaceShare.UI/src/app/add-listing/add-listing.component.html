@@ -83,7 +83,7 @@
                         <div class="error-message text-red-500 mt-2 pl-1">Input Realistic Space Area</div>
                       }
                       @if(areaControl.errors?.['max']) {
-                        <div class="error-message text-red-500 mt-2 pl-1">Input Capacity threshold at 1,000 square meter</div>
+                        <div class="error-message text-red-500 mt-2 pl-1">Input Capacity threshold at 60 square meter</div>
                       }
                   }
               </div>
@@ -92,46 +92,68 @@
             <div>
               <label class="block text-sm font-bold text-gray-700">Description</label>
               <textarea 
-                class="textarea textarea-bordered resize-none w-full h-40 bg-white rounded-lg"
+                class="textarea textarea-bordered resize-none w-full h-40 bg-white rounded-lg overflow-auto break-words"
                 placeholder="Minumum of 220 characters"
                 formControlName="description"
-                maxlength="320"
-              ></textarea>
+                maxlength="320"></textarea>
               <div class="flex justify-between mb-8">
                 <div class="error-message text-red-500 pl-1 mt-1 flex-1">
                   @if(descriptionControl.touched && descriptionControl.invalid) {
                     @if (descriptionControl.errors?.['required']) {
                       Fill out the description about the Space you want to Share
-                      }
+                    }
                     @if(propertyForm.get('description')?.value?.length > 0 && propertyForm.get('description')?.value?.length < 220) {
                       Description too short, you must provide credible information about the space
                     }
                     @if(areaControl.errors?.['max']) {
-                       Make short and concise for better Space Details
+                      Make short and concise for better Space Details
                     }
                   }
                 </div>
-                  <div class="text-right text-xs text-gray-600 flex-1 mt-2">
-                    Characters remaining: {{ 320 - propertyForm.get('description')?.value?.length }}
-                  </div>
+                <div class="text-right text-xs text-gray-600 flex-1 mt-2">
+                  Characters remaining: {{ 320 - propertyForm.get('description')?.value?.length }}
+                </div>
               </div>
-            </div> 
+            </div>             
             <!-- <div>
                 <input type="file" id="fileUpload" (change)="onFileChange($event)" multiple>
             </div> -->
-                <label class="block text-xl font-bold text-gray-700">Property Images</label>
+            <label class="block text-xl font-bold text-gray-700">Property Images</label>
             <div class="flex justify-center">
-              <div class="flex items-center justify-center w-full md:w-3/4">
-                  <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
-                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                      <svg class="w-8 h-8 mb-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-                      </svg>
-                      <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                      <p class="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
-                    </div>
-                    <input id="dropzone-file" type="file" class="hidden" (change)="onFileChange($event)" multiple>
-                  </label>
+              <div
+                class="flex items-center justify-center w-full md:w-3/4"
+                (drop)="onDrop($event)"
+                (dragover)="onDragOver($event)">
+                <label
+                  for="dropzone-file"
+                  class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
+                  <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                    <svg
+                      class="w-8 h-8 mb-4 text-gray-500"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 20 16">
+                      <path
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5A5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                    </svg>
+                    <p class="mb-2 text-sm text-gray-500">
+                      <span class="font-semibold">Click to upload</span> or drag and drop
+                    </p>
+                    <p class="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                  </div>
+                  <input
+                    id="dropzone-file"
+                    type="file"
+                    #fileInput
+                    class="hidden"
+                    (change)="onFileChange($event)"
+                    multiple/>
+                </label>
                   @if(filesControl.touched && filesControl.invalid) {
                       @if (filesControl.errors?.['required']) {
                         <div class="error-message text-red-500 mt-1 pl-1">Share some Space View </div>

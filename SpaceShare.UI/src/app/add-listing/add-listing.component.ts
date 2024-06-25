@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -16,6 +16,8 @@ import { Region, City } from '../../model/location.model';
   styleUrls: ['./add-listing.component.css'],
 })
 export class AddListingComponent implements OnInit {
+  @ViewChild('fileInput') fileInput!: ElementRef;
+
   propertyForm!: FormGroup;
   images: { file: File; preview: string }[] = [];
   regions: Region[] = [];
@@ -23,7 +25,7 @@ export class AddListingComponent implements OnInit {
   fileError: string | null = null;
   submissionSuccess: boolean = false;
   maxImages: number = 4;
-  imageLimitExceeded: boolean = false; // Flag to show image limit exceeded alert
+  imageLimitExceeded: boolean = false;
 
   defaultRegionCode: string = '13';
   selectedProvince: string = '';
@@ -135,55 +137,58 @@ export class AddListingComponent implements OnInit {
     });
   }
 
-
   onFileChange(event: Event): void {
-    const inputElement = event.target as HTMLInputElement;
+    const inputElement = this.fileInput.nativeElement;
 
     if (inputElement.files && inputElement.files.length > 0) {
       const files = Array.from(inputElement.files) as File[];
-      const validFileTypes = [
-        'image/jpeg',
-        'image/png',
-        'image/gif',
-        'image/svg+xml',
+      this.handleFiles(files);
+    }
+  }
+
+  handleFiles(files: File[]): void {
+    const validFileTypes = [
+      'image/jpeg',
+      'image/png',
+      'image/gif',
+      'image/svg+xml',
+    ];
+    const validFiles: File[] = [];
+    const invalidFiles: File[] = [];
+
+    files.forEach((file) => {
+      if (validFileTypes.includes(file.type)) {
+        validFiles.push(file);
+      } else {
+        invalidFiles.push(file);
+      }
+    });
+
+    // Check if any files are invalid
+    if (invalidFiles.length > 0) {
+      this.fileError =
+        'Some files have invalid formats. Only JPEG, PNG, GIF, and SVG formats are allowed.';
+    } else {
+      this.fileError = null;
+    }
+
+    // Check if exceeding maximum number of images
+    if (validFiles.length + this.images.length > this.maxImages) {
+      this.imageLimitExceeded = true;
+    } else {
+      this.imageLimitExceeded = false;
+      this.images = [
+        ...this.images,
+        ...validFiles.map((file) => ({
+          file,
+          preview: URL.createObjectURL(file),
+        })),
       ];
-      const validFiles: File[] = [];
-      const invalidFiles: File[] = [];
 
-      files.forEach((file) => {
-        if (validFileTypes.includes(file.type)) {
-          validFiles.push(file);
-        } else {
-          invalidFiles.push(file);
-        }
+      this.propertyForm.patchValue({
+        files: this.images.map((image) => image.file),
       });
-
-      // Check if any files are invalid
-      if (invalidFiles.length > 0) {
-        this.fileError =
-          'Some files have invalid formats. Only JPEG, PNG, GIF, and SVG formats are allowed.';
-      } else {
-        this.fileError = null;
-      }
-
-      // Check if exceeding maximum number of images
-      if (validFiles.length + this.images.length > this.maxImages) {
-        this.imageLimitExceeded = true;
-      } else {
-        this.imageLimitExceeded = false;
-        this.images = [
-          ...this.images,
-          ...validFiles.map((file) => ({
-            file,
-            preview: URL.createObjectURL(file),
-          })),
-        ];
-
-        this.propertyForm.patchValue({
-          files: this.images.map((image) => image.file),
-        });
-        this.propertyForm.get('files')!.updateValueAndValidity();
-      }
+      this.propertyForm.get('files')!.updateValueAndValidity();
     }
   }
 
@@ -195,10 +200,21 @@ export class AddListingComponent implements OnInit {
     this.propertyForm.get('files')!.updateValueAndValidity();
     this.resetFileInput();
   }
-  
+
   resetFileInput(): void {
-    const inputElement = document.querySelector('#dropzone-file') as HTMLInputElement;
-    inputElement.value = ''; // Reset the value of the file input field
+    this.fileInput.nativeElement.value = ''; // Reset the value of the file input field
+  }
+  
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    if (event.dataTransfer && event.dataTransfer.files.length > 0) {
+      const files = Array.from(event.dataTransfer.files) as File[];
+      this.handleFiles(files);
+    }
+  }
+
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
   }
 
   onSubmit(): void {
