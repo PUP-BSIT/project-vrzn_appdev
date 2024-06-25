@@ -35,9 +35,13 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/flowbite/dist/flowbite.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/flowbite/dist/flowbite.min.js",
+              "node_modules/flowbite/dist/datepicker.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -94,9 +98,13 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/flowbite/dist/flowbite.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/flowbite/dist/flowbite.min.js",
+              "node_modules/flowbite/dist/datepicker.js"
+            ]
           }
         }
       }
