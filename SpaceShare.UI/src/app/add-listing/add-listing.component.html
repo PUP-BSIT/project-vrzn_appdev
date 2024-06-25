@@ -92,7 +92,7 @@
             <div>
               <label class="block text-sm font-bold text-gray-700">Description</label>
               <textarea 
-                class="textarea textarea-bordered resize-none w-full h-40 bg-white rounded-lg"
+                class="textarea textarea-bordered resize-none w-full h-40 bg-white rounded-lg overflow-auto break-words"
                 placeholder="Minumum of 220 characters"
                 formControlName="description"
                 maxlength="320"></textarea>
@@ -101,20 +101,20 @@
                   @if(descriptionControl.touched && descriptionControl.invalid) {
                     @if (descriptionControl.errors?.['required']) {
                       Fill out the description about the Space you want to Share
-                      }
+                    }
                     @if(propertyForm.get('description')?.value?.length > 0 && propertyForm.get('description')?.value?.length < 220) {
                       Description too short, you must provide credible information about the space
                     }
                     @if(areaControl.errors?.['max']) {
-                       Make short and concise for better Space Details
+                      Make short and concise for better Space Details
                     }
                   }
                 </div>
-                  <div class="text-right text-xs text-gray-600 flex-1 mt-2">
-                    Characters remaining: {{ 320 - propertyForm.get('description')?.value?.length }}
-                  </div>
+                <div class="text-right text-xs text-gray-600 flex-1 mt-2">
+                  Characters remaining: {{ 320 - propertyForm.get('description')?.value?.length }}
+                </div>
               </div>
-            </div> 
+            </div>             
             <!-- <div>
                 <input type="file" id="fileUpload" (change)="onFileChange($event)" multiple>
             </div> -->
