@@ -198,12 +198,12 @@
             </div>
           } 
           @else if (fourthPage) {
-            <div class="max-w-4xl w-full bg-white rounded-lg shadow-xl mx-auto">
+            <div class="col-span-1 md:col-span-2 bg-white w-full rounded-lg shadow-xl">
               <div class="p-4 border-b">
                 <h2 class="text-2xl font-bold">Review Your Details</h2>
                 <p class="text-sm text-gray-500">Analyze each detail before submitting it.</p>
               </div>
-              <div class="divide-y">
+              <div class="col-span-1 md:col-span-2">
                 <div class="md:grid md:grid-cols-2 hover:bg-gray-50 p-4">
                   <p class="text-gray-600 font-medium">First Name</p>
                   <p class="break-all">{{ getFormValues().firstName }}</p>
