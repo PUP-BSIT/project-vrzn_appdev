@@ -38,6 +38,12 @@ button.disabled {
   max-width:900px; 
 }
 
+.step-secondary::before,
+.step-secondary::after {
+  background-color: #8644a2 !important; 
+  color: white;
+}
+
 @media (min-width: 1024px) {
   .lg\:custom-modal-width {
     max-width: 900px;

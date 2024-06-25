@@ -10,23 +10,13 @@
               class="btn mt-2 ml-1 btn-sm btn-circle btn-ghost font-bold text-2xl absolute left-2 top-2" (click)="prevPage()">&#8592;</label>
           </div>
         }
-        <div class="flex flex-row gap-2 mt-4">
-          <div class="w-1/3 bg-[#8644a2] rounded-lg h-3">&nbsp;</div>
-          @if (!firstPage && (secondPage || thirdPage || fourthPage)) {
-            <div class="w-1/3 bg-[#8644a2] rounded-lg h-3">&nbsp;</div>
-          } @else {
-            <div class="w-1/3 bg-gray-300 rounded-lg h-3">&nbsp;</div>
-          }
-          @if (thirdPage || fourthPage) {
-            <div class="w-1/3 bg-[#8644a2] rounded-lg h-3">&nbsp;</div>
-          } @else {
-            <div class="w-1/3 bg-gray-300 rounded-lg h-3">&nbsp;</div>
-          }
-          @if (fourthPage) {
-            <div class="w-1/3 bg-[#8644a2] rounded-lg h-3">&nbsp;</div>
-          } @else {
-            <div class="w-1/3 bg-gray-300 rounded-lg h-3">&nbsp;</div>
-          }
+        <div class="flex justify-center mt-4">
+          <ul class="steps w-full">
+            <li class="step" [ngClass]="{'step-secondary' : firstPage || secondPage || thirdPage || fourthPage}">Info</li>
+            <li class="step" [ngClass]="{'step-secondary' : secondPage || thirdPage || fourthPage}">Location</li>
+            <li class="step" [ngClass]="{'step-secondary' : thirdPage || fourthPage}">Password</li>
+            <li class="step" [ngClass]="{'step-secondary' : fourthPage}">Complete</li>
+          </ul>
         </div>
         
         <form class="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2" [formGroup]="registerForm">
@@ -208,50 +198,50 @@
             </div>
           } 
           @else if (fourthPage) {
-              <div class="max-w-4xl bg-white w-full rounded-lg shadow-xl">
-                <div class="p-4 border-b">
-                  <h2 class="text-2xl">Review Your Details</h2>
-                  <p class="text-sm text-gray-500">Analyze each detail before submit it.</p>
+            <div class="col-span-1 md:col-span-2 bg-white w-full rounded-lg shadow-xl">
+              <div class="p-4 border-b">
+                <h2 class="text-2xl font-bold">Review Your Details</h2>
+                <p class="text-sm text-gray-500">Analyze each detail before submitting it.</p>
+              </div>
+              <div class="col-span-1 md:col-span-2">
+                <div class="md:grid md:grid-cols-2 hover:bg-gray-50 p-4">
+                  <p class="text-gray-600 font-medium">First Name</p>
+                  <p class="break-all">{{ getFormValues().firstName }}</p>
                 </div>
-                <div>
-                  <div class="md:grid md:grid-cols-2 hover:bg-gray-50 md:space-y-0 space-y-1 p-4 border-b">
-                    <p class="text-gray-600">First Name</p>
-                    <p>{{ getFormValues().firstName }}</p>
-                  </div>
-                  <div class="md:grid md:grid-cols-2 hover:bg-gray-50 md:space-y-0 space-y-1 p-4 border-b">
-                    <p class="text-gray-600">Last Name</p>
-                    <p>{{ getFormValues().lastName }}</p>
-                  </div>
-                  <div class="md:grid md:grid-cols-2 hover:bg-gray-50 md:space-y-0 space-y-1 p-4 border-b">
-                    <p class="text-gray-600">Email</p>
-                    <p>{{ getFormValues().email }}</p>
-                  </div>
-                  <div class="md:grid md:grid-cols-2 hover:bg-gray-50 md:space-y-0 space-y-1 p-4 border-b">
-                    <p class="text-gray-600">Phone Number</p>
-                    <p>{{ getFormValues().phoneNumber }}</p>
-                  </div>
-                  <div class="md:grid md:grid-cols-2 hover:bg-gray-50 md:space-y-0 space-y-1 p-4 border-b">
-                    <p class="text-gray-600">Birthdate</p>
-                    <p>{{ getFormValues().birthdate | date:'mediumDate' }}</p>
-                  </div>
-                  <div class="md:grid md:grid-cols-2 hover:bg-gray-50 md:space-y-0 space-y-1 p-4 border-b">
-                    <p class="text-gray-600">Region</p>
-                    <p>{{ getFormValues().region }}</p>
-                  </div>
-                  <div class="md:grid md:grid-cols-2 hover:bg-gray-50 md:space-y-0 space-y-1 p-4 border-b">
-                    <p class="text-gray-600">Province</p>
-                    <p>{{ getFormValues().province }}</p>
-                  </div>
-                  <div class="md:grid md:grid-cols-2 hover:bg-gray-50 md:space-y-0 space-y-1 p-4 border-b">
-                    <p class="text-gray-600">City</p>
-                    <p>{{ getFormValues().city }}</p>
-                  </div>
-                  <div class="md:grid md:grid-cols-2 hover:bg-gray-50 md:space-y-0 space-y-1 p-4">
-                    <p class="text-gray-600">Postal Code</p>
-                    <p>{{ getFormValues().postalCode }}</p>
-                  </div>
+                <div class="md:grid md:grid-cols-2 hover:bg-gray-50 p-4">
+                  <p class="text-gray-600 font-medium">Last Name</p>
+                  <p class="break-all">{{ getFormValues().lastName }}</p>
                 </div>
-              </div>         
+                <div class="md:grid md:grid-cols-2 hover:bg-gray-50 p-4">
+                  <p class="text-gray-600 font-medium">Email</p>
+                  <p class="break-all">{{ getFormValues().email }}</p>
+                </div>
+                <div class="md:grid md:grid-cols-2 hover:bg-gray-50 p-4">
+                  <p class="text-gray-600 font-medium">Phone Number</p>
+                  <p class="break-all">{{ getFormValues().phoneNumber }}</p>
+                </div>
+                <div class="md:grid md:grid-cols-2 hover:bg-gray-50 p-4">
+                  <p class="text-gray-600 font-medium">Birthdate</p>
+                  <p class="break-all">{{ getFormValues().birthdate | date:'mediumDate' }}</p>
+                </div>
+                <div class="md:grid md:grid-cols-2 hover:bg-gray-50 p-4">
+                  <p class="text-gray-600 font-medium">Region</p>
+                  <p class="break-all">{{ getFormValues().region }}</p>
+                </div>
+                <div class="md:grid md:grid-cols-2 hover:bg-gray-50 p-4">
+                  <p class="text-gray-600 font-medium">Province</p>
+                  <p class="break-all">{{ getFormValues().province }}</p>
+                </div>
+                <div class="md:grid md:grid-cols-2 hover:bg-gray-50 p-4">
+                  <p class="text-gray-600 font-medium">City</p>
+                  <p class="break-all">{{ getFormValues().city }}</p>
+                </div>
+                <div class="md:grid md:grid-cols-2 hover:bg-gray-50 p-4">
+                  <p class="text-gray-600 font-medium">Postal Code</p>
+                  <p class="break-all">{{ getFormValues().postalCode }}</p>
+                </div>
+              </div>
+            </div>        
             <div class="col-span-1 md:col-span-2 flex justify-center">
               <button (click)="handleSubmit()" [disabled]="!registerForm.valid" [ngClass]="{'disabled-button': !registerForm.valid}"
               class="w-full px-6 py-3 mt-4 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-[#8644a2] rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
