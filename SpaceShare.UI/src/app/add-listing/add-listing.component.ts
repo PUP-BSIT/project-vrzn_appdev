@@ -1,10 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  Validators
-} from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AddListingService } from './add-listing.service';
 import { Property } from '../../model/property.model';
 import { LocationService } from '../landing/register/location.service';
@@ -37,48 +32,24 @@ export class AddListingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.initializeForm();
+    this.loadCitiesByRegion(this.defaultRegionCode);
+  }
+
+  initializeForm(): void {
     this.propertyForm = this.formBuilder.group({
-      title: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(5),
-          Validators.maxLength(30),
-        ],
-      ],
+      title: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
       price: ['', [Validators.required, this.priceValidator]],
       bedroom: ['', Validators.required],
-      capacity: [
-        '',
-        [Validators.required, Validators.min(1), Validators.max(50)],
-      ],
-      area: [
-        '',
-        [Validators.required, Validators.min(10), Validators.max(60)],
-      ],
-      description: [
-        '', 
-        [
-          Validators.required, 
-          Validators.minLength(220), 
-          Validators.maxLength(320)
-        ],
-      ],
+      capacity: ['', [Validators.required, Validators.min(1), Validators.max(50)]],
+      area: ['', [Validators.required, Validators.min(10), Validators.max(60)]],
+      description: ['', [Validators.required, Validators.minLength(220), Validators.maxLength(320)]],
       region: [this.defaultRegionCode, Validators.required],
       city: ['', Validators.required],
       postal_code: ['', [Validators.required, Validators.pattern(/^\d{4}$/)]],
-      barangay: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(5),
-          Validators.maxLength(70),
-        ],
-      ],
+      barangay: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(70)]],
       files: ['', Validators.required],
     });
-
-    this.loadCitiesByRegion(this.defaultRegionCode);
   }
 
   priceValidator(control: AbstractControl): { [key: string]: boolean } | null {
@@ -202,9 +173,9 @@ export class AddListingComponent implements OnInit {
   }
 
   resetFileInput(): void {
-    this.fileInput.nativeElement.value = ''; // Reset the value of the file input field
+    this.fileInput.nativeElement.value = ''; 
   }
-  
+
   onDrop(event: DragEvent): void {
     event.preventDefault();
     if (event.dataTransfer && event.dataTransfer.files.length > 0) {
@@ -240,12 +211,40 @@ export class AddListingComponent implements OnInit {
           this.submissionSuccess = false;
         }, 2000);
 
-        this.propertyForm.reset();
-        this.images = [];
+        this.resetForm();
       },
       error: () => {
         this.submissionSuccess = false;
       },
+    });
+  }
+
+  resetForm(): void {
+    this.propertyForm.reset({
+      title: '',
+      price: '',
+      bedroom: '',
+      capacity: '',
+      area: '',
+      description: '',
+      region: this.defaultRegionCode,
+      city: '',
+      postal_code: '',
+      barangay: '',
+      files: ''
+    });
+
+    this.propertyForm.markAsPristine();
+    this.propertyForm.markAsUntouched();
+    this.propertyForm.updateValueAndValidity();
+
+    this.images = [];
+    this.fileInput.nativeElement.value = ''; // Reset the value of the file input field
+
+    // Manually trigger validation to ensure the form is invalid until all required fields are filled
+    Object.keys(this.propertyForm.controls).forEach(key => {
+      const control = this.propertyForm.get(key);
+      control!.updateValueAndValidity();
     });
   }
 }
