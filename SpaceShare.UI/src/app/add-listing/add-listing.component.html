@@ -243,8 +243,8 @@
                 </div>
             </div>
             <div class="flex justify-end">
-                <button type="submit" class="btn btn-primary bg-primary text-white font-bold border-none" [disabled]="!propertyForm.valid" [disabled]="submitted">Upload listing</button>
-            </div>
+                <button type="submit" class="btn btn-primary bg-primary text-white font-bold border-none" [disabled]="!propertyForm.valid || submitted">Upload listing</button>
+              </div>              
         </form>
     </div>
 </body>

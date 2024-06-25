@@ -23,6 +23,7 @@ export class AddListingComponent implements OnInit {
   submissionSuccess = false;
   maxImages = 4;
   imageLimitExceeded = false;
+  submitButtonDisabled = false;
 
   defaultRegionCode: string = '13';
   selectedProvince: string = '';
@@ -40,16 +41,43 @@ export class AddListingComponent implements OnInit {
 
   initializeForm(): void {
     this.propertyForm = this.formBuilder.group({
-      title: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
+      title: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(5),
+          Validators.maxLength(30),
+        ],
+      ],
       price: ['', [Validators.required, this.priceValidator]],
       bedroom: ['', Validators.required],
-      capacity: ['', [Validators.required, Validators.min(1), Validators.max(50)]],
-      area: ['', [Validators.required, Validators.min(10), Validators.max(60)]],
-      description: ['', [Validators.required, Validators.minLength(220), Validators.maxLength(320)]],
+      capacity: [
+        '',
+        [Validators.required, Validators.min(1), Validators.max(50)],
+      ],
+      area: [
+        '',
+        [Validators.required, Validators.min(10), Validators.max(60)],
+      ],
+      description: [
+        '', 
+        [
+          Validators.required, 
+          Validators.minLength(220), 
+          Validators.maxLength(320)
+        ],
+      ],
       region: [this.defaultRegionCode, Validators.required],
       city: ['', Validators.required],
       postal_code: ['', [Validators.required, Validators.pattern(/^\d{4}$/)]],
-      barangay: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(70)]],
+      barangay: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(5),
+          Validators.maxLength(70),
+        ],
+      ],
       files: ['', Validators.required],
     });
   }
@@ -175,9 +203,9 @@ export class AddListingComponent implements OnInit {
   }
 
   resetFileInput(): void {
-    this.fileInput.nativeElement.value = ''; 
+    this.fileInput.nativeElement.value = ''; // Reset the value of the file input field
   }
-
+  
   onDrop(event: DragEvent): void {
     event.preventDefault();
     if (event.dataTransfer && event.dataTransfer.files.length > 0) {
@@ -194,9 +222,9 @@ export class AddListingComponent implements OnInit {
     if (!this.propertyForm.valid) return;
 
     this.submitted = true;
+    this.submitButtonDisabled = true; // Disable submit button to prevent multiple submissions
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
-
 
     const selectedRegion = this.regions.find(
       (r) => r.region_code === this.defaultRegionCode
@@ -209,27 +237,16 @@ export class AddListingComponent implements OnInit {
 
     const files: File[] = this.images.map((image) => image.file);
     this.addListingService.createProperty(propertyData, files).subscribe(data => {
-      if(data.hasOwnProperty('createdProperty')) {
-        this.createdPropertyId = data.createdProperty.id
+      if (data.hasOwnProperty('createdProperty')) {
+        this.createdPropertyId = data.createdProperty.id;
         this.submitted = false;
         this.submissionSuccess = true;
-<<<<<<< HEAD
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-
-        setTimeout(() => {
-          this.submissionSuccess = false;
-        }, 2000);
-
-        this.resetForm();
-      },
-      error: () => {
-        this.submissionSuccess = false;
-      },
-=======
         this.images = [];
+        this.resetForm();
       }
->>>>>>> bad26ad770c3417b854c4916a2db035d5e03bc20
+      this.submitButtonDisabled = false; 
+    }, () => {
+      this.submitButtonDisabled = false; 
     });
   }
 
