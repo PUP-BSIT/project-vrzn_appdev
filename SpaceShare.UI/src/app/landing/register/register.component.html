@@ -12,10 +12,10 @@
         }
         <div class="flex justify-center mt-4">
           <ul class="steps w-full">
-            <li class="step" [ngClass]="{'step-primary': firstPage || secondPage || thirdPage || fourthPage}">Personal Info</li>
-            <li class="step" [ngClass]="{'step-primary': secondPage || thirdPage || fourthPage}">Location Details</li>
-            <li class="step" [ngClass]="{'step-primary': thirdPage || fourthPage}">Set Password</li>
-            <li class="step" [ngClass]="{'step-primary': fourthPage}">Review & Submit</li>
+            <li class="step" [ngClass]="{'step-secondary' : firstPage || secondPage || thirdPage || fourthPage}">Personal Info</li>
+            <li class="step" [ngClass]="{'step-secondary': secondPage || thirdPage || fourthPage}">Location Details</li>
+            <li class="step" [ngClass]="{'step-secondary': thirdPage || fourthPage}">Set Password</li>
+            <li class="step" [ngClass]="{'step-secondary': fourthPage}">Review & Submit</li>
           </ul>
         </div>
         
