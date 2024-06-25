@@ -3,7 +3,7 @@ import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { AddListingService } from './add-listing.service';
 import { Property } from '../../model/property.model';
@@ -50,10 +50,7 @@ export class AddListingComponent implements OnInit {
         '',
         [Validators.required, Validators.min(1), Validators.max(50)],
       ],
-      area: [
-        '',
-        [Validators.required, Validators.min(10), Validators.max(60)],
-      ],
+      area: ['', [Validators.required, Validators.min(10), Validators.max(60)]],
       description: ['', [Validators.required, Validators.maxLength(300)]],
       region: [this.defaultRegionCode, Validators.required],
       city: ['', Validators.required],
@@ -127,7 +124,6 @@ export class AddListingComponent implements OnInit {
       );
     });
   }
-
 
   onFileChange(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
