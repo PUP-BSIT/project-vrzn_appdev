@@ -17,15 +17,17 @@ import { Region, City } from '../../model/location.model';
 })
 export class AddListingComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef;
+  createdPropertyId!: number;
 
   propertyForm!: FormGroup;
   images: { file: File; preview: string }[] = [];
   regions: Region[] = [];
   cities: City[] = [];
   fileError: string | null = null;
-  submissionSuccess: boolean = false;
-  maxImages: number = 4;
-  imageLimitExceeded: boolean = false;
+  submitted = false;
+  submissionSuccess = false;
+  maxImages = 4;
+  imageLimitExceeded = false;
 
   defaultRegionCode: string = '13';
   selectedProvince: string = '';
@@ -220,6 +222,11 @@ export class AddListingComponent implements OnInit {
   onSubmit(): void {
     if (!this.propertyForm.valid) return;
 
+    this.submitted = true;
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+
     const selectedRegion = this.regions.find(
       (r) => r.region_code === this.defaultRegionCode
     )?.region_name;
@@ -230,22 +237,13 @@ export class AddListingComponent implements OnInit {
     };
 
     const files: File[] = this.images.map((image) => image.file);
-    this.addListingService.createProperty(propertyData, files).subscribe({
-      next: () => {
+    this.addListingService.createProperty(propertyData, files).subscribe(data => {
+      if(data.hasOwnProperty('createdProperty')) {
+        this.createdPropertyId = data.createdProperty.id
+        this.submitted = false;
         this.submissionSuccess = true;
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-
-        setTimeout(() => {
-          this.submissionSuccess = false;
-        }, 2000);
-
-        this.propertyForm.reset();
         this.images = [];
-      },
-      error: () => {
-        this.submissionSuccess = false;
-      },
+      }
     });
   }
 }

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Property } from '../../model/property.model';
+import { Property, PropertyResponse } from '../../model/property.model';
 import { environment } from '../../../environment/appsettings';
 
 @Injectable()
@@ -26,7 +26,7 @@ export class AddListingService {
 
     const headers = new HttpHeaders().set('Accept', 'application/json');
 
-    return this.httpService.post(url, formData, {
+    return this.httpService.post<PropertyResponse>(url, formData, {
       headers: headers,
       withCredentials: true,
     });
