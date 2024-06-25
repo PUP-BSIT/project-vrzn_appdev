@@ -38,9 +38,10 @@
 @if(isDeleting){
     <span class="loading loading-dots loading-lg"></span>
     @if(isDeleted){
-      <div class="toast toast-center">
-      <div class="alert alert-success">
-        <span class="text-white">Card deleted successfully.</span>
+    <div id="deleted_modal" class="modal modal-open flex items-center justify-center">
+      <div class="modal-box relative">
+        <h3 class="font-bold text-lg">Success!</h3>
+        <p class="py-4">Space deleted successfully.</p>
       </div>
     </div>
     }
