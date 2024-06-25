@@ -10,23 +10,13 @@
               class="btn mt-2 ml-1 btn-sm btn-circle btn-ghost font-bold text-2xl absolute left-2 top-2" (click)="prevPage()">&#8592;</label>
           </div>
         }
-        <div class="flex flex-row gap-2 mt-4">
-          <div class="w-1/3 bg-[#8644a2] rounded-lg h-3">&nbsp;</div>
-          @if (!firstPage && (secondPage || thirdPage || fourthPage)) {
-            <div class="w-1/3 bg-[#8644a2] rounded-lg h-3">&nbsp;</div>
-          } @else {
-            <div class="w-1/3 bg-gray-300 rounded-lg h-3">&nbsp;</div>
-          }
-          @if (thirdPage || fourthPage) {
-            <div class="w-1/3 bg-[#8644a2] rounded-lg h-3">&nbsp;</div>
-          } @else {
-            <div class="w-1/3 bg-gray-300 rounded-lg h-3">&nbsp;</div>
-          }
-          @if (fourthPage) {
-            <div class="w-1/3 bg-[#8644a2] rounded-lg h-3">&nbsp;</div>
-          } @else {
-            <div class="w-1/3 bg-gray-300 rounded-lg h-3">&nbsp;</div>
-          }
+        <div class="flex justify-center mt-4">
+          <ul class="steps w-full">
+            <li class="step" [ngClass]="{'step-primary': firstPage || secondPage || thirdPage || fourthPage}">Personal Info</li>
+            <li class="step" [ngClass]="{'step-primary': secondPage || thirdPage || fourthPage}">Location Details</li>
+            <li class="step" [ngClass]="{'step-primary': thirdPage || fourthPage}">Set Password</li>
+            <li class="step" [ngClass]="{'step-primary': fourthPage}">Review & Submit</li>
+          </ul>
         </div>
         
         <form class="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2" [formGroup]="registerForm">
