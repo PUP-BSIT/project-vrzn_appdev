@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { Card } from '../../model/card.model';
 import { PropertyCardService } from './property-card.service';
+import { ConfirmComponent } from '../confirm/confirm.component';
 
 @Component({
   selector: 'app-property-card',
   templateUrl: './property-card.component.html',
-  styleUrls: ['./property-card.component.css'], 
+  styleUrls: ['./property-card.component.css'],
 })
 export class PropertyCardComponent {
   @Input() card!: Card;
@@ -14,6 +15,8 @@ export class PropertyCardComponent {
   @Output() cardDeleted = new EventEmitter<number>();
   isDeleting: boolean = false; 
   isDeleted: boolean = false;
+
+  @ViewChild(ConfirmComponent) confirmModal!: ConfirmComponent;
 
   constructor(private cardService: PropertyCardService) {}
 
@@ -34,4 +37,24 @@ export class PropertyCardComponent {
       }
     });
   }
+
+  onDeleteConfirmed() {
+    this.deleteCard(this.cardId);
+    this.closeModal();
+  }
+
+  openModal() {
+    const modal: any = document.getElementById('my_modal_4');
+    if (modal) {
+      modal.showModal();
+    }
+  }
+
+  closeModal() {
+    const modal: any = document.getElementById('my_modal_4');
+    if (modal) {
+      modal.close();
+    }
+  }
 }
+
