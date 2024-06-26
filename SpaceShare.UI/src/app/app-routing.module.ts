@@ -31,9 +31,13 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'agreement', component: AgreementComponent },
-  { path: 'space/owned', component: OwnedComponent, canActivate: [AuthGuard]},
+  { path: 'space/owned', component: OwnedComponent, canActivate: [AuthGuard] },
   { path: 'space/:id', component: PropertyComponent },
-  { path: 'space/edit/:id', component: AddListingComponent },
+  {
+    path: 'space/edit/:id',
+    component: AddListingComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'verification', component: VerificationComponent },
   { path: 'listing', component: ListingComponent },
   {
