@@ -43,6 +43,14 @@
           <div class="form-control mt-6">
             <button class="btn bg-[#8644a2] text-white" type="submit" [disabled]="loginForm.invalid">Login</button>
           </div>
+          <div class="col-span-1 md:col-span-2 flex justify-center">
+            <span class="text-sm">
+              Don't have an account yet? 
+              <label for="sign-up-mdl" class="text-blue-500 hover:underline dark:text-blue-400 cursor-pointer mt-5" (click)="closeModal()">
+                Sign up!
+              </label>
+            </span>
+          </div>          
         </form>
       </div>
     }@else{
