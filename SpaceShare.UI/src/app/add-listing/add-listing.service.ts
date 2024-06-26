@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Property, PropertyResponse } from '../../model/property.model';
 import { environment } from '../../../environment/appsettings';
+import { map, Observable } from 'rxjs';
 
 @Injectable()
 export class AddListingService {
@@ -31,4 +32,17 @@ export class AddListingService {
       withCredentials: true,
     });
   }
+
+  getImages(url: string): Observable<File> {
+    return this.httpService.get(url, { responseType: 'blob' }).pipe(
+      map(blob => {
+        const fileName = url.split('/').pop() || 'propertyImage';
+        return new File([blob], fileName, {
+          type: blob.type,
+          lastModified: Date.now(),
+        })
+      })
+    )
+  }
+
 }

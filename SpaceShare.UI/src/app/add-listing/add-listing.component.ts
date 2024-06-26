@@ -6,6 +6,7 @@ import { LocationService } from '../landing/register/location.service';
 import { Region, City } from '../../model/location.model';
 import { ActivatedRoute } from '@angular/router';
 import { PropertyService } from '../property/property.service';
+import { every, forkJoin, map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-add-listing',
@@ -27,8 +28,8 @@ export class AddListingComponent implements OnInit {
   imageLimitExceeded = false;
   submitButtonDisabled = false;
 
-  defaultRegionCode: string = '13';
-  selectedProvince: string = '';
+  defaultRegionCode = '13';
+  selectedProvince = '';
 
   title = 'Add new listing';
   isEditing = false;
@@ -47,26 +48,24 @@ export class AddListingComponent implements OnInit {
     this.initializeForm();
     this.loadCitiesByRegion(this.defaultRegionCode);
     this.route.paramMap.subscribe((params) => {
-      if(+params.get('id')!) {
-        this.title = 'Edit Listing'
+      if (+params.get('id')!) {
+        this.title = 'Edit Listing';
         this.idToEdit = +params.get('id')!;
         this.isEditing = true;
       }
     });
 
-    if(this.isEditing){
+    if (this.isEditing) {
       this.propertyService.getProperty(this.idToEdit).subscribe({
-        next: response => {
+        next: (response) => {
           this.propertyToEdit = response;
           this.initializeEditForm();
         },
-        error: err => {
+        error: (err) => {
           //handle error pls
-        }
-      })    
+        },
+      });
     }
-
-
   }
 
   initializeForm(): void {
@@ -122,6 +121,7 @@ export class AddListingComponent implements OnInit {
       postal_code: this.propertyToEdit.postal_code,
       barangay: this.propertyToEdit.barangay,
     });
+    this.setImages(this.propertyToEdit.images);
   }
 
   priceValidator(control: AbstractControl): { [key: string]: boolean } | null {
@@ -132,46 +132,6 @@ export class AddListingComponent implements OnInit {
     return null;
   }
 
-  get titleControl(): AbstractControl {
-    return this.propertyForm.get('title')!;
-  }
-
-  get priceControl(): AbstractControl {
-    return this.propertyForm.get('price')!;
-  }
-
-  get capacityControl(): AbstractControl {
-    return this.propertyForm.get('capacity')!;
-  }
-
-  get bedroomControl(): AbstractControl {
-    return this.propertyForm.get('bedroom')!;
-  }
-
-  get areaControl(): AbstractControl {
-    return this.propertyForm.get('area')!;
-  }
-
-  get descriptionControl(): AbstractControl {
-    return this.propertyForm.get('description')!;
-  }
-
-  get filesControl(): AbstractControl {
-    return this.propertyForm.get('files')!;
-  }
-
-  get cityControl(): AbstractControl {
-    return this.propertyForm.get('city')!;
-  }
-
-  get postalCodeControl(): AbstractControl {
-    return this.propertyForm.get('postal_code')!;
-  }
-
-  get barangayControl(): AbstractControl {
-    return this.propertyForm.get('barangay')!;
-  }
-
   loadCitiesByRegion(regionCode: string): void {
     this.locationService.getCities().subscribe((data: City[]) => {
       this.cities = data.filter((entry: City) =>
@@ -180,7 +140,7 @@ export class AddListingComponent implements OnInit {
     });
   }
 
-  onFileChange(event: Event): void {
+  onFileChange(): void {
     const inputElement = this.fileInput.nativeElement;
 
     if (inputElement.files && inputElement.files.length > 0) {
@@ -235,6 +195,30 @@ export class AddListingComponent implements OnInit {
     }
   }
 
+  setImages(images: { image_url: string }[]): void {
+    const dataTransfer = new DataTransfer();
+
+    const imageObservables: Observable<File>[] = images.map(image => 
+      this.addListingService.getImages(image.image_url).pipe(
+        map(file => file as File)
+      )
+    )
+
+    forkJoin(imageObservables).subscribe({
+      next: (files : File[]) => {
+        files.forEach(file => {
+          dataTransfer.items.add(file);    
+        })
+        
+        this.fileInput.nativeElement.files = dataTransfer.files;
+
+        const event = new Event('change', { bubbles: true });
+        this.fileInput.nativeElement.dispatchEvent(event);
+      },
+
+    })
+  }
+
   removeImage(index: number): void {
     this.images.splice(index, 1);
     this.propertyForm.patchValue({
@@ -245,7 +229,7 @@ export class AddListingComponent implements OnInit {
   }
 
   resetFileInput(): void {
-    this.fileInput.nativeElement.value = ''; // Reset the value of the file input field
+    this.fileInput.nativeElement.value = ''; 
   }
 
   onDrop(event: DragEvent): void {
@@ -264,7 +248,7 @@ export class AddListingComponent implements OnInit {
     if (!this.propertyForm.valid) return;
 
     this.submitted = true;
-    this.submitButtonDisabled = true; // Disable submit button to prevent multiple submissions
+    this.submitButtonDisabled = true; 
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -315,12 +299,53 @@ export class AddListingComponent implements OnInit {
     this.propertyForm.updateValueAndValidity();
 
     this.images = [];
-    this.fileInput.nativeElement.value = ''; // Reset the value of the file input field
+    this.fileInput.nativeElement.value = ''; 
 
-    // Manually trigger validation to ensure the form is invalid until all required fields are filled
     Object.keys(this.propertyForm.controls).forEach((key) => {
       const control = this.propertyForm.get(key);
       control!.updateValueAndValidity();
     });
   }
+
+  //#region getter functions
+  get titleControl(): AbstractControl {
+    return this.propertyForm.get('title')!;
+  }
+
+  get priceControl(): AbstractControl {
+    return this.propertyForm.get('price')!;
+  }
+
+  get capacityControl(): AbstractControl {
+    return this.propertyForm.get('capacity')!;
+  }
+
+  get bedroomControl(): AbstractControl {
+    return this.propertyForm.get('bedroom')!;
+  }
+
+  get areaControl(): AbstractControl {
+    return this.propertyForm.get('area')!;
+  }
+
+  get descriptionControl(): AbstractControl {
+    return this.propertyForm.get('description')!;
+  }
+
+  get filesControl(): AbstractControl {
+    return this.propertyForm.get('files')!;
+  }
+
+  get cityControl(): AbstractControl {
+    return this.propertyForm.get('city')!;
+  }
+
+  get postalCodeControl(): AbstractControl {
+    return this.propertyForm.get('postal_code')!;
+  }
+
+  get barangayControl(): AbstractControl {
+    return this.propertyForm.get('barangay')!;
+  }
+  //#endregion
 }
