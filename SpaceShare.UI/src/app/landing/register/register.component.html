@@ -248,30 +248,31 @@
                 Register
               </button>
             </div>
+            <div class="col-span-1 md:col-span-2 flex justify-center">
+              <p class="mt-6 text-center text-gray-500 dark:text-gray-400">
+                By clicking “Register” above, you acknowledge that you have read and
+                understood, and agree to our
+                <a href="#" class="text-violet-700 dark:text-violet-500">Terms & Conditions</a>
+                and
+                <a href="#" class="text-violet-700 dark:text-violet-500">Privacy Policy</a>.
+              </p>
+            </div>
           }
         </form>
-        <div class="col-span-1 md:col-span-2 flex justify-center">
-          <label for="log-in-mdl" class="text-sm text-blue-500 hover:underline dark:text-blue-400 cursor-pointer mt-5"
-            (click)="closeModal()">
-            Already have an account?
-          </label>
-        </div>
-        <div class="col-span-1 md:col-span-2 flex justify-center">
-          <p class="mt-6 text-center text-gray-500 dark:text-gray-400">
-            By clicking “Continue” above, you acknowledge that you have read and
-            understood, and agree to our
-            <a href="#" class="text-violet-700 dark:text-violet-500">Terms & Conditions</a>
-            and
-            <a href="#" class="text-violet-700 dark:text-violet-500">Privacy Policy</a>.
-          </p>
-        </div>
+        @if (!fourthPage) {
+          <div class="col-span-1 md:col-span-2 flex justify-center">
+            <label for="log-in-mdl" class="text-sm text-blue-500 hover:underline dark:text-blue-400 cursor-pointer mt-5"
+              (click)="closeModal()">
+              Already have an account?
+            </label>
+          </div>
+        }
       } @else {
         <app-verification [email]="registerForm.get('email')?.value" [code]="randomNumber" [userToCreate]="bodyToPass" />
         <div class="modal-action">
           <label for="verification-mdl" class="btn btn-sm btn-circle btn-ghost font-bold text-2xl absolute left-2 top-2" (click)="prevPage()">&#8592;</label>
         </div>
       }
-      
     </div>
     <div class="modal-action">
       <label for="sign-up-mdl" class="btn btn-sm btn-circle btn-ghost text-lg absolute right-2 top-2">&#x2715;</label>
