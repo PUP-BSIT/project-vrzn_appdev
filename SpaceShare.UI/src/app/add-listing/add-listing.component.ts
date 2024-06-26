@@ -1,10 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  Validators
-} from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AddListingService } from './add-listing.service';
 import { Property } from '../../model/property.model';
 import { LocationService } from '../landing/register/location.service';
@@ -28,6 +23,7 @@ export class AddListingComponent implements OnInit {
   submissionSuccess = false;
   maxImages = 4;
   imageLimitExceeded = false;
+  submitButtonDisabled = false;
 
   defaultRegionCode: string = '13';
   selectedProvince: string = '';
@@ -39,6 +35,11 @@ export class AddListingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.initializeForm();
+    this.loadCitiesByRegion(this.defaultRegionCode);
+  }
+
+  initializeForm(): void {
     this.propertyForm = this.formBuilder.group({
       title: [
         '',
@@ -79,8 +80,6 @@ export class AddListingComponent implements OnInit {
       ],
       files: ['', Validators.required],
     });
-
-    this.loadCitiesByRegion(this.defaultRegionCode);
   }
 
   priceValidator(control: AbstractControl): { [key: string]: boolean } | null {
@@ -223,9 +222,9 @@ export class AddListingComponent implements OnInit {
     if (!this.propertyForm.valid) return;
 
     this.submitted = true;
+    this.submitButtonDisabled = true; // Disable submit button to prevent multiple submissions
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
-
 
     const selectedRegion = this.regions.find(
       (r) => r.region_code === this.defaultRegionCode
@@ -238,12 +237,45 @@ export class AddListingComponent implements OnInit {
 
     const files: File[] = this.images.map((image) => image.file);
     this.addListingService.createProperty(propertyData, files).subscribe(data => {
-      if(data.hasOwnProperty('createdProperty')) {
-        this.createdPropertyId = data.createdProperty.id
+      if (data.hasOwnProperty('createdProperty')) {
+        this.createdPropertyId = data.createdProperty.id;
         this.submitted = false;
         this.submissionSuccess = true;
         this.images = [];
+        this.resetForm();
       }
+      this.submitButtonDisabled = false; 
+    }, () => {
+      this.submitButtonDisabled = false; 
+    });
+  }
+
+  resetForm(): void {
+    this.propertyForm.reset({
+      title: '',
+      price: '',
+      bedroom: '',
+      capacity: '',
+      area: '',
+      description: '',
+      region: this.defaultRegionCode,
+      city: '',
+      postal_code: '',
+      barangay: '',
+      files: ''
+    });
+
+    this.propertyForm.markAsPristine();
+    this.propertyForm.markAsUntouched();
+    this.propertyForm.updateValueAndValidity();
+
+    this.images = [];
+    this.fileInput.nativeElement.value = ''; // Reset the value of the file input field
+
+    // Manually trigger validation to ensure the form is invalid until all required fields are filled
+    Object.keys(this.propertyForm.controls).forEach(key => {
+      const control = this.propertyForm.get(key);
+      control!.updateValueAndValidity();
     });
   }
 }
