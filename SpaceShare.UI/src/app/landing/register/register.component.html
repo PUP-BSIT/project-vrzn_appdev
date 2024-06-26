@@ -23,7 +23,7 @@
           @if (firstPage) {
             <div>
               <input type="text" placeholder="Your Name" formControlName="firstName"
-              [ngClass]="getValidationClass(firstNameControl)" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+              [ngClass]="getValidationClass(firstNameControl)" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
               @if (firstNameControl.invalid && firstNameControl.touched) {
                 @if (firstNameControl.errors?.['required']) {
                   <div class="error-message text-red-500 pl-3">First Name Must Not Null</div>
@@ -38,7 +38,7 @@
             </div>
             <div>
               <input type="text" placeholder="Last Name" formControlName="lastName"
-              [ngClass]="getValidationClass(lastNameControl)" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+              [ngClass]="getValidationClass(lastNameControl)" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
               @if (lastNameControl.invalid && lastNameControl.touched) {
                 @if (lastNameControl.errors?.['required']) {
                   <div class="error-message text-red-500 pl-3">Last Name Must Not Null</div>
@@ -53,7 +53,7 @@
             </div>
             <div>
               <input type="text" placeholder="Middle Name" formControlName="middleName"
-              [ngClass]="getValidationClass(middleNameControl)" class=" block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+              [ngClass]="getValidationClass(middleNameControl)" class=" block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 0 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
               @if (middleNameControl.invalid && middleNameControl.touched) {
                 @if (middleNameControl.errors?.['pattern']) {
                   <div class="error-message text-red-500 pl-3">Must Enter Valid Middle Name</div>
@@ -65,7 +65,7 @@
             </div>
             <div>
               <input type="text" placeholder="Phone Number" formControlName="phoneNumber"
-              [ngClass]="getValidationClass(phoneNumberControl)" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+              [ngClass]="getValidationClass(phoneNumberControl)" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 0 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
               @if (phoneNumberControl.invalid && phoneNumberControl.touched) {
                 @if (phoneNumberControl.errors?.['required']) {
                   <div class="error-message text-red-500 pl-3">Phone No: Must Not Null</div>
@@ -77,7 +77,7 @@
             </div>
             <div>
               <input type="email" placeholder="email@sample.com" formControlName="email"
-              [ngClass]="getValidationClass(emailControl)" class="block w-full px-5 py-3 mt-7 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+              [ngClass]="getValidationClass(emailControl)" class="block w-full px-5 py-3 mt-7 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 0 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
               @if (emailControl.invalid && emailControl.touched) {
                 @if (emailControl.errors?.['required']) {
                   <div class="error-message text-red-500 pl-3">Must Input Email Address</div>
@@ -90,7 +90,7 @@
             <div>
               <label for="birthdate" class="block text-sm font-medium text-gray-700">Date of Birth</label>
               <input type="date" id="birthdate" formControlName="birthdate"
-              [ngClass]="getValidationClass(birthdateControl)" class="block w-full px-4 py-2.5 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+              [ngClass]="getValidationClass(birthdateControl)" class="block w-full px-4 py-2.5 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 0 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
               @if (birthdateControl.invalid && birthdateControl.touched) {
                 @if (birthdateControl.errors?.['required']) {
                   <div class="error-message text-red-500 pl-3">Date of Birth must not be null</div>
@@ -147,7 +147,7 @@
             </div>            
             <div>
               <input type="text" placeholder="Postal Code" formControlName="postalCode"
-              [ngClass]="getValidationClass(postalCodeControl)" class="block w-full px-5 py-3 mt-5 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+              [ngClass]="getValidationClass(postalCodeControl)" class="block w-full px-5 py-3 mt-5 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 0 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
               @if (postalCodeControl.invalid && postalCodeControl.touched) {
                 @if (postalCodeControl.errors?.['required']) {
                   <div class="error-message text-red-500 pl-3">Postal code must not be null</div>
@@ -167,7 +167,7 @@
           @else if (thirdPage) {
             <div>
               <input type="password" placeholder="Enter your password" formControlName="password"
-              [ngClass]="getValidationClass(passwordControl)" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+              [ngClass]="getValidationClass(passwordControl)" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 0 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
               @if (passwordControl.invalid && passwordControl.touched) {
                 @if (passwordControl.errors?.['required']) {
                   <div class="error-message text-red-500 pl-3">Password must not be null</div>
@@ -180,7 +180,7 @@
             </div>
             <div>
               <input type="password" placeholder="Confirm your Password" formControlName="confirmPassword"
-              [ngClass]="getValidationClass(confirmPasswordControl)" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+              [ngClass]="getValidationClass(confirmPasswordControl)" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 0 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
               @if (confirmPasswordControl.invalid && confirmPasswordControl.touched) {
                 @if (confirmPasswordControl.errors?.['required']) {
                   <div class="error-message text-red-500 pl-3">Confirm Password must not be null</div>
@@ -249,19 +249,19 @@
               </button>
             </div>
             <div class="col-span-1 md:col-span-2 flex justify-center">
-              <p class="mt-6 text-center text-gray-500 dark:text-gray-400">
+              <p class="mt-6 text-center text-gray-500">
                 By clicking “Register” above, you acknowledge that you have read and
                 understood, and agree to our
-                <a target="_blank" routerLink="/agreement/terms" class="text-violet-700 dark:text-violet-500">Terms & Conditions</a>
+                <a target="_blank" routerLink="/agreement/terms" class="text-violet-700 ">Terms & Conditions</a>
                 and
-                <a target="_blank" routerLink="/agreement/privacy" class="text-violet-700 dark:text-violet-500">Privacy Policy</a>.
+                <a target="_blank" routerLink="/agreement/privacy" class="text-violet-700 ">Privacy Policy</a>.
               </p>
             </div>
           }
         </form>
         @if (!fourthPage) {
           <div class="col-span-1 md:col-span-2 flex justify-center">
-            <label for="log-in-mdl" class="text-sm text-blue-500 hover:underline dark:text-blue-400 cursor-pointer mt-5"
+            <label for="log-in-mdl" class="text-sm text-blue-500 hover:underline cursor-pointer mt-5"
               (click)="closeModal()">
               Already have an account?
             </label>
