@@ -1,9 +1,9 @@
 <!-- login.component.html -->
 <input type="checkbox" id="log-in-mdl" class="modal-toggle" #modalToggle />
 <div class="modal">
-  <div class="modal-box">
+  <div class="modal-box w-11/12 max-w-md p-6">
     @if(!showLink){
-      <h1 class="text-3xl font-bold grid justify-items-center">Login now!</h1>
+      <h1 class="text-3xl font-bold grid justify-items-center pt-9">Login now!</h1>
       <div class="card shrink-1 w-full max-w-w bg-base-0">
         <form class="card-body" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="form-control">
@@ -37,16 +37,16 @@
               <div class="error-message text-red-500">Password is required</div>  
             }  
             <label class="label">
-              <button (click)="toggleLinkVisibility()" type="button" class="label-text-alt link link-hover mt-3" >Forgot password?</button>
+              <button (click)="toggleLinkVisibility()" type="button" class="text-sm text-blue-500 hover:underline dark:text-blue-400 cursor-pointer" >Forgot password?</button>
             </label>
           </div>
-          <div class="form-control mt-6">
+          <div class="form-control mt-3">
             <button class="btn bg-[#8644a2] text-white" type="submit" [disabled]="loginForm.invalid">Login</button>
           </div>
-          <div class="col-span-1 md:col-span-2 flex justify-center">
+          <div class="col-span-1 md:col-span-2 flex justify-center pt-2">
             <span class="text-sm">
               Don't have an account yet? 
-              <label for="sign-up-mdl" class="text-blue-500 hover:underline dark:text-blue-400 cursor-pointer mt-5" (click)="closeModal()">
+              <label for="sign-up-mdl" class="text-blue-500 hover:underline dark:text-blue-400 cursor-pointer" (click)="closeModal()">
                 Sign up!
               </label>
             </span>
