@@ -4,6 +4,9 @@ import { AddListingService } from './add-listing.service';
 import { Property } from '../../model/property.model';
 import { LocationService } from '../landing/register/location.service';
 import { Region, City } from '../../model/location.model';
+import { ActivatedRoute } from '@angular/router';
+import { PropertyService } from '../property/property.service';
+import { every, forkJoin, map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-add-listing',
@@ -25,24 +28,50 @@ export class AddListingComponent implements OnInit {
   imageLimitExceeded = false;
   submitButtonDisabled = false;
 
-  defaultRegionCode: string = '13';
-  selectedProvince: string = '';
+  defaultRegionCode = '13';
+  selectedProvince = '';
+
+  title = 'Add new listing';
+  isEditing = false;
+  idToEdit!: number;
+  propertyToEdit!: Property;
 
   constructor(
     private formBuilder: FormBuilder,
     private addListingService: AddListingService,
-    private locationService: LocationService
+    private locationService: LocationService,
+    private route: ActivatedRoute,
+    private propertyService: PropertyService
   ) {}
 
   ngOnInit(): void {
     this.initializeForm();
     this.loadCitiesByRegion(this.defaultRegionCode);
+    this.route.paramMap.subscribe((params) => {
+      if (+params.get('id')!) {
+        this.title = 'Edit Listing';
+        this.idToEdit = +params.get('id')!;
+        this.isEditing = true;
+      }
+    });
+
+    if (this.isEditing) {
+      this.propertyService.getProperty(this.idToEdit).subscribe({
+        next: (response) => {
+          this.propertyToEdit = response;
+          this.initializeEditForm();
+        },
+        error: (err) => {
+          //handle error pls
+        },
+      });
+    }
   }
 
   initializeForm(): void {
     this.propertyForm = this.formBuilder.group({
       title: [
-        '',
+        this.isEditing ? this.propertyToEdit.title : '',
         [
           Validators.required,
           Validators.minLength(5),
@@ -55,16 +84,13 @@ export class AddListingComponent implements OnInit {
         '',
         [Validators.required, Validators.min(1), Validators.max(50)],
       ],
-      area: [
-        '',
-        [Validators.required, Validators.min(10), Validators.max(60)],
-      ],
+      area: ['', [Validators.required, Validators.min(10), Validators.max(60)]],
       description: [
-        '', 
+        '',
         [
-          Validators.required, 
-          Validators.minLength(220), 
-          Validators.maxLength(320)
+          Validators.required,
+          Validators.minLength(220),
+          Validators.maxLength(320),
         ],
       ],
       region: [this.defaultRegionCode, Validators.required],
@@ -82,52 +108,28 @@ export class AddListingComponent implements OnInit {
     });
   }
 
+  initializeEditForm() {
+    this.propertyForm.patchValue({
+      title: this.propertyToEdit.title,
+      price: this.propertyToEdit.price,
+      bedroom: this.propertyToEdit.bedroom,
+      capacity: this.propertyToEdit.capacity,
+      area: this.propertyToEdit.area,
+      description: this.propertyToEdit.description,
+      region: this.propertyToEdit.region,
+      city: this.propertyToEdit.city,
+      postal_code: this.propertyToEdit.postal_code,
+      barangay: this.propertyToEdit.barangay,
+    });
+    this.setImages(this.propertyToEdit.images);
+  }
+
   priceValidator(control: AbstractControl): { [key: string]: boolean } | null {
     const value = control.value;
     if (isNaN(value) || value < 0.01 || value > 10000000) {
       return { priceInvalid: true };
     }
     return null;
-  }
-
-  get titleControl(): AbstractControl {
-    return this.propertyForm.get('title')!;
-  }
-
-  get priceControl(): AbstractControl {
-    return this.propertyForm.get('price')!;
-  }
-
-  get capacityControl(): AbstractControl {
-    return this.propertyForm.get('capacity')!;
-  }
-
-  get bedroomControl(): AbstractControl {
-    return this.propertyForm.get('bedroom')!;
-  }
-
-  get areaControl(): AbstractControl {
-    return this.propertyForm.get('area')!;
-  }
-
-  get descriptionControl(): AbstractControl {
-    return this.propertyForm.get('description')!;
-  }
-
-  get filesControl(): AbstractControl {
-    return this.propertyForm.get('files')!;
-  }
-
-  get cityControl(): AbstractControl {
-    return this.propertyForm.get('city')!;
-  }
-
-  get postalCodeControl(): AbstractControl {
-    return this.propertyForm.get('postal_code')!;
-  }
-
-  get barangayControl(): AbstractControl {
-    return this.propertyForm.get('barangay')!;
   }
 
   loadCitiesByRegion(regionCode: string): void {
@@ -138,7 +140,7 @@ export class AddListingComponent implements OnInit {
     });
   }
 
-  onFileChange(event: Event): void {
+  onFileChange(): void {
     const inputElement = this.fileInput.nativeElement;
 
     if (inputElement.files && inputElement.files.length > 0) {
@@ -193,6 +195,30 @@ export class AddListingComponent implements OnInit {
     }
   }
 
+  setImages(images: { image_url: string }[]): void {
+    const dataTransfer = new DataTransfer();
+
+    const imageObservables: Observable<File>[] = images.map(image => 
+      this.addListingService.getImages(image.image_url).pipe(
+        map(file => file as File)
+      )
+    )
+
+    forkJoin(imageObservables).subscribe({
+      next: (files : File[]) => {
+        files.forEach(file => {
+          dataTransfer.items.add(file);    
+        })
+        
+        this.fileInput.nativeElement.files = dataTransfer.files;
+
+        const event = new Event('change', { bubbles: true });
+        this.fileInput.nativeElement.dispatchEvent(event);
+      },
+
+    })
+  }
+
   removeImage(index: number): void {
     this.images.splice(index, 1);
     this.propertyForm.patchValue({
@@ -203,9 +229,9 @@ export class AddListingComponent implements OnInit {
   }
 
   resetFileInput(): void {
-    this.fileInput.nativeElement.value = ''; // Reset the value of the file input field
+    this.fileInput.nativeElement.value = ''; 
   }
-  
+
   onDrop(event: DragEvent): void {
     event.preventDefault();
     if (event.dataTransfer && event.dataTransfer.files.length > 0) {
@@ -222,7 +248,7 @@ export class AddListingComponent implements OnInit {
     if (!this.propertyForm.valid) return;
 
     this.submitted = true;
-    this.submitButtonDisabled = true; // Disable submit button to prevent multiple submissions
+    this.submitButtonDisabled = true; 
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -236,18 +262,21 @@ export class AddListingComponent implements OnInit {
     };
 
     const files: File[] = this.images.map((image) => image.file);
-    this.addListingService.createProperty(propertyData, files).subscribe(data => {
-      if (data.hasOwnProperty('createdProperty')) {
-        this.createdPropertyId = data.createdProperty.id;
-        this.submitted = false;
-        this.submissionSuccess = true;
-        this.images = [];
-        this.resetForm();
+    this.addListingService.createProperty(propertyData, files).subscribe(
+      (data) => {
+        if (data.hasOwnProperty('createdProperty')) {
+          this.createdPropertyId = data.createdProperty.id;
+          this.submitted = false;
+          this.submissionSuccess = true;
+          this.images = [];
+          this.resetForm();
+        }
+        this.submitButtonDisabled = false;
+      },
+      () => {
+        this.submitButtonDisabled = false;
       }
-      this.submitButtonDisabled = false; 
-    }, () => {
-      this.submitButtonDisabled = false; 
-    });
+    );
   }
 
   resetForm(): void {
@@ -262,7 +291,7 @@ export class AddListingComponent implements OnInit {
       city: '',
       postal_code: '',
       barangay: '',
-      files: ''
+      files: '',
     });
 
     this.propertyForm.markAsPristine();
@@ -270,12 +299,53 @@ export class AddListingComponent implements OnInit {
     this.propertyForm.updateValueAndValidity();
 
     this.images = [];
-    this.fileInput.nativeElement.value = ''; // Reset the value of the file input field
+    this.fileInput.nativeElement.value = ''; 
 
-    // Manually trigger validation to ensure the form is invalid until all required fields are filled
-    Object.keys(this.propertyForm.controls).forEach(key => {
+    Object.keys(this.propertyForm.controls).forEach((key) => {
       const control = this.propertyForm.get(key);
       control!.updateValueAndValidity();
     });
   }
+
+  //#region getter functions
+  get titleControl(): AbstractControl {
+    return this.propertyForm.get('title')!;
+  }
+
+  get priceControl(): AbstractControl {
+    return this.propertyForm.get('price')!;
+  }
+
+  get capacityControl(): AbstractControl {
+    return this.propertyForm.get('capacity')!;
+  }
+
+  get bedroomControl(): AbstractControl {
+    return this.propertyForm.get('bedroom')!;
+  }
+
+  get areaControl(): AbstractControl {
+    return this.propertyForm.get('area')!;
+  }
+
+  get descriptionControl(): AbstractControl {
+    return this.propertyForm.get('description')!;
+  }
+
+  get filesControl(): AbstractControl {
+    return this.propertyForm.get('files')!;
+  }
+
+  get cityControl(): AbstractControl {
+    return this.propertyForm.get('city')!;
+  }
+
+  get postalCodeControl(): AbstractControl {
+    return this.propertyForm.get('postal_code')!;
+  }
+
+  get barangayControl(): AbstractControl {
+    return this.propertyForm.get('barangay')!;
+  }
+  //#endregion
 }

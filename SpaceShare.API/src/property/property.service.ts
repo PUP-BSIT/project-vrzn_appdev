@@ -52,6 +52,7 @@ export class PropertyService {
         capacity: true,
         area: true,
         bedroom: true,
+        postal_code: true,
         images: {
           select: {
             image_url: true,

@@ -14,15 +14,15 @@
         </svg>
         {{ card.barangay }}, {{ card.city }}
       </p>
-      <p class="text-gray-500 text-sm">
-        {{ card.description | slice:0:222 }}
-        {{ card.description.length > 222 ? '...' : '' }} <!-- Add ellipsis if description is longer -->
-      </p>
+        <p class="text-gray-500 text-sm max-h-28 min-h-28 flex-wrap break-words overflow-hidden" >
+          {{ card.description | slice:0:222 }}
+          {{ card.description.length > 222 ? '...' : '' }}
+        </p>
       </div>
         @if(owned){
           <div class="card-actions mt-4 justify-between">
              <div class="flex flex-row gap-2">
-               <button class="btn btn-outline">edit</button>
+               <a class="btn btn-outline" href="/space/edit/{{ card.id }}">edit</a>
                <!--<button class="btn btn-outline" (click)="deleteCard(cardId)">delete</button> -->
               <button class="btn btn-outline" (click)="openConfirmationModal()">delete</button>
 
