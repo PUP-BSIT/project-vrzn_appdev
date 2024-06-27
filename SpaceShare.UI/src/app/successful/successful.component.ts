@@ -7,6 +7,8 @@ import { AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, 
 })
 export class SuccessfulComponent implements AfterViewInit {
   @Input() createdPropery!: number;
+  @Input() mainMessage!: string;
+  @Input() subMessage!: string;
   @ViewChild('SuccessModal') success!: ElementRef;
 
   ngAfterViewInit() {
