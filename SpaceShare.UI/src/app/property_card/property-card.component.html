@@ -1,12 +1,13 @@
 <div class="card bg-white shadow-xl rounded-lg overflow-hidden cursor-pointer">
-  <figure class="relative" [routerLink]="['/space', cardId]">
+  <figure class="relative" >
     <img
       [src]="card.images[0].image_url"
       alt="House 1"
       class="w-full h-48 object-cover"
+      [routerLink]="['/space', cardId]"
     />
     @if(owned) {
-    <button class="delete-icon" (click)="openConfirmationModal()">
+    <button class="delete-icon z-50" (click)="openConfirmationModal()">
       <img src="../../assets/trash.svg" alt="delete" />
     </button>
     <dialog id="my_modal_{{ card.id }}" class="modal" #myModal>
@@ -17,6 +18,7 @@
           <button
             class="btn w-32 bg-white text-gray-500 border-gray-300 shadow-none mr-5"
             type="button"
+            (click)="closeModal()"
           >
             Cancel
           </button>
@@ -38,7 +40,7 @@
       <p class="flex items-center text-gray-600 mb-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5 mr-1 text-primary"
+          class="h-5 w-5 mr-1 text-red-500"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -78,7 +80,7 @@
         <img src="../../assets/area.png" alt="area" class="w-8 h-7"/>
         <span>{{ card.area  }}</span>
       </div>
-      <span class="text-2xl font-bold text-primary">₱{{ card.price.toLocaleString() }}</span>
+      <span class="text-2xl font-bold">₱{{ card.price.toLocaleString() }}</span>
     </div>
     }
   </div>
