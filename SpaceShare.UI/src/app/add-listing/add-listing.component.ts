@@ -35,6 +35,7 @@ export class AddListingComponent implements OnInit {
   isEditing = false;
   idToEdit!: number;
   propertyToEdit!: Property;
+  initialImages!: FileList;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -124,6 +125,146 @@ export class AddListingComponent implements OnInit {
     this.setImages(this.propertyToEdit.images);
   }
 
+  onSubmit(): void {
+    if (!this.propertyForm.valid) return;
+
+    this.submitted = true;
+    this.submitButtonDisabled = true;
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    const selectedRegion = this.regions.find(
+      (r) => r.region_code === this.defaultRegionCode
+    )?.region_name;
+
+    const propertyData: Property = {
+      ...this.propertyForm.value,
+      region: selectedRegion || 'National Capital Region (NCR)',
+    };
+
+    const files: File[] = this.images.map((image) => image.file);
+    this.addListingService.createProperty(propertyData, files).subscribe(
+      (data) => {
+        if (data.hasOwnProperty('createdProperty')) {
+          this.createdPropertyId = data.createdProperty.id;
+          this.submitted = false;
+          this.submissionSuccess = true;
+          this.images = [];
+          this.resetForm();
+        }
+        this.submitButtonDisabled = false;
+      },
+      () => {
+        this.submitButtonDisabled = false;
+      }
+    );
+  }
+
+  handleUpdate(): void {
+    const newValue = this.propertyForm.value;
+    const oldValue = this.propertyToEdit;
+
+    const keysToCompare = [
+      'title',
+      'price',
+      'bedroom',
+      'capacity',
+      'area',
+      'barangay',
+      'city',
+      'description',
+      'postal_code',
+    ];
+
+    const propertiesDifferent = this.arePropertiesDifferent(
+      newValue,
+      oldValue,
+      keysToCompare
+    );
+
+    const newFiles = Array.from(newValue.files || []) as File[];
+    const oldFiles = Array.from(this.initialImages || []) as File[];
+    const filesDifferent = this.areFilesDifferent(newFiles, oldFiles);
+
+    if (propertiesDifferent || filesDifferent) {
+      this.submitted = true;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      this.submitButtonDisabled = true;
+
+      this.addListingService
+        .updateProperty(oldValue.id, newValue, newFiles)
+        .subscribe({
+          next: (data) => {
+            console.log(data);
+            if (data.hasOwnProperty('updatedProperty')) {
+              this.createdPropertyId = oldValue.id;
+              this.submitted = false;
+              this.submissionSuccess = true;
+              this.images = [];
+              this.resetForm();
+            }
+          },
+        });
+    }
+  }
+
+  areFilesDifferent(newFiles: File[], oldFiles: File[]): boolean {
+    if (newFiles.length !== oldFiles.length) {
+      return true;
+    }
+
+    for (let i = 0; i < newFiles.length; i++) {
+      const newFile = newFiles[i];
+      const oldFile = oldFiles[i];
+      if (
+        newFile.name !== oldFile.name ||
+        newFile.size !== oldFile.size ||
+        newFile.type !== oldFile.type ||
+        newFile.lastModified !== oldFile.lastModified
+      ) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  arePropertiesDifferent(
+    newValue: any,
+    oldValue: any,
+    keysToCompare: string[]
+  ): boolean {
+    return keysToCompare.some((key) => newValue[key] !== oldValue[key]);
+  }
+
+  resetForm(): void {
+    this.propertyForm.reset({
+      title: '',
+      price: '',
+      bedroom: '',
+      capacity: '',
+      area: '',
+      description: '',
+      region: this.defaultRegionCode,
+      city: '',
+      postal_code: '',
+      barangay: '',
+      files: '',
+    });
+
+    this.propertyForm.markAsPristine();
+    this.propertyForm.markAsUntouched();
+    this.propertyForm.updateValueAndValidity();
+
+    this.images = [];
+    this.fileInput.nativeElement.value = '';
+
+    Object.keys(this.propertyForm.controls).forEach((key) => {
+      const control = this.propertyForm.get(key);
+      control!.updateValueAndValidity();
+    });
+  }
+
   priceValidator(control: AbstractControl): { [key: string]: boolean } | null {
     const value = control.value;
     if (isNaN(value) || value < 0.01 || value > 10000000) {
@@ -198,25 +339,25 @@ export class AddListingComponent implements OnInit {
   setImages(images: { image_url: string }[]): void {
     const dataTransfer = new DataTransfer();
 
-    const imageObservables: Observable<File>[] = images.map(image => 
-      this.addListingService.getImages(image.image_url).pipe(
-        map(file => file as File)
-      )
-    )
+    const imageObservables: Observable<File>[] = images.map((image) =>
+      this.addListingService
+        .getImages(image.image_url)
+        .pipe(map((file) => file as File))
+    );
 
     forkJoin(imageObservables).subscribe({
-      next: (files : File[]) => {
-        files.forEach(file => {
-          dataTransfer.items.add(file);    
-        })
-        
+      next: (files: File[]) => {
+        files.forEach((file) => {
+          dataTransfer.items.add(file);
+        });
+
         this.fileInput.nativeElement.files = dataTransfer.files;
+        this.initialImages = dataTransfer.files;
 
         const event = new Event('change', { bubbles: true });
         this.fileInput.nativeElement.dispatchEvent(event);
       },
-
-    })
+    });
   }
 
   removeImage(index: number): void {
@@ -229,7 +370,7 @@ export class AddListingComponent implements OnInit {
   }
 
   resetFileInput(): void {
-    this.fileInput.nativeElement.value = ''; 
+    this.fileInput.nativeElement.value = '';
   }
 
   onDrop(event: DragEvent): void {
@@ -242,69 +383,6 @@ export class AddListingComponent implements OnInit {
 
   onDragOver(event: DragEvent): void {
     event.preventDefault();
-  }
-
-  onSubmit(): void {
-    if (!this.propertyForm.valid) return;
-
-    this.submitted = true;
-    this.submitButtonDisabled = true; 
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    const selectedRegion = this.regions.find(
-      (r) => r.region_code === this.defaultRegionCode
-    )?.region_name;
-
-    const propertyData: Property = {
-      ...this.propertyForm.value,
-      region: selectedRegion || 'National Capital Region (NCR)',
-    };
-
-    const files: File[] = this.images.map((image) => image.file);
-    this.addListingService.createProperty(propertyData, files).subscribe(
-      (data) => {
-        if (data.hasOwnProperty('createdProperty')) {
-          this.createdPropertyId = data.createdProperty.id;
-          this.submitted = false;
-          this.submissionSuccess = true;
-          this.images = [];
-          this.resetForm();
-        }
-        this.submitButtonDisabled = false;
-      },
-      () => {
-        this.submitButtonDisabled = false;
-      }
-    );
-  }
-
-  resetForm(): void {
-    this.propertyForm.reset({
-      title: '',
-      price: '',
-      bedroom: '',
-      capacity: '',
-      area: '',
-      description: '',
-      region: this.defaultRegionCode,
-      city: '',
-      postal_code: '',
-      barangay: '',
-      files: '',
-    });
-
-    this.propertyForm.markAsPristine();
-    this.propertyForm.markAsUntouched();
-    this.propertyForm.updateValueAndValidity();
-
-    this.images = [];
-    this.fileInput.nativeElement.value = ''; 
-
-    Object.keys(this.propertyForm.controls).forEach((key) => {
-      const control = this.propertyForm.get(key);
-      control!.updateValueAndValidity();
-    });
   }
 
   //#region getter functions

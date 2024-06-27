@@ -34,7 +34,14 @@ export class AddListingService {
   }
 
   getImages(url: string): Observable<File> {
-    return this.httpService.get(url, { responseType: 'blob' }).pipe(
+    //temporary workaround cuz chrome with them caching bugs 
+    const headers = new HttpHeaders({
+      'Cache-Control': 'no-cache',
+      'Pragma': 'no-cache',
+      'Expires': '0'
+    });
+
+    return this.httpService.get(url, { headers, responseType: 'blob'}).pipe(
       map(blob => {
         const fileName = url.split('/').pop() || 'propertyImage';
         return new File([blob], fileName, {
@@ -45,4 +52,27 @@ export class AddListingService {
     )
   }
 
+  updateProperty(propertyId: number, property: Property, files: File[]){
+    const formData = new FormData();
+    
+    Object.keys(property).forEach(key => {
+      const value = property[key]
+      if(value !== undefined && value !== null && key !== 'files') {
+        formData.append(key, value.toString());
+      }
+    })
+
+    for(let i = 0; i < files.length; i++){
+      formData.append('files', files[i])
+    }
+
+    const url = `${environment.apiUrl}/property/edit/${propertyId}`;
+
+    const headers = new HttpHeaders().set('Accept', 'application/json');
+
+    return this.httpService.patch(url, formData, {
+      headers: headers,
+      withCredentials: true
+    });
+  }
 }
