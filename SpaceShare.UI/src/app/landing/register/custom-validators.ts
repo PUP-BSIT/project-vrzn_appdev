@@ -1,4 +1,10 @@
-import { AbstractControl, ValidationErrors, ValidatorFn, FormControl, FormGroup } from '@angular/forms';
+import {
+  AbstractControl,
+  ValidationErrors,
+  ValidatorFn,
+  FormControl,
+  FormGroup,
+} from '@angular/forms';
 
 export class CustomValidators {
   static adultAgeValidator(fieldName: string): ValidatorFn {
@@ -6,26 +12,26 @@ export class CustomValidators {
       const birthdate = control.value;
 
       if (!birthdate) {
-        return null;  // Return null if no birthdate is provided
+        return null; 
       }
 
-      // Calculate age based on the birthdate
       const today = new Date();
       const birthDate = new Date(birthdate);
       let age = today.getFullYear() - birthDate.getFullYear();
       const monthDiff = today.getMonth() - birthDate.getMonth();
 
-      // Adjust age if the birthdate hasn't occurred yet this year
-      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      if (
+        monthDiff < 0 ||
+        (monthDiff === 0 && today.getDate() < birthDate.getDate())
+      ) {
         age--;
       }
 
-      // Check if age is less than 18 or more than 110
       if (age < 18 || age > 110) {
-        return { 'adultAge': { fieldName } };
+        return { adultAge: { fieldName } };
       }
 
-      return null;  
+      return null;
     };
   }
 }
@@ -43,14 +49,14 @@ export class PasswordValidator {
     const valid = hasNumber && hasUpper && hasLower && hasSpecial;
 
     if (!valid) {
-      // return what's not valid
       return { strong: true };
     }
     return null;
   }
-
 }
-export const MatchPasswordValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+export const MatchPasswordValidator: ValidatorFn = (
+  control: AbstractControl
+): ValidationErrors | null => {
   const formGroup = control.parent;
   if (!formGroup) {
     return null;
@@ -59,7 +65,11 @@ export const MatchPasswordValidator: ValidatorFn = (control: AbstractControl): V
   const password = formGroup.get('password');
   const confirmPassword = formGroup.get('confirmPassword');
 
-  if (!password || !confirmPassword || password.value !== confirmPassword.value) {
+  if (
+    !password ||
+    !confirmPassword ||
+    password.value !== confirmPassword.value
+  ) {
     return { passwordMismatch: true };
   }
 

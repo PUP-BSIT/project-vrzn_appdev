@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Region, Province, City, Barangay } from '../../../model/location.model';
+import {
+  Region,
+  Province,
+  City,
+  Barangay,
+} from '../../../model/location.model';
 
 @Injectable()
 export class LocationService {

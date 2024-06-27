@@ -12,8 +12,8 @@ button.disabled {
 }
 .disabled-button {
   background-color: #cccccc;
-  opacity: 0.5; 
-  cursor: not-allowed; 
+  opacity: 0.5;
+  cursor: not-allowed;
   pointer-events: none;
 }
 
@@ -35,12 +35,12 @@ button.disabled {
 }
 
 .custom-modal-width {
-  max-width:900px; 
+  max-width: 900px;
 }
 
 .step-secondary::before,
 .step-secondary::after {
-  background-color: #8644a2 !important; 
+  background-color: #8644a2 !important;
   color: white;
 }
 
@@ -49,4 +49,3 @@ button.disabled {
     max-width: 900px;
   }
 }
-
