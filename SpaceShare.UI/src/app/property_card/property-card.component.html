@@ -1,69 +1,95 @@
 <div class="card bg-white shadow-xl rounded-lg overflow-hidden cursor-pointer">
-    <figure class="relative" [routerLink]="['/space', cardId]">
-      <img
-        [src]="card.images[0].image_url"
-        alt="House 1"
-        class="w-full h-48 object-cover" />
-    </figure>
-    <div class="card-body p-4">
-      <div [routerLink]="['/space', cardId]">
+  <figure class="relative" [routerLink]="['/space', cardId]">
+    <img
+      [src]="card.images[0].image_url"
+      alt="House 1"
+      class="w-full h-48 object-cover"
+    />
+    @if(owned) {
+    <button class="delete-icon" (click)="openConfirmationModal()">
+      <img src="../../assets/trash.svg" alt="delete" />
+    </button>
+    <dialog id="my_modal_{{ card.id }}" class="modal" #myModal>
+      <div class="modal-box w-96 max-w-5xl bg-white">
+        <h3 class="text-2xl font-bold">Warning!</h3>
+        <p class="pt-2">Are you sure you want to delete this Space?</p>
+        <div class="modal-action items-center justify-center">
+          <button
+            class="btn w-32 bg-white text-gray-500 border-gray-300 shadow-none mr-5"
+            type="button"
+          >
+            Cancel
+          </button>
+          <button
+            class="btn w-32 bg-red-500 text-white hover:bg-red-600 ml-5"
+            type="button"
+            (click)="deleteCard(card.id)"
+          >
+            Confirm
+          </button>
+        </div>
+      </div>
+    </dialog>
+    }
+  </figure>
+  <div class="card-body p-4">
+    <div [routerLink]="['/space', cardId]">
       <h2 class="card-title text-lg font-semibold">{{ card.title }}</h2>
       <p class="flex items-center text-gray-600 mb-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1 text-red-500" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M10 0c3.78 0 6.863 3.083 6.863 6.863 0 6.252-6.863 12.137-6.863 12.137S3.137 13.115 3.137 6.863C3.137 3.083 6.22 0 10 0zm0 9a2.75 2.75 0 100-5.5 2.75 2.75 0 000 5.5z" clip-rule="evenodd" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5 mr-1 text-red-500"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M10 0c3.78 0 6.863 3.083 6.863 6.863 0 6.252-6.863 12.137-6.863 12.137S3.137 13.115 3.137 6.863C3.137 3.083 6.22 0 10 0zm0 9a2.75 2.75 0 100-5.5 2.75 2.75 0 000 5.5z"
+            clip-rule="evenodd"
+          />
         </svg>
         {{ card.barangay }}, {{ card.city }}
       </p>
-        <p class="text-gray-500 text-sm max-h-28 min-h-28 flex-wrap break-words overflow-hidden" >
-          {{ card.description | slice:0:222 }}
-          {{ card.description.length > 222 ? '...' : '' }}
-        </p>
-      </div>
-        @if(owned){
-          <div class="card-actions mt-4 justify-between">
-             <div class="flex flex-row gap-2">
-               <a class="btn btn-outline" href="/space/edit/{{ card.id }}">edit</a>
-               <!--<button class="btn btn-outline" (click)="deleteCard(cardId)">delete</button> -->
-              <button class="btn btn-outline" (click)="openConfirmationModal()">delete</button>
-
-               <!-- confirmation modal --> 
-                <dialog id="my_modal_{{ card.id }}" class="modal" #myModal>
-                  <div class="modal-box w-96 max-w-5xl bg-white">
-                    <h3 class="text-2xl font-bold">Warning!</h3>
-                    <p class="pt-2">Are you sure you want to delete this Space?</p>
-                    <div class="modal-action items-center justify-center">
-                      <button class="btn w-32 bg-white text-gray-500 border-gray-300 shadow-none mr-5" type="button"
-                        (click)="closeModal()">
-                        Cancel
-                      </button>
-                      <button class="btn w-32 bg-red-500 text-white hover:bg-red-600 ml-5" type="button" (click)="deleteCard(card.id)">
-                        Confirm
-                      </button>
-                    </div>
-                  </div>
-                </dialog>
-               <!-- end of modal -->
-
-             </div>
-            <span class="text-lg font-bold">₱{{ card.price.toLocaleString() }}</span>
-          </div>
-        }@else {
-          <div class="card-actions mt-4 justify-end" [routerLink]="['/space', cardId]">
-            <span class="text-lg font-bold">₱{{ card.price.toLocaleString() }}</span>
-          </div>
-        }
+      <p
+        class="text-gray-500 text-sm max-h-28 min-h-28 flex-wrap break-words overflow-hidden"
+      >
+        {{ card.description | slice : 0 : 222 }}
+        {{ card.description.length > 222 ? "..." : "" }}
+      </p>
     </div>
-</div>
-@if(isDeleting){
-  <div class="toast">
-    <div class="alert alert-info">
-      <span>Property being deleted...</span>
-    </div>
-    @if(isDeleted){
-      <div class="alert alert-success">
-        <span>Card deleted successfully.</span>
+    @if(owned) {
+    <div class="card-actions mt-4 justify-between">
+      <div class="flex flex-row gap-2">
+        <a href="/space/edit/{{ card.id }}" class="tooltip tooltip-top" data-tip="Edit"
+          ><img src="../../assets/edit.png" alt="edit-icon" class="w-8 h-8"
+        /></a>
       </div>
+      <span class="text-lg font-bold">₱{{ card.price.toLocaleString() }}</span>
+    </div>
+    } @else {
+    <div class="card-actions mt-4 justify-between">
+      <div class="flex flex-row gap-2">
+        <img src="../../assets/bed.png" alt="bed" class="w-8 h-7" /><span
+          >1</span
+        >
+        <img src="../../assets/guest.png" alt="guest" class="w-8 h-7" /><span
+          >1</span
+        >
+      </div>
+      <span class="text-lg font-bold">₱{{ card.price.toLocaleString() }}</span>
+    </div>
     }
   </div>
+</div>
+@if(isDeleting) {
+<div class="toast">
+  <div class="alert alert-info">
+    <span>Property being deleted...</span>
+  </div>
+  @if(isDeleted) {
+  <div class="alert alert-success">
+    <span>Card deleted successfully.</span>
+  </div>
+  }
+</div>
 }
-
