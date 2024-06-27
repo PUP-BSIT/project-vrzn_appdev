@@ -19,6 +19,7 @@ export class PropertyService {
       select: {
         id: true,
         title: true,
+        area: true,
         description: true,
         city: true,
         barangay: true,
