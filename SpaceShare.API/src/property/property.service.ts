@@ -66,7 +66,7 @@ export class PropertyService {
     return property;
   }
 
-  async getOwnProperties(id: number){
+  async getOwnProperties(id: number) {
     return await this.prismaService.property.findMany({
       where: {
         owner_id: id,
@@ -140,28 +140,103 @@ export class PropertyService {
     return { createdProperty, imageArray };
   }
 
-  async deleteProperty(id: number){
+  async updateProperty(
+    propertyId: number,
+    property: Prisma.PropertyUpdateInput,
+    files: Express.Multer.File[],
+    request: Request,
+  ){
+    const userId = parseInt(request.cookies['id'], 10);
+
+    const existingProperty = await this.prismaService.property.findUnique({
+      where: { id: +propertyId },
+      include: { images: true },
+    });
+
+    if (!existingProperty) throw new NotFoundException('Property not found');
+
+    // Convert the string fields to numbers
+    const numericFields = ['price', 'bedroom', 'capacity', 'area'];
+    numericFields.forEach((field) => {
+      if (
+        typeof property[field as keyof Prisma.PropertyUpdateInput] === 'string'
+      ) {
+        property[field as keyof Prisma.PropertyUpdateInput] = Number(
+          property[field as keyof Prisma.PropertyUpdateInput],
+        );
+      }
+    });
+
+    const updatedProperty = await this.prismaService.property.update({
+      where: { id: +propertyId },
+      data: {
+        ...property,
+      },
+    });
+
+    // Handle image updates
+    const existingImageUrls = existingProperty.images.map(
+      (image) => image.image_url,
+    );
+
+    const newFileUrls = await Promise.all(
+      files.map(async (file) => {
+        const key = `${Date.now()}${file.originalname}`;
+        return await this.s3Service.uploadFile(file, key);
+      }),
+    );
+
+    // Remove images that are no longer in the updated list
+    const imagesToDelete = existingImageUrls.filter(
+      (url) => !newFileUrls.includes(url),
+    );
+    await Promise.all(
+      imagesToDelete.map(async (url) => {
+        await this.prismaService.images.deleteMany({
+          where: { image_url: url, property_id: +propertyId },
+        });
+      }),
+    );
+
+    // Add new images
+    const imageArray: { property_id: number; image_url: string }[] = [];
+    await Promise.all(
+      newFileUrls.map(async (imageUrl) => {
+        const image = await this.prismaService.images.create({
+          data: {
+            property_id: +updatedProperty.id,
+            image_url: imageUrl,
+          },
+        });
+        imageArray.push(image);
+      }),
+    );
+
+    return { updatedProperty, imageArray };
+  }
+
+  async deleteProperty(id: number) {
     await this.prismaService.images.deleteMany({
       where: {
         property_id: id,
-      }
-    })
+      },
+    });
 
     await this.prismaService.wishlist.deleteMany({
       where: {
-        property_id: id
-      }
-    })
+        property_id: id,
+      },
+    });
 
     const deleted = await this.prismaService.property.delete({
       where: {
         id,
-      }
-    })
+      },
+    });
 
-    if(deleted) return { success: true, message: 'Property Deleted' }
+    if (deleted) return { success: true, message: 'Property Deleted' };
 
-    return { success: false, message: 'Something Went Wrong' }; 
+    return { success: false, message: 'Something Went Wrong' };
   }
 
   async rateProperty(propertyRating: { id: number; rating: number }) {
