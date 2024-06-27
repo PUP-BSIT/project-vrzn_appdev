@@ -4,11 +4,11 @@
       <app-wait/>
   }
   @if(submissionSuccess && !submitted && !isEditing){
-  <app-successful [createdPropery]="createdPropertyId" [mainMessage]="'Property Created'" 
+  <app-alert [createdPropery]="createdPropertyId" [mainMessage]="'Property Created'" 
     [subMessage]="'Your Property Has Been Created!'"/>
   } 
   @if(submissionSuccess && !submitted && isEditing){
-    <app-successful [createdPropery]="createdPropertyId" [mainMessage]="'Property Updated'"
+    <app-alert [createdPropery]="createdPropertyId" [mainMessage]="'Property Updated'"
       [subMessage]="'Your Property Has Been Updated!'" />
   }
     <div class="container mx-auto p-4">

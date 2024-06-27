@@ -53,20 +53,9 @@ export class AddListingComponent implements OnInit {
         this.title = 'Edit Listing';
         this.idToEdit = +params.get('id')!;
         this.isEditing = true;
+        this.loadPropertyToEdit();
       }
     });
-
-    if (this.isEditing) {
-      this.propertyService.getProperty(this.idToEdit).subscribe({
-        next: (response) => {
-          this.propertyToEdit = response;
-          this.initializeEditForm();
-        },
-        error: (err) => {
-          //handle error pls
-        },
-      });
-    }
   }
 
   initializeForm(): void {
@@ -94,7 +83,7 @@ export class AddListingComponent implements OnInit {
           Validators.maxLength(320),
         ],
       ],
-      region: [this.defaultRegionCode, Validators.required],
+      region: [this.defaultRegionCode],
       city: ['', Validators.required],
       postal_code: ['', [Validators.required, Validators.pattern(/^\d{4}$/)]],
       barangay: [
@@ -161,6 +150,8 @@ export class AddListingComponent implements OnInit {
   }
 
   handleUpdate(): void {
+    if (!this.validateUpdateForm()) return;
+
     const newValue = this.propertyForm.value;
     const oldValue = this.propertyToEdit;
 
@@ -237,6 +228,20 @@ export class AddListingComponent implements OnInit {
     return keysToCompare.some((key) => newValue[key] !== oldValue[key]);
   }
 
+  loadPropertyToEdit(): void {
+    if (!this.isEditing) return;
+
+    this.propertyService.getProperty(this.idToEdit).subscribe({
+      next: (response) => {
+        this.propertyToEdit = response;
+        this.initializeEditForm();
+      },
+      error: (err) => {
+        //handle error pls
+      },
+    });
+  }
+
   resetForm(): void {
     this.propertyForm.reset({
       title: '',
@@ -263,6 +268,17 @@ export class AddListingComponent implements OnInit {
       const control = this.propertyForm.get(key);
       control!.updateValueAndValidity();
     });
+  }
+
+  validateUpdateForm(): boolean {
+    if(!this.propertyForm.touched) return false;
+    if(this.propertyForm.pristine) return false;
+    if(!this.propertyForm.valid) return false;
+
+    const file = this.fileInput.nativeElement.files;
+    if (file.length === 0) return false;
+
+    return true;
   }
 
   priceValidator(control: AbstractControl): { [key: string]: boolean } | null {
