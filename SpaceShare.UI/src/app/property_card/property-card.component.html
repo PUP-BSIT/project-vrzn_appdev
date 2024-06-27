@@ -38,7 +38,7 @@
       <p class="flex items-center text-gray-600 mb-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5 mr-1 text-red-500"
+          class="h-5 w-5 mr-1 text-primary"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -69,14 +69,16 @@
     } @else {
     <div class="card-actions mt-4 justify-between">
       <div class="flex flex-row gap-2">
-        <img src="../../assets/bed.png" alt="bed" class="w-8 h-7" /><span
-          >1</span
+        <img src="../../assets/bed.png" alt="bed" class="w-8 h-6" /><span
+          >{{ card.bedroom }}</span
         >
         <img src="../../assets/guest.png" alt="guest" class="w-8 h-7" /><span
-          >1</span
+          >{{ card.capacity }}</span
         >
+        <img src="../../assets/area.png" alt="area" class="w-8 h-7"/>
+        <span>{{ card.area  }}</span>
       </div>
-      <span class="text-lg font-bold">₱{{ card.price.toLocaleString() }}</span>
+      <span class="text-2xl font-bold text-primary">₱{{ card.price.toLocaleString() }}</span>
     </div>
     }
   </div>

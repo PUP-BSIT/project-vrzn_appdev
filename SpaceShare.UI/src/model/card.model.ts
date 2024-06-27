@@ -5,6 +5,7 @@ export type Card = {
   description: string;
   price: number;
   barangay: string;
+  area: number;
   capacity: number;
   city: string;
   images: { image_url: string }[];
