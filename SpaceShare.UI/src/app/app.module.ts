@@ -59,6 +59,7 @@ import { PropertyCardService } from './property_card/property-card.service';
 import { AlertComponent } from './alert/alert.component';
 import { WaitComponent } from './wait/wait.component';
 import { AlertService } from './alert/alert.service';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
 @NgModule({
   declarations: [
@@ -99,6 +100,7 @@ import { AlertService } from './alert/alert.service';
     OwnedComponent,
     AlertComponent,
     WaitComponent,
+    UnauthorizedComponent,
   ],
   imports: [
     ReactiveFormsModule,
