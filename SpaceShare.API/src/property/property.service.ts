@@ -1,10 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
-import { NotFoundError } from 'rxjs';
 import { Prisma } from '@prisma/client';
 import { S3Service } from 'src/s3/s3.service';
-import { url } from 'inspector';
-import { AuthService } from 'src/auth/auth.service';
 import { Request } from 'express';
 
 @Injectable()
@@ -16,6 +13,9 @@ export class PropertyService {
 
   async getProperties() {
     return await this.prismaService.property.findMany({
+      where: {
+        status: false
+      },
       select: {
         id: true,
         title: true,
@@ -145,10 +145,7 @@ export class PropertyService {
     propertyId: number,
     property: Prisma.PropertyUpdateInput,
     files: Express.Multer.File[],
-    request: Request,
   ){
-    const userId = parseInt(request.cookies['id'], 10);
-
     const existingProperty = await this.prismaService.property.findUnique({
       where: { id: +propertyId },
       include: { images: true },
@@ -172,6 +169,7 @@ export class PropertyService {
       where: { id: +propertyId },
       data: {
         ...property,
+        status: Boolean(property.status)
       },
     });
 
