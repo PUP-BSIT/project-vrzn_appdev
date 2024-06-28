@@ -24,6 +24,7 @@ import { PresskitComponent } from './landing/agreement/presskit/presskit.compone
 import { RentingComponent } from './landing/agreement/renting/renting.component';
 import { WentWrongComponent } from './went-wrong/went-wrong.component';
 import { OwnedComponent } from './owned/owned.component';
+import { OwnerGuard } from './auth/owner.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -35,7 +36,7 @@ const routes: Routes = [
   {
     path: 'space/edit/:id',
     component: FormListingComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, OwnerGuard],
   },
   { path: 'verification', component: VerificationComponent },
   { path: 'listing', component: ListingComponent },
