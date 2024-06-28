@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AddListingService } from './add-listing.service';
 import { Property } from '../../model/property.model';
@@ -6,14 +6,15 @@ import { LocationService } from '../landing/register/location.service';
 import { Region, City } from '../../model/location.model';
 import { ActivatedRoute } from '@angular/router';
 import { PropertyService } from '../property/property.service';
-import { every, forkJoin, map, Observable } from 'rxjs';
+import { forkJoin, map, Observable, Subject, takeUntil } from 'rxjs';
+import { AlertService } from '../alert/alert.service';
 
 @Component({
-  selector: 'app-add-listing',
-  templateUrl: './add-listing.component.html',
-  styleUrls: ['./add-listing.component.css'],
+  selector: 'app-form-listing',
+  templateUrl: './form-listing.component.html',
+  styleUrls: ['./form-listing.component.css'],
 })
-export class AddListingComponent implements OnInit {
+export class FormListingComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef;
   createdPropertyId!: number;
 
@@ -36,13 +37,17 @@ export class AddListingComponent implements OnInit {
   idToEdit!: number;
   propertyToEdit!: Property;
   initialImages!: FileList;
+  isUpdateInvalid!: boolean;
+
+  private unsubscribe$ = new Subject<void>();
 
   constructor(
     private formBuilder: FormBuilder,
     private addListingService: AddListingService,
     private locationService: LocationService,
     private route: ActivatedRoute,
-    private propertyService: PropertyService
+    private propertyService: PropertyService,
+    private alertService: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -53,21 +58,23 @@ export class AddListingComponent implements OnInit {
         this.title = 'Edit Listing';
         this.idToEdit = +params.get('id')!;
         this.isEditing = true;
+        this.loadPropertyToEdit();
       }
     });
 
-    if (this.isEditing) {
-      this.propertyService.getProperty(this.idToEdit).subscribe({
-        next: (response) => {
-          this.propertyToEdit = response;
-          this.initializeEditForm();
-        },
-        error: (err) => {
-          //handle error pls
-        },
-      });
-    }
+    this.alertService.updateInvalid$
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe(value => {
+      console.log('value: ', value)
+      this.isUpdateInvalid = value;
+    })
   }
+
+  // ngOnDestroy(): void {
+  //     this.unsubscribe$.next();
+  //     this.unsubscribe$.complete();
+  //     console.log('destroyed');
+  // }
 
   initializeForm(): void {
     this.propertyForm = this.formBuilder.group({
@@ -94,7 +101,7 @@ export class AddListingComponent implements OnInit {
           Validators.maxLength(320),
         ],
       ],
-      region: [this.defaultRegionCode, Validators.required],
+      region: [this.defaultRegionCode],
       city: ['', Validators.required],
       postal_code: ['', [Validators.required, Validators.pattern(/^\d{4}$/)]],
       barangay: [
@@ -161,6 +168,15 @@ export class AddListingComponent implements OnInit {
   }
 
   handleUpdate(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (!this.validateUpdateForm()) {
+      this.isUpdateInvalid = true;
+      return;
+    }
+
+    if(this.isUpdateInvalid) this.isUpdateInvalid = false;
+
     const newValue = this.propertyForm.value;
     const oldValue = this.propertyToEdit;
 
@@ -237,6 +253,20 @@ export class AddListingComponent implements OnInit {
     return keysToCompare.some((key) => newValue[key] !== oldValue[key]);
   }
 
+  loadPropertyToEdit(): void {
+    if (!this.isEditing) return;
+
+    this.propertyService.getProperty(this.idToEdit).subscribe({
+      next: (response) => {
+        this.propertyToEdit = response;
+        this.initializeEditForm();
+      },
+      error: (err) => {
+        //handle error pls
+      },
+    });
+  }
+
   resetForm(): void {
     this.propertyForm.reset({
       title: '',
@@ -263,6 +293,17 @@ export class AddListingComponent implements OnInit {
       const control = this.propertyForm.get(key);
       control!.updateValueAndValidity();
     });
+  }
+
+  validateUpdateForm(): boolean {
+    if(!this.propertyForm.touched) return false;
+    if(this.propertyForm.pristine) return false;
+    if(!this.propertyForm.valid) return false;
+
+    const file = this.fileInput.nativeElement.files;
+    if (file.length === 0) return false;
+
+    return true;
   }
 
   priceValidator(control: AbstractControl): { [key: string]: boolean } | null {
