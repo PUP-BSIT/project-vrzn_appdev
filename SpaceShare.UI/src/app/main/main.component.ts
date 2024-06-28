@@ -31,7 +31,6 @@ export class MainComponent implements OnInit {
         this.updatePagination();
       },
       (error) => {
-        console.error('Error fetching properties:', error);
       }
     );
 
