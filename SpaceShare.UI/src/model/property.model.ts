@@ -11,8 +11,9 @@ export interface Property {
   postal_code: number;
   barangay: string;
   images: string | any;
+  status: boolean;
   owner_id: number;
-  [key: string]: string | number | undefined;
+  [key: string]: string | number | boolean | undefined ;
 }
 
 export interface PropertyResponse {
