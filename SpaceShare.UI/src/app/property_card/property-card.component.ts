@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Card } from '../../model/card.model';
 import { PropertyCardService } from './property-card.service';
 
@@ -7,13 +7,20 @@ import { PropertyCardService } from './property-card.service';
   templateUrl: './property-card.component.html',
   styleUrls: ['./property-card.component.css'],
 })
-export class PropertyCardComponent {
+export class PropertyCardComponent implements OnChanges{
   @Input() card!: Card;
   @Input() cardId!: number;
   @Input() owned!: boolean;
   @Output() cardDeleted = new EventEmitter<number>();
   isDeleting: boolean = false;
   isDeleted: boolean = false;
+  isOccupied = false;
+
+  ngOnChanges(changes: SimpleChanges): void {
+      if(changes['card']){
+        this.isOccupied = this.card.status;
+      }
+  }
 
   @ViewChild(`myModal`) modalElement!: ElementRef;
 
