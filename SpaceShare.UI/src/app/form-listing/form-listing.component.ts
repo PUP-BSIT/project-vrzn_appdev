@@ -32,7 +32,7 @@ export class FormListingComponent implements OnInit {
   defaultRegionCode = '13';
   selectedProvince = '';
 
-  title = 'Add new listing';
+  title = 'Add New Space';
   isEditing = false;
   idToEdit!: number;
   propertyToEdit!: Property;
@@ -55,7 +55,7 @@ export class FormListingComponent implements OnInit {
     this.loadCitiesByRegion(this.defaultRegionCode);
     this.route.paramMap.subscribe((params) => {
       if (+params.get('id')!) {
-        this.title = 'Edit Listing';
+        this.title = 'Edit Space';
         this.idToEdit = +params.get('id')!;
         this.isEditing = true;
         this.loadPropertyToEdit();
@@ -71,6 +71,7 @@ export class FormListingComponent implements OnInit {
 
   initializeForm(): void {
     this.propertyForm = this.formBuilder.group({
+      status: [true],
       title: [
         this.isEditing ? this.propertyToEdit.title : '',
         [
@@ -111,6 +112,7 @@ export class FormListingComponent implements OnInit {
 
   initializeEditForm() {
     this.propertyForm.patchValue({
+      status: !this.propertyToEdit.status,
       title: this.propertyToEdit.title,
       price: this.propertyToEdit.price,
       bedroom: this.propertyToEdit.bedroom,
