@@ -1,5 +1,5 @@
 <div class="flex justify-center items-center mt-10">
-    <div class="card w-full md:w-10/12 bg-base-100 border-gray-300 border-1 shadow-xl flex flex-col items-center">
+    <div class="card w-full md:w-10/12 bg-base-100 border-gray-300 border-1 shadow-xl flex flex-col items-center" [ngClass]="isLoggedIn ? '' : 'p-8'">
         <b class="font-bold text-2xl text-center mt-6 mb-4">
             Meet your Host!
         </b>
@@ -16,14 +16,16 @@
                 <b class="text-lg text-black block">{{ email }}</b>
             </div>
         </div>
-        <a href="mailto:{{ email }}" class="btn w-2/3 bg-primary text-white hover:bg-[#9A58B6]">
-            Contact Host</a>
-        <p class="text-center mb-8 w-11/12 mt-4">By clicking Contact Host, 
-            you are accepting Spaceshare's <a href="/agreement/terms" 
-            class="text-blue-600 hover:underline"> Terms and Conditions</a> 
-            and <a href="/agreement/privacy" class="text-blue-600 hover:underline">
-            Privacy Policy.</a>
-        </p>
+        @if(isLoggedIn){
+            <a href="mailto:{{ email }}" class="btn w-2/3 bg-primary text-white hover:bg-[#9A58B6]">
+                Contact Host</a>
+            <p class="text-center mb-8 w-11/12 mt-4">By clicking Contact Host,
+                you are accepting Spaceshare's <a href="/agreement/terms" class="text-blue-600 hover:underline"> Terms and
+                    Conditions</a>
+                and <a href="/agreement/privacy" class="text-blue-600 hover:underline">
+                    Privacy Policy.</a>
+            </p>
+        }
     </div>
 </div>
 
