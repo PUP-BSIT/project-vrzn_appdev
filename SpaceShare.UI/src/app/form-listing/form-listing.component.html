@@ -124,9 +124,6 @@
                 </div>
               </div>
             </div>             
-            <!-- <div>
-                <input type="file" id="fileUpload" (change)="onFileChange($event)" multiple>
-            </div> -->
             <label class="block text-xl font-bold text-gray-700">Property Images</label>
             <div class="flex justify-center">
               <div
@@ -158,6 +155,7 @@
                   <input
                     id="dropzone-file"
                     type="file"
+                    accept="image/png, image/jpeg, image/svg+xml, image/jpg"
                     #fileInput
                     class="hidden"
                     (change)="onFileChange()"
