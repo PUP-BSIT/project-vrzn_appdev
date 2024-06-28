@@ -9,9 +9,8 @@ import { AgreementComponent } from './landing/agreement/agreement.component';
 import { PropertyComponent } from './property/property.component';
 import { VerificationComponent } from './landing/verification/verification.component';
 import { ListingComponent } from './listing/listing.component';
-import { AddListingComponent } from './add-listing/add-listing.component';
+import { FormListingComponent } from './form-listing/form-listing.component';
 import { ProfileComponent } from './profile/profile.component';
-import { SuccessComponent } from './success/success.component';
 import { WishlistComponent } from './wishlist/wishlist.component';
 import { TermsComponent } from './landing/agreement/terms/terms.component';
 import { PrivacyComponent } from './landing/agreement/privacy/privacy.component';
@@ -35,18 +34,17 @@ const routes: Routes = [
   { path: 'space/:id', component: PropertyComponent },
   {
     path: 'space/edit/:id',
-    component: AddListingComponent,
+    component: FormListingComponent,
     canActivate: [AuthGuard],
   },
   { path: 'verification', component: VerificationComponent },
   { path: 'listing', component: ListingComponent },
   {
     path: 'listing/add',
-    component: AddListingComponent,
+    component: FormListingComponent,
     canActivate: [AuthGuard],
   },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'success', component: SuccessComponent },
   { path: 'wishlist', component: WishlistComponent, canActivate: [AuthGuard] },
   { path: 'agreement/terms', component: TermsComponent },
   { path: 'agreement/privacy', component: PrivacyComponent },
