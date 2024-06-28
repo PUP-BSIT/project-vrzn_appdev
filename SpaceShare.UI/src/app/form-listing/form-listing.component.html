@@ -1,0 +1,265 @@
+<app-navbar></app-navbar>
+<body class="bg-white mt-10 mx-4 md:mx-40 rounded-2xl pt-10 shadow-2xl">
+  @if(submitted){
+      <app-wait/>
+  }
+  @if(submissionSuccess && !submitted && !isEditing){
+  <app-alert [createdPropery]="createdPropertyId" [mainMessage]="'Property Created'" [state]="'success'"
+    [subMessage]="'Your Property Has Been Created!'"/>
+  } 
+  @if(submissionSuccess && !submitted && isEditing){
+    <app-alert [createdPropery]="createdPropertyId" [mainMessage]="'Property Updated'" [state]="'success'"
+      [subMessage]="'Your Property Has Been Updated!'" />
+  }
+  @if(isEditing && fileInput.files?.length === 0 && isUpdateInvalid){ 
+    <app-alert [mainMessage]="'Invalid Values'" [state]="'error'" [subMessage]="'Please Enter Valid Inputs'"/> 
+  }
+  @else if(isEditing && !propertyForm.touched && isUpdateInvalid){
+    <app-alert [mainMessage]="'Values Not Updated'" [state]="'info'" [subMessage]="'No New Values Were Detected'" />
+  }
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold mb-7">{{ title }}</h1>
+        <form class="space-y-6" [formGroup]="propertyForm" (submit)="onSubmit()">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-bold text-gray-700">Title</label>
+                    <input type="text" placeholder="80 characters max" class="input input-bordered w-full bg-white rounded-lg" formControlName="title"  [class.input-error]="titleControl.invalid && titleControl.touched">
+                    @if(titleControl.touched && titleControl.invalid) {
+                        @if (titleControl.errors?.['required']) {
+                          <div class="error-message text-red-500 mt-2 pl-1">Title Must Not Null</div>
+                          }
+                          @if(titleControl.errors?.['minlength']) {
+                            <div class="error-message text-red-500 pl-3">Title is too Short Enter Meaningful Title</div>
+                          }
+                          @if (titleControl.errors?.['maxlength']) {
+                            <div class="error-message text-red-500 pl-3">Title is too long make it short and clear</div>
+                          }
+                      }
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-700">Rent per month</label>
+                    <input type="number" placeholder="PHP" class="input input-bordered w-full bg-white rounded-lg" formControlName="price" [class.input-error]="priceControl.invalid && priceControl.touched">
+                    @if(priceControl.touched && priceControl.invalid) {
+                        @if (priceControl.errors?.['required']) {
+                          <div class="error-message text-red-500 mt-2 pl-1">Define the Space Price</div>
+                          }
+                          @if(priceControl.errors?.['priceInvalid']) {
+                            <div class="error-message text-red-500 mt-2 pl-1">Invalid Price Input Realistic Value</div>
+                          }
+                      }
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-sm font-bold text-gray-700">Bedroom</label>
+                <select class="select select-bordered w-full bg-white rounded-lg" formControlName="bedroom" [class.input-error]="bedroomControl.invalid && bedroomControl.touched">
+                    <option disabled selected>How many bedrooms?</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+                @if(bedroomControl.touched && bedroomControl.invalid) {
+                    @if (bedroomControl.errors?.['required']) {
+                      <div class="error-message text-red-500 mt-2 pl-1">Fill the Space Bedroom</div>
+                      }
+                  }
+              </div>
+              <div>
+                <label class="block text-sm font-bold text-gray-700">Guests</label>
+                <input type="number" placeholder="maximum guests" class="input input-bordered w-full bg-white rounded-lg" formControlName="capacity" [class.input-error]="capacityControl.invalid && capacityControl.touched">
+                @if(capacityControl.touched && capacityControl.invalid) {
+                    @if (capacityControl.errors?.['required']) {
+                      <div class="error-message text-red-500 mt-2 pl-1">Define the Space Capacity</div>
+                      }
+                      @if(capacityControl.errors?.['min']) {
+                        <div class="error-message text-red-500 mt-2 pl-1">Input Realistic Space Capacity</div>
+                      }
+                      @if(capacityControl.errors?.['max']) {
+                        <div class="error-message text-red-500 mt-2 pl-1">Input Capacity treshold at 50</div>
+                      }
+                  }
+              </div>
+              <div>
+                <label class="block text-sm font-bold text-gray-700">Floor area</label>
+                <input type="number" placeholder="Floor area in square meters" class="input input-bordered w-full bg-white rounded-lg" formControlName="area">
+                @if(areaControl.touched && areaControl.invalid) {
+                    @if (areaControl.errors?.['required']) {
+                      <div class="error-message text-red-500 mt-2 pl-1">Define the Space Area</div>
+                      }
+                      @if(areaControl.errors?.['min']) {
+                        <div class="error-message text-red-500 mt-2 pl-1">Input Realistic Space Area</div>
+                      }
+                      @if(areaControl.errors?.['max']) {
+                        <div class="error-message text-red-500 mt-2 pl-1">Input Capacity threshold at 60 square meter</div>
+                      }
+                  }
+              </div>
+            </div>
+                
+            <div>
+              <label class="block text-sm font-bold text-gray-700">Description</label>
+              <textarea 
+                class="textarea textarea-bordered resize-none w-full h-40 bg-white rounded-lg overflow-auto break-words"
+                placeholder="Minumum of 220 characters"
+                formControlName="description"
+                maxlength="320"></textarea>
+              <div class="flex justify-between mb-8">
+                <div class="error-message text-red-500 pl-1 mt-1 flex-1">
+                  @if(descriptionControl.touched && descriptionControl.invalid) {
+                    @if (descriptionControl.errors?.['required']) {
+                      Fill out the description about the Space you want to Share
+                    }
+                    @if(propertyForm.get('description')?.value?.length > 0 && propertyForm.get('description')?.value?.length < 220) {
+                      Description too short, you must provide credible information about the space
+                    }
+                    @if(areaControl.errors?.['max']) {
+                      Make short and concise for better Space Details
+                    }
+                  }
+                </div>
+                <div class="text-right text-xs text-gray-600 flex-1 mt-2">
+                  Characters remaining: {{ 320 - propertyForm.get('description')?.value?.length }}
+                </div>
+              </div>
+            </div>             
+            <label class="block text-xl font-bold text-gray-700">Property Images</label>
+            <div class="flex justify-center">
+              <div
+                class="flex items-center justify-center w-full md:w-3/4"
+                (drop)="onDrop($event)"
+                (dragover)="onDragOver($event)">
+                <label
+                  for="dropzone-file"
+                  class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
+                  <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                    <svg
+                      class="w-8 h-8 mb-4 text-gray-500"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 20 16">
+                      <path
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5A5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                    </svg>
+                    <p class="mb-2 text-sm text-gray-500">
+                      <span class="font-semibold">Click to upload</span> or drag and drop
+                    </p>
+                    <p class="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                  </div>
+                  <input
+                    id="dropzone-file"
+                    type="file"
+                    accept="image/png, image/jpeg, image/svg+xml, image/jpg"
+                    #fileInput
+                    class="hidden"
+                    (change)="onFileChange()"
+                    multiple/>
+                </label>
+                  @if(filesControl.touched && filesControl.invalid) {
+                      @if (filesControl.errors?.['required']) {
+                        <div class="error-message text-red-500 mt-1 pl-1">Share some Space View </div>
+                        }
+                    }
+              </div>
+            </div>
+
+            @if(imageLimitExceeded){
+                <div role="alert" class="alert alert-warning">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                    <span> You can only upload a maximum of 4 images.</span>
+                  </div>
+                }
+            @if(fileError) {
+                <div role="alert" class="alert alert-warning">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                    <span> {{ fileError }}</span>
+                  </div>
+                }
+            
+            <div class="flex flex-wrap mt-4">
+                @for(image of images; track $index) {
+                  <div class="w-1/4 p-2 relative">
+                      <div class="w-full h-40 overflow-hidden flex items-center justify-center bg-gray-200 rounded-lg">
+                        <img [src]="image.preview" alt="Image Preview" class="object-cover h-full w-full">
+                      </div>
+                      <button (click)="removeImage($index)" class="absolute top-0 right-0 mt-2 mr-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 focus:outline-none">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                      </button>
+                      <a [href]="image.preview" target="_blank" class="absolute bottom-0 right-0 mb-2 mr-2 bg-blue-500 text-white rounded-lg px-2 py-1 hover:bg-blue-600 focus:outline-none">
+                        Preview
+                      </a>
+                  </div>
+                }
+            </div>
+                     
+            <div>
+                <label class="block text-xl font-bold text-gray-700">Where is it located?</label>
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mt-2">
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700">Region</label>
+                        <p>National Capital Region (NCR)</p>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700">City</label>
+                        <select class="select select-bordered w-full bg-white rounded-lg" formControlName="city">
+                            @for(city of cities; track city.city_name) {
+                                <option [value]="city.city_name">
+                                  {{ city.city_name.toUpperCase() }}</option>
+                                }
+                        </select>
+                        @if(cityControl.touched && cityControl.invalid) {
+                            @if (cityControl.errors?.['required']) {
+                              <div class="error-message text-red-500 mt-2 pl-1">Select City</div>
+                              }
+                          }
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700">Zip code</label>
+                        <input type="number" placeholder="Zip code" class="input input-bordered w-full bg-white rounded-lg" formControlName="postal_code">
+                        @if(postalCodeControl.invalid && postalCodeControl.touched) {
+                            @if (postalCodeControl.errors?.['required']) {
+                              <div class="error-message text-red-500 pl-3">Postal code must not be null</div>
+                            }
+                            @if(postalCodeControl.errors?.['pattern']) {
+                              <div class="error-message text-red-500 pl-3">Must be 4-digit and No Alphanumeric Characters</div>
+                            }
+                          }
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-bold text-gray-700">Address Line</label>
+                        <input type="text" placeholder="House no, Street name" class="input input-bordered w-full bg-white rounded-lg" formControlName="barangay">
+                        @if(barangayControl.invalid && barangayControl.touched) {
+                            @if (barangayControl.errors?.['required']) {
+                              <div class="error-message text-red-500 pl-3">Address of the space cant be null</div>
+                            }
+                            @if (barangayControl.errors?.['minlength']) {
+                                <div class="error-message text-red-500 pl-3">Address of the space are too short </div>
+                              }
+                            @if(barangayControl.errors?.['maxlength']) {
+                                <div class="error-message text-red-500 mt-2 pl-1">Make short and concise for better Space Details</div>
+                            }
+                          }
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-end">
+              @if(!isEditing){
+                <button type="submit" class="btn btn-primary bg-primary text-white font-bold border-none hover:bg-[#9A58B6]" [disabled]="!propertyForm.valid || submitted">Upload listing</button>
+              } @else {
+                <button type="button" class="btn btn-primary bg-primary text-white font-bold border-none hover:bg-[#9A58B6]"
+                (click)="handleUpdate()">Update listing</button>
+              }
+              </div>              
+        </form>
+    </div>
+</body>
+<app-footer></app-footer>

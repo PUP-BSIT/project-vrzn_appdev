@@ -13,12 +13,14 @@ export class PaginationComponent {
   nextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.pageChanged.emit(this.currentPage + 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
 
   previousPage(): void {
     if (this.currentPage > 1) {
       this.pageChanged.emit(this.currentPage - 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
 }

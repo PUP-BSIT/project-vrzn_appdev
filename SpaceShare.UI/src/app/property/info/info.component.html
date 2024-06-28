@@ -20,17 +20,11 @@
         PHP {{ property.price.toLocaleString() }} / month
     </p>
 
-    <!-- Description -->
-    <div class="scrollable-content my-7">
-        <p class="text-gray-500 mt-2 break-words overflow-hidden">
-            {{ property.description }}
-        </p>
-    </div>
-
     @if(isLoggedIn) {
         <!-- wishlist -->
-        <div>
-            <button (click)="toggleWishlist()" class="btn my-2 border-gray-300">
+        <div class="flex items-center mt-8">
+            <button (click)="toggleWishlist()"
+                class="btn wishlist-btn my-2 border-gray-300 mr-2 flex items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 heart-icon" [ngClass]="{'red': isWishlisted}" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -38,11 +32,22 @@
                 </svg>
                 {{ isWishlisted ? 'Added to wishlist' : 'Save to wishlist' }}
             </button>
+            <!-- reserve -->
+            <button class="btn w-48 flex items-center justify-center bg-green-700 text-white hover:bg-green-600 shadow-lg">
+                Reserve
+            </button>
         </div>
-
-        <!-- app-deal component  -->
-        <app-deal />
     }
+
+    <!-- Description -->
+    <div class="scrollable-content my-7">
+        <p class="text-xl font-semibold mt-4 mb-6">
+            About this space
+        </p>
+        <p class="text-gray-500 mt-2 break-words overflow-hidden">
+            {{ property.description }}
+        </p>
+    </div>
 
 } @else {
     <!-- Title -->
@@ -53,9 +58,17 @@
     
     <!-- Price -->
     <p class="text-5xl font-semibold text-green-800 mt-2 skeleton-loading">&nbsp;</p>
+
+    <!-- Save button -->
+    <div class="flex gap-2 mt-8">
+        <div class="btn my-2 w-4/12 rounded-lg border-gray-300 skeleton-loading">
+        </div>
+        <div class="btn my-2 w-4/12 rounded-3xl border-gray-300 skeleton-loading">
+        </div>
+    </div>
     
     <!-- Description -->
-    <div class="scrollable-contentxa my-7 skeleton-loading">
+    <div class="scrollable-contentxa my-7 mt-12 skeleton-loading">
         <div class="skeleton-line"></div>
         <div class="skeleton-line"></div>
         <div class="skeleton-line"></div>
@@ -63,26 +76,5 @@
         <div class="skeleton-line"></div>
         <!-- Add more skeleton lines to match the height and structure of actual content -->
     </div>
-    
-    <!-- Save button -->
-    <div>
-        <button class="btn my-2 w-4/12 border-gray-300 skeleton-loading">
-        </button>
-    </div>
-        
-    <!-- App-deal component -->
-    <app-deal *ngIf="propertyLoaded"></app-deal>
-    <div class="card card-side bg-base-100 shadow-xl mt-10 justify-center">
-        <div class="card-body items-center text-center">
-            <h2 class="text-black text-3xl font-bold">
-                <span class="skeleton skeleton-text"></span>
-            </h2>
-            <div class="flex items-center justify-center w-full mt-4">
-                <div class="skeleton skeleton-input w-full max-w-xs"></div>
-                <button class="btn ml-2text-white w-2/6 btn-primary bg-primary border-none skeleton-loading">&nbsp;</button>
-            </div>
-        </div>
-    </div>
-
 }
 </div>
