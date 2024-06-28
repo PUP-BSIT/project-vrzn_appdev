@@ -80,9 +80,8 @@ export class PropertyController {
     @Param('id') propertyId: number,
     @Body() property: Prisma.PropertyUpdateInput,
     @UploadedFiles() files: Express.Multer.File[],
-    @Req() request: Request,
   ) {
-    return await this.propertyService.updateProperty(propertyId, property, files, request);
+    return await this.propertyService.updateProperty(propertyId, property, files);
   }
 
   @UseGuards(JwtAuthGuard)
