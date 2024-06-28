@@ -7,7 +7,7 @@
       [routerLink]="['/space', cardId]"
     />
     @if(owned) {
-    <button class="delete-icon z-50" (click)="openConfirmationModal()">
+    <button class="delete-icon" (click)="openConfirmationModal()">
       <img src="../../assets/trash.svg" alt="delete" />
     </button>
     <dialog id="my_modal_{{ card.id }}" class="modal" #myModal>
