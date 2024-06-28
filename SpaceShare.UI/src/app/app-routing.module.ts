@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
+import { PropertyExistsGuard  } from './auth/property-exist.guard';
 
 import { MainComponent } from './main/main.component';
 import { RegisterComponent } from './landing/register/register.component';
@@ -31,7 +32,6 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'agreement', component: AgreementComponent },
   { path: 'space/owned', component: OwnedComponent, canActivate: [AuthGuard] },
-  { path: 'space/:id', component: PropertyComponent },
   {
     path: 'space/edit/:id',
     component: FormListingComponent,
@@ -40,9 +40,14 @@ const routes: Routes = [
   { path: 'verification', component: VerificationComponent },
   { path: 'listing', component: ListingComponent },
   {
-    path: 'listing/add',
+    path: 'space/add',
     component: FormListingComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'space/:id',
+    component: PropertyComponent,
+    canActivate: [PropertyExistsGuard],
   },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'wishlist', component: WishlistComponent, canActivate: [AuthGuard] },
