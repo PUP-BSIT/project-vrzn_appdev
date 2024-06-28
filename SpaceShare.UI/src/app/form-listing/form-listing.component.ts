@@ -63,10 +63,10 @@ export class FormListingComponent implements OnInit {
     });
 
     this.alertService.updateInvalid$
-    .pipe(takeUntil(this.unsubscribe$))
-    .subscribe(value => {
-      this.isUpdateInvalid = value;
-    })
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((value) => {
+        this.isUpdateInvalid = value;
+      });
   }
 
   initializeForm(): void {
@@ -170,7 +170,7 @@ export class FormListingComponent implements OnInit {
       return;
     }
 
-    if(this.isUpdateInvalid) this.isUpdateInvalid = false;
+    if (this.isUpdateInvalid) this.isUpdateInvalid = false;
 
     const newValue = this.propertyForm.value;
     const oldValue = this.propertyToEdit;
@@ -240,8 +240,8 @@ export class FormListingComponent implements OnInit {
   }
 
   arePropertiesDifferent(
-    newValue: any,
-    oldValue: any,
+    newValue: Property,
+    oldValue: Property,
     keysToCompare: string[]
   ): boolean {
     return keysToCompare.some((key) => newValue[key] !== oldValue[key]);
@@ -290,9 +290,9 @@ export class FormListingComponent implements OnInit {
   }
 
   validateUpdateForm(): boolean {
-    if(!this.propertyForm.touched) return false;
-    if(this.propertyForm.pristine) return false;
-    if(!this.propertyForm.valid) return false;
+    if (!this.propertyForm.touched) return false;
+    if (this.propertyForm.pristine) return false;
+    if (!this.propertyForm.valid) return false;
 
     const file = this.fileInput.nativeElement.files;
     if (file.length === 0) return false;
