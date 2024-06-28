@@ -25,6 +25,7 @@ import { RentingComponent } from './landing/agreement/renting/renting.component'
 import { WentWrongComponent } from './went-wrong/went-wrong.component';
 import { OwnedComponent } from './owned/owned.component';
 import { OwnerGuard } from './auth/owner.guard';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -70,6 +71,7 @@ const routes: Routes = [
     component: SubscriptionComponent,
     canActivate: [AuthGuard],
   },
+  { path: 'unauthorized', component: UnauthorizedComponent, canActivate: [AuthGuard] },
   { path: '**', component: WentWrongComponent },
 ];
 
