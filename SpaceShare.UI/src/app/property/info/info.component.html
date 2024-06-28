@@ -29,8 +29,8 @@
 
     @if(isLoggedIn) {
         <!-- wishlist -->
-        <div>
-            <button (click)="toggleWishlist()" class="btn my-2 border-gray-300">
+        <div class="flex items-center">
+            <button (click)="toggleWishlist()" class="btn wishlist-btn my-2 border-gray-300 mr-2 flex items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 heart-icon" [ngClass]="{'red': isWishlisted}" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -38,10 +38,14 @@
                 </svg>
                 {{ isWishlisted ? 'Added to wishlist' : 'Save to wishlist' }}
             </button>
+            <!-- reserve -->
+            <button class="btn w-40 flex items-center justify-center bg-green-700 text-white hover:bg-green-600 shadow-lg">
+                Reserve
+            </button>
         </div>
-
+        
         <!-- app-deal component  -->
-        <app-deal />
+        <!-- <app-deal /> -->
     }
 
 } @else {
