@@ -40,9 +40,11 @@ export class HostComponent implements OnInit {
 
   maskEmail(email: string): string {
     const [name, domain] = email.split('@');
-    const maskedName = name[0] + '*'.repeat(name.length - 2) +
+    const maskedName = name[3] + '*'.repeat(name.length - 2) +
          name[name.length - 1];
-    return `${maskedName}@${domain}`;
+    const maskedDomain = domain[2] + '*'.repeat(domain.length - 5) +
+         domain[domain.length - 1];
+    return `${maskedName}@${maskedDomain}`;
   }
 
   maskPhoneNumber(phone: string): string {
