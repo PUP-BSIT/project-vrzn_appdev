@@ -169,7 +169,7 @@ export class PropertyService {
       where: { id: +propertyId },
       data: {
         ...property,
-        status: Boolean(property.status)
+        status: !this.getBoolean(property.status)
       },
     });
 
@@ -300,6 +300,20 @@ export class PropertyService {
 
     return wishlistedProperties.map((wishlistItem) => wishlistItem.property);
   }
+
+  getBoolean(value){
+   switch(value){
+        case true:
+        case "true":
+        case 1:
+        case "1":
+        case "on":
+        case "yes":
+            return true;
+        default: 
+            return false;
+    }
+}
 
   async isWishlisted(wishlistItem: { user_id: number; property_id: number }) {
     const { user_id, property_id } = wishlistItem;
