@@ -38,9 +38,21 @@
           <button class="btn bg-[#8644a2] text-white" [disabled]="otpControl.invalid">Verify</button>
         </div>
         </form>
+        <div class="col-span-1 md:col-span-2 flex justify-center">
+          <button (click)="sendAgain()" [disabled]="disableButton" class="text-sm cursor-pointer" [ngClass]="disableButton ? 'text-gray-800' : 'text-blue-500'">
+            Resend OTP Code
+          </button>
+        </div>
       }
     </div>
   </div>
 } @else {
     <app-register/>
+}
+@if(triggerToast){
+  <div class="toast">
+    <div class="alert alert-info">
+      <span>Code has been sent.</span>
+    </div>
+  </div>
 }

@@ -65,16 +65,9 @@ export class FormListingComponent implements OnInit {
     this.alertService.updateInvalid$
     .pipe(takeUntil(this.unsubscribe$))
     .subscribe(value => {
-      console.log('value: ', value)
       this.isUpdateInvalid = value;
     })
   }
-
-  // ngOnDestroy(): void {
-  //     this.unsubscribe$.next();
-  //     this.unsubscribe$.complete();
-  //     console.log('destroyed');
-  // }
 
   initializeForm(): void {
     this.propertyForm = this.formBuilder.group({
@@ -211,7 +204,6 @@ export class FormListingComponent implements OnInit {
         .updateProperty(oldValue.id, newValue, newFiles)
         .subscribe({
           next: (data) => {
-            console.log(data);
             if (data.hasOwnProperty('updatedProperty')) {
               this.createdPropertyId = oldValue.id;
               this.submitted = false;

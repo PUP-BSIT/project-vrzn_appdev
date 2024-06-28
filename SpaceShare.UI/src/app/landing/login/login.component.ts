@@ -86,7 +86,6 @@ export class LoginComponent implements OnInit {
 
   closeModal() {
     if (this.modalToggle) {
-      console.log(this.modalToggle.nativeElement.value);
       this.modalToggle.nativeElement.checked = false;
     }
   }

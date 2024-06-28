@@ -268,9 +268,7 @@ export class RegisterComponent implements OnInit {
 
     const verify = { code: +this.randomNumber, mailTo: data.email };
 
-    this.registerService
-      .sendMail(verify)
-      .subscribe((data) => console.log(data));
+    this.registerService.sendMail(verify);
   }
 
   loadRegions(): void {
@@ -362,7 +360,6 @@ export class RegisterComponent implements OnInit {
 
   closeModal() {
     if (this.modalToggle) {
-      console.log(this.modalToggle.nativeElement.value);
       this.modalToggle.nativeElement.checked = false;
     }
   }
