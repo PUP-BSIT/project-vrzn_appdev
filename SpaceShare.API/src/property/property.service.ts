@@ -109,7 +109,7 @@ export class PropertyService {
         barangay: property.barangay,
         postal_code: property.postal_code,
         price: +property.price,
-        status: !!property.status,
+        status: !!!property.status,
         capacity: +property.capacity,
         city: property.city,
         area: +property.area,
