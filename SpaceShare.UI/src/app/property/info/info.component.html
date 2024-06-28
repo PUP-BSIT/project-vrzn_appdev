@@ -23,19 +23,25 @@
     @if(isLoggedIn) {
         <!-- wishlist -->
         <div class="flex items-center mt-8">
-            <button (click)="toggleWishlist()"
-                class="btn wishlist-btn my-2 border-gray-300 mr-2 flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 heart-icon" [ngClass]="{'red': isWishlisted}" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-                {{ isWishlisted ? 'Added to wishlist' : 'Save to wishlist' }}
-            </button>
-            <!-- reserve -->
-            <button class="btn w-48 flex items-center justify-center bg-green-700 text-white hover:bg-green-600 shadow-lg">
-                Reserve
-            </button>
+            @if(+ownerId === +userId){
+                <button class="btn w-48 flex items-center justify-center bg-green-700 text-white hover:bg-green-600 shadow-lg"
+                    [routerLink]="['/space/edit/', propertyId]">
+                    Edit Space
+                </button>
+            }@else{
+                <button (click)="toggleWishlist()" class="btn wishlist-btn my-2 border-gray-300 mr-2 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 heart-icon" [ngClass]="{'red': isWishlisted}" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                    {{ isWishlisted ? 'Added to wishlist' : 'Save to wishlist' }}
+                </button>
+                <!-- reserve -->
+                <button class="btn w-48 flex items-center justify-center bg-green-700 text-white hover:bg-green-600 shadow-lg">
+                    Reserve
+                </button>
+            }
         </div>
     }
 
