@@ -6,7 +6,7 @@ import { RegisterService } from '../register/register.service';
 @Component({
   selector: 'app-verification',
   templateUrl: './verification.component.html',
-  styleUrls: ['./verification.component.css']
+  styleUrls: ['./verification.component.css'],
 })
 export class VerificationComponent implements OnInit {
   otpForm!: FormGroup;
@@ -17,17 +17,40 @@ export class VerificationComponent implements OnInit {
   message!: string;
   errorMessage: string = '';
   showlink: boolean = true;
-  countdownSeconds: number = 3; 
-
-  constructor(private formBuilder: FormBuilder, private readonly registerService: RegisterService) {}
+  countdownSeconds: number = 3;
+  disableButton = false;
+  triggerToast = false;
+  constructor(
+    private formBuilder: FormBuilder,
+    private readonly registerService: RegisterService
+  ) {}
 
   ngOnInit() {
     this.otpForm = this.formBuilder.group({
-      otp: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
+      otp: [
+        null,
+        [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
+      ],
     });
 
     this.otpControl.valueChanges.subscribe(() => {
       this.errorMessage = '';
+    });
+  }
+
+  sendAgain() {
+    const verify = { code: this.code, mailTo: this.email };
+    this.registerService.sendMail(verify).subscribe(data => {
+      if(data.hasOwnProperty('messageId')){
+        this.disableButton = true;
+        this.triggerToast = true;
+        setTimeout(() => {
+          this.triggerToast = false;
+        }, 2000);
+        setTimeout(() => {
+          this.disableButton = false;
+        }, 15000);
+      }
     });
   }
 
@@ -44,7 +67,7 @@ export class VerificationComponent implements OnInit {
     if (!this.otpForm.valid) {
       return;
     }
-  
+
     try {
       if (+this.otpForm.value.otp === +this.code) {
         this.registerService.registerUser(this.userToCreate).subscribe(
@@ -58,16 +81,18 @@ export class VerificationComponent implements OnInit {
             }
           },
           () => {
-            this.errorMessage = 'An unexpected error occurred. Please try again later.';
+            this.errorMessage =
+              'An unexpected error occurred. Please try again later.';
           }
         );
       } else {
         this.errorMessage = 'Incorrect Code';
       }
     } catch {
-      this.errorMessage = 'An unexpected error occurred. Please try again later.';
+      this.errorMessage =
+        'An unexpected error occurred. Please try again later.';
     }
-  }  
+  }
 
   startCountdown() {
     const interval = setInterval(() => {
@@ -78,7 +103,7 @@ export class VerificationComponent implements OnInit {
         this.closeModal();
         location.reload();
       }
-    }, 1000); 
+    }, 1000);
   }
 
   goBack() {
