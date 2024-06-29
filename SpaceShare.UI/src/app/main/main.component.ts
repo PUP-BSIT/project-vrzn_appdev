@@ -29,14 +29,14 @@ export class MainComponent implements OnInit {
         this.uniqueCities = [...new Set(this.cards.map((card) => card.city))];
         this.filterCards();
         this.updatePagination();
+        setTimeout(() => {
+          this.loaded = true;
+        }, 1000)
       },
-      (error) => {
+      () => {
+        location.href = '/went-wrong'
       }
     );
-
-    setTimeout(() => {
-      this.loaded = true;
-    }, 1000);
   }
 
   onFiltersChanged(filters: any): void {
@@ -75,8 +75,5 @@ export class MainComponent implements OnInit {
     const endIndex = startIndex + this.itemsPerPage;
     this.paginatedCards = this.filteredCards.slice(startIndex, endIndex);
   }
-
-  trackByCardId(index: number, card: Card): number {
-    return card.id;
-  }
+  
 }
