@@ -289,12 +289,20 @@ export class FormListingComponent implements OnInit {
   }
 
   validateUpdateForm(): boolean {
-    if (!this.propertyForm.touched) return false;
-    if (this.propertyForm.pristine) return false;
-    if (!this.propertyForm.valid) return false;
+    if (!this.propertyForm.touched) {
+      return false;
+    };
+    if (!this.propertyForm.valid){
+      return false;
+    }
 
-    const file = this.fileInput.nativeElement.files;
-    if (file.length === 0) return false;
+    const inputElement = this.fileInput.nativeElement;
+
+    if (inputElement.files && inputElement.files.length > 0){
+      const files = Array.from(inputElement.files) as File[];
+      const fileCount = files.length;
+      if(fileCount > 0) return true;
+    }
 
     return true;
   }
@@ -321,6 +329,7 @@ export class FormListingComponent implements OnInit {
     if (inputElement.files && inputElement.files.length > 0) {
       const files = Array.from(inputElement.files) as File[];
       this.handleFiles(files);
+      this.propertyForm.get('files')?.markAsTouched();
     }
   }
 
