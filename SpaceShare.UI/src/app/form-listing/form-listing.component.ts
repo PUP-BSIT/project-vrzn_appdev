@@ -404,7 +404,10 @@ export class FormListingComponent implements OnInit {
     });
   }
 
-  removeImage(index: number): void {
+  removeImage(index: number, event: Event): void {
+    event.stopPropagation();
+    event.preventDefault();
+
     this.images.splice(index, 1);
     this.propertyForm.patchValue({
       files: this.images.map((image) => image.file),
