@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  async onSubmit() {
+  onSubmit() {
     if (!this.loginForm.valid) {
       return;
     }
@@ -46,8 +46,10 @@ export class LoginComponent implements OnInit {
           if (data.success) {
             this.cookieService.set('token', data.token);
             this.cookieService.set('id', data.id);
-            this.closeModal();
-            location.reload();
+            setTimeout(() => {
+              this.closeModal();
+              location.reload();
+            }, 500);
           }
         },
         (error: HttpErrorResponse) => {
@@ -84,7 +86,6 @@ export class LoginComponent implements OnInit {
 
   closeModal() {
     if (this.modalToggle) {
-      console.log(this.modalToggle.nativeElement.value);
       this.modalToggle.nativeElement.checked = false;
     }
   }

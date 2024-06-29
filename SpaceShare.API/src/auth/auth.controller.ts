@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/signin-auth.dto';
 import { CreateUserDto } from './dto/signup-auth.dto';
 import { verification } from './dto/verify.dto';
+import { User } from '@prisma/client';
 
 @Controller('auth')
 export class AuthController {
@@ -23,12 +24,19 @@ export class AuthController {
     return this.authService.signout(response);
   }
 
-  @Get('user/:id')
-  getUser(@Body() id: number): Promise<Object>{
-    return this.authService.getUser(id);
+  @Get(':id')
+  async getUser(@Param('id') id: string): Promise<Object>{
+    return await this.authService.getUser(+id);
   }
 
-  
+  @Post('update')
+  async updateUser(
+    @Body() body: { user: User; oldPhoneNumber: string; newPhoneNumber: string }
+  ) {
+    const { user, oldPhoneNumber, newPhoneNumber } = body;
+    return await this.authService.updateUser(user, oldPhoneNumber, newPhoneNumber);
+  }
+
   @Post('verify')
   sendMailer(@Body() verification: verification) {
     return this.authService.sendMail(verification);

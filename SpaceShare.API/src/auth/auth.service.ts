@@ -8,6 +8,8 @@ import { Response } from 'express';
 import { MailerService } from '@nestjs-modules/mailer';
 import { verification } from './dto/verify.dto';
 import { ConfigService } from '@nestjs/config';
+import { User } from '@prisma/client';
+import { IsPhoneNumber } from 'class-validator';
 
 @Injectable()
 export class AuthService {
@@ -15,7 +17,7 @@ export class AuthService {
     private prismaService: PrismaService,
     private jwtService: JwtService,
     private configService: ConfigService,
-    private readonly mailService: MailerService
+    private readonly mailService: MailerService,
   ) {}
 
   async signup(user: CreateUserDto) {
@@ -46,7 +48,11 @@ export class AuthService {
       },
     });
 
-    return { success: true, message: 'User sign up successful', user: createdUser };
+    return {
+      success: true,
+      message: 'User sign up successful',
+      user: createdUser,
+    };
   }
 
   async signin(user: SignInDto, response: Response) {
@@ -66,8 +72,13 @@ export class AuthService {
       id: findUser.id,
       email: findUser.email,
     });
-    
-    return response.send({ success: true, message: 'Sign in successful', token: token, id: findUser.id });
+
+    return response.send({
+      success: true,
+      message: 'Sign in successful',
+      token: token,
+      id: findUser.id,
+    });
   }
 
   async signout(response: Response) {
@@ -77,17 +88,71 @@ export class AuthService {
 
   async getUser(id: number) {
     return await this.prismaService.user.findUnique({
+      where: { id },
+      select: {
+        first_name: true,
+        surname: true,
+        email: true,
+        birthdate: true,
+        phone_number: {
+          select: {
+            number: true,
+          },
+        },
+      },
+    });
+  }
+
+  async updateUser(user: User, oldPhoneNumber: string, newPhoneNumber: string) {
+    const formattedBirthdate = new Date(user.birthdate).toISOString();
+
+    return await this.prismaService.user.update({
       where: {
-        id: id,
-      }
-    })
+        id: user.id,
+      },
+      data: {
+        first_name: user.first_name,
+        surname: user.surname,
+        birthdate: formattedBirthdate,
+        phone_number: {
+          updateMany: {
+            where: {
+              number: oldPhoneNumber,
+            },
+            data: {
+              number: newPhoneNumber,
+            },
+          },
+        },
+      },
+    });
   }
 
   async sendMail(body: verification) {
     const email = await this.mailService.sendMail({
       to: body.mailTo,
       subject: 'SpaceShare Signup Verification',
-      text: `Welcome to SpaceShare! \nYour verification code is ${body.code}\nThis is an automatic email. Please do not reply.`,
+      html: 
+      `<div style="font-family: Helvetica, Arial, sans-serif; min-width: 1000px; overflow: auto; line-height: 2">
+        <div style="margin: 50px auto; width: 70%; padding: 20px 0">
+          <div style="border-bottom: 1px solid #eee; display: flex; align-items: center;">
+            <img src="https://vrzn-spaceshare-dev.s3.ap-southeast-1.amazonaws.com/logo.png" style="width: 40px; height: 40px; margin-right: 10px;">
+            <a href="" style="font-size: 1.4em; color: #8644a2; text-decoration: none; font-weight: 600;">SpaceShare</a>
+          </div>
+          <p style="font-size: 1.1em">Welcome!</p>
+          <p>Thank you for signin up to <span style="font-weight:bold;color:#8644a2;">SpaceShare</span>! <br>Use the OTP below to complete your Sign-up process</p>
+          <h2 style="background: #8644a2; margin: 0 auto; width: max-content; padding: 0 10px; color: #fff; border-radius: 4px;">${body.code}</h2>
+          <p style="font-size: 0.9em;">Regards,<br />SpaceShare Team</p>
+          <hr style="border: none; border-top: 1px solid #eee;" />
+           <div style="float: left;padding: 8px 0; color: #aaa; font-size: 0.8em; line-height: 1; font-weight: 300;">
+              <p>This is an automatic email please do not reply.</p>
+           </div>
+          <div style="float: right; padding: 8px 0; color: #aaa; font-size: 0.8em; line-height: 1; font-weight: 300;">
+            <p>Team Verizon</p>
+            <p>We care about details.</p>
+          </div>
+        </div>
+      </div>`,
     });
 
     return email;
@@ -105,8 +170,8 @@ export class AuthService {
 
   async signToken(args: { id: number; email: string }) {
     const payload = args;
-    return this.jwtService.signAsync(payload, { 
-      secret: this.configService.get<string>('JWT_SECRET') 
+    return this.jwtService.signAsync(payload, {
+      secret: this.configService.get<string>('JWT_SECRET'),
     });
   }
   // #endregion

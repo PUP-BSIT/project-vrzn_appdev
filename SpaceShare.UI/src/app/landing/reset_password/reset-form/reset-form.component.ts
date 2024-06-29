@@ -17,10 +17,7 @@ export class ResetFormComponent {
   }
 
   onSubmit() {
-    if (!this.passForm.valid) {
-      return;
-    }
-    console.log(this.passForm.value);
+    if (!this.passForm.valid) return;
   }
 
 

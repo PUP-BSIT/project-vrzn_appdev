@@ -1,0 +1,28 @@
+<app-navbar></app-navbar>
+<div class="mx-20 my-10">
+    <h1 class="text-4xl font-bold">My Properties</h1>
+    <div class="mt-4 flex flex-wrap">
+        @if(loaded && !ownedItems.length) {
+            <div class="flex items-center justify-center w-full h-full full-height my-24">
+                <div class="card w-96 bg-white shadow-xl">
+                    <div class="card-body items-center text-center">
+                        <img src="../../assets/empty.png" class="h-100 w-100">
+                        <h2 class="card-title">Whoops?!</h2>
+                        <p>There's nothing to see here right now.</p>
+                    </div>
+                </div>
+            </div>
+        } @else if (loaded && ownedItems.length) {
+            @for (card of ownedItems; track card.id) {
+                <app-property-card [card]="card" [cardId]="card.id" [owned]="true" (cardDeleted)="onCardDeleted($event)" class="m-2" />
+            }
+        } @else {
+        <div class="flex gap-6 mt-4">
+            <app-card-skeleton></app-card-skeleton>
+            <app-card-skeleton></app-card-skeleton>
+            <app-card-skeleton></app-card-skeleton>
+        </div>
+        }
+    </div>
+</div>
+<app-footer></app-footer>

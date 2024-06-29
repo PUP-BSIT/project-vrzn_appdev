@@ -11,4 +11,8 @@ export class AuthService {
   isAuthenticated() {
     return this.isLoggedIn;
   }
+
+  getLoggedUserId(){
+    return this.cookieService.get('id');
+  }
 }

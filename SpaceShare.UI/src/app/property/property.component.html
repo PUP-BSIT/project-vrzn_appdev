@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-    <app-carousel></app-carousel>
+    <app-carousel [property]="property"/>
       <div class="max-w-7xl 
                   p-8 
                   mx-auto 
@@ -12,8 +12,8 @@
                   gap-8 
                   mb-10">
         <!-- Left Column -->
-          <app-info></app-info>
+        <app-info [property]="property"/>
         <!-- Right Column -->
-        <app-features></app-features>
+        <app-features [property]="property"/>
       </div>
 <app-footer/>
