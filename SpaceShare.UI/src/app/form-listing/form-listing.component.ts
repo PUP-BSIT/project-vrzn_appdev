@@ -197,11 +197,9 @@ export class FormListingComponent implements OnInit {
     const oldFiles = Array.from(this.initialImages || []) as File[];
     const filesDifferent = this.areFilesDifferent(newFiles, oldFiles);
 
-    if (propertiesDifferent || filesDifferent) {
+    if (propertiesDifferent || filesDifferent || newValue.status !== oldValue.status) {
       this.submitted = true;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
       this.submitButtonDisabled = true;
-
       this.addListingService
         .updateProperty(oldValue.id, newValue, newFiles)
         .subscribe({
