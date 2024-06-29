@@ -285,6 +285,8 @@ export class PropertyService {
             city: true,
             barangay: true,
             price: true,
+            bedroom: true,
+            area: true,
             status: true,
             rating: true,
             capacity: true,
