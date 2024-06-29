@@ -190,7 +190,7 @@
                 }
             
             <div class="flex flex-wrap mt-4 gap-4">
-              @if(!(images.length > 0) && isEditing){
+              @if(isLoading && isEditing){
                 <div class="skeleton h-40 w-64"></div>
                 <div class="skeleton h-40 w-64"></div>
               }

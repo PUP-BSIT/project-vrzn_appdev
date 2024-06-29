@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AddListingService } from './add-listing.service';
 import { Property } from '../../model/property.model';
@@ -28,6 +28,7 @@ export class FormListingComponent implements OnInit {
   maxImages = 4;
   imageLimitExceeded = false;
   submitButtonDisabled = false;
+  isLoading = true;
 
   defaultRegionCode = '13';
   selectedProvince = '';
@@ -389,6 +390,7 @@ export class FormListingComponent implements OnInit {
 
         const event = new Event('change', { bubbles: true });
         this.fileInput.nativeElement.dispatchEvent(event);
+        this.isLoading = false;
       },
     });
   }
