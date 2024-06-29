@@ -11,7 +11,7 @@
     <app-alert [createdPropery]="createdPropertyId" [mainMessage]="'Property Updated'" [state]="'success'"
       [subMessage]="'Your Property Has Been Updated!'" />
   }
-  @if(isEditing && !propertyForm.touched && isUpdateInvalid){
+  @if(isEditing && propertyForm.pristine && isUpdateInvalid){
     <app-alert [mainMessage]="'Values Not Updated'" [state]="'info'" [subMessage]="'No New Values Were Detected'" />
   }
   @else if(isEditing && isUpdateInvalid){

@@ -29,6 +29,7 @@ export class FormListingComponent implements OnInit {
   imageLimitExceeded = false;
   submitButtonDisabled = false;
   isLoading = true;
+  isInitializing = true;
 
   defaultRegionCode = '13';
   selectedProvince = '';
@@ -198,7 +199,11 @@ export class FormListingComponent implements OnInit {
     const oldFiles = Array.from(this.initialImages || []) as File[];
     const filesDifferent = this.areFilesDifferent(newFiles, oldFiles);
 
-    if (propertiesDifferent || filesDifferent || newValue.status !== oldValue.status) {
+    if (
+      propertiesDifferent ||
+      filesDifferent ||
+      newValue.status !== oldValue.status
+    ) {
       this.submitted = true;
       this.submitButtonDisabled = true;
       this.addListingService
@@ -254,8 +259,8 @@ export class FormListingComponent implements OnInit {
         this.propertyToEdit = response;
         this.initializeEditForm();
       },
-      error: (err) => {
-        //handle error pls
+      error: () => {
+        location.href = '/went-wrong';
       },
     });
   }
@@ -289,22 +294,9 @@ export class FormListingComponent implements OnInit {
   }
 
   validateUpdateForm(): boolean {
-    if (!this.propertyForm.touched) {
-      return false;
-    };
-    if (!this.propertyForm.valid){
-      return false;
-    }
+    if (!this.propertyForm.touched || this.propertyForm. pristine || !this.propertyForm.valid) return false;
 
-    const inputElement = this.fileInput.nativeElement;
-
-    if (inputElement.files && inputElement.files.length > 0){
-      const files = Array.from(inputElement.files) as File[];
-      const fileCount = files.length;
-      if(fileCount > 0) return true;
-    }
-
-    return true;
+    return this.images.length > 0;
   }
 
   priceValidator(control: AbstractControl): { [key: string]: boolean } | null {
@@ -329,7 +321,11 @@ export class FormListingComponent implements OnInit {
     if (inputElement.files && inputElement.files.length > 0) {
       const files = Array.from(inputElement.files) as File[];
       this.handleFiles(files);
+
+      if(this.isInitializing) return;
+
       this.propertyForm.get('files')?.markAsTouched();
+      this.propertyForm.get('files')?.markAsDirty();
     }
   }
 
@@ -400,6 +396,7 @@ export class FormListingComponent implements OnInit {
         const event = new Event('change', { bubbles: true });
         this.fileInput.nativeElement.dispatchEvent(event);
         this.isLoading = false;
+        this.isInitializing = false;
       },
     });
   }
@@ -412,7 +409,14 @@ export class FormListingComponent implements OnInit {
     this.propertyForm.patchValue({
       files: this.images.map((image) => image.file),
     });
-    this.propertyForm.get('files')!.updateValueAndValidity();
+
+    const filesControl = this.propertyForm.get('files');
+    if(filesControl){
+      filesControl.markAsTouched();
+      filesControl.markAsDirty();
+      filesControl.updateValueAndValidity();
+    }
+
     this.resetFileInput();
   }
 
