@@ -55,10 +55,23 @@
                rounded-lg 
                overflow-auto 
                break-words"
+               [(ngModel)]="message"
+               (input)="checkMessageLength()"
+               (blur)="checkMessageRequired()"
         placeholder="Add Note to Host"
         maxlength="320"
         [(ngModel)]="message">
       </textarea>
+      @if(showCharacterLimitAlert){
+        <div class="text-red-500 text-sm mt-1">
+          Maximum character limit reached.
+        </div>
+      }
+      @if(showMessageRequiredAlert){
+        <div class="text-red-500 text-sm mt-1">
+          Message is required. 
+        </div>
+      }
     </div>
     <button
       class="btn 
@@ -68,6 +81,7 @@
              border-none 
            hover:bg-[#9A58B6] 
              w-full"
+      [disabled]="!message.trim()"
       (click)="openModal('summary')">
       Continue
     </button>
