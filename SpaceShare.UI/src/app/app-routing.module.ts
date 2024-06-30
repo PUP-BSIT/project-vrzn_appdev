@@ -71,8 +71,16 @@ const routes: Routes = [
     component: SubscriptionComponent,
     canActivate: [AuthGuard],
   },
-  { path: 'unauthorized', component: UnauthorizedComponent, canActivate: [AuthGuard] },
-  { path: '**', component: WentWrongComponent },
+  {
+    path: 'unauthorized',
+    component: UnauthorizedComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'went-wrong',
+    component: WentWrongComponent,
+  },
+  { path: '**', redirectTo: '/went-wrong' },
 ];
 
 @NgModule({
