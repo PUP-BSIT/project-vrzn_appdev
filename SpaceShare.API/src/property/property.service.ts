@@ -3,6 +3,7 @@ import { PrismaService } from 'prisma/prisma.service';
 import { Prisma } from '@prisma/client';
 import { S3Service } from 'src/s3/s3.service';
 import { Request } from 'express';
+import { Reservation } from './dto/reserve.dto';
 
 @Injectable()
 export class PropertyService {
@@ -236,6 +237,17 @@ export class PropertyService {
     if (deleted) return { success: true, message: 'Property Deleted' };
 
     return { success: false, message: 'Something Went Wrong' };
+  }
+
+  async reserveProperty(application: Reservation){
+    return await this.prismaService.tenantApplication.create({
+      data: {
+        property_id: +application.property_id,
+        applicant_id: +application.user_id,
+        status: application.status,
+        notes: application.notes
+      },
+    });
   }
 
   async rateProperty(propertyRating: { id: number; rating: number }) {
