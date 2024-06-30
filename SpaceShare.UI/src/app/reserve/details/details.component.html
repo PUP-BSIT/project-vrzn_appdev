@@ -271,3 +271,12 @@
     }
   </div>
 </div>
+@if(isSubmitted){
+  <app-wait/>
+}
+@if(success){
+      <app-alert [createdPropery]="propertyId" [mainMessage]="'Application Created'" [state]="'success'"
+        [subMessage]="'The owner has been notified about your application!'"/>
+}@if(fail){
+      <app-alert [mainMessage]="'Error'" [state]="'error'" [subMessage]="'Could not proceed with reservation.'" />
+}

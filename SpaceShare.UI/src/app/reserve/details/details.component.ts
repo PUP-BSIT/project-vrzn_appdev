@@ -1,5 +1,7 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Property } from '../../../model/property.model';
+import { AuthService } from '../../auth/auth.service';
+import { ReserveService } from '../reserve.service';
 
 @Component({
   selector: 'app-details',
@@ -17,6 +19,12 @@ export class DetailsComponent implements OnInit {
   message!: string;
   modalType!: string;
   minDate!: string;
+  success = false;
+  fail = false;
+  propertyId!: number;
+  isSubmitted!: boolean;
+
+  constructor(private authService: AuthService, private reserveService: ReserveService){}
 
   ngOnInit(): void {
     this.minDate = this.formatDate(new Date());
@@ -24,7 +32,8 @@ export class DetailsComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['property'] && !changes['property'].firstChange) {
-      this.property = changes['property'].currentValue;    
+      this.property = changes['property'].currentValue; 
+      this.propertyId = this.property.id
     }
   }
 
@@ -68,11 +77,24 @@ export class DetailsComponent implements OnInit {
   }
 
   confirmReservation() {
-    console.log('Reservation confirmed:', {
-      dates: this.dates,
-      guests: this.guests,
-      notes: this.message
-    });
+    this.isSubmitted = true;
+    const reservation = {
+      applicant_id: +this.authService.getLoggedUserId(),
+      property_id: +this.property.id,
+      status: "Pending",
+      notes: `Planning to move on ${this.dates} \n\n guest count: ${this.guests} \n\n notes: ${this.message}`
+    };
+
+    this.reserveService.sendReservation(reservation).subscribe({
+      next: () => {
+        this.isSubmitted = false;
+        this.success = true;
+      },
+      error: () => {
+        this.isSubmitted = false;
+        this.fail = true;
+      }
+    })
     this.closeModal();
   }
 
