@@ -4,7 +4,7 @@ import { Property } from '../../../model/property.model';
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
-  styleUrl: './details.component.css',
+  styleUrls: ['./details.component.css'],
 })
 export class DetailsComponent implements OnInit {
   @Input() property!: Property;
@@ -17,9 +17,16 @@ export class DetailsComponent implements OnInit {
   message!: string;
   modalType!: string;
   minDate!: string;
+  maxDate!: string;
+  isDateValid = true;
 
   ngOnInit(): void {
-    this.minDate = this.formatDate(new Date());
+    const currentDate = new Date();
+    this.minDate = this.formatDate(currentDate);
+    const maxDate = new Date();
+    maxDate.setMonth(maxDate.getMonth() + 5);
+    this.maxDate = this.formatDate(maxDate);
+    this.dates = this.formatDate(currentDate); 
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -37,7 +44,9 @@ export class DetailsComponent implements OnInit {
   }
 
   saveDates() {
-    this.closeModal();
+    if (this.isDateValid) {
+      this.closeModal();
+    }
   }
 
   saveGuests() {
@@ -71,7 +80,7 @@ export class DetailsComponent implements OnInit {
     console.log('Reservation confirmed:', {
       dates: this.dates,
       guests: this.guests,
-      notes: this.message
+      notes: this.message,
     });
     this.closeModal();
   }
@@ -84,8 +93,14 @@ export class DetailsComponent implements OnInit {
   }
 
   validateDate(input: string): void {
-    if (new Date(input) < new Date(this.minDate)) {
-      this.dates = this.minDate;
+    const inputDate = new Date(input);
+    const minDate = new Date(this.minDate);
+    const maxDate = new Date(this.maxDate);
+    if (inputDate < minDate || inputDate > maxDate || isNaN(inputDate.getTime())) {
+      this.isDateValid = false;
+    } else {
+      this.isDateValid = true;
+      this.dates = this.formatDate(inputDate);
     }
   }
 }
