@@ -143,6 +143,12 @@
             </div>
           </div>
 
+          @if(showAdultValidationMessage){
+            <div class="text-red-500 text-sm mt-1">
+              At least one adult is required.
+            </div>
+          }
+
           <div class="flex justify-between items-center">
             <div>
               <p class="text-sm font-semibold">
@@ -209,6 +215,7 @@
             Cancel
           </button>
           <button
+            [disabled]="guests.adults === 0"
             class="btn btn-primary text-white bg-primary border-none hover:bg-[#9A58B6] w-32"
             (click)="saveGuests()"
           >
