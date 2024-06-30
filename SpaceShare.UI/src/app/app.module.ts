@@ -63,6 +63,8 @@ import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { ReserveComponent } from './reserve/reserve.component';
 import { DetailsComponent } from './reserve/details/details.component';
 import { TotalComponent } from './reserve/total/total.component';
+import { ApplicationsComponent } from './applications/applications.component';
+import { ReservationCardComponent } from './applications/reservation-card/reservation-card.component';
 
 @NgModule({
   declarations: [
@@ -107,6 +109,8 @@ import { TotalComponent } from './reserve/total/total.component';
     ReserveComponent,
     DetailsComponent,
     TotalComponent,
+    ApplicationsComponent,
+    ReservationCardComponent,
   ],
   imports: [
     ReactiveFormsModule,
