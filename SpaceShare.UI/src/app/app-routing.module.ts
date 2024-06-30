@@ -26,6 +26,7 @@ import { WentWrongComponent } from './went-wrong/went-wrong.component';
 import { OwnedComponent } from './owned/owned.component';
 import { OwnerGuard } from './auth/owner.guard';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { ReserveComponent } from './reserve/reserve.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -45,6 +46,11 @@ const routes: Routes = [
     path: 'space/add',
     component: FormListingComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'space/reserve/:id',
+    component: ReserveComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'space/:id',
@@ -71,8 +77,16 @@ const routes: Routes = [
     component: SubscriptionComponent,
     canActivate: [AuthGuard],
   },
-  { path: 'unauthorized', component: UnauthorizedComponent, canActivate: [AuthGuard] },
-  { path: '**', component: WentWrongComponent },
+  {
+    path: 'unauthorized',
+    component: UnauthorizedComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'went-wrong',
+    component: WentWrongComponent,
+  },
+  { path: '**', redirectTo: '/went-wrong' },
 ];
 
 @NgModule({

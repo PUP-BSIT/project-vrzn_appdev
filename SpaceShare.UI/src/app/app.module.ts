@@ -60,6 +60,9 @@ import { AlertComponent } from './alert/alert.component';
 import { WaitComponent } from './wait/wait.component';
 import { AlertService } from './alert/alert.service';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { ReserveComponent } from './reserve/reserve.component';
+import { DetailsComponent } from './reserve/details/details.component';
+import { TotalComponent } from './reserve/total/total.component';
 
 @NgModule({
   declarations: [
@@ -101,6 +104,9 @@ import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
     AlertComponent,
     WaitComponent,
     UnauthorizedComponent,
+    ReserveComponent,
+    DetailsComponent,
+    TotalComponent,
   ],
   imports: [
     ReactiveFormsModule,

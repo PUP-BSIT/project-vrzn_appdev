@@ -1,19 +1,18 @@
-<app-navbar></app-navbar>
-    <app-carousel [property]="property"/>
-      <div class="max-w-7xl 
-                  p-8 
-                  mx-auto 
-                  bg-white
-                  rounded-lg 
-                  shadow-lg 
-                  grid 
-                  grid-cols-1 
-                  md:grid-cols-2 
-                  gap-8 
-                  mb-10">
-        <!-- Left Column -->
-        <app-info [property]="property"/>
-        <!-- Right Column -->
-        <app-features [property]="property"/>
-      </div>
-<app-footer/>
+<app-carousel [property]="property"/>
+<div class="max-w-7xl 
+            p-8 
+            mx-auto 
+            bg-white
+            rounded-lg 
+            shadow-lg 
+            grid 
+            grid-cols-1 
+            md:grid-cols-2 
+            gap-8 
+            mb-10">
+  <!-- Left Column -->
+  <app-info [property]="property"/>
+  <!-- Right Column -->
+  <app-features [property]="property"/>
+</div>
+
