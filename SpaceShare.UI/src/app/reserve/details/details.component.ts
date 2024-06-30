@@ -19,6 +19,7 @@ export class DetailsComponent implements OnInit {
   minDate!: string;
   maxDate!: string;
   isDateValid = true;
+  showAdultValidationMessage = false;
 
   ngOnInit(): void {
     const currentDate = new Date();
@@ -56,12 +57,20 @@ export class DetailsComponent implements OnInit {
   increment(type: 'adults' | 'children' | 'infants') {
     this.guests[type]++;
   }
-
+  
   decrement(type: 'adults' | 'children' | 'infants') {
-    if (this.guests[type] > 0) {
+    if (type === 'adults' && this.guests.adults > 1) {
+      this.guests.adults--;
+    } else if (type === 'adults' && this.guests.adults === 1) {
+      this.showAdultValidationMessage = true;
+      setTimeout(() => {
+        this.showAdultValidationMessage = false;
+      }, 1000); 
+    } else if (type !== 'adults' && this.guests[type] > 0) {
       this.guests[type]--;
     }
   }
+  
 
   totalGuests(): string {
     const totalGuests = this.guests.adults + this.guests.children;
