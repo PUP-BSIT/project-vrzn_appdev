@@ -28,7 +28,6 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.profileService.getUserProfile(+this.user_id).subscribe((user) => {
       this.currentUser = user;
-      console.log(this.currentUser)
     });
 
     this.editForm = this.formBuilder.group({
@@ -115,11 +114,9 @@ export class ProfileComponent implements OnInit {
       newPhoneNumber: phoneNumber
     };
 
-    console.log(dataToUpdate)
 
     this.profileService.updateUserProfile(dataToUpdate).subscribe(data => {
-      console.log("updated: ", data);
-      location.reload(); //trigger oninit again instead of realoading?
+      location.reload();
     })
 
     this.editForm.reset();

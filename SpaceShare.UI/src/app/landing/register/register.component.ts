@@ -11,9 +11,12 @@ import {
 } from '@angular/forms';
 import { User } from '../../../model/user.model';
 import { RegisterService } from './register.service';
-import { CustomValidators, PasswordValidator, MatchPasswordValidator } from '../register/custom-validators';
+import {
+  CustomValidators,
+  PasswordValidator,
+  MatchPasswordValidator,
+} from '../register/custom-validators';
 import { FormData } from '../../../model/formdata.model';
-
 
 @Component({
   selector: 'app-register',
@@ -68,7 +71,7 @@ export class RegisterComponent implements OnInit {
       postalCode: this.postalCodeControl.value,
     };
   }
-  
+
   ngOnInit(): void {
     this.loadRegions();
 
@@ -82,9 +85,19 @@ export class RegisterComponent implements OnInit {
         ],
       ],
 
-      lastName: ['', [Validators.required,  Validators.pattern('^[a-zA-ZñÑ \\-]*$'),Validators.maxLength(60)]],
+      lastName: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^[a-zA-ZñÑ \\-]*$'),
+          Validators.maxLength(60),
+        ],
+      ],
 
-      middleName: ['',   [Validators.pattern('^[a-zA-ZñÑ \\-]*$'), Validators.maxLength(60)]],
+      middleName: [
+        '',
+        [Validators.pattern('^[a-zA-ZñÑ \\-]*$'), Validators.maxLength(60)],
+      ],
 
       phoneNumber: [
         '',
@@ -108,7 +121,6 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  //#region getter functions
   get firstNameControl(): AbstractControl {
     return this.registerForm.get('firstName')!;
   }
@@ -156,7 +168,6 @@ export class RegisterComponent implements OnInit {
   get confirmPasswordControl(): AbstractControl {
     return this.registerForm.get('confirmPassword')!;
   }
-  //#endregion
 
   getValidationClass(control: AbstractControl): string {
     if (control.valid && control.touched) {
@@ -173,19 +184,22 @@ export class RegisterComponent implements OnInit {
   areRequiredFieldsValid(page: number): boolean {
     switch (page) {
       case 1:
-        return this.firstNameControl.valid &&
-               this.lastNameControl.valid &&
-               this.phoneNumberControl.valid &&
-               this.emailControl.valid &&
-               this.birthdateControl.valid;
+        return (
+          this.firstNameControl.valid &&
+          this.lastNameControl.valid &&
+          this.phoneNumberControl.valid &&
+          this.emailControl.valid &&
+          this.birthdateControl.valid
+        );
       case 2:
-        return this.regionControl.valid &&
-               this.provinceControl.valid &&
-               this.cityControl.valid &&
-               this.postalCodeControl.valid;
+        return (
+          this.regionControl.valid &&
+          this.provinceControl.valid &&
+          this.cityControl.valid &&
+          this.postalCodeControl.valid
+        );
       case 3:
-        return this.passwordControl.valid &&  
-                this.confirmPasswordControl.valid;
+        return this.passwordControl.valid && this.confirmPasswordControl.valid;
       default:
         return false;
     }
@@ -254,15 +268,22 @@ export class RegisterComponent implements OnInit {
 
     const verify = { code: +this.randomNumber, mailTo: data.email };
 
-    this.registerService
-      .sendMail(verify)
-      .subscribe((data) => console.log(data));
+    this.registerService.sendMail(verify).subscribe();
   }
 
   loadRegions(): void {
     this.locationService.getRegions().subscribe((data: Region[]) => {
-      this.regions = data;
+      this.regions = this.prioritizeNCR(data);
     });
+  }
+
+  prioritizeNCR(regions: Region[]): Region[] {
+    const ncrRegion = regions.find((region) => region.region_code === '13');
+    const otherRegions = regions.filter(
+      (region) => region.region_code !== '13'
+    );
+
+    return ncrRegion ? [ncrRegion, ...otherRegions] : regions;
   }
 
   fillProvinces(): void {
@@ -304,21 +325,29 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegionChange(): void {
-    const selectedRegion = this.regions.find(region => region.region_code === this.regionControl.value);
+    const selectedRegion = this.regions.find(
+      (region) => region.region_code === this.regionControl.value
+    );
     this.selectedRegion = this.regionControl.value;
     this.selectedRegionName = selectedRegion ? selectedRegion.region_name : '';
     this.fillProvinces();
   }
 
   onProvinceChange(): void {
-    const selectedProvince = this.provinces.find(province => province.province_code === this.provinceControl.value);
+    const selectedProvince = this.provinces.find(
+      (province) => province.province_code === this.provinceControl.value
+    );
     this.selectedProvince = this.provinceControl.value;
-    this.selectedProvinceName = selectedProvince ? selectedProvince.province_name : '';
+    this.selectedProvinceName = selectedProvince
+      ? selectedProvince.province_name
+      : '';
     this.fillCities();
   }
 
   onCityChange(): void {
-    const selectedCity = this.cities.find(city => city.city_code === this.cityControl.value);
+    const selectedCity = this.cities.find(
+      (city) => city.city_code === this.cityControl.value
+    );
     this.selectedCity = this.cityControl.value;
     this.selectedCityName = selectedCity ? selectedCity.city_name : '';
   }
@@ -331,7 +360,6 @@ export class RegisterComponent implements OnInit {
 
   closeModal() {
     if (this.modalToggle) {
-      console.log(this.modalToggle.nativeElement.value);
       this.modalToggle.nativeElement.checked = false;
     }
   }

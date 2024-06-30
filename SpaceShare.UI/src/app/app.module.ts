@@ -19,7 +19,7 @@ import { PropertyCardComponent } from './property_card/property-card.component';
 import { PropertyComponent } from './property/property.component';
 import { VerificationComponent } from './landing/verification/verification.component';
 import { ListingComponent } from './listing/listing.component';
-import { AddListingComponent } from './add-listing/add-listing.component';
+import { FormListingComponent } from './form-listing/form-listing.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SuccessComponent } from './success/success.component';
 import { FooterComponent } from './footer/footer.component';
@@ -45,7 +45,7 @@ import { AboutComponent } from './landing/agreement/about/about.component';
 import { PresskitComponent } from './landing/agreement/presskit/presskit.component';
 import { RentingComponent } from './landing/agreement/renting/renting.component';
 import { RegisterService } from './landing/register/register.service';
-import { AddListingService } from './add-listing/add-listing.service';
+import { AddListingService } from './form-listing/add-listing.service';
 import { MainService } from './main/main.service';
 import { PropertyService } from './property/property.service';
 import { WentWrongComponent } from './went-wrong/went-wrong.component';
@@ -56,6 +56,10 @@ import { FiltrationComponent } from './filtration/filtration.component';
 import { OwnedComponent } from './owned/owned.component';
 import { OwnedService } from './owned/owned.service';
 import { PropertyCardService } from './property_card/property-card.service';
+import { AlertComponent } from './alert/alert.component';
+import { WaitComponent } from './wait/wait.component';
+import { AlertService } from './alert/alert.service';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +72,7 @@ import { PropertyCardService } from './property_card/property-card.service';
     PropertyComponent,
     VerificationComponent,
     ListingComponent,
-    AddListingComponent,
+    FormListingComponent,
     ProfileComponent,
     SuccessComponent,
     FooterComponent,
@@ -94,6 +98,9 @@ import { PropertyCardService } from './property_card/property-card.service';
     PaginationComponent,
     FiltrationComponent,
     OwnedComponent,
+    AlertComponent,
+    WaitComponent,
+    UnauthorizedComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -126,7 +133,8 @@ import { PropertyCardService } from './property_card/property-card.service';
     PropertyService,
     ProfileService,
     OwnedService,
-    PropertyCardService
+    PropertyCardService,
+    AlertService
   ],
   bootstrap: [AppComponent]
 })

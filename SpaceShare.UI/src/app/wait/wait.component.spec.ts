@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddListingComponent } from './add-listing.component';
+import { WaitComponent } from './wait.component';
 
-describe('AddListingComponent', () => {
-  let component: AddListingComponent;
-  let fixture: ComponentFixture<AddListingComponent>;
+describe('WaitComponent', () => {
+  let component: WaitComponent;
+  let fixture: ComponentFixture<WaitComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AddListingComponent]
+      declarations: [WaitComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(AddListingComponent);
+    fixture = TestBed.createComponent(WaitComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

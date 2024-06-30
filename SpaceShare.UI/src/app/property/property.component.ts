@@ -18,6 +18,7 @@ export class PropertyComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     this.route.paramMap.subscribe((params) => {
       this.propertyId = +params.get('id')!;
 

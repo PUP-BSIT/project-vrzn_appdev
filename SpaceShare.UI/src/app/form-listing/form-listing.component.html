@@ -1,16 +1,31 @@
-<app-navbar></app-navbar>
-<body class="bg-white mt-10 mx-4 md:mx-40 rounded-2xl pt-10 shadow-2xl">
-  @if(submissionSuccess){
-    <div role="alert" class="alert alert-success">
-      <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-      <span>Your listing has been successfully added!</span>
-    </div> 
-  }          
+<div class="bg-white mt-10 mx-4 md:mx-40 rounded-2xl pt-10 shadow-2xl">
+  @if(submitted){
+      <app-wait/>
+  }
+  @if(submissionSuccess && !submitted && !isEditing){
+    <app-alert [createdPropery]="createdPropertyId" [mainMessage]="'Property Created'" [state]="'success'"
+      [subMessage]="'Your Property Has Been Created!'"/>
+  } 
+  @if(submissionSuccess && !submitted && isEditing){
+    <app-alert [createdPropery]="createdPropertyId" [mainMessage]="'Property Updated'" [state]="'success'"
+      [subMessage]="'Your Property Has Been Updated!'" />
+  }
+  @if(isEditing && propertyForm.pristine && isUpdateInvalid){
+    <app-alert [mainMessage]="'Values Not Updated'" [state]="'info'" [subMessage]="'No New Values Were Detected'" />
+  }
+  @else if(isEditing && isUpdateInvalid){
+    <app-alert [mainMessage]="'Invalid Values'" [state]="'error'" [subMessage]="'Please Enter Valid Inputs'" />
+  }
     <div class="container mx-auto p-4">
-        <h1 class="text-3xl font-bold mb-7">Add new listing</h1>
+        <h1 class="text-3xl font-bold mb-7">{{ title }}</h1>
         <form class="space-y-6" [formGroup]="propertyForm" (submit)="onSubmit()">
+            @if(isEditing){
+            <label class="block text-sm font-bold text-gray-700">Available</label>
+            <select class="select select-bordered w-24 bg-white rounded-lg" formControlName="status">
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+            }
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm font-bold text-gray-700">Title</label>
@@ -115,9 +130,6 @@
                 </div>
               </div>
             </div>             
-            <!-- <div>
-                <input type="file" id="fileUpload" (change)="onFileChange($event)" multiple>
-            </div> -->
             <label class="block text-xl font-bold text-gray-700">Property Images</label>
             <div class="flex justify-center">
               <div
@@ -149,9 +161,10 @@
                   <input
                     id="dropzone-file"
                     type="file"
+                    accept="image/png, image/jpeg, image/svg+xml, image/jpg"
                     #fileInput
                     class="hidden"
-                    (change)="onFileChange($event)"
+                    (change)="onFileChange()"
                     multiple/>
                 </label>
                   @if(filesControl.touched && filesControl.invalid) {
@@ -175,22 +188,26 @@
                   </div>
                 }
             
-            <div class="flex flex-wrap mt-4">
-                @for(image of images; track $index) {
-                  <div class="w-1/4 p-2 relative">
-                      <div class="w-full h-40 overflow-hidden flex items-center justify-center bg-gray-200 rounded-lg">
-                        <img [src]="image.preview" alt="Image Preview" class="object-cover h-full w-full">
-                      </div>
-                      <button (click)="removeImage($index)" class="absolute top-0 right-0 mt-2 mr-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 focus:outline-none">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                      </button>
-                      <a [href]="image.preview" target="_blank" class="absolute bottom-0 right-0 mb-2 mr-2 bg-blue-500 text-white rounded-lg px-2 py-1 hover:bg-blue-600 focus:outline-none">
-                        Preview
-                      </a>
-                  </div>
-                }
+            <div class="flex flex-wrap mt-4 gap-4">
+              @if(isLoading && isEditing){
+                <div class="skeleton h-40 w-64"></div>
+                <div class="skeleton h-40 w-64"></div>
+              }
+              @for(image of images; track $index) {
+                <div class="w-1/4 p-2 relative">
+                    <div class="w-full h-40 overflow-hidden flex items-center justify-center bg-gray-200 rounded-lg">
+                      <img [src]="image.preview" alt="Image Preview" class="object-cover h-full w-full">
+                    </div>
+                    <button (click)="removeImage($index, $event)" class="absolute top-0 right-0 mt-2 mr-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 focus:outline-none">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                      </svg>
+                    </button>
+                    <a [href]="image.preview" target="_blank" class="absolute bottom-0 right-0 mb-2 mr-2 bg-blue-500 text-white rounded-lg px-2 py-1 hover:bg-blue-600 focus:outline-none">
+                      Preview
+                    </a>
+                </div>
+              }
             </div>
                      
             <div>
@@ -245,9 +262,14 @@
                 </div>
             </div>
             <div class="flex justify-end">
-                <button type="submit" class="btn btn-primary bg-primary text-white font-bold border-none" [disabled]="!propertyForm.valid">Upload listing</button>
-            </div>
+              @if(!isEditing){
+                <button type="submit" class="btn btn-primary bg-primary text-white font-bold border-none hover:bg-[#9A58B6]" [disabled]="!propertyForm.valid || submitted">Upload listing</button>
+              } @else {
+                <button type="button" class="btn btn-primary bg-primary text-white font-bold border-none hover:bg-[#9A58B6]"
+                (click)="handleUpdate()">Update listing</button>
+              }
+              </div>              
         </form>
     </div>
-</body>
-<app-footer></app-footer>
+  </div>
+

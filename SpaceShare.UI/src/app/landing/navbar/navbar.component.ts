@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { NavbarService } from './navbar.service';
+import { timeout } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -39,8 +40,8 @@ export class NavbarComponent implements OnInit {
   signout() {
     this.navService.signout().subscribe(data => {
       if (data.success) {
+        location.href = '/home'
         this.cookieService.deleteAll();
-        location.reload();
       }
     });
   }

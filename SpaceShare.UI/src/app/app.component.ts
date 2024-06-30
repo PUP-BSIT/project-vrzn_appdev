@@ -6,7 +6,7 @@ import { environment } from '../../environment/appsettings';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'], // Change "styleUrl" to "styleUrls"
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   // Implement OnInit interface
   title = 'SpaceShare.UI';
   showModal: boolean = false;
@@ -15,12 +15,5 @@ export class AppComponent implements OnInit {
   closeModal() {
     this.showModal = false;
   }
-  constructor(private http: HttpClient) {}
 
-  ngOnInit() {
-    // Implement ngOnInit method
-    this.http.get<Object>(`${environment.apiUrl}/api`).subscribe((data) => {
-      return data;
-    });
-  }
 }

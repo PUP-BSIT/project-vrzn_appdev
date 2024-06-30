@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
   Req,
@@ -35,7 +36,7 @@ export class PropertyController {
   }
 
   @Get('owned')
-  async getOwnProperties(@Query('user_id') id: number){
+  async getOwnProperties(@Query('user_id') id: number) {
     return await this.propertyService.getOwnProperties(+id);
   }
 
@@ -50,7 +51,7 @@ export class PropertyController {
   }
 
   @Delete(':id')
-  async deleteProperty(@Param('id') id: string){
+  async deleteProperty(@Param('id') id: string) {
     return await this.propertyService.deleteProperty(+id);
   }
 
@@ -70,6 +71,17 @@ export class PropertyController {
     @Req() request: Request,
   ) {
     return await this.propertyService.createProperty(property, files, request);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FilesInterceptor('files'))
+  @Patch('edit/:id')
+  async updateProperty(
+    @Param('id') propertyId: number,
+    @Body() property: Prisma.PropertyUpdateInput,
+    @UploadedFiles() files: Express.Multer.File[],
+  ) {
+    return await this.propertyService.updateProperty(propertyId, property, files);
   }
 
   @UseGuards(JwtAuthGuard)
