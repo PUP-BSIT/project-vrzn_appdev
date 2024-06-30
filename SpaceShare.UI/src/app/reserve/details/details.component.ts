@@ -14,12 +14,15 @@ export class DetailsComponent implements OnInit {
     children: 0,
     infants: 0,
   };
-  message!: string;
+  message: string = '';
   modalType!: string;
   minDate!: string;
   maxDate!: string;
   isDateValid = true;
   showAdultValidationMessage = false;
+  showCharacterLimitAlert = false;
+  showMessageRequiredAlert = false;
+  isMessageTouched = false;
 
   ngOnInit(): void {
     const currentDate = new Date();
@@ -27,7 +30,7 @@ export class DetailsComponent implements OnInit {
     const maxDate = new Date();
     maxDate.setMonth(maxDate.getMonth() + 5);
     this.maxDate = this.formatDate(maxDate);
-    this.dates = this.formatDate(currentDate); 
+    this.dates = this.formatDate(currentDate);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -57,7 +60,7 @@ export class DetailsComponent implements OnInit {
   increment(type: 'adults' | 'children' | 'infants') {
     this.guests[type]++;
   }
-  
+
   decrement(type: 'adults' | 'children' | 'infants') {
     if (type === 'adults' && this.guests.adults > 1) {
       this.guests.adults--;
@@ -65,12 +68,11 @@ export class DetailsComponent implements OnInit {
       this.showAdultValidationMessage = true;
       setTimeout(() => {
         this.showAdultValidationMessage = false;
-      }, 1000); 
+      }, 1000);
     } else if (type !== 'adults' && this.guests[type] > 0) {
       this.guests[type]--;
     }
   }
-  
 
   totalGuests(): string {
     const totalGuests = this.guests.adults + this.guests.children;
@@ -86,6 +88,14 @@ export class DetailsComponent implements OnInit {
   }
 
   confirmReservation() {
+    if (this.message.length === 0) {
+      this.showMessageRequiredAlert = true;
+      setTimeout(() => {
+        this.showMessageRequiredAlert = false;
+      }, 3000);
+      return;
+    }
+
     console.log('Reservation confirmed:', {
       dates: this.dates,
       guests: this.guests,
@@ -111,5 +121,26 @@ export class DetailsComponent implements OnInit {
       this.isDateValid = true;
       this.dates = this.formatDate(inputDate);
     }
+  }
+
+  checkMessageLength(): void {
+    if (this.message.length >= 320) {
+      this.showCharacterLimitAlert = true;
+    } else {
+      this.showCharacterLimitAlert = false;
+    }
+  }
+
+  checkMessageRequired(): void {
+    this.isMessageTouched = true;
+    if (this.message.length === 0) {
+      this.showMessageRequiredAlert = true;
+    } else {
+      this.showMessageRequiredAlert = false;
+    }
+  }
+
+  onFocus(): void {
+    this.isMessageTouched = true;
   }
 }
