@@ -55,10 +55,23 @@
                rounded-lg 
                overflow-auto 
                break-words"
+               [(ngModel)]="message"
+               (input)="checkMessageLength()"
+               (blur)="checkMessageRequired()"
         placeholder="Add Note to Host"
         maxlength="320"
         [(ngModel)]="message">
       </textarea>
+      @if(showCharacterLimitAlert){
+        <div class="text-red-500 text-sm mt-1">
+          Maximum character limit reached.
+        </div>
+      }
+      @if(showMessageRequiredAlert){
+        <div class="text-red-500 text-sm mt-1">
+          Message is required. 
+        </div>
+      }
     </div>
     <button
       class="btn 
@@ -68,6 +81,7 @@
              border-none 
            hover:bg-[#9A58B6] 
              w-full"
+      [disabled]="!message.trim()"
       (click)="openModal('summary')">
       Continue
     </button>
@@ -80,12 +94,18 @@
         <input
           type="date"
           [min]="minDate"
+          [max]="maxDate"
           class="input input-bordered w-full mt-4 bg-white"
           [(ngModel)]="dates"
           (change)="validateDate(dates)"
           (blur)="validateDate(dates)"
           (input)="validateDate(dates)"
         />
+        @if(!isDateValid) {
+          <div class="text-red-500 mt-1">
+            Please select a valid date within the next 5 months.
+          </div>
+        }
         <div class="modal-action flex justify-center items-center">
           <button
             class="btn border-gray-300 bg-white text-gray-500 w-32"
@@ -95,6 +115,7 @@
           </button>
           <button
             class="btn btn-primary text-white bg-primary border-none hover:bg-[#9A58B6] w-32"
+            [disabled]="!isDateValid"
             (click)="saveDates()"
           >
             Save
@@ -135,6 +156,12 @@
               </button>
             </div>
           </div>
+
+          @if(showAdultValidationMessage){
+            <div class="text-red-500 text-sm mt-1">
+              At least one adult is required.
+            </div>
+          }
 
           <div class="flex justify-between items-center">
             <div>
@@ -202,6 +229,7 @@
             Cancel
           </button>
           <button
+            [disabled]="guests.adults === 0"
             class="btn btn-primary text-white bg-primary border-none hover:bg-[#9A58B6] w-32"
             (click)="saveGuests()"
           >

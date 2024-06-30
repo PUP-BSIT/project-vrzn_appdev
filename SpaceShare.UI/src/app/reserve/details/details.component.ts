@@ -6,7 +6,7 @@ import { ReserveService } from '../reserve.service';
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
-  styleUrl: './details.component.css',
+  styleUrls: ['./details.component.css'],
 })
 export class DetailsComponent implements OnInit {
   @Input() property!: Property;
@@ -16,9 +16,15 @@ export class DetailsComponent implements OnInit {
     children: 0,
     infants: 0,
   };
-  message!: string;
+  message: string = '';
   modalType!: string;
   minDate!: string;
+  maxDate!: string;
+  isDateValid = true;
+  showAdultValidationMessage = false;
+  showCharacterLimitAlert = false;
+  showMessageRequiredAlert = false;
+  isMessageTouched = false;
   success = false;
   fail = false;
   propertyId!: number;
@@ -27,7 +33,11 @@ export class DetailsComponent implements OnInit {
   constructor(private authService: AuthService, private reserveService: ReserveService){}
 
   ngOnInit(): void {
-    this.minDate = this.formatDate(new Date());
+    const currentDate = new Date();
+    this.minDate = this.formatDate(currentDate);
+    const maxDate = new Date();
+    maxDate.setMonth(maxDate.getMonth() + 5);
+    this.maxDate = this.formatDate(maxDate);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -46,7 +56,9 @@ export class DetailsComponent implements OnInit {
   }
 
   saveDates() {
-    this.closeModal();
+    if (this.isDateValid) {
+      this.closeModal();
+    }
   }
 
   saveGuests() {
@@ -58,7 +70,14 @@ export class DetailsComponent implements OnInit {
   }
 
   decrement(type: 'adults' | 'children' | 'infants') {
-    if (this.guests[type] > 0) {
+    if (type === 'adults' && this.guests.adults > 1) {
+      this.guests.adults--;
+    } else if (type === 'adults' && this.guests.adults === 1) {
+      this.showAdultValidationMessage = true;
+      setTimeout(() => {
+        this.showAdultValidationMessage = false;
+      }, 1000);
+    } else if (type !== 'adults' && this.guests[type] > 0) {
       this.guests[type]--;
     }
   }
@@ -77,7 +96,16 @@ export class DetailsComponent implements OnInit {
   }
 
   confirmReservation() {
+    if (this.message.length === 0) {
+      this.showMessageRequiredAlert = true;
+      setTimeout(() => {
+        this.showMessageRequiredAlert = false;
+      }, 2500);
+      return;
+    }
+
     this.isSubmitted = true;
+
     const reservation = {
       applicant_id: +this.authService.getLoggedUserId(),
       property_id: +this.property.id,
@@ -106,8 +134,35 @@ export class DetailsComponent implements OnInit {
   }
 
   validateDate(input: string): void {
-    if (new Date(input) < new Date(this.minDate)) {
-      this.dates = this.minDate;
+    const inputDate = new Date(input);
+    const minDate = new Date(this.minDate);
+    const maxDate = new Date(this.maxDate);
+    if (inputDate < minDate || inputDate > maxDate || isNaN(inputDate.getTime())) {
+      this.isDateValid = false;
+    } else {
+      this.isDateValid = true;
+      this.dates = this.formatDate(inputDate);
     }
+  }
+
+  checkMessageLength(): void {
+    if (this.message.length >= 320) {
+      this.showCharacterLimitAlert = true;
+    } else {
+      this.showCharacterLimitAlert = false;
+    }
+  }
+
+  checkMessageRequired(): void {
+    this.isMessageTouched = true;
+    if (this.message.length === 0) {
+      this.showMessageRequiredAlert = true;
+    } else {
+      this.showMessageRequiredAlert = false;
+    }
+  }
+
+  onFocus(): void {
+    this.isMessageTouched = true;
   }
 }
