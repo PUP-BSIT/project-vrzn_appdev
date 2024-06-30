@@ -80,12 +80,18 @@
         <input
           type="date"
           [min]="minDate"
+          [max]="maxDate"
           class="input input-bordered w-full mt-4 bg-white"
           [(ngModel)]="dates"
           (change)="validateDate(dates)"
           (blur)="validateDate(dates)"
           (input)="validateDate(dates)"
         />
+        @if(!isDateValid) {
+          <div class="text-red-500 mt-1">
+            Invalid date. Please select a valid date within the next 5 months.
+          </div>
+        }
         <div class="modal-action flex justify-center items-center">
           <button
             class="btn border-gray-300 bg-white text-gray-500 w-32"
@@ -95,6 +101,7 @@
           </button>
           <button
             class="btn btn-primary text-white bg-primary border-none hover:bg-[#9A58B6] w-32"
+            [disabled]="!isDateValid"
             (click)="saveDates()"
           >
             Save
