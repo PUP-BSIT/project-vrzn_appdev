@@ -1,86 +1,108 @@
 <div>
-@if(propertyLoaded) {
-    <!-- Title -->
-    <h2 class="text-3xl text-black font-bold">{{ property.title }}</h2>
+  @if(propertyLoaded) {
+  <!-- Title -->
+  <h2 class="text-3xl text-black font-bold">{{ property.title }}</h2>
 
-    <!-- Address -->
-    <p class="flex items-center text-gray-600 mb-2 font-medium text-xl">
-        <svg xmlns="http://www.w3.org/2000/svg" 
-             class="h-5 w-5 mr-1 text-red-500" 
-             viewBox="0 0 20 20" 
-             fill="currentColor">
-            <path fill-rule="evenodd" 
-                  d="M10 0c3.78 0 6.863 3.083 6.863 6.863 0 6.252-6.863 12.137-6.863 12.137S3.137 13.115 3.137 6.863C3.137 3.083 6.22 0 10 0zm0 9a2.75 2.75 0 100-5.5 2.75 2.75 0 000 5.5z" clip-rule="evenodd" />
-          </svg>
-        {{ property.barangay }}, {{ property.city }} City
-      </p>
+  <!-- Address -->
+  <p class="flex items-center text-gray-600 mb-2 font-medium text-xl">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-5 w-5 mr-1 text-red-500"
+      viewBox="0 0 20 20"
+      fill="currentColor">
+      <path
+        fill-rule="evenodd"
+        d="M10 0c3.78 0 6.863 3.083 6.863 6.863 0 6.252-6.863 12.137-6.863 12.137S3.137 13.115 3.137 6.863C3.137 3.083 6.22 0 10 0zm0 9a2.75 2.75 0 100-5.5 2.75 2.75 0 000 5.5z"
+        clip-rule="evenodd"/>
+    </svg>
+    {{ property.barangay }}, {{ property.city }} City
+  </p>
 
-    <!-- Price -->
-    <p class="text-5xl font-semibold text-green-800 mt-2">
-        PHP {{ property.price.toLocaleString() }} / month
-    </p>
+  <!-- Price -->
+  <p class="text-5xl font-semibold text-green-800 mt-2">
+    PHP {{ property.price.toLocaleString() }} / month
+  </p>
 
-    @if(isLoggedIn) {
-        <!-- wishlist -->
-        <div class="flex items-center mt-8">
-            @if(+ownerId === +userId){
-                <button class="btn w-48 flex items-center justify-center bg-green-700 text-white hover:bg-green-600 shadow-lg"
-                    [routerLink]="['/space/edit/', propertyId]">
-                    Edit Space
-                </button>
-            }@else{
-                <button (click)="toggleWishlist()" class="btn wishlist-btn my-2 border-gray-300 mr-2 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 heart-icon" [ngClass]="{'red': isWishlisted}" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                    </svg>
-                    {{ isWishlisted ? 'Added to wishlist' : 'Save to wishlist' }}
-                </button>
-                <!-- reserve -->
-                <button class="btn w-48 flex items-center justify-center bg-green-700 text-white hover:bg-green-600 shadow-lg">
-                    Reserve
-                </button>
-            }
-        </div>
+  @if(isLoggedIn) {
+  <!-- wishlist -->
+  <div class="flex items-center mt-8">
+    @if(+ownerId === +userId){
+    <button
+      class="btn w-48 flex items-center justify-center bg-green-700 text-white hover:bg-green-600 shadow-lg"
+      [routerLink]="['/space/edit/', propertyId]">
+      Edit Space
+    </button>
+    }@else{
+    <div
+      class="flex flex-col items-center lg:flex-row lg:justify-center lg:items-center lg:space-x-2">
+      <button
+        (click)="toggleWishlist()"
+        class="btn wishlist-btn my-2 border-gray-300 flex items-center justify-center w-full lg:w-auto">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 heart-icon"
+          [ngClass]="{ red: isWishlisted }"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+        </svg>
+        {{ isWishlisted ? "Added to wishlist" : "Save to wishlist" }}
+      </button>
+      <!-- reserve -->
+      <button
+        class="btn w-full md:w-48 flex items-center justify-center bg-green-700
+         text-white hover:bg-green-600 shadow-lg my-2 lg:my-0" 
+         [routerLink]="['/space/reserve/', propertyId]">
+        Reserve
+      </button>
+    </div>
     }
+  </div>
+  }
 
-    <!-- Description -->
-    <div class="scrollable-content my-7">
-        <p class="text-xl font-semibold mt-4 mb-6">
-            About this space
-        </p>
-        <p class="text-gray-500 mt-2 break-words overflow-hidden">
-            {{ property.description }}
-        </p>
-    </div>
+  <!-- Description -->
+  <div class="scrollable-content my-7">
+    <p class="text-xl font-semibold mt-4 mb-6">About this space</p>
+    <p class="text-gray-500 mt-2 break-words overflow-hidden">
+      {{ property.description }}
+    </p>
+  </div>
 
-} @else {
-    <!-- Title -->
-    <h2 class="text-3xl text-black font-bold skeleton-loading">&nbsp;</h2>
-        
-    <!-- Address -->
-    <p class="font-medium text-xl text-gray-600 skeleton-loading">&nbsp;</p>
-    
-    <!-- Price -->
-    <p class="text-5xl font-semibold text-green-800 mt-2 skeleton-loading">&nbsp;</p>
+  } @else {
+  <!-- Title -->
+  <h2 class="text-3xl text-black font-bold skeleton-loading">&nbsp;</h2>
 
-    <!-- Save button -->
-    <div class="flex gap-2 mt-8">
-        <div class="btn my-2 w-4/12 rounded-lg border-gray-300 skeleton-loading">
-        </div>
-        <div class="btn my-2 w-4/12 rounded-3xl border-gray-300 skeleton-loading">
-        </div>
-    </div>
-    
-    <!-- Description -->
-    <div class="scrollable-contentxa my-7 mt-12 skeleton-loading">
-        <div class="skeleton-line"></div>
-        <div class="skeleton-line"></div>
-        <div class="skeleton-line"></div>
-        <div class="skeleton-line"></div>
-        <div class="skeleton-line"></div>
-        <!-- Add more skeleton lines to match the height and structure of actual content -->
-    </div>
-}
+  <!-- Address -->
+  <p class="font-medium text-xl text-gray-600 skeleton-loading">&nbsp;</p>
+
+  <!-- Price -->
+  <p class="text-5xl font-semibold text-green-800 mt-2 skeleton-loading">
+    &nbsp;
+  </p>
+
+  <!-- Save button -->
+  <div class="flex gap-2 mt-8">
+    <div
+      class="btn my-2 w-4/12 rounded-lg border-gray-300 skeleton-loading"
+    ></div>
+    <div
+      class="btn my-2 w-4/12 rounded-3xl border-gray-300 skeleton-loading"
+    ></div>
+  </div>
+
+  <!-- Description -->
+  <div class="scrollable-contentxa my-7 mt-12 skeleton-loading">
+    <div class="skeleton-line"></div>
+    <div class="skeleton-line"></div>
+    <div class="skeleton-line"></div>
+    <div class="skeleton-line"></div>
+    <div class="skeleton-line"></div>
+    <!-- Add more skeleton lines to match the height and structure of actual content -->
+  </div>
+  }
 </div>
