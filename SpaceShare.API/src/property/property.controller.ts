@@ -88,7 +88,12 @@ export class PropertyController {
   @UseGuards(JwtAuthGuard)
   @Post('reserve')
   async reserveProperty(@Body() reservation: Reservation){
-    return await this.propertyService.reserveProperty(reservation);
+    const [reserveResult, sendMailResult] = await Promise.all([
+      this.propertyService.reserveProperty(reservation),
+      this.propertyService.sendReservationMail(reservation),
+    ]);
+
+    return { reserveResult, sendMailResult };
   }
 
   @UseGuards(JwtAuthGuard)

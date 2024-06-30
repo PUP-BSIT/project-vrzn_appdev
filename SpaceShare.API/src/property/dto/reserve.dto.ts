@@ -5,7 +5,7 @@ export class Reservation {
     property_id: number;
 
     @IsNumber()
-    user_id: number;
+    applicant_id: number;
 
     @IsString()
     notes: string;
