@@ -1,5 +1,7 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Property } from '../../../model/property.model';
+import { AuthService } from '../../auth/auth.service';
+import { ReserveService } from '../reserve.service';
 
 @Component({
   selector: 'app-details',
@@ -23,6 +25,12 @@ export class DetailsComponent implements OnInit {
   showCharacterLimitAlert = false;
   showMessageRequiredAlert = false;
   isMessageTouched = false;
+  success = false;
+  fail = false;
+  propertyId!: number;
+  isSubmitted!: boolean;
+
+  constructor(private authService: AuthService, private reserveService: ReserveService){}
 
   ngOnInit(): void {
     const currentDate = new Date();
@@ -30,12 +38,12 @@ export class DetailsComponent implements OnInit {
     const maxDate = new Date();
     maxDate.setMonth(maxDate.getMonth() + 5);
     this.maxDate = this.formatDate(maxDate);
-    this.dates = this.formatDate(currentDate);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['property'] && !changes['property'].firstChange) {
-      console.log(this.property);
+      this.property = changes['property'].currentValue; 
+      this.propertyId = this.property.id
     }
   }
 
@@ -92,15 +100,29 @@ export class DetailsComponent implements OnInit {
       this.showMessageRequiredAlert = true;
       setTimeout(() => {
         this.showMessageRequiredAlert = false;
-      }, 3000);
+      }, 2500);
       return;
     }
 
-    console.log('Reservation confirmed:', {
-      dates: this.dates,
-      guests: this.guests,
-      notes: this.message,
-    });
+    this.isSubmitted = true;
+
+    const reservation = {
+      applicant_id: +this.authService.getLoggedUserId(),
+      property_id: +this.property.id,
+      status: "Pending",
+      notes: `Planning to move on ${this.dates} \n\n guest count: ${this.guests} \n\n notes: ${this.message}`
+    };
+
+    this.reserveService.sendReservation(reservation).subscribe({
+      next: () => {
+        this.isSubmitted = false;
+        this.success = true;
+      },
+      error: () => {
+        this.isSubmitted = false;
+        this.fail = true;
+      }
+    })
     this.closeModal();
   }
 

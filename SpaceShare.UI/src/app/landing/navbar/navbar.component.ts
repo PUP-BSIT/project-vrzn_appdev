@@ -41,7 +41,7 @@ export class NavbarComponent implements OnInit {
     this.navService.signout().subscribe(data => {
       if (data.success) {
         this.cookieService.deleteAll();
-        this.router.navigate(['/home']);
+        location.href = '/home';
       }
     });
   }

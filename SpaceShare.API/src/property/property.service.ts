@@ -1,20 +1,25 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
-import { Prisma } from '@prisma/client';
+import { Prisma, Property } from '@prisma/client';
 import { S3Service } from 'src/s3/s3.service';
 import { Request } from 'express';
+import { Reservation } from './dto/reserve.dto';
+import { MailerService } from '@nestjs-modules/mailer';
+import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class PropertyService {
   constructor(
     private prismaService: PrismaService,
     private s3Service: S3Service,
+    private mailService: MailerService,
+    private authService: AuthService
   ) {}
 
   async getProperties() {
     return await this.prismaService.property.findMany({
       where: {
-        status: false
+        status: false,
       },
       select: {
         id: true,
@@ -145,7 +150,7 @@ export class PropertyService {
     propertyId: number,
     property: Prisma.PropertyUpdateInput,
     files: Express.Multer.File[],
-  ){
+  ) {
     const existingProperty = await this.prismaService.property.findUnique({
       where: { id: +propertyId },
       include: { images: true },
@@ -169,7 +174,7 @@ export class PropertyService {
       where: { id: +propertyId },
       data: {
         ...property,
-        status: !this.getBoolean(property.status)
+        status: !this.getBoolean(property.status),
       },
     });
 
@@ -238,6 +243,35 @@ export class PropertyService {
     return { success: false, message: 'Something Went Wrong' };
   }
 
+  async reserveProperty(application: Reservation) {
+    return await this.prismaService.tenantApplication.create({
+      data: {
+        property_id: +application.property_id,
+        applicant_id: +application.applicant_id,
+        status: application.status,
+        notes: application.notes,
+      },
+    });
+  }
+
+  async sendReservationMail(body: Reservation) {
+    const applicant = await this.authService.getUser(body.applicant_id);
+    const property = await this.getProperty(body.property_id);
+    const owner = await this.authService.getUser(property.owner_id);
+    const email = await this.mailService.sendMail({
+      to: owner.email,
+      subject: 'New Reservation Application!',
+      text: `${property.title} has a new reservation! \n\n\n 
+              Applicant notes: ${body.notes} \n\n\n
+              aBOUT THE APPLICANT: \n
+              name: ${applicant.first_name} \n
+              email: ${applicant.email} \n
+              phone: ${applicant.phone_number[0].number}`, //needs to be updated
+    });
+
+    return email;
+  }
+
   async rateProperty(propertyRating: { id: number; rating: number }) {
     return await this.prismaService.property.update({
       where: {
@@ -303,19 +337,19 @@ export class PropertyService {
     return wishlistedProperties.map((wishlistItem) => wishlistItem.property);
   }
 
-  getBoolean(value){
-   switch(value){
-        case true:
-        case "true":
-        case 1:
-        case "1":
-        case "on":
-        case "yes":
-            return true;
-        default: 
-            return false;
+  getBoolean(value) {
+    switch (value) {
+      case true:
+      case 'true':
+      case 1:
+      case '1':
+      case 'on':
+      case 'yes':
+        return true;
+      default:
+        return false;
     }
-}
+  }
 
   async isWishlisted(wishlistItem: { user_id: number; property_id: number }) {
     const { user_id, property_id } = wishlistItem;

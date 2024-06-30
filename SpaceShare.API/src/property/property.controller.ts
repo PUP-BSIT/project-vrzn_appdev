@@ -17,6 +17,7 @@ import { JwtAuthGuard } from 'src/auth/jwt.guard';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { Prisma } from '@prisma/client';
 import { Express, Request } from 'express';
+import { Reservation } from './dto/reserve.dto';
 
 @Controller('property')
 export class PropertyController {
@@ -82,6 +83,17 @@ export class PropertyController {
     @UploadedFiles() files: Express.Multer.File[],
   ) {
     return await this.propertyService.updateProperty(propertyId, property, files);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('reserve')
+  async reserveProperty(@Body() reservation: Reservation){
+    const [reserveResult, sendMailResult] = await Promise.all([
+      this.propertyService.reserveProperty(reservation),
+      this.propertyService.sendReservationMail(reservation),
+    ]);
+
+    return { reserveResult, sendMailResult };
   }
 
   @UseGuards(JwtAuthGuard)
