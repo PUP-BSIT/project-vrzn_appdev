@@ -24,7 +24,7 @@ export class DetailsComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['property'] && !changes['property'].firstChange) {
-      console.log(this.property);
+      this.property = changes['property'].currentValue;    
     }
   }
 
