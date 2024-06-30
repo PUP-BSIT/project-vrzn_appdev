@@ -12,6 +12,7 @@ export class DetailsComponent {
     children: 0,
     infants: 0
   };
+  message: string = '';
   modalType: string = '';
 
   openModal(type: string) {
