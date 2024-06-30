@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Card } from '../../model/card.model';
 import { MainService } from './main.service';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -20,7 +21,7 @@ export class MainComponent implements OnInit {
   totalPages: number = 1;
   uniqueCities: string[] = [];
 
-  constructor(private mainService: MainService) {}
+  constructor(private mainService: MainService, private router : Router) {}
 
   ngOnInit(): void {
     this.mainService.getProperties().subscribe(
@@ -34,7 +35,7 @@ export class MainComponent implements OnInit {
         }, 1000)
       },
       () => {
-        location.href = '/went-wrong'
+        this.router.navigate(['/went-wrong']);
       }
     );
   }
