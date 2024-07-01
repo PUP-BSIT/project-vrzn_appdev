@@ -54,12 +54,16 @@
         {{ isWishlisted ? "Added to wishlist" : "Save to wishlist" }}
       </button>
       <!-- reserve -->
-      <button
-        class="btn w-full md:w-48 flex items-center justify-center bg-green-700
-         text-white hover:bg-green-600 shadow-lg my-2 lg:my-0" 
-         [routerLink]="['/space/reserve/', propertyId]">
-        Reserve
-      </button>
+      @if(!hasApplication){
+        <button class="btn w-full md:w-48 flex items-center justify-center bg-green-700
+                 text-white hover:bg-green-600 shadow-lg my-2 lg:my-0" [routerLink]="['/space/reserve/', propertyId]">
+          Reserve
+        </button>
+      }@else{
+        <a [routerLink]="['/reservations']" class="btn w-full md:w-48 flex
+         items-center justify-center bg-green-700 text-white
+        hover:bg-green-600 shadow-lg my-2 lg:my-0">See Reservations</a>
+      }
     </div>
     }
   </div>

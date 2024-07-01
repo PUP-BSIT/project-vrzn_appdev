@@ -8,6 +8,7 @@ import {
 import { Property } from '../../../model/property.model';
 import { InfoService } from './info.service';
 import { CookieService } from 'ngx-cookie-service';
+import { ApplicationsService } from '../../applications/applications.service';
 
 @Component({
   selector: 'app-info',
@@ -23,10 +24,12 @@ export class InfoComponent implements OnInit, OnChanges {
   wishlistItem!: { user_id: number; property_id: number };
   userId = this.cookie.get('id');
   isLoggedIn = false;
+  hasApplication = false;
 
   constructor(
     private infoService: InfoService,
-    private cookie: CookieService
+    private cookie: CookieService,
+    private applicationService: ApplicationsService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -40,6 +43,12 @@ export class InfoComponent implements OnInit, OnChanges {
       };
       this.infoService.isWishlisted(this.wishlistItem).subscribe((data) => {
         if (data) this.isWishlisted = data;
+      });
+
+      this.applicationService.getApplications().subscribe({
+        next: (data) => {
+          if (data) this.hasApplication = true;
+        },
       });
 
       if (this.userId) this.isLoggedIn = true;
