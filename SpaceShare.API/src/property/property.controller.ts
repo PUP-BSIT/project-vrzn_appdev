@@ -109,16 +109,16 @@ export class PropertyController {
   @UseGuards(JwtAuthGuard)
   @Post('application/accept')
   async acceptApplication(@Body() reservation: Reservation){
-    const [acceptResult, mailResult] = await Promise.all([
+    const [acceptResult] = await Promise.all([
       this.propertyService.acceptApplication(reservation.id),
       this.propertyService.sendReservationUpdate(reservation, 'Accepted'),
     ]);
     
-    return { acceptResult, mailResult };
+    return acceptResult;
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('application/decline/')
+  @Post('application/decline')
   async rejectApplication(@Body() reservation: Reservation){
     const [rejectResult, mailResult] = await Promise.all([
       this.propertyService.rejectApplication(reservation.id),
