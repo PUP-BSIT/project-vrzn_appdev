@@ -77,12 +77,12 @@
     </div>
     } @else {
     <div class="card-actions mt-4 justify-between ml-1">
-      <div class="flex flex-row gap-1 items-center">
-        <div class="tooltip tooltip-top flex items-center" data-tip="Bed count">
+      <div class="flex flex-row gap-2 items-center">
+        <div class="tooltip tooltip-top flex items-center" data-tip="Bedroom">
           <img src="../../assets/bed.png" alt="bed" class="w-7 h-6" />
           <span class="ml-1">{{ card.bedroom }}</span>
         </div>
-        <div class="tooltip tooltip-top flex items-center" data-tip="Guest count">
+        <div class="tooltip tooltip-top flex items-center" data-tip="Guest">
           <img src="../../assets/guest.png" alt="guest" class="w-6 h-6" />
           <span class="ml-1">{{ card.capacity }}</span>
         </div>
@@ -91,7 +91,9 @@
           <span class="ml-1">{{ card.area }}m²</span>
         </div>
       </div>
-      <span class="text-2xl font-bold">₱{{ card.price.toLocaleString() }}</span>
+      <div class="tooltip tooltip-top flex items-center" data-tip="Rent/month">
+        <span class="text-2xl font-bold">₱{{ card.price.toLocaleString() }}</span>
+      </div>
     </div>
     }
   </div>
