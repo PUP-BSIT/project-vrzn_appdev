@@ -8,7 +8,8 @@ import {
 import { Property } from '../../../model/property.model';
 import { InfoService } from './info.service';
 import { CookieService } from 'ngx-cookie-service';
-import { ApplicationsService } from '../../applications/applications.service';
+import { ReserveService } from '../../reservations/reserve.service';
+import { Reservation } from '../../../model/reservation.model';
 
 @Component({
   selector: 'app-info',
@@ -29,7 +30,7 @@ export class InfoComponent implements OnInit, OnChanges {
   constructor(
     private infoService: InfoService,
     private cookie: CookieService,
-    private applicationService: ApplicationsService
+    private applicationService: ReserveService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -45,11 +46,14 @@ export class InfoComponent implements OnInit, OnChanges {
         if (data) this.isWishlisted = data;
       });
 
-      this.applicationService.getApplications().subscribe({
-        next: (data) => {
-          if (data) this.hasApplication = true;
-        },
-      });
+      this.applicationService.getApplications().subscribe(
+        (data: Reservation[])=> {
+          data.forEach(data => {
+            if(data.property_id === this.propertyId) this.hasApplication = true;
+          });
+        }
+      
+      );
 
       if (this.userId) this.isLoggedIn = true;
 

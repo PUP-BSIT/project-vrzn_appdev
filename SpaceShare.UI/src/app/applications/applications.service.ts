@@ -1,17 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthService } from '../auth/auth.service';
 import { environment } from '../../../environment/appsettings';
-import { Reservation } from '../../model/reservation.model';
+import { AuthService } from '../auth/auth.service';
+import { Application } from '../../model/application.model';
 
 @Injectable()
 export class ApplicationsService {
 
   constructor(private http: HttpClient, private auth: AuthService) { }
 
-  getApplications(){
-    const userid = this.auth.getLoggedUserId();
-    const url = `${environment.apiUrl}/property/reserve/${userid}`
-    return this.http.get<Reservation[]>(url);
+  getUserApplications(){
+    const userId = this.auth.getLoggedUserId();
+    const url = `${environment.apiUrl}/property/applications/${userId}`;
+
+    return this.http.get<Application[]>(url);
   }
 }

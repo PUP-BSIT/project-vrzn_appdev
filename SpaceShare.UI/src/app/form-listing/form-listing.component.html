@@ -1,6 +1,6 @@
 <div class="flex justify-center items-center min-h-screen">
   <div
-  class="bg-white mt-10 mx-2 md:mx-4 rounded-2xl pt-8 pb-5 shadow-2xl w-full md:w-3/4 lg:w-2/3 xl:w-1/2 px-4 md:px-10"
+  class="bg-white mt-10 mx-2 md:mx-4 rounded-2xl pt-8 pb-5 shadow-2xl w-full md:w-3/4 lg:w-3/4 xl:w-3/5 px-4 md:px-10"
   >
     @if(submitted){
     <app-wait />
@@ -57,15 +57,15 @@
             />
             @if(titleControl.touched && titleControl.invalid) { @if
             (titleControl.errors?.['required']) {
-            <div class="error-message text-red-500 mt-2 pl-1">
-              Title Must Not Null
+            <div class="error-message text-red-500 mt-2 pl-1 text-sm">
+              Title required
             </div>
             } @if(titleControl.errors?.['minlength']) {
-            <div class="error-message text-red-500 pl-3">
-              Title is too Short Enter Meaningful Title
+            <div class="error-message text-red-500 pl-3 text-sm">
+              Title is too short
             </div>
             } @if (titleControl.errors?.['maxlength']) {
-            <div class="error-message text-red-500 pl-3">
+            <div class="error-message text-red-500 pl-3 text-sm">
               Title is too long make it short and clear
             </div>
             } }
@@ -83,12 +83,12 @@
             />
             @if(priceControl.touched && priceControl.invalid) { @if
             (priceControl.errors?.['required']) {
-            <div class="error-message text-red-500 mt-2 pl-1">
+            <div class="error-message text-red-500 mt-2 pl-1 text-sm">
               Define the Space Price
             </div>
-            } @if(priceControl.errors?.['priceInvalid']) {
-            <div class="error-message text-red-500 mt-2 pl-1">
-              Invalid Price Input Realistic Value
+            } @else if(priceControl.errors?.['priceInvalid']) {
+            <div class="error-message text-red-500 mt-2 pl-1 text-sm">
+              Invalid Price
             </div>
             } }
           </div>
@@ -112,8 +112,8 @@
             </select>
             @if(bedroomControl.touched && bedroomControl.invalid) { @if
             (bedroomControl.errors?.['required']) {
-            <div class="error-message text-red-500 mt-2 pl-1">
-              Fill the Space Bedroom
+            <div class="error-message text-red-500 mt-2 pl-1 text-sm">
+              Define the Bedroom count
             </div>
             } }
           </div>
@@ -130,15 +130,15 @@
             />
             @if(capacityControl.touched && capacityControl.invalid) { @if
             (capacityControl.errors?.['required']) {
-            <div class="error-message text-red-500 mt-2 pl-1">
-              Define the Space Capacity
+            <div class="error-message text-red-500 mt-2 pl-1 text-sm">
+              Define the Guest count
             </div>
             } @if(capacityControl.errors?.['min']) {
-            <div class="error-message text-red-500 mt-2 pl-1">
+            <div class="error-message text-red-500 mt-2 pl-1 text-sm">
               Input Realistic Space Capacity
             </div>
             } @if(capacityControl.errors?.['max']) {
-            <div class="error-message text-red-500 mt-2 pl-1">
+            <div class="error-message text-red-500 mt-2 pl-1 text-sm">
               Input Capacity treshold at 50
             </div>
             } }
@@ -152,18 +152,21 @@
               placeholder="Floor area in square meters"
               class="input input-bordered w-full bg-white rounded-lg"
               formControlName="area"
+              [class.input-error]="
+                areaControl.invalid && areaControl.touched
+              "
             />
             @if(areaControl.touched && areaControl.invalid) { @if
             (areaControl.errors?.['required']) {
-            <div class="error-message text-red-500 mt-2 pl-1">
+            <div class="error-message text-red-500 mt-2 pl-1 text-sm">
               Define the Space Area
             </div>
             } @if(areaControl.errors?.['min']) {
-            <div class="error-message text-red-500 mt-2 pl-1">
+            <div class="error-message text-red-500 mt-2 pl-1 text-sm">
               Input Realistic Space Area
             </div>
             } @if(areaControl.errors?.['max']) {
-            <div class="error-message text-red-500 mt-2 pl-1">
+            <div class="error-message text-red-500 mt-2 pl-1 text-sm">
               Input Capacity threshold at 60 square meter
             </div>
             } }
@@ -181,15 +184,14 @@
             maxlength="320"
           ></textarea>
           <div class="flex justify-between mb-8">
-            <div class="error-message text-red-500 pl-1 mt-1 flex-1">
+            <div class="error-message text-red-500 pl-1 mt-1 flex-1 text-sm">
               @if(descriptionControl.touched && descriptionControl.invalid) {
-              @if (descriptionControl.errors?.['required']) { Fill out the
-              description about the Space you want to Share }
+              @if (descriptionControl.errors?.['required']) { Enter Space 
+                description }
               @if(propertyForm.get('description')?.value?.length > 0 &&
               propertyForm.get('description')?.value?.length < 220) {
-              Description too short, you must provide credible information about
-              the space } @if(areaControl.errors?.['max']) { Make short and
-              concise for better Space Details } }
+              Description too short. Provide detailed information. } 
+              }
             </div>
             <div class="text-right text-xs text-gray-600 flex-1 mt-2">
               Characters remaining:
@@ -289,7 +291,7 @@
         </div>
         }
 
-        <div class="flex flex-wrap mt-4 gap-4">
+        <div class="flex flex-wrap mt-4">
           @if(isLoading && isEditing){
           <div class="skeleton h-40 w-64"></div>
           <div class="skeleton h-40 w-64"></div>
@@ -360,7 +362,7 @@
               </select>
               @if(cityControl.touched && cityControl.invalid) { @if
               (cityControl.errors?.['required']) {
-              <div class="error-message text-red-500 mt-2 pl-1">
+              <div class="error-message text-red-500 mt-2 pl-1 text-sm">
                 Select City
               </div>
               } }
@@ -377,12 +379,12 @@
               />
               @if(postalCodeControl.invalid && postalCodeControl.touched) { @if
               (postalCodeControl.errors?.['required']) {
-              <div class="error-message text-red-500 pl-3">
-                Postal code must not be null
+              <div class="error-message text-red-500 mt-2 pl-3 text-sm">
+                Postal code required
               </div>
               } @if(postalCodeControl.errors?.['pattern']) {
-              <div class="error-message text-red-500 pl-3">
-                Must be 4-digit and No Alphanumeric Characters
+              <div class="error-message text-red-500 mt-2 pl-3 text-sm">
+                Invalid postal code
               </div>
               } }
             </div>
@@ -398,16 +400,16 @@
               />
               @if(barangayControl.invalid && barangayControl.touched) { @if
               (barangayControl.errors?.['required']) {
-              <div class="error-message text-red-500 pl-3">
-                Address of the space cant be null
+              <div class="error-message text-red-500 mt-2 pl-3 text-sm">
+                Address required
               </div>
               } @if (barangayControl.errors?.['minlength']) {
-              <div class="error-message text-red-500 pl-3">
-                Address of the space are too short
+              <div class="error-message text-red-500 mt-2 pl-3 text-sm">
+                Address too short
               </div>
               } @if(barangayControl.errors?.['maxlength']) {
-              <div class="error-message text-red-500 mt-2 pl-1">
-                Make short and concise for better Space Details
+              <div class="error-message text-red-500 mt-2 pl-1 text-sm">
+                Provide detailed space information
               </div>
               } }
             </div>

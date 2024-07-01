@@ -1,0 +1,21 @@
+<div class="card bg-base-100 w-96 shadow-xl">
+    <figure class="px-10 pt-10">
+        <img src="{{ property.images[0].image_url }}" alt="Property"
+            class="rounded-xl w-full max-h-40" />
+    </figure>
+    <div class="card-body">
+        <div class="items-center text-center">
+            <h2 class="card-title">{{ property.title }}</h2>
+        </div>
+        <div class="divider w-2/3 mx-auto"></div>
+        <p class="font-semibold text-xl">About the Applicant</p>
+        <p>Name: {{ applicant.first_name }} {{ applicant.surname }}</p>
+        <p>E-Mail:  {{ applicant.email }}</p>
+        <p>Phone: {{ applicant.phone_number[0].number }}</p>
+        <p>Notes: {{ application.notes }}</p>
+    </div>
+    <div class="card-actions flex justify-end p-5">
+        <button class="btn btn-primary">Accept</button>
+        <button class="btn btn-primary">Reject</button>
+    </div>
+</div>

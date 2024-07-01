@@ -1,0 +1,28 @@
+<div class="mx-20 my-10">
+    <h1 class="text-4xl font-bold">My Reservations</h1>
+    <div class="mt-4 flex justify-center items-center">
+        <div class="w-1/3">
+            @if(loaded && !reservations.length) {
+            <div class="flex items-center justify-center w-full h-full full-height my-24">
+                <div class="card w-96 bg-white shadow-xl">
+                    <div class="card-body items-center text-center">
+                        <img src="../../assets/empty.png" class="h-100 w-100">
+                        <h2 class="card-title">Whoops?!</h2>s
+                        <p>There's nothing to see here right now.</p>
+                    </div>
+                </div>
+            </div>
+            } @else if (loaded && reservations.length) {
+            @for (card of reservations; track card.property_id) {
+                <app-reservation-card [reservation]="card"/>
+            }
+            } @else {
+            <div class="flex gap-6 mt-4">
+                <app-card-skeleton/>
+                <app-card-skeleton/>
+                <app-card-skeleton/>
+            </div>
+            }
+        </div>
+    </div>
+</div>

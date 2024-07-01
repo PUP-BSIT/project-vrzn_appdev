@@ -63,9 +63,12 @@ import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { ReserveComponent } from './reserve/reserve.component';
 import { DetailsComponent } from './reserve/details/details.component';
 import { TotalComponent } from './reserve/total/total.component';
+import { ReservationsComponent } from './reservations/reservations.component';
+import { ReservationCardComponent } from './reservations/reservation-card/reservation-card.component';
+import { ReserveService } from './reservations/reserve.service';
 import { ApplicationsComponent } from './applications/applications.component';
-import { ReservationCardComponent } from './applications/reservation-card/reservation-card.component';
 import { ApplicationsService } from './applications/applications.service';
+import { ApplicationCardComponent } from './applications/application-card/application-card.component';
 
 @NgModule({
   declarations: [
@@ -110,8 +113,10 @@ import { ApplicationsService } from './applications/applications.service';
     ReserveComponent,
     DetailsComponent,
     TotalComponent,
-    ApplicationsComponent,
+    ReservationsComponent,
     ReservationCardComponent,
+    ApplicationsComponent,
+    ApplicationCardComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -146,6 +151,7 @@ import { ApplicationsService } from './applications/applications.service';
     OwnedService,
     PropertyCardService,
     AlertService,
+    ReserveService,
     ApplicationsService
   ],
   bootstrap: [AppComponent]

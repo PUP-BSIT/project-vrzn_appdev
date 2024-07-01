@@ -2,6 +2,7 @@ import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Property } from '../../../model/property.model';
 import { AuthService } from '../../auth/auth.service';
 import { ReserveService } from '../reserve.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-details',
@@ -30,7 +31,11 @@ export class DetailsComponent implements OnInit {
   propertyId!: number;
   isSubmitted!: boolean;
 
-  constructor(private authService: AuthService, private reserveService: ReserveService){}
+  constructor(
+    private authService: AuthService,
+    private reserveService: ReserveService,
+    private location: Location
+  ) {}
 
   ngOnInit(): void {
     const currentDate = new Date();
@@ -42,8 +47,8 @@ export class DetailsComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['property'] && !changes['property'].firstChange) {
-      this.property = changes['property'].currentValue; 
-      this.propertyId = this.property.id
+      this.property = changes['property'].currentValue;
+      this.propertyId = this.property.id;
     }
   }
 
@@ -109,8 +114,9 @@ export class DetailsComponent implements OnInit {
     const reservation = {
       applicant_id: +this.authService.getLoggedUserId(),
       property_id: +this.property.id,
-      status: "Pending",
-      notes: `Planning to move on ${this.dates} \n\n guest count: ${this.guests} \n\n notes: ${this.message}`
+      status: 'Pending',
+      notes: `Planning to move on ${this.dates} \n\n with ${ this.totalGuests() } 
+      guest/s \n\n also, ${this.message}`,
     };
 
     this.reserveService.sendReservation(reservation).subscribe({
@@ -121,8 +127,8 @@ export class DetailsComponent implements OnInit {
       error: () => {
         this.isSubmitted = false;
         this.fail = true;
-      }
-    })
+      },
+    });
     this.closeModal();
   }
 
@@ -137,7 +143,11 @@ export class DetailsComponent implements OnInit {
     const inputDate = new Date(input);
     const minDate = new Date(this.minDate);
     const maxDate = new Date(this.maxDate);
-    if (inputDate < minDate || inputDate > maxDate || isNaN(inputDate.getTime())) {
+    if (
+      inputDate < minDate ||
+      inputDate > maxDate ||
+      isNaN(inputDate.getTime())
+    ) {
       this.isDateValid = false;
     } else {
       this.isDateValid = true;
@@ -164,5 +174,9 @@ export class DetailsComponent implements OnInit {
 
   onFocus(): void {
     this.isMessageTouched = true;
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }

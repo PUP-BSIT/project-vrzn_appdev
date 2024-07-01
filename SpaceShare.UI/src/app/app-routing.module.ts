@@ -27,6 +27,7 @@ import { OwnedComponent } from './owned/owned.component';
 import { OwnerGuard } from './auth/owner.guard';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { ReserveComponent } from './reserve/reserve.component';
+import { ReservationsComponent } from './reservations/reservations.component';
 import { ApplicationsComponent } from './applications/applications.component';
 
 const routes: Routes = [
@@ -60,6 +61,7 @@ const routes: Routes = [
   },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'wishlist', component: WishlistComponent, canActivate: [AuthGuard] },
+  { path: 'applications', component: ApplicationsComponent },
   { path: 'agreement/terms', component: TermsComponent },
   { path: 'agreement/privacy', component: PrivacyComponent },
   { path: 'agreement/cookie', component: CookieComponent },
@@ -68,7 +70,7 @@ const routes: Routes = [
   { path: 'agreement/renting', component: RentingComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'reset-password/reset-form', component: ResetFormComponent },
-  { path: 'reservations', component: ApplicationsComponent },
+  { path: 'reservations', component: ReservationsComponent },
   {
     path: 'subscription',
     component: SubscriptionComponent,
