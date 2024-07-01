@@ -272,7 +272,7 @@ export class PropertyService {
       },
     });
 
-    this.prismaService.property.update({
+    await this.prismaService.property.update({
       where: {
         id: application.property_id,
       },
