@@ -3,4 +3,5 @@ export interface Reservation {
   applicant_id: number;
   status: string;
   notes: string;
+  created_at?: string;
 }

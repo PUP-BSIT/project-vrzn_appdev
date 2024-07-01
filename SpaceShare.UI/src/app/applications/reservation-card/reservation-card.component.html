@@ -1,1 +1,19 @@
-<p>reservation-card works!</p>
+<div class="bg-white shadow-lg rounded-lg p-4 mb-4 flex" [routerLink]="['/space/', property.id]">
+    <img src="{{ property.images[0].image_url }}"
+        alt="Map 1" class="w-32 h-32 object-cover rounded-t-lg mr-4">
+    <div>
+        <div class="flex items-center mb-2">
+            <h2 class="text-xl font-semibold">{{ property.title}}</h2>
+        </div>
+        <div class="leading-8">
+            <p>Location: {{ property.city }}</p>
+            <p>Applied: {{ reservation.created_at | date: 'MMM d, y'}}</p>
+            <p>Status: {{ reservation.status }}</p>
+            <div>
+                @if(reservation.status === "Accepted"){
+                    <button class="btn ">rate</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>

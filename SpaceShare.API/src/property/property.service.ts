@@ -272,6 +272,14 @@ export class PropertyService {
     return email;
   }
 
+  async getReservations(id: number){
+    return await this.prismaService.tenantApplication.findMany({
+      where: {
+        applicant_id: +id,
+      },
+    })
+  }
+
   async rateProperty(propertyRating: { id: number; rating: number }) {
     return await this.prismaService.property.update({
       where: {

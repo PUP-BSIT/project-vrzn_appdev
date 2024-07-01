@@ -96,6 +96,11 @@ export class PropertyController {
     return { reserveResult, sendMailResult };
   }
 
+  @Get('reserve/:id')
+  async getReservations(@Param('id') id: number){
+    return await this.propertyService.getReservations(id);
+  }
+
   @UseGuards(JwtAuthGuard)
   @Post()
   async rateProperty(@Body() propertyRating: { id: number; rating: number }) {
