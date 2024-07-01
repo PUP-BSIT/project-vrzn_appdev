@@ -131,7 +131,7 @@ export class AuthService {
   async sendMail(body: verification) {
     const email = await this.mailService.sendMail({
       to: body.mailTo,
-      subject: 'SpaceShare Signup Verification',
+      subject: 'Get Started with Space Share 🚀',
       html: `
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -227,7 +227,7 @@ export class AuthService {
                                                                 Thank you for joining us on our mission to <strong>improve access to shared spaces</strong>, and empower everyday people with the tools to manage their spaces efficiently. 🚀
                                                             </div>
                                                             <div style="text-align: center; margin-top: 2rem;">
-                                                                You can set up your account now and access everything SpaceShare has to offer. Get started by verifying your email address below and setting up a password:
+                                                                You can set up your account now and access everything Space Share has to offer. Get started by verifying your email address with the OTP code:
                                                             </div>
                                                             <div style="text-align: center;">
                                                                 <div class="code-block">${body.code}</div>
