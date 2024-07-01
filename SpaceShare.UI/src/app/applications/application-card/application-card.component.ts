@@ -60,5 +60,26 @@ export class ApplicationCardComponent implements OnInit {
   }
 
   handleReject(){
+    this.submitted = true;
+
+    if (!this.application) {
+      this.submitted = false;
+      this.error = true;
+    }
+
+    this.applicationService
+      .handleRejectApplication(this.application)
+      .subscribe({
+        next: (data : { success: boolean}) => {
+          if(data.success) {
+            this.submitted = false;
+            this.success = true;
+          }
+        },
+        error: () => {
+          this.submitted = false;
+          this.error = true;
+        },
+    });
   }
 }

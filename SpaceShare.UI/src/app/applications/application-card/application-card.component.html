@@ -25,8 +25,8 @@
     <app-wait />
 }
 @if(success){
-    <app-alert [createdPropery]="property.id" [mainMessage]="'Application Created'" [state]="'success'"
-        [subMessage]="'The owner has been notified about your application!'" />
+    <app-alert [mainMessage]="'Application Updated!'" [state]="'success'"
+        [subMessage]="'The tenant has been notified about your update!'" />
 }@if(error){
     <app-alert [mainMessage]="'Error'" [state]="'error'" [subMessage]="'Could not proceed with reservation.'" />
 }
