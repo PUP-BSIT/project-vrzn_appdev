@@ -106,6 +106,12 @@ export class PropertyController {
     return await this.propertyService.getPropertyApplications(id);
   }
 
+  @Get('space/history')
+  async getSpaceHistory(@Body() history: { tenant_id: number, property_id: number }){
+    return await this.propertyService
+      .getSpaceHistories(history.property_id, history.tenant_id);
+  }
+
   @UseGuards(JwtAuthGuard)
   @Post('application/accept')
   async acceptApplication(@Body() reservation: Reservation){
