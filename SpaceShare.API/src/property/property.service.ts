@@ -290,7 +290,7 @@ export class PropertyService {
         id,
       },
       data: {
-        status: 'Disapprove',
+        status: 'Rejected',
       },
     });
   }
