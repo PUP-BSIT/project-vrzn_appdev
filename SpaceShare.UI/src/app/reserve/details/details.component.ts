@@ -115,7 +115,8 @@ export class DetailsComponent implements OnInit {
       applicant_id: +this.authService.getLoggedUserId(),
       property_id: +this.property.id,
       status: 'Pending',
-      notes: `Planning to move on ${this.dates} \n\n guest count: ${this.guests} \n\n notes: ${this.message}`,
+      notes: `Planning to move on ${this.dates} \n\n with ${ this.totalGuests() } 
+      guest/s \n\n also, ${this.message}`,
     };
 
     this.reserveService.sendReservation(reservation).subscribe({

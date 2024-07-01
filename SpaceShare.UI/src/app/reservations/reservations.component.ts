@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Reservation } from '../../model/reservation.model';
-import { ApplicationsService } from './applications.service';
+import { ReserveService } from './reserve.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,7 +12,7 @@ export class ReservationsComponent implements OnInit {
   reservations: Reservation[] = []; 
   loaded = false;
 
-  constructor(private application: ApplicationsService, private router: Router){}
+  constructor(private application: ReserveService, private router: Router){}
 
   ngOnInit(): void {
     window.scrollTo({ top: 0, behavior: 'smooth' });
