@@ -32,5 +32,6 @@ export class AlertComponent implements AfterViewInit {
   isShownMethod() {
     this.alertService.setUpdateInvalid(false);
     this.closeModal();
+    location.reload();
   }
 }
