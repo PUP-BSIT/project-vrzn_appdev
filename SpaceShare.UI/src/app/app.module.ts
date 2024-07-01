@@ -65,7 +65,7 @@ import { DetailsComponent } from './reserve/details/details.component';
 import { TotalComponent } from './reserve/total/total.component';
 import { ReservationsComponent } from './reservations/reservations.component';
 import { ReservationCardComponent } from './reservations/reservation-card/reservation-card.component';
-import { ApplicationsService } from './reservations/applications.service';
+import { ReserveService } from './reservations/reserve.service';
 import { ApplicationsComponent } from './applications/applications.component';
 
 @NgModule({
@@ -148,7 +148,7 @@ import { ApplicationsComponent } from './applications/applications.component';
     OwnedService,
     PropertyCardService,
     AlertService,
-    ApplicationsService
+    ReserveService
   ],
   bootstrap: [AppComponent]
 })

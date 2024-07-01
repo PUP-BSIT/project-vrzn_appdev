@@ -5,7 +5,7 @@ import { environment } from '../../../environment/appsettings';
 import { Reservation } from '../../model/reservation.model';
 
 @Injectable()
-export class ApplicationsService {
+export class ReserveService {
 
   constructor(private http: HttpClient, private auth: AuthService) { }
 

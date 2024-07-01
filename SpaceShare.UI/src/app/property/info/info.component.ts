@@ -8,7 +8,7 @@ import {
 import { Property } from '../../../model/property.model';
 import { InfoService } from './info.service';
 import { CookieService } from 'ngx-cookie-service';
-import { ApplicationsService } from '../../reservations/applications.service';
+import { ReserveService } from '../../reservations/reserve.service';
 import { Reservation } from '../../../model/reservation.model';
 
 @Component({
@@ -30,7 +30,7 @@ export class InfoComponent implements OnInit, OnChanges {
   constructor(
     private infoService: InfoService,
     private cookie: CookieService,
-    private applicationService: ApplicationsService
+    private applicationService: ReserveService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
