@@ -281,7 +281,23 @@ export class PropertyService {
       },
     });
 
+    await this.prismaService.spaceHistory.create({
+      data: {
+        property_id: +application.property_id,
+        tenant_id: +application.applicant_id
+      }
+    })
+
     return { success: true };
+  }
+
+  async getSpaceHistories(property_id: number, tenant_id: number){
+    return await this.prismaService.spaceHistory.findMany({
+      where: {
+        property_id,
+        tenant_id,
+      }
+    })  
   }
 
   async rejectApplication(id: number) {
