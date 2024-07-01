@@ -1,4 +1,4 @@
-<div class="filter-controls flex flex-wrap justify-between items-center mb-6 space-y-4 sm:space-y-0">
+<div class="filter-controls flex flex-wrap justify-evenly items-center mb-6 space-y-4 sm:space-y-0">
     <div class="w-full sm:w-auto mb-4 sm:mb-0">
       <label for="city" class="block text-sm font-medium text-gray-700">
         City
@@ -40,19 +40,46 @@
               PHP 3k to 5k
             </button>
           </div>
-          <div class="mb-4">
-            <div class="flex items-center">
-              <input type="number" [(ngModel)]="minPrice"
-                class="block w-full pl-3 pr-2 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                placeholder="Min" />
-              <span class="mx-2">-</span>
-              <input type="number" [(ngModel)]="maxPrice"
-                class="block w-full pl-3 pr-2 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                placeholder="Max" />
-            </div>
-          </div>
+<div class="mb-4">
+  <div class="flex items-center">
+    <input type="number" [(ngModel)]="minPrice" name="minPrice" #minPriceInput="ngModel"
+      class="block w-full pl-3 pr-2 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      placeholder="Min" min="0" max="1000000" required />
+    <span class="mx-2">-</span>
+    <input type="number" [(ngModel)]="maxPrice" name="maxPrice" #maxPriceInput="ngModel"
+      class="block w-full pl-3 pr-2 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      placeholder="Max" min="0" max="1000000" required />
+  </div>
+
+@if (minPriceInput.invalid && (minPriceInput.dirty || minPriceInput.touched)) {
+  <div class="text-red-500 text-sm mt-1">
+    @if (minPriceInput.errors?.['min']) {
+      Minimum price must be at least 0.
+    } @else if (minPriceInput.errors?.['max']) {
+      Maximum price cannot exceed 1,000,000
+    } @else if (minPriceInput.errors?.['required']) {
+      Minimum price is required.
+    }
+  </div>
+}
+
+@if (maxPriceInput.invalid && (maxPriceInput.dirty || maxPriceInput.touched)) {
+<div class="text-red-500 text-sm mt-1">
+  @if (maxPriceInput.errors?.['min']) {
+  Price cannot be empty.
+  } @else if (maxPriceInput.errors?.['max']) {
+  Maximum price cannot exceed 1,000,000
+  } @else if (maxPriceInput.errors?.['required']) {
+  Maximum price is required.
+  }
+</div>
+}
+
+</div>
+
+          
           <div class="flex justify-between">
-            <button (click)="clearPriceFilters()" class="btn btn-secondary">
+            <button (click)="clearPriceFilters()" class="btn bg-white text-gray-500 border-gray-300">
               Clear
             </button>
             <button (click)="applyFilters()" class="btn bg-primary text-white hover:bg-[#9A58B6]">
