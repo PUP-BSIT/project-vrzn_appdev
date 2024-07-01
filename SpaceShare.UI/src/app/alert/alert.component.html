@@ -24,7 +24,7 @@
             }
         </div>
         <p class="py-4 text-center text-sm font-light">{{ subMessage }}</p>
-        @if(state === 'success'){
+        @if(state === 'success' && createdPropery){
             <div class="flex justify-center">
                 <a href="space/{{createdPropery}}"
                     class="btn w-full align-middle bg-primary border-none outline-none hover:bg-[#9A58B6] text-white">Go To
