@@ -16,8 +16,17 @@
     </div>
     <div class="card-actions flex justify-end p-5">
         <button class="btn btn-primary" 
-            (click)="handleAccept(application.id)">Accept</button>
+            (click)="handleAccept()">Accept</button>
         <button class="btn btn-primary" 
-            (click)="handleReject(application.id)">Reject</button>
+            (click)="handleReject()">Reject</button>
     </div>
 </div>
+@if(submitted){
+    <app-wait />
+}
+@if(success){
+    <app-alert [createdPropery]="property.id" [mainMessage]="'Application Created'" [state]="'success'"
+        [subMessage]="'The owner has been notified about your application!'" />
+}@if(error){
+    <app-alert [mainMessage]="'Error'" [state]="'error'" [subMessage]="'Could not proceed with reservation.'" />
+}

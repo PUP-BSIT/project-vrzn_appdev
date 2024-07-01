@@ -6,6 +6,7 @@ import { User } from '../../../model/user.model';
 import { AuthService } from '../../auth/auth.service';
 import { ProfileService } from '../../profile/profile.service';
 import { Router } from '@angular/router';
+import { ApplicationsService } from '../applications.service';
 
 @Component({
   selector: 'app-application-card',
@@ -16,9 +17,12 @@ export class ApplicationCardComponent implements OnInit {
   @Input() application!: Application;
   property!: Property;
   applicant!: User;
+  submitted!: boolean;
+  success!: boolean;
+  error!: boolean;
 
   constructor(private propertyService: PropertyService, 
-    private authService: ProfileService, private router: Router){}
+    private authService: ProfileService, private applicationService: ApplicationsService){}
 
   ngOnInit(): void {
       this.propertyService.getProperty(this.application.property_id).subscribe({
@@ -33,11 +37,28 @@ export class ApplicationCardComponent implements OnInit {
       })
   }
 
-  handleAccept(id: number){
-    console.log(id);
+  handleAccept(){
+    this.submitted = true
+
+    if(!this.application) {
+      this.submitted = false;
+      this.error = true;
+    }
+
+    this.applicationService.handleAcceptApplication(this.application).subscribe({
+      next: data => {
+        console.log(data);
+        this.submitted = false;
+        this.success = true;
+      },
+      error: () => {
+        this.submitted = false;
+        this.error = true;
+      }
+    })
+
   }
 
-  handleReject(id: number){
-    console.log(id);
+  handleReject(){
   }
 }
