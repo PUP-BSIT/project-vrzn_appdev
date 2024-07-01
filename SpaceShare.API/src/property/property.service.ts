@@ -13,7 +13,7 @@ export class PropertyService {
     private prismaService: PrismaService,
     private s3Service: S3Service,
     private mailService: MailerService,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   async getProperties() {
@@ -254,37 +254,37 @@ export class PropertyService {
     });
   }
 
-  async acceptApplication(id: number){
-     const updated = await this.prismaService.tenantApplication.update({
+  async acceptApplication(id: number) {
+    const updated = await this.prismaService.tenantApplication.update({
       where: {
         id,
       },
       data: {
-        status: 'Approved'
-      }
-    })
+        status: 'Approved',
+      },
+    });
 
     if (!updated) return { success: false };
 
     const application = await this.prismaService.tenantApplication.findUnique({
       where: {
         id,
-      }
-    })
+      },
+    });
 
     this.prismaService.property.update({
       where: {
         id: application.property_id,
       },
       data: {
-        status: true
-      }
-    })
+        status: true,
+      },
+    });
 
-    return { success: true }
+    return { success: true };
   }
 
-  async rejectApplication(id: number){
+  async rejectApplication(id: number) {
     return await this.prismaService.tenantApplication.update({
       where: {
         id,
@@ -295,53 +295,35 @@ export class PropertyService {
     });
   }
 
-  async deleteApplication(id: number){
+  async deleteApplication(id: number) {
     return await this.prismaService.tenantApplication.delete({
       where: {
         id,
-      }
-    })
-  }
-
-  async sendReservationMail(body: Reservation) {
-    const applicant = await this.authService.getUser(body.applicant_id);
-    const property = await this.getProperty(body.property_id);
-    const owner = await this.authService.getUser(property.owner_id);
-    const email = await this.mailService.sendMail({
-      to: owner.email,
-      subject: 'New Reservation Application!',
-      text: `${property.title} has a new reservation! \n\n\n 
-              Applicant notes: ${body.notes} \n\n\n
-              aBOUT THE APPLICANT: \n
-              name: ${applicant.first_name} \n
-              email: ${applicant.email} \n
-              phone: ${applicant.phone_number[0].number}`, //needs to be updated
+      },
     });
-
-    return email;
   }
 
-  async getReservations(id: number){
+  async getReservations(id: number) {
     return await this.prismaService.tenantApplication.findMany({
       where: {
         applicant_id: +id,
       },
-    })
+    });
   }
 
-  async getPropertyApplications(owner_id: number){
+  async getPropertyApplications(owner_id: number) {
     const properties = await this.getOwnProperties(+owner_id);
     const ownedSpaceIds = properties.map((property) => property.id);
 
     return this.prismaService.tenantApplication.findMany({
       where: {
         property_id: {
-          in: ownedSpaceIds
+          in: ownedSpaceIds,
         },
-        status: "Pending"
+        status: 'Pending',
       },
     });
-   }
+  }
 
   async rateProperty(propertyRating: { id: number; rating: number }) {
     return await this.prismaService.property.update({
@@ -435,4 +417,40 @@ export class PropertyService {
 
     return false;
   }
+
+  //#region mail services
+  async sendReservationMail(body: Reservation) {
+    const applicant = await this.authService.getUser(body.applicant_id);
+    const property = await this.getProperty(body.property_id);
+    const owner = await this.authService.getUser(property.owner_id);
+    const email = await this.mailService.sendMail({
+      to: owner.email,
+      subject: 'New Reservation Application!',
+      text: `${property.title} has a new reservation! \n\n\n 
+              Applicant notes: ${body.notes} \n\n\n
+              aBOUT THE APPLICANT: \n
+              name: ${applicant.first_name} \n
+              email: ${applicant.email} \n
+              phone: ${applicant.phone_number[0].number}`, //needs to be updated
+    });
+
+    return email;
+  }
+
+  async sendReservationUpdate(body: Reservation, status: 'Accepted' | 'Rejected'){
+    const applicant = await this.authService.getUser(body.applicant_id);
+    const property = await this.getProperty(body.property_id);
+    
+    return await this.mailService.sendMail({
+      to: applicant.email,
+      subject: `${property.title} = Application Update!`,
+      html: 
+        `
+          <p>Your application on ${property.title} has been ${status} by the owner.</p>
+          <p>Enjoy your Space!<p>
+        `
+    });
+    
+  }
+  //#endregion
 }
