@@ -128,6 +128,23 @@ export class AuthService {
     });
   }
 
+  async changePassword(userId: number, currentPassword: string, newPassword){
+    const user = this.prismaService.user.findUnique({ where: { id: userId }});
+
+    if(!user || !(await this.comparePassword(currentPassword, (await user).password))){
+      throw new BadRequestException('Current password is incorrect');
+    }
+
+    const hashedPassword = await this.hashPassword(newPassword);
+
+    await this.prismaService.user.update({
+      where: { id: userId },
+      data: { password: hashedPassword }
+    })
+
+    return { success: true, message: 'Password change successful'}
+  }
+
   async sendMail(body: verification) {
     const email = await this.mailService.sendMail({
       to: body.mailTo,

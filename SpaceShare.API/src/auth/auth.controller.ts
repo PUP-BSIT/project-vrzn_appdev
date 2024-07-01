@@ -4,6 +4,7 @@ import { SignInDto } from './dto/signin-auth.dto';
 import { CreateUserDto } from './dto/signup-auth.dto';
 import { verification } from './dto/verify.dto';
 import { User } from '@prisma/client';
+import { ChangePassword } from './dto/change.password.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -40,5 +41,11 @@ export class AuthController {
   @Post('verify')
   sendMailer(@Body() verification: verification) {
     return this.authService.sendMail(verification);
+  }
+
+  @Post('forgot')
+  changePassword(@Body() changePassword: ChangePassword){
+    const { userId, currentPassword, newPassword } = changePassword;
+    return this.authService.changePassword(userId, currentPassword, newPassword);
   }
 }
