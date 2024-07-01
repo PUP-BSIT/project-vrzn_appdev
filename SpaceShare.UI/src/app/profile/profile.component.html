@@ -1,12 +1,12 @@
-<div class="flex items-center justify-center mt-10">
-    <div class="card bg-white w-full sm:w-4/5 md:w-3/5 lg:w-2/5 shadow-xl">
+<div class="flex items-center justify-center mt-20">
+    <div class="card bg-white w-full sm:w-4/5 md:w-11/12 lg:w-3/4 xl:w-3/6 2xl:w-2/5 shadow-xl">
         <div class="card-body">
             <h2 class="text-2xl font-bold text-center mt-2 sm:text-3xl xl:text-5xl">
                 Personal Information
             </h2>
             <div class="container mx-auto p-4 sm:p-6 max-w-2xl">
                 <form class="flex flex-col sm:flex-row mx-auto items-center justify-center" [formGroup]="editForm">
-                    <div class="sm:w-1/3 p-4 mt-4">
+                    <div class="sm:w-1/3 mr-2">
                         <div class="w-40 flex flex-col items-center space-y-2">
                             <div class="overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600 mb-8">
                                 <svg class="w-24 h-24 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20"
@@ -17,8 +17,11 @@
                                 </svg>
                             </div>
                             @if(!isEditMode) {
-                            <button class="btn btn-sm btn-secondary w-32 bg-primary text-white hover:bg-[#9A58B6]" (click)="editMode()">
+                            <button class="btn btn-sm w-40 bg-primary text-white hover:bg-[#9A58B6]" (click)="editMode()">
                                 Edit
+                            </button>
+                            <button class="btn btn-sm w-40 bg-white border-gray-300 text-gray-500 hover:bg-white">
+                                Change Password
                             </button>
                             } @else {
                             <button class="btn btn-sm btn-primary w-36 bg-green-600 text-white hover:bg-green-500 border-none" (click)="onSubmit()"
