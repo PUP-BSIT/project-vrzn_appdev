@@ -1,19 +1,36 @@
-<div class="bg-white shadow-lg rounded-lg p-4 mb-4 flex" [routerLink]="['/space/', property.id]">
-    <img src="{{ property.images[0].image_url }}"
-        alt="Map 1" class="w-32 h-32 object-cover rounded-t-lg mr-4">
-    <div>
-        <div class="flex items-center mb-2">
-            <h2 class="text-xl font-semibold">{{ property.title}}</h2>
+<div class="bg-white shadow-lg rounded-lg p-4 mb-4 flex flex-col sm:flex-row relative w-full sm:w-11/12 md:w-4/12 xl:w-11/12">
+    <div class="absolute top-0 right-0 m-2 dropdown dropdown-end">
+        <div tabindex="0" role="button" class="btn btn-ghost hover:bg-white btn-circle">
+            <div class="relative w-5 h-5 overflow-hidden rounded-lg">
+                <img src="../../../assets/kebab.svg" alt="options" class=" bg-white w-5 h-5">
+            </div>
         </div>
-        <div class="leading-8">
+        <ul tabindex="0" class="menu 
+               menu-sm 
+               dropdown-content  
+               z-20 
+               p-2 
+               shadow-md
+               bg-white 
+               rounded-none     
+               w-auto">
+            <li><a class="font-bold">Edit</a></li>
+            <li><a class="font-bold">Delete</a></li>
+        </ul>
+    </div>
+    <img src="{{ property.images[0].image_url }}" alt="Map 1"
+        class="w-full sm:w-32 h-32 object-cover rounded-lg mr-4 cursor-pointer" [routerLink]="['/space/', property.id]">
+    <div class="cursor-pointer flex-1 mt-4 sm:mt-0" [routerLink]="['/space/', property.id]">
+        <div class="flex items-center mb-2">
+            <h2 class="text-lg sm:text-xl font-semibold w-11/12">{{ property.title }}</h2>
+        </div>
+        <div class="leading-8 text-sm sm:text-base">
             <p>Location: {{ property.city }}</p>
-            <p>Applied: {{ reservation.created_at | date: 'MMM d, y'}}</p>
+            <p>Applied: {{ reservation.created_at | date: 'MMM d, y' }}</p>
             <p>Status: {{ reservation.status }}</p>
-            <div>
-                @if(reservation.status === "Accepted"){
-                    <button class="btn ">rate</button>
-                }
+            <div *ngIf="reservation.status === 'Accepted'">
+                <button class="btn btn-xs sm:btn-sm">Rate</button>
             </div>
         </div>
     </div>
-</div>
+</div> 
