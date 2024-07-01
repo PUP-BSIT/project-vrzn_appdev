@@ -35,7 +35,7 @@ model User {
   phone_number    PhoneNumber[]
   review    Review[]
   application   TenantApplication[]
-  booking     Booking[]
+  spaceHistories     SpaceHistory[]
 }
 
 model Property {
@@ -63,7 +63,7 @@ model Property {
   review    Review[]
   application   TenantApplication[]
   images    Images[]
-  booking     Booking[]
+  spaceHistories     SpaceHistory[]
 }
 
 model Images{
@@ -123,19 +123,14 @@ model TenantApplication {
   created_at DateTime   @default(now())
 }
 
-model Booking {
+model SpaceHistory {
   id    Int     @default(autoincrement()) @id
   property    Property    @relation(fields: [property_id], references: [id])
   property_id   Int
   user    User    @relation(fields: [tenant_id], references: [id])
   tenant_id   Int
-  start_date  DateTime
-  end_date    DateTime
-  price   Float
-  guest_count   Int   @default(1)
 
   created_at  DateTime    @default(now())
-  updated_at  DateTime    @updatedAt
 }
 
 
