@@ -107,6 +107,24 @@ export class PropertyController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Post('application/accept/:id')
+  async acceptApplication(@Param('id') id: number){
+    return await this.propertyService.acceptApplication(+id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('application/decline/:id')
+  async rejectApplication(@Param('id') id: number){
+    return await this.propertyService.rejectApplication(+id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('application/delete/:id')
+  async deleteApplication(@Param('id') id: number){
+    return await this.propertyService.deleteApplication(+id);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Post()
   async rateProperty(@Body() propertyRating: { id: number; rating: number }) {
     return await this.propertyService.rateProperty(propertyRating);

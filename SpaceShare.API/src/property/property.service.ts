@@ -254,6 +254,55 @@ export class PropertyService {
     });
   }
 
+  async acceptApplication(id: number){
+     const updated = await this.prismaService.tenantApplication.update({
+      where: {
+        id,
+      },
+      data: {
+        status: 'Approved'
+      }
+    })
+
+    if (!updated) return { success: false };
+
+    const application = await this.prismaService.tenantApplication.findUnique({
+      where: {
+        id,
+      }
+    })
+
+    this.prismaService.property.update({
+      where: {
+        id: application.property_id,
+      },
+      data: {
+        status: true
+      }
+    })
+
+    return { success: true }
+  }
+
+  async rejectApplication(id: number){
+    return await this.prismaService.tenantApplication.update({
+      where: {
+        id,
+      },
+      data: {
+        status: 'Disapprove',
+      },
+    });
+  }
+
+  async deleteApplication(id: number){
+    return await this.prismaService.tenantApplication.delete({
+      where: {
+        id,
+      }
+    })
+  }
+
   async sendReservationMail(body: Reservation) {
     const applicant = await this.authService.getUser(body.applicant_id);
     const property = await this.getProperty(body.property_id);
@@ -288,7 +337,8 @@ export class PropertyService {
       where: {
         property_id: {
           in: ownedSpaceIds
-        }
+        },
+        status: "Pending"
       },
     });
    }
