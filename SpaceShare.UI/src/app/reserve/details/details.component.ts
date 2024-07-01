@@ -116,7 +116,7 @@ export class DetailsComponent implements OnInit {
       property_id: +this.property.id,
       status: 'Pending',
       notes: `Planning to move on ${this.dates} \n\n with ${ this.totalGuests() } 
-      guest/s \n\n also, ${this.message}`,
+      \n\n also, ${this.message}`,
     };
 
     this.reserveService.sendReservation(reservation).subscribe({
