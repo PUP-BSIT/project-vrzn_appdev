@@ -1,7 +1,7 @@
 <div class="mx-20 my-10">
     <h1 class="text-4xl font-bold">Property Applications</h1>
     <div class="mt-4 flex flex-wrap">
-        @if(loaded && !wishlistedItem.length){
+        @if(loaded && !applications.length){
         <div class="flex items-center justify-center w-full h-full full-height my-24">
             <div class="card w-96 bg-white shadow-xl">
                 <div class="card-body items-center text-center">
@@ -11,9 +11,9 @@
                 </div>
             </div>
         </div>
-        } @else if(loaded && wishlistedItem.length) {
-            @for (card of wishlistedItem; track $index) {
-                <app-property-card />
+        } @else if(loaded && applications.length) {
+            @for (card of applications; track $index) {
+                <app-application-card [application]="card" />
             }
         } @else {
         <div class="flex gap-6 mt-4">

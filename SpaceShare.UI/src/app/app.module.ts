@@ -67,6 +67,8 @@ import { ReservationsComponent } from './reservations/reservations.component';
 import { ReservationCardComponent } from './reservations/reservation-card/reservation-card.component';
 import { ReserveService } from './reservations/reserve.service';
 import { ApplicationsComponent } from './applications/applications.component';
+import { ApplicationsService } from './applications/applications.service';
+import { ApplicationCardComponent } from './applications/application-card/application-card.component';
 
 @NgModule({
   declarations: [
@@ -114,6 +116,7 @@ import { ApplicationsComponent } from './applications/applications.component';
     ReservationsComponent,
     ReservationCardComponent,
     ApplicationsComponent,
+    ApplicationCardComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -148,7 +151,8 @@ import { ApplicationsComponent } from './applications/applications.component';
     OwnedService,
     PropertyCardService,
     AlertService,
-    ReserveService
+    ReserveService,
+    ApplicationsService
   ],
   bootstrap: [AppComponent]
 })
