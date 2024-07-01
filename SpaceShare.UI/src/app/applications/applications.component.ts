@@ -14,6 +14,8 @@ export class ApplicationsComponent implements OnInit {
   constructor(private applicationService: ApplicationsService){}
 
   ngOnInit(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
     this.applicationService.getUserApplications().subscribe((data: Application[]) => {
       this.applications = data;
       this.loaded = true;
