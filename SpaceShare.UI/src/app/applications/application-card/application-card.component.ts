@@ -32,4 +32,12 @@ export class ApplicationCardComponent implements OnInit {
         }
       })
   }
+
+  handleAccept(id: number){
+    console.log(id);
+  }
+
+  handleReject(id: number){
+    console.log(id);
+  }
 }
