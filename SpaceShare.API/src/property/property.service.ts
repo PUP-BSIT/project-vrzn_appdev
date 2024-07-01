@@ -285,14 +285,17 @@ export class PropertyService {
   }
 
   async rejectApplication(id: number) {
-    return await this.prismaService.tenantApplication.update({
-      where: {
-        id,
-      },
-      data: {
-        status: 'Rejected',
-      },
-    });
+    return this.prismaService.tenantApplication
+      .update({
+        where: {
+          id,
+        },
+        data: {
+          status: 'Rejected',
+        },
+      })
+      .then(() => ({ success: true }))
+      .catch(() => ({ success: false }));
   }
 
   async deleteApplication(id: number) {
@@ -437,20 +440,21 @@ export class PropertyService {
     return email;
   }
 
-  async sendReservationUpdate(body: Reservation, status: 'Accepted' | 'Rejected'){
+  async sendReservationUpdate(
+    body: Reservation,
+    status: 'Accepted' | 'Rejected',
+  ) {
     const applicant = await this.authService.getUser(body.applicant_id);
     const property = await this.getProperty(body.property_id);
-    
+
     return await this.mailService.sendMail({
       to: applicant.email,
       subject: `${property.title} = Application Update!`,
-      html: 
-        `
+      html: `
           <p>Your application on ${property.title} has been ${status} by the owner.</p>
           <p>Enjoy your Space!<p>
-        `
+        `,
     });
-    
   }
   //#endregion
 }
