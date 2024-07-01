@@ -75,7 +75,7 @@ export class PropertyService {
   async getOwnProperties(id: number) {
     return await this.prismaService.property.findMany({
       where: {
-        owner_id: id,
+        owner_id: +id,
       },
       select: {
         id: true,
@@ -279,6 +279,19 @@ export class PropertyService {
       },
     })
   }
+
+  async getPropertyApplications(owner_id: number){
+    const properties = await this.getOwnProperties(+owner_id);
+    const ownedSpaceIds = properties.map((property) => property.id);
+
+    return this.prismaService.tenantApplication.findMany({
+      where: {
+        property_id: {
+          in: ownedSpaceIds
+        }
+      },
+    });
+   }
 
   async rateProperty(propertyRating: { id: number; rating: number }) {
     return await this.prismaService.property.update({

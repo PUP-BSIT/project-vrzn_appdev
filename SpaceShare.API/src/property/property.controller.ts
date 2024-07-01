@@ -101,6 +101,11 @@ export class PropertyController {
     return await this.propertyService.getReservations(id);
   }
 
+  @Get('applications/:id')
+  async getPropertyApplications(@Param('id') id: number){
+    return await this.propertyService.getPropertyApplications(id);
+  }
+
   @UseGuards(JwtAuthGuard)
   @Post()
   async rateProperty(@Body() propertyRating: { id: number; rating: number }) {
