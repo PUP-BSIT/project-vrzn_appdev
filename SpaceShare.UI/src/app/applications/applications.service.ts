@@ -6,24 +6,32 @@ import { Application } from '../../model/application.model';
 
 @Injectable()
 export class ApplicationsService {
+  headers = new HttpHeaders().set('Accept', 'application/json');
 
-  constructor(private http: HttpClient, private auth: AuthService) { }
+  constructor(private http: HttpClient, private auth: AuthService) {}
 
-  getUserApplications(){
+  getUserApplications() {
     const userId = this.auth.getLoggedUserId();
     const url = `${environment.apiUrl}/property/applications/${userId}`;
 
     return this.http.get<Application[]>(url);
   }
 
-  handleAcceptApplication(application: Application){
+  handleAcceptApplication(application: Application) {
     const url = `${environment.apiUrl}/property/application/accept`;
 
-    const headers = new HttpHeaders().set('Accept', 'application/json');
-    
-    return this.http.post(url, application, {
-      headers: headers,
-      withCredentials: true
+    return this.http.post< { success: boolean } >(url, application, {
+      headers: this.headers,
+      withCredentials: true,
+    });
+  }
+
+  handleRejectApplication(application: Application) {
+    const url = `${environment.apiUrl}/property/application/decline`;
+
+    return this.http.post<{ success: boolean }>(url, application, {
+      headers: this.headers,
+      withCredentials: true,
     });
   }
 }
