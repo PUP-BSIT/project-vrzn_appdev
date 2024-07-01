@@ -4,11 +4,11 @@ import { ApplicationsService } from './applications.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-applications',
-  templateUrl: './applications.component.html',
-  styleUrl: './applications.component.css'
+  selector: 'app-reservations',
+  templateUrl: './reservations.component.html',
+  styleUrl: './reservations.component.css'
 })
-export class ApplicationsComponent implements OnInit {
+export class ReservationsComponent implements OnInit {
   reservations: Reservation[] = []; 
   loaded = false;
 

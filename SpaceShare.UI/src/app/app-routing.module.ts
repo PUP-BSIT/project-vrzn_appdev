@@ -27,7 +27,7 @@ import { OwnedComponent } from './owned/owned.component';
 import { OwnerGuard } from './auth/owner.guard';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { ReserveComponent } from './reserve/reserve.component';
-import { ApplicationsComponent } from './applications/applications.component';
+import { ReservationsComponent } from './reservations/reservations.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -68,7 +68,7 @@ const routes: Routes = [
   { path: 'agreement/renting', component: RentingComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'reset-password/reset-form', component: ResetFormComponent },
-  { path: 'reservations', component: ApplicationsComponent },
+  { path: 'reservations', component: ReservationsComponent },
   {
     path: 'subscription',
     component: SubscriptionComponent,
