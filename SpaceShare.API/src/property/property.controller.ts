@@ -82,12 +82,16 @@ export class PropertyController {
     @Body() property: Prisma.PropertyUpdateInput,
     @UploadedFiles() files: Express.Multer.File[],
   ) {
-    return await this.propertyService.updateProperty(propertyId, property, files);
+    return await this.propertyService.updateProperty(
+      propertyId,
+      property,
+      files,
+    );
   }
 
   @UseGuards(JwtAuthGuard)
   @Post('reserve')
-  async reserveProperty(@Body() reservation: Reservation){
+  async reserveProperty(@Body() reservation: Reservation) {
     const [reserveResult, sendMailResult] = await Promise.all([
       this.propertyService.reserveProperty(reservation),
       this.propertyService.sendReservationMail(reservation),
@@ -97,38 +101,40 @@ export class PropertyController {
   }
 
   @Get('reserve/:id')
-  async getReservations(@Param('id') id: number){
+  async getReservations(@Param('id') id: number) {
     return await this.propertyService.getReservations(id);
   }
 
   @Get('applications/:id')
-  async getPropertyApplications(@Param('id') id: number){
+  async getPropertyApplications(@Param('id') id: number) {
     return await this.propertyService.getPropertyApplications(id);
   }
 
   @Get('space/history')
-  async getSpaceHistory(@Body() history: { tenant_id: number, property_id: number }){
-    return await this.propertyService
-      .getSpaceHistories(history.property_id, history.tenant_id);
+  getSpaceHistory(
+    @Query('tenant_id') tenantId: number,
+    @Query('property_id') propertyId: number,
+  ) {
+    return this.propertyService.getSpaceHistories(+propertyId, +tenantId);
   }
 
   @UseGuards(JwtAuthGuard)
   @Post('application/accept')
-  async acceptApplication(@Body() reservation: Reservation){
+  async acceptApplication(@Body() reservation: Reservation) {
     const [acceptResult] = await Promise.all([
       this.propertyService.acceptApplication(reservation.id),
       this.propertyService.sendReservationUpdate(reservation, 'Accepted'),
     ]);
-    
+
     return acceptResult;
   }
 
   @UseGuards(JwtAuthGuard)
   @Post('application/decline')
-  async rejectApplication(@Body() reservation: Reservation){
+  async rejectApplication(@Body() reservation: Reservation) {
     const [rejectResult] = await Promise.all([
       this.propertyService.rejectApplication(reservation.id),
-      this.propertyService.sendReservationUpdate(reservation, "Rejected"),
+      this.propertyService.sendReservationUpdate(reservation, 'Rejected'),
     ]);
 
     return rejectResult;
@@ -136,7 +142,7 @@ export class PropertyController {
 
   @UseGuards(JwtAuthGuard)
   @Post('application/delete/:id')
-  async deleteApplication(@Param('id') id: number){
+  async deleteApplication(@Param('id') id: number) {
     return await this.propertyService.deleteApplication(+id);
   }
 
