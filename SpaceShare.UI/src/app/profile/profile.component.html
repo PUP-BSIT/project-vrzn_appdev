@@ -16,14 +16,14 @@
                                         clip-rule="evenodd"></path>
                                 </svg>
                             </div>
-                            @if(!isEditMode) {
+                            @if(!isEditMode && !isForgot) {
                             <button class="btn btn-sm w-40 bg-primary text-white hover:bg-[#9A58B6]" (click)="editMode()">
                                 Edit
                             </button>
-                            <button class="btn btn-sm w-40 bg-white border-gray-300 text-gray-500 hover:bg-white">
+                            <button class="btn btn-sm w-40 bg-white border-gray-300 text-gray-500 hover:bg-white" (click)="Forgot()">
                                 Change Password
                             </button>
-                            } @else {
+                            } @if(isEditMode) {
                             <button class="btn btn-sm btn-primary w-36 bg-green-600 text-white hover:bg-green-500 border-none" (click)="onSubmit()"
                                 [disabled]="!editForm.valid"
                                 [ngClass]="{'disabled-button': !editForm.valid}">
@@ -32,11 +32,15 @@
                             <button class="btn btn-sm w-36 bg-white text-gray-500 border-gray-300 shadow-none" (click)="cancelChanges()">
                                 Cancel
                             </button>
+                            }@if(isForgot) {
+                                <button class="btn btn-sm w-36 bg-white text-gray-500 border-gray-300 shadow-none" (click)="cancelChanges()">
+                                    Cancel
+                                </button>
                             }
                         </div>
                     </div>
                     <div class="sm:w-2/3 p-4">
-                        @if(!isEditMode) {
+                        @if(!isEditMode && !isForgot) {
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="font-semibold text-3xl" for="first-name">
@@ -72,8 +76,21 @@
                                     {{ formatDate(currentUser.birthdate.toString(), "display") }}
                                 </p>
                             </div>
+                            <div class="mt-4">
+                                <label class="font-semibold text-3xl" for="email">
+                                    <span class="label-text">Email</span>
+                                </label>
+                                <p class="text-gray-800 text-xl font-medium">
+                                    {{ currentUser.email }}
+                                </p>
+                            </div>
                         </div>
-                        } @else {
+                        }@else if(isForgot){
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <p>test</p>    
+                            </div>
+                        } 
+                        @else if (isEditMode){
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="font-semibold text-3xl" for="first-name">
@@ -140,17 +157,17 @@
                                 <div class="error-message text-red-500 pl-3">Enter Valid Birthday and Must be 18 Years Old</div>
                                 }
                                 }
+                                <div class="mt-4">
+                                    <label class="font-semibold text-3xl" for="email">
+                                        <span class="label-text">Email</span>
+                                    </label>
+                                    <p class="text-gray-800 text-xl font-medium">
+                                        {{ currentUser.email }}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                         }
-                        <div class="mt-4">
-                            <label class="font-semibold text-3xl" for="email">
-                                <span class="label-text">Email</span>
-                            </label>
-                            <p class="text-gray-800 text-xl font-medium">
-                                {{ currentUser.email }}
-                            </p>
-                        </div>
                     </div>
                 </form>
             </div>
