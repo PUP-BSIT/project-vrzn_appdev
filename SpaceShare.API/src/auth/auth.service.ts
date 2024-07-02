@@ -9,7 +9,8 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { verification } from './dto/verify.dto';
 import { ConfigService } from '@nestjs/config';
 import { User } from '@prisma/client';
-import { IsPhoneNumber } from 'class-validator';
+import { randomBytes } from 'crypto';
+import { environment } from 'environment/app.settings';
 
 @Injectable()
 export class AuthService {
@@ -128,10 +129,13 @@ export class AuthService {
     });
   }
 
-  async changePassword(userId: number, currentPassword: string, newPassword){
-    const user = this.prismaService.user.findUnique({ where: { id: userId }});
+  async changePassword(userId: number, currentPassword: string, newPassword) {
+    const user = this.prismaService.user.findUnique({ where: { id: userId } });
 
-    if(!user || !(await this.comparePassword(currentPassword, (await user).password))){
+    if (
+      !user ||
+      !(await this.comparePassword(currentPassword, (await user).password))
+    ) {
       throw new BadRequestException('Current password is incorrect');
     }
 
@@ -139,10 +143,36 @@ export class AuthService {
 
     await this.prismaService.user.update({
       where: { id: userId },
-      data: { password: hashedPassword }
-    })
+      data: { password: hashedPassword },
+    });
 
-    return { success: true, message: 'Password change successful'}
+    return { success: true, message: 'Password change successful' };
+  }
+
+  async forgotPassword(email: string) {
+    const user = await this.prismaService.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) throw new BadRequestException('Email does not exist');
+
+    const token = this.generateResetToken();
+    const oneHour = 360000;
+
+    await this.prismaService.user.update({
+      where: { email },
+      data: {
+        resetPasswordToken: token,
+        resetPasswordExpires: new Date(Date.now() + oneHour),
+      },
+    });
+
+    await this.sendResetPasswordMail(email, token);
+
+    return {
+      success: true,
+      message: 'Reset password mail sent'
+    }
   }
 
   async sendMail(body: verification) {
@@ -289,10 +319,31 @@ export class AuthService {
 
     return email;
   }
+
+  async sendResetPasswordMail(email: string, token: string){
+    const sendMail = await this.mailService.sendMail({
+      to: email,
+      subject: 'Space Share Reset Password',
+      html: `
+        <p>follow this link to resetPassword:</p>
+
+        <a href="${environment.originUrl}/auth/reset?$token=${token}">RESET PASSWORD</a>
+
+        <p>This is team verizon</p>
+      `,
+    });
+
+    return sendMail;
+  }
+
   // #region helper functions
   async hashPassword(password: string) {
     const saltOrRounds = 10;
     return await bcrypt.hash(password, saltOrRounds);
+  }
+
+  private generateResetToken() {
+    return randomBytes(20).toString('hex');
   }
 
   async comparePassword(password: string, hash: string) {
