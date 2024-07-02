@@ -10,6 +10,7 @@ import { InfoService } from './info.service';
 import { CookieService } from 'ngx-cookie-service';
 import { ReserveService } from '../../reservations/reserve.service';
 import { Reservation } from '../../../model/reservation.model';
+import { SpaceHistory } from '../../../model/history.model';
 
 @Component({
   selector: 'app-info',
@@ -26,6 +27,7 @@ export class InfoComponent implements OnInit, OnChanges {
   userId = this.cookie.get('id');
   isLoggedIn = false;
   hasApplication = false;
+  hasHistory = false;
 
   constructor(
     private infoService: InfoService,
@@ -62,9 +64,9 @@ export class InfoComponent implements OnInit, OnChanges {
     else { this.isLoggedIn = true; }
 
     this.fetchApplication();
+    this.checkSpaceHistory();
 
     this.propertyLoaded = true;
-
   }
 
   private fetchApplication(): void {
@@ -75,6 +77,19 @@ export class InfoComponent implements OnInit, OnChanges {
           (app) => app.property_id === this.propertyId
         );
       });
+  }
+
+  private checkSpaceHistory(): void {
+    this.infoService.hasSpaceHistory(+this.userId, +this.propertyId).subscribe({
+      next: (data: SpaceHistory[]) => {
+        if(data.length > 0){
+          this.hasApplication = true;
+        }
+      },
+      error: () => {
+        location.href = '/went-wrong'
+      }
+    })
   }
 
   toggleWishlist() {
