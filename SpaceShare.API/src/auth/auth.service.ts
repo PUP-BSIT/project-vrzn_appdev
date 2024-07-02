@@ -158,7 +158,7 @@ export class AuthService {
     if (!user) throw new BadRequestException('Email does not exist');
 
     const token = this.generateResetToken();
-    const oneHour = 360000;
+    const oneHour = 3600000;
 
     await this.prismaService.user.update({
       where: { email },
