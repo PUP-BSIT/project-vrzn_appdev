@@ -27,7 +27,7 @@ export class ProfileComponent implements OnInit {
   passwordFieldType: string = 'password';
   confirmPasswordFieldType: string = 'password';
   isUpdateInvalid!: boolean;
-
+  warning!: boolean;
 
   private unsubscribe$ = new Subject<void>();
 
@@ -56,10 +56,10 @@ export class ProfileComponent implements OnInit {
     );
 
     this.alertService.updateInvalid$
-    .pipe(takeUntil(this.unsubscribe$))
-    .subscribe((value) => {
-      this.isUpdateInvalid = value;
-    });
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((value) => {
+        this.isUpdateInvalid = value;
+      });
 
     this.editForm = this.formBuilder.group({
       firstName: [
@@ -90,15 +90,18 @@ export class ProfileComponent implements OnInit {
   }
 
   toggleOldPasswordVisibility(): void {
-    this.oldPasswordFieldType = this.oldPasswordFieldType === 'password' ? 'text' : 'password';
+    this.oldPasswordFieldType =
+      this.oldPasswordFieldType === 'password' ? 'text' : 'password';
   }
 
   togglePasswordVisibility(): void {
-    this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
+    this.passwordFieldType =
+      this.passwordFieldType === 'password' ? 'text' : 'password';
   }
 
   toggleConfirmPasswordVisibility(): void {
-    this.confirmPasswordFieldType = this.confirmPasswordFieldType === 'password' ? 'text' : 'password';
+    this.confirmPasswordFieldType =
+      this.confirmPasswordFieldType === 'password' ? 'text' : 'password';
   }
 
   editMode() {
@@ -118,34 +121,6 @@ export class ProfileComponent implements OnInit {
       phoneNumber: user.phone_number[0].number,
       birthdate: this.formatDate(user.birthdate.toString()),
     });
-  }
-
-  get oldPasswordControl(): AbstractControl {
-    return this.passForm.get('old_password')!;
-  }
-
-  get passwordControl(): AbstractControl {
-    return this.passForm.get('password')!;
-  }
-
-  get confirmPasswordControl(): AbstractControl {
-    return this.passForm.get('confirmPassword')!;
-  }
-
-  get firstNameControl(): AbstractControl {
-    return this.editForm.get('firstName')!;
-  }
-
-  get lastNameControl(): AbstractControl {
-    return this.editForm.get('lastName')!;
-  }
-
-  get phoneNumberControl() {
-    return this.editForm.get('phoneNumber')!;
-  }
-
-  get birthdateControl(): AbstractControl {
-    return this.editForm.get('birthdate')!;
   }
 
   clearError(controlName: string) {
@@ -194,43 +169,45 @@ export class ProfileComponent implements OnInit {
   cancelChanges(): void {
     this.isEditMode = false;
     this.isForgot = false;
-    this.passForm.reset();
+    this.onReset();
   }
 
   onChangePassword(): void {
     if (this.passForm.invalid) {
       return;
     }
-  
+
+    const oldPass = this.oldPasswordControl.value;
+    const newPass = this.passwordControl.value;
+
+    if(oldPass === newPass) {
+      this.warning = true;
+      this.onReset();
+      return;
+    }
+
     const { old_password, password } = this.passForm.value;
-  
+
     const passwordChangeRequest = {
       userId: +this.user_id,
       currentPassword: old_password,
       newPassword: password,
     };
-  
-    console.log('Password Change Request:', passwordChangeRequest);
-  
+
     this.profileService
       .changePassword(passwordChangeRequest)
       .pipe(
-        tap((response) => {
+        tap(() => {
           this.updatedSuccess = true;
           this.passForm.reset();
         }),
         catchError((error) => {
           this.isUpdateInvalid = true;
           return of(error);
-        }),
-        finalize(() => {
-          console.log('Password change operation finalized');
         })
       )
       .subscribe();
   }
-  
-  
 
   formatDate(dateString: string, use?: string): string {
     const date = new Date(dateString);
@@ -242,4 +219,34 @@ export class ProfileComponent implements OnInit {
     }
     return `${year}-${month}-${day}`;
   }
+
+  //#region getter functions
+  get oldPasswordControl(): AbstractControl {
+    return this.passForm.get('old_password')!;
+  }
+
+  get passwordControl(): AbstractControl {
+    return this.passForm.get('password')!;
+  }
+
+  get confirmPasswordControl(): AbstractControl {
+    return this.passForm.get('confirmPassword')!;
+  }
+
+  get firstNameControl(): AbstractControl {
+    return this.editForm.get('firstName')!;
+  }
+
+  get lastNameControl(): AbstractControl {
+    return this.editForm.get('lastName')!;
+  }
+
+  get phoneNumberControl() {
+    return this.editForm.get('phoneNumber')!;
+  }
+
+  get birthdateControl(): AbstractControl {
+    return this.editForm.get('birthdate')!;
+  }
+  //#endregion
 }
