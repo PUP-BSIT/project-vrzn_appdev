@@ -6,7 +6,9 @@ import { CookieService } from 'ngx-cookie-service';
 import { ProfileService } from './profile.service';
 import { PasswordValidator } from '../profile/custom-validators';
 import { PasswordMatchValidator } from './custom-validators';
-
+import { catchError, finalize, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { AlertService } from '../alert/alert.service';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -19,8 +21,8 @@ export class ProfileComponent implements OnInit {
   currentUser!: User;
   user_id = this.cookie.get('id');
   passForm!: FormGroup;
+  updated = false;
 
-  
   oldPasswordFieldType: string = 'password';
   passwordFieldType: string = 'password';
   confirmPasswordFieldType: string = 'password';
@@ -34,15 +36,19 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.profileService.getUserProfile(+this.user_id).subscribe((user) => {
       this.currentUser = user;
+      this.initializeForm(user);
     });
 
-    this.passForm = this.formBuilder.group({
-      old_password: ['', [Validators.required, Validators.minLength(8)]],
-      password: ['', [PasswordValidator.strong]],
-      confirmPassword: ['', Validators.required],
-    }, {
-      validators: PasswordMatchValidator.passwordsMatch()
-    });
+    this.passForm = this.formBuilder.group(
+      {
+        old_password: ['', [Validators.required, Validators.minLength(8)]],
+        password: ['', [PasswordValidator.strong, Validators.maxLength(40)]],
+        confirmPassword: ['', Validators.required],
+      },
+      {
+        validators: PasswordMatchValidator.passwordsMatch(),
+      }
+    );
 
     this.editForm = this.formBuilder.group({
       firstName: [
@@ -179,6 +185,41 @@ export class ProfileComponent implements OnInit {
     this.isForgot = false;
     this.passForm.reset();
   }
+
+  onChangePassword(): void {
+    if (this.passForm.invalid) {
+      return;
+    }
+  
+    const { old_password, password } = this.passForm.value;
+  
+    const passwordChangeRequest = {
+      userId: +this.user_id,
+      currentPassword: old_password,
+      newPassword: password,
+    };
+  
+    console.log('Password Change Request:', passwordChangeRequest);
+  
+    this.profileService
+      .changePassword(passwordChangeRequest)
+      .pipe(
+        tap((response) => {
+          alert('Password changed successfully');
+          this.passForm.reset();
+        }),
+        catchError((error) => {
+          alert('Failed to change password');
+          return of(error);
+        }),
+        finalize(() => {
+          console.log('Password change operation finalized');
+        })
+      )
+      .subscribe();
+  }
+  
+  
 
   formatDate(dateString: string, use?: string): string {
     const date = new Date(dateString);
