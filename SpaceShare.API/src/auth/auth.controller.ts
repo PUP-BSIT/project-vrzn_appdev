@@ -12,18 +12,18 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('signup')
-  signup(@Body() dto: CreateUserDto): Promise<Object> {
-    return this.authService.signup(dto);
+  async signup(@Body() dto: CreateUserDto): Promise<Object> {
+    return await this.authService.signup(dto);
   }
 
   @Post('signin')
-  signin(@Body() dto: SignInDto, @Res() response): Promise<Object> {
-    return this.authService.signin(dto, response);
+  async signin(@Body() dto: SignInDto, @Res() response): Promise<Object> {
+    return await this.authService.signin(dto, response);
   }
 
   @Get('signout')
-  signout(@Res() response): Promise<Object> {
-    return this.authService.signout(response);
+  async signout(@Res() response): Promise<Object> {
+    return await this.authService.signout(response);
   }
 
   @Get(':id')
@@ -40,14 +40,19 @@ export class AuthController {
   }
 
   @Post('verify')
-  sendMailer(@Body() verification: verification) {
-    return this.authService.sendMail(verification);
+  async sendMailer(@Body() verification: verification) {
+    return await this.authService.sendMail(verification);
+  }
+
+  @Post('forgot')
+  async forgotPassword(@Body() mail : { email: string}){
+    return await this.authService.forgotPassword(mail.email);
   }
 
   @UseGuards(JwtAuthGuard)
   @Post('password/change')
-  changePassword(@Body() changePassword: ChangePassword){
+  async changePassword(@Body() changePassword: ChangePassword){
     const { userId, currentPassword, newPassword } = changePassword;
-    return this.authService.changePassword(userId, currentPassword, newPassword);
+    return await this.authService.changePassword(userId, currentPassword, newPassword);
   }
 }
