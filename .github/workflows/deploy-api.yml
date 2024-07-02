@@ -19,29 +19,20 @@ jobs:
       run: npm install
       working-directory: ./SpaceShare.API
 
-    - name: List root directory contents
-      run: ls -la
-
-    - name: List SpaceShare.API directory contents
-      run: ls -la ./SpaceShare.API
-
-    - name: List environment directory contents
-      run: ls -la ./SpaceShare.API/environment
-
     - name: Substitute variables in environment file (prod)
       if: github.ref == 'refs/heads/main'
       run: |
-           sed -i "s~originUrl: '.*'~originUrl: '${{ secrets.API_URL }}'~" ./SpaceShare.API/environment/appsettings.ts
+           sed -i "s~originUrl: '.*'~originUrl: '${{ secrets.API_URL }}'~" ./SpaceShare.API/environment/app.settings.ts
 
     - name: Substitute variables in environment file (uat)
       if: github.ref == 'refs/heads/uat'
       run: |
-           sed -i "s~originUrl: '.*'~originUrl: '${{ secrets.UAT_API_URL }}'~" ./SpaceShare.API/environment/appsettings.ts
+           sed -i "s~originUrl: '.*'~originUrl: '${{ secrets.UAT_API_URL }}'~" ./SpaceShare.API/environment/app.settings.ts
 
     - name: Substitute variables in environment file (dev)
       if: github.ref == 'refs/heads/development'
       run: |
-           sed -i "s~originUrl: '.*'~originUrl: '${{ secrets.DEV_API_URL }}'~" ./SpaceShare.API/environment/appsettings.ts
+           sed -i "s~originUrl: '.*'~originUrl: '${{ secrets.DEV_API_URL }}'~" ./SpaceShare.API/environment/app.settings.ts
 
     - name: Build Nest API
       run: npm run build
