@@ -72,6 +72,7 @@ import { ApplicationCardComponent } from './applications/application-card/applic
 import { RatingComponent } from './property/info/rating/rating.component';
 import { RatingService } from './property/info/rating/rating.service';
 import { ReservationCardService } from './reservations/reservation-card/reservation-card.service';
+import { ResetPasswordService } from './landing/reset_password/reset-password.service';
 
 @NgModule({
   declarations: [
@@ -158,7 +159,8 @@ import { ReservationCardService } from './reservations/reservation-card/reservat
     ReserveService,
     ApplicationsService,
     RatingService,
-    ReservationCardService
+    ReservationCardService,
+    ResetPasswordService
   ],
   bootstrap: [AppComponent]
 })

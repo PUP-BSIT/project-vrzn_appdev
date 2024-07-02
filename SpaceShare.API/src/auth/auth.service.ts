@@ -151,7 +151,7 @@ export class AuthService {
 
   async forgotPassword(email: string) {
     const user = await this.prismaService.user.findUnique({
-      where: { email },
+      where: { email, }
     });
 
     if (!user) throw new BadRequestException('Email does not exist');
@@ -327,7 +327,7 @@ export class AuthService {
       html: `
         <p>follow this link to resetPassword:</p>
 
-        <a href="${environment.originUrl}/auth/reset?$token=${token}">RESET PASSWORD</a>
+        <a href="${environment.originUrl}/auth/reset?token=${token}">RESET PASSWORD</a>
 
         <p>This is team verizon</p>
       `,
