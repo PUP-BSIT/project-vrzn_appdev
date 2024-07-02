@@ -17,7 +17,7 @@ export class AppComponent implements OnInit{
     .subscribe({
       next: data => {
         if(data instanceof NavigationEnd){
-          const excludedRoutes = ['unauthorized', 'went-wrong']
+          const excludedRoutes = ['unauthorized', 'went-wrong', 'auth/reset']
           this.hideHeaderFooter = excludedRoutes.some(route => this.router.url.includes(route));          
         }
       }

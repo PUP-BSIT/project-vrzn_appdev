@@ -72,6 +72,9 @@ const routes: Routes = [
   { path: 'reset-password/reset-form', component: ResetFormComponent },
   { path: 'reservations', component: ReservationsComponent },
   {
+    path: 'auth/reset', component: ResetFormComponent
+  },
+  {
     path: 'subscription',
     component: SubscriptionComponent,
     canActivate: [AuthGuard],
