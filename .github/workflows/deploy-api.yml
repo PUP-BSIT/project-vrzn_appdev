@@ -19,6 +19,15 @@ jobs:
       run: npm install
       working-directory: ./SpaceShare.API
 
+    - name: List root directory contents
+      run: ls -la
+
+    - name: List SpaceShare.API directory contents
+      run: ls -la ./SpaceShare.API
+
+    - name: List environment directory contents
+      run: ls -la ./SpaceShare.API/environment
+
     - name: Substitute variables in environment file (prod)
       if: github.ref == 'refs/heads/main'
       run: |
