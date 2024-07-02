@@ -20,6 +20,11 @@ export class ProfileComponent implements OnInit {
   user_id = this.cookie.get('id');
   passForm!: FormGroup;
 
+  
+  oldPasswordFieldType: string = 'password';
+  passwordFieldType: string = 'password';
+  confirmPasswordFieldType: string = 'password';
+
   constructor(
     private formBuilder: FormBuilder,
     private cookie: CookieService,
@@ -67,6 +72,18 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  toggleOldPasswordVisibility(): void {
+    this.oldPasswordFieldType = this.oldPasswordFieldType === 'password' ? 'text' : 'password';
+  }
+
+  togglePasswordVisibility(): void {
+    this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
+  }
+
+  toggleConfirmPasswordVisibility(): void {
+    this.confirmPasswordFieldType = this.confirmPasswordFieldType === 'password' ? 'text' : 'password';
+  }
+
   editMode() {
     this.isEditMode = true;
     this.isForgot = false;
@@ -84,6 +101,10 @@ export class ProfileComponent implements OnInit {
       phoneNumber: user.phone_number[0].number,
       birthdate: this.formatDate(user.birthdate.toString()),
     });
+  }
+
+  get oldPasswordControl(): AbstractControl {
+    return this.passForm.get('old_password')!;
   }
 
   get passwordControl(): AbstractControl {
