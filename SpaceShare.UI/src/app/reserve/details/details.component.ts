@@ -22,6 +22,7 @@ export class DetailsComponent implements OnInit {
   minDate!: string;
   maxDate!: string;
   isDateValid = true;
+  isDateTouched = false;  // Add this flag
   showAdultValidationMessage = false;
   showCharacterLimitAlert = false;
   showMessageRequiredAlert = false;
@@ -74,12 +75,6 @@ export class DetailsComponent implements OnInit {
     this.guests[type]++;
   }
 
-  onMessageInput(): void {
-    this.checkMessageLength();
-    this.checkMessageRequired();
-  }
-
-  
   decrement(type: 'adults' | 'children' | 'infants') {
     if (type === 'adults' && this.guests.adults > 1) {
       this.guests.adults--;
@@ -146,6 +141,7 @@ export class DetailsComponent implements OnInit {
   }
 
   validateDate(input: string): void {
+    this.isDateTouched = true;  // Mark the date as touched
     const inputDate = new Date(input);
     const minDate = new Date(this.minDate);
     const maxDate = new Date(this.maxDate);
@@ -159,6 +155,11 @@ export class DetailsComponent implements OnInit {
       this.isDateValid = true;
       this.dates = this.formatDate(inputDate);
     }
+  }
+
+  onMessageInput(): void {
+    this.checkMessageLength();
+    this.checkMessageRequired();
   }
 
   checkMessageLength(): void {
