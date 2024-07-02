@@ -1,0 +1,34 @@
+<!-- Open the modal using ID.showModal() method -->
+<button class="btn" (click)="openModal()">Rate Property</button>
+<dialog #ratingModal class="modal">
+    <div class="modal-box flex flex-col justify-center align-middle w-72">
+        <h1 class="text-center font-semibold">RATE PROPERTY</h1>
+        <div class="modal-action">
+            <form method="dialog" (ngSubmit)="submitRating()">
+                <div class="rating rating-lg rating-half ml-4 mb-4">
+                    <input type="radio" [(ngModel)]="rating" name="rating-10" class="rating-hidden" [value]="0"/>
+                    <input type="radio" [(ngModel)]="rating" name="rating-10" class="mask mask-star-2 mask-half-1 bg-yellow-500" [value]="0.5" />
+                    <input type="radio" [(ngModel)]="rating" name="rating-10" class="mask mask-star-2 mask-half-2 bg-yellow-500" [value]="1" />
+                    <input type="radio" [(ngModel)]="rating" name="rating-10" class="mask mask-star-2 mask-half-1 bg-yellow-500" [value]="1.5" />
+                    <input type="radio" [(ngModel)]="rating" name="rating-10" class="mask mask-star-2 mask-half-2 bg-yellow-500" [value]="2" />
+                    <input type="radio" [(ngModel)]="rating" name="rating-10" class="mask mask-star-2 mask-half-1 bg-yellow-500" [value]="2.5" />
+                    <input type="radio" [(ngModel)]="rating" name="rating-10" class="mask mask-star-2 mask-half-2 bg-yellow-500" [value]="3"/>
+                    <input type="radio" [(ngModel)]="rating" name="rating-10" class="mask mask-star-2 mask-half-1 bg-yellow-500" [value]="3.5" />
+                    <input type="radio" [(ngModel)]="rating" name="rating-10" class="mask mask-star-2 mask-half-2 bg-yellow-500" [value]="4" />
+                    <input type="radio" [(ngModel)]="rating" name="rating-10" class="mask mask-star-2 mask-half-1 bg-yellow-500" [value]="4.5" />
+                    <input type="radio" [(ngModel)]="rating" name="rating-10" class="mask mask-star-2 mask-half-2 bg-yellow-500" [value]="5" />
+                </div>
+                <button class="btn w-full">Rate</button>
+            </form>
+        </div>
+    </div>
+</dialog>
+@if(submitted){
+    <app-wait />
+}
+@if(success){
+    <app-alert [mainMessage]="'Rating Submitted!'" [state]="'success'"
+        [subMessage]="'Thank you for making Space Share better!'" />
+}@if(error){
+    <app-alert [mainMessage]="'Error'" [state]="'error'" [subMessage]="'Rating failed, please try again later.'" />
+}
