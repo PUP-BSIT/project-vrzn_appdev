@@ -1,4 +1,4 @@
-<div class="card bg-white shadow-xl rounded-xl overflow-hidden cursor-pointer flex flex-col sm:flex-row">
+<div class="card bg-white shadow-xl rounded-xl h-36 overflow-hidden cursor-pointer flex flex-col sm:flex-row">
     <div class="pic sm:w-1/3 my-3 ml-3">
         <img
           [src]="property.images[0].image_url"
@@ -13,7 +13,8 @@
           {{ property.title| slice : 0 : 12 }}
           {{ property.title.length > 12 ? "..." : "" }}
         </span>
-        <div class="text-gray-500 text-sm max-h-28 min-h-28 flex-wrap break-words overflow-hidden mt-5">
+        <div class="divider my-0"></div>
+        <div class="text-gray-500 text-sm max-h-28 min-h-28 flex-wrap break-words overflow-hidden">
           <span>Location: </span><span>{{ property.city }}</span><br>
           <span>Applied: </span><span>{{ reservation.created_at | date : 'MMM d, y' }}</span><br>
           <span>Status: </span><span>{{ reservation.status }}</span>

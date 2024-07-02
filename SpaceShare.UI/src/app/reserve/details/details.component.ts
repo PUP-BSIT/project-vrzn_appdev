@@ -156,7 +156,7 @@ export class DetailsComponent implements OnInit {
   }
 
   checkMessageLength(): void {
-    if (this.message.length >= 320) {
+    if (this.message.length >= 125) {
       this.showCharacterLimitAlert = true;
     } else {
       this.showCharacterLimitAlert = false;
