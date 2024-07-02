@@ -81,15 +81,15 @@
         </div>
       }
     </div>
-    <button
+      <button
       class="btn 
-           btn-primary 
-           text-white 
-             bg-primary 
-             border-none 
-           hover:bg-[#9A58B6] 
-             w-full"
-      [disabled]="!message.trim() || !isDateValid"
+            btn-primary 
+            text-white 
+            bg-primary 
+            border-none 
+            hover:bg-[#9A58B6] 
+            w-full"
+      [disabled]="!message.trim() || !isDateValid || !isDateTouched"
       (click)="openModal('summary')">
       Continue
     </button>
