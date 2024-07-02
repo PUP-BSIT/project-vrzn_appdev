@@ -1,36 +1,38 @@
-<div class="bg-white shadow-lg rounded-lg p-4 mb-4 flex flex-col sm:flex-row relative w-full sm:w-11/12 md:w-4/12 xl:w-11/12">
-    <div class="absolute top-0 right-0 m-2 dropdown dropdown-end">
-        <div tabindex="0" role="button" class="btn btn-ghost hover:bg-white btn-circle">
-            <div class="relative w-5 h-5 overflow-hidden rounded-lg">
-                <img src="../../../assets/kebab.svg" alt="options" class=" bg-white w-5 h-5">
-            </div>
+<div class="card bg-white shadow-xl rounded-xl overflow-hidden cursor-pointer flex flex-col sm:flex-row">
+    <div class="pic sm:w-1/3 my-3 ml-3">
+        <img
+          [src]="property.images[0].image_url"
+          alt="House 1"
+          class="w-full h-32 sm:h-full object-cover rounded-xl"
+          [routerLink]="['/space/', property.id]"
+        />
+      </div>
+    <div class="p-4 flex-1">
+      <div [routerLink]="['/space/', property.id]">
+        <span class="text-lg sm:text-xl md:text-base xl:text-xl font-semibold sm:mt-5 md:mt-0">
+          {{ property.title| slice : 0 : 12 }}
+          {{ property.title.length > 12 ? "..." : "" }}
+        </span>
+        <div class="divider my-0"></div>
+        <div class="text-gray-500 text-sm max-h-28 min-h-28 flex-wrap break-words overflow-hidden">
+          <span>Location: </span><span>{{ property.city }}</span><br>
+          <span>Applied: </span><span>{{ reservation.created_at | date : 'MMM d, y' }}</span><br>
+          <span>Status: </span><span>{{ reservation.status }}</span>
         </div>
-        <ul tabindex="0" class="menu 
-               menu-sm 
-               dropdown-content  
-               z-20 
-               p-2 
-               shadow-md
-               bg-white 
-               rounded-none     
-               w-auto">
-            <li><a class="font-bold">Edit</a></li>
-            <li><a class="font-bold">Delete</a></li>
+        @if (reservation.status === 'Accepted') {
+            <button class="btn btn-xs sm:btn-sm">Rate</button>
+        }
+      </div>
+      <div class="absolute top-0 right-0 m-2 dropdown dropdown-end">
+        <div tabindex="0" role="button" class="btn btn-ghost bg-white hover:bg-white btn-circle">
+          <div class="relative w-5 h-5 overflow-hidden rounded-lg">
+            <img src="../../../assets/kebab.svg" alt="options" class=" w-5 h-5">
+          </div>
+        </div>
+        <ul tabindex="0" class="menu menu-sm dropdown-content z-20 p-2 shadow-md bg-white rounded-none w-auto">
+          <li><a class="font-bold">Edit</a></li>
+          <li><a class="font-bold">Delete</a></li>
         </ul>
+      </div>
     </div>
-    <img src="{{ property.images[0].image_url }}" alt="Map 1"
-        class="w-full sm:w-32 h-32 object-cover rounded-lg mr-4 cursor-pointer" [routerLink]="['/space/', property.id]">
-    <div class="cursor-pointer flex-1 mt-4 sm:mt-0" [routerLink]="['/space/', property.id]">
-        <div class="flex items-center mb-2">
-            <h2 class="text-lg sm:text-xl font-semibold w-11/12">{{ property.title }}</h2>
-        </div>
-        <div class="leading-8 text-sm sm:text-base">
-            <p>Location: {{ property.city }}</p>
-            <p>Applied: {{ reservation.created_at | date: 'MMM d, y' }}</p>
-            <p>Status: {{ reservation.status }}</p>
-            <div *ngIf="reservation.status === 'Accepted'">
-                <button class="btn btn-xs sm:btn-sm">Rate</button>
-            </div>
-        </div>
-    </div>
-</div> 
+  </div>

@@ -1,0 +1,9 @@
+@media (max-width: 640px) {
+    .pic{
+        margin: 0px;
+    }
+
+    .pic img {
+        border-radius: 0%;
+    }
+}
