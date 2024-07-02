@@ -5,6 +5,12 @@
           [state]="'success'"
           [subMessage]="'Dont share your password to anyone!'"
         />
+    }@else if(isUpdateInvalid){
+        <app-alert
+          [mainMessage]="'Old Password is Invalid'"
+          [state]="'error'"
+          [subMessage]="'Please Enter valid Old Password '"
+        />
     }
     <div class="card bg-white w-full sm:w-4/5 md:w-11/12 lg:w-3/4 xl:w-3/6 2xl:w-2/5 shadow-xl">
         <div class="card-body">
