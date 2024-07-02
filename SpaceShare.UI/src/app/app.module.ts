@@ -69,6 +69,8 @@ import { ReserveService } from './reservations/reserve.service';
 import { ApplicationsComponent } from './applications/applications.component';
 import { ApplicationsService } from './applications/applications.service';
 import { ApplicationCardComponent } from './applications/application-card/application-card.component';
+import { RatingComponent } from './property/info/rating/rating.component';
+import { RatingService } from './property/info/rating/rating.service';
 
 @NgModule({
   declarations: [
@@ -117,6 +119,7 @@ import { ApplicationCardComponent } from './applications/application-card/applic
     ReservationCardComponent,
     ApplicationsComponent,
     ApplicationCardComponent,
+    RatingComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -152,7 +155,8 @@ import { ApplicationCardComponent } from './applications/application-card/applic
     PropertyCardService,
     AlertService,
     ReserveService,
-    ApplicationsService
+    ApplicationsService,
+    RatingService
   ],
   bootstrap: [AppComponent]
 })
