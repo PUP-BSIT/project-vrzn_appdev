@@ -1,4 +1,11 @@
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import {
+  AbstractControl,
+  ValidationErrors,
+  ValidatorFn,
+  FormControl,
+  FormGroup,
+} from '@angular/forms';
+
 
 export class CustomValidators {
   static adultAgeValidator(fieldName: string): ValidatorFn {
@@ -27,3 +34,39 @@ export class CustomValidators {
 export interface ValidationResult {
   [key: string]: boolean;
 }
+
+export class PasswordValidator {
+  public static strong(control: FormControl): ValidationResult | null {
+    const hasNumber = /\d/.test(control.value);
+    const hasUpper = /[A-Z]/.test(control.value);
+    const hasLower = /[a-z]/.test(control.value);
+    const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(control.value);
+    const valid = hasNumber && hasUpper && hasLower && hasSpecial;
+
+    if (!valid) {
+      return { strong: true };
+    }
+    return null;
+  }
+}
+export const MatchPasswordValidator: ValidatorFn = (
+  control: AbstractControl
+): ValidationErrors | null => {
+  const formGroup = control.parent;
+  if (!formGroup) {
+    return null;
+  }
+
+  const password = formGroup.get('password');
+  const confirmPassword = formGroup.get('confirmPassword');
+
+  if (
+    !password ||
+    !confirmPassword ||
+    password.value !== confirmPassword.value
+  ) {
+    return { passwordMismatch: true };
+  }
+
+  return null;
+};
