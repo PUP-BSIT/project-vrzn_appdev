@@ -6,6 +6,7 @@ import { verification } from './dto/verify.dto';
 import { User } from '@prisma/client';
 import { ChangePassword } from './dto/change.password.dto';
 import { JwtAuthGuard } from './jwt.guard';
+import { ResetPasswordDto } from './dto/reset.password.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -45,8 +46,13 @@ export class AuthController {
   }
 
   @Post('forgot')
-  async forgotPassword(@Body() mail : { email: string}){
+  async forgotPassword(@Body() mail: { email: string}){
     return await this.authService.forgotPassword(mail.email);
+  }
+
+  @Post('reset')
+  async resetPassword(@Body() resetPassword: ResetPasswordDto){
+    return await this.authService.resetPassword(resetPassword);
   }
 
   @UseGuards(JwtAuthGuard)
