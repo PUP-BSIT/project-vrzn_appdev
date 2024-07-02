@@ -141,7 +141,7 @@ export class PropertyController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('application/delete/:id')
+  @Delete('application/delete/:id')
   async deleteApplication(@Param('id') id: number) {
     return await this.propertyService.deleteApplication(+id);
   }
