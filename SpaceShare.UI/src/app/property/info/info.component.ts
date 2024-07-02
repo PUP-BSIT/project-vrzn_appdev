@@ -33,6 +33,12 @@ export class InfoComponent implements OnInit, OnChanges {
     private applicationService: ReserveService
   ) {}
 
+  ngOnInit(): void {
+    if (this.property) {
+      this.propertyLoaded = true;
+    }
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['property'] && !changes['property'].firstChange) {
       this.ownerId = this.property.owner_id;
@@ -46,26 +52,20 @@ export class InfoComponent implements OnInit, OnChanges {
         if (data) this.isWishlisted = data;
       });
 
-      if(!this.userId){
+      if (!this.userId) {
         this.propertyLoaded = true;
         return;
       } else this.isLoggedIn = true;
 
-      this.applicationService.getApplications().subscribe(
-        (data: Reservation[])=> {
-          data.forEach(data => {
-            if(data.property_id === this.propertyId) this.hasApplication = true;
+      this.applicationService
+        .getApplications()
+        .subscribe((data: Reservation[]) => {
+          data.forEach((data) => {
+            if (data.property_id === this.propertyId)
+              this.hasApplication = true;
           });
-        }
-      
-      );
+        });
 
-      this.propertyLoaded = true;
-    }
-  }
-
-  ngOnInit(): void {
-    if (this.property) {
       this.propertyLoaded = true;
     }
   }
