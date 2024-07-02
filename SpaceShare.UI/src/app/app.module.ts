@@ -71,6 +71,7 @@ import { ApplicationsService } from './applications/applications.service';
 import { ApplicationCardComponent } from './applications/application-card/application-card.component';
 import { RatingComponent } from './property/info/rating/rating.component';
 import { RatingService } from './property/info/rating/rating.service';
+import { ReservationCardService } from './reservations/reservation-card/reservation-card.service';
 
 @NgModule({
   declarations: [
@@ -156,7 +157,8 @@ import { RatingService } from './property/info/rating/rating.service';
     AlertService,
     ReserveService,
     ApplicationsService,
-    RatingService
+    RatingService,
+    ReservationCardService
   ],
   bootstrap: [AppComponent]
 })
