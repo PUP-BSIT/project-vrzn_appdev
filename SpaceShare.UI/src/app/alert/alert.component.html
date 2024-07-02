@@ -30,6 +30,12 @@
                     class="btn w-full align-middle bg-primary border-none outline-none hover:bg-[#9A58B6] text-white">Go To
                     Property</a>
             </div>
+        }
+        @else if(state === 'success' && mainMessage === "Reset Success"){
+            <div class="flex justify-center">
+                <a href="/home"
+                    class="btn w-full align-middle bg-primary border-none outline-none hover:bg-[#9A58B6] text-white">Okay</a>
+            </div>
         }@else {
             <div class="flex justify-center">
                 <button (click)="isShownMethod()" 
