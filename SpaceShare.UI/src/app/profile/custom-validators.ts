@@ -1,11 +1,4 @@
-import {
-  AbstractControl,
-  ValidationErrors,
-  ValidatorFn,
-  FormControl,
-  FormGroup,
-} from '@angular/forms';
-
+import { AbstractControl, ValidationErrors, ValidatorFn, FormControl, FormGroup } from '@angular/forms';
 
 export class CustomValidators {
   static adultAgeValidator(fieldName: string): ValidatorFn {
@@ -49,24 +42,18 @@ export class PasswordValidator {
     return null;
   }
 }
-export const MatchPasswordValidator: ValidatorFn = (
-  control: AbstractControl
-): ValidationErrors | null => {
-  const formGroup = control.parent;
-  if (!formGroup) {
-    return null;
+
+export class PasswordMatchValidator {
+  static passwordsMatch(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const password = control.get('password');
+      const confirmPassword = control.get('confirmPassword');
+
+      if (!password || !confirmPassword) {
+        return null;
+      }
+
+      return password.value === confirmPassword.value ? null : { passwordsMismatch: true };
+    };
   }
-
-  const password = formGroup.get('password');
-  const confirmPassword = formGroup.get('confirmPassword');
-
-  if (
-    !password ||
-    !confirmPassword ||
-    password.value !== confirmPassword.value
-  ) {
-    return { passwordMismatch: true };
-  }
-
-  return null;
-};
+}
