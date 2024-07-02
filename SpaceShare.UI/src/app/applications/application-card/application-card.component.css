@@ -1,0 +1,20 @@
+@media (max-width: 640px) {
+    .pic{
+        margin: 0px;
+    }
+
+    .pic img {
+        border-radius: 0%;
+    }
+
+    .notes-container {
+        width: 100%;
+    }
+
+    button {
+        margin-bottom: 10px;
+    }
+}
+
+
+
