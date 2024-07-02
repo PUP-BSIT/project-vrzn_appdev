@@ -100,10 +100,10 @@
                                         </ul>
                                     </div>
                                     <div class="w-full bg-base-0">
-                                        <form class="w-full" [formGroup]="passForm" (ngSubmit)="onReset()">
+                                        <form class="w-full" [formGroup]="passForm" (ngSubmit)="onChangePassword()">
                                             <div class="form-control w-full">
                                                 <label class="input input-bordered flex items-center gap-2 rounded-md mb-4 w-full">
-                                                    <input [type]="oldPasswordFieldType" formControlName="old_password" placeholder="Enter your New Password"
+                                                    <input [type]="oldPasswordFieldType" formControlName="old_password" placeholder="Enter your Old Password"
                                                       (focus)="clearError('old_password')" required
                                                       class="block w-full rounded-md border-0 py-1.5" />
                                                     <button type="button" (click)="togglePasswordVisibility()" class="ml-2" tabindex="-1">
@@ -133,6 +133,11 @@
                                                     Must Follow Password Requirements
                                                   </div>
                                                 }
+                                                @if (passwordControl.errors?.['maxlength']) {
+                                                    <div class="error-message text-sm text-red-500 pl-3 mt-0 mb-3">
+                                                      Max Length Password Chacters exceeded
+                                                    </div>
+                                                  }
                                               }
                                           </div>
                                           <div class="form-control w-full">
