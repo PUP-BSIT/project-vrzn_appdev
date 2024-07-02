@@ -6,7 +6,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { ProfileService } from './profile.service';
 import { PasswordValidator } from '../profile/custom-validators';
 import { PasswordMatchValidator } from './custom-validators';
-import { catchError, finalize, tap } from 'rxjs/operators';
+import { catchError, finalize, tap, Observable, Subject, takeUntil } from 'rxjs';
 import { of } from 'rxjs';
 import { AlertService } from '../alert/alert.service';
 @Component({
@@ -22,15 +22,20 @@ export class ProfileComponent implements OnInit {
   user_id = this.cookie.get('id');
   passForm!: FormGroup;
   updated = false;
-
+  updatedSuccess = false;
   oldPasswordFieldType: string = 'password';
   passwordFieldType: string = 'password';
   confirmPasswordFieldType: string = 'password';
+  isUpdateInvalid!: boolean;
 
+
+  private unsubscribe$ = new Subject<void>();
+  
   constructor(
     private formBuilder: FormBuilder,
     private cookie: CookieService,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private alertService: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -49,6 +54,12 @@ export class ProfileComponent implements OnInit {
         validators: PasswordMatchValidator.passwordsMatch(),
       }
     );
+
+    this.alertService.updateInvalid$
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe((value) => {
+      this.isUpdateInvalid = value;
+    });
 
     this.editForm = this.formBuilder.group({
       firstName: [
@@ -205,7 +216,7 @@ export class ProfileComponent implements OnInit {
       .changePassword(passwordChangeRequest)
       .pipe(
         tap((response) => {
-          alert('Password changed successfully');
+          this.updatedSuccess = true;
           this.passForm.reset();
         }),
         catchError((error) => {
