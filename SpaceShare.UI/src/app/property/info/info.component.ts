@@ -46,6 +46,11 @@ export class InfoComponent implements OnInit, OnChanges {
         if (data) this.isWishlisted = data;
       });
 
+      if(!this.userId){
+        this.propertyLoaded = true;
+        return;
+      } else this.isLoggedIn = true;
+
       this.applicationService.getApplications().subscribe(
         (data: Reservation[])=> {
           data.forEach(data => {
@@ -54,8 +59,6 @@ export class InfoComponent implements OnInit, OnChanges {
         }
       
       );
-
-      if (this.userId) this.isLoggedIn = true;
 
       this.propertyLoaded = true;
     }
