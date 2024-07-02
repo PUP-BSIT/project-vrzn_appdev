@@ -28,6 +28,7 @@ export interface ValidationResult {
   [key: string]: boolean;
 }
 
+
 export class PasswordValidator {
   public static strong(control: FormControl): ValidationResult | null {
     const hasNumber = /\d/.test(control.value);
