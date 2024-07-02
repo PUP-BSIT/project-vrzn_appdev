@@ -3,6 +3,7 @@ import { Card } from '../../model/card.model';
 import { MainService } from './main.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-main',
@@ -21,12 +22,15 @@ export class MainComponent implements OnInit {
   totalPages: number = 1;
   uniqueCities: string[] = [];
 
-  constructor(private mainService: MainService, private router : Router) {}
+  constructor(private mainService: MainService, private router : Router,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
+    const currentUserId = this.authService.getLoggedUserId();
     this.mainService.getProperties().subscribe(
       (data: Card[]) => {
-        this.cards = data;
+        this.cards = data.filter(data => data.owner_id !== +currentUserId);
         this.uniqueCities = [...new Set(this.cards.map((card) => card.city))];
         this.filterCards();
         this.updatePagination();
