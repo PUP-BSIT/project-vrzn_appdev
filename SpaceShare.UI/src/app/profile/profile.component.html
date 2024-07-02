@@ -101,48 +101,39 @@
                                     </div>
                                     <div class="w-full bg-base-0">
                                         <form class="w-full" [formGroup]="passForm" (ngSubmit)="onReset()">
-                                            <div class="form-control w-full">
-                                                <label class="input input-bordered flex items-center gap-2 rounded-md mb-4 w-full"
-                                                    [class.input-error]="passForm.invalid && passForm.touched">
-                                                    <input type="password" formControlName="password" placeholder="Enter your New Password"
-                                                        (focus)="clearError('password')" required
-                                                        class="block w-full rounded-md border-0 py-1.5" />
-                                                </label>
-                                                @if (passwordControl.invalid && passwordControl.touched) {
-                                                    @if (passwordControl.errors?.['required']) {
-                                                      <div class="error-message text-sm text-red-500 pl-3 mt-0 mb-4">
-                                                        Password must not be null
-                                                      </div>
-                                                    }
-                                                    @if (passwordControl.errors?.['minlength']) {
-                                                      <div class="error-message text-sm text-red-500 pl-3 mt-0 mb-4">
-                                                        Must be match on password requirements
-                                                      </div>
-                                                    }
+                                          <div class="form-control w-full">
+                                            <label class="input input-bordered flex items-center gap-2 rounded-md mb-4 w-full">
+                                              <input type="password" formControlName="password" placeholder="Enter your New Password"
+                                                (focus)="clearError('password')" required
+                                                class="block w-full rounded-md border-0 py-1.5" />
+                                            </label>
+                                            @if (passwordControl.invalid && passwordControl.touched) {
+                                                @if (passwordControl.errors?.['strong']) {
+                                                  <div class="error-message text-sm text-red-500 pl-3 mt-0 mb-3">
+                                                    Must Follow Password Requirements
+                                                  </div>
                                                 }
-                                            </div>
-                                            <div class="form-control w-full">
-                                                <label class="input input-bordered flex items-center gap-2 rounded-md mb-4 w-full"
-                                                    [class.input-error]="passForm.invalid && passForm.touched">
-                                                    <input type="password" formControlName="confirm_pass" placeholder="Confirm Password"
-                                                        (focus)="clearError('password')" required
-                                                        class="block w-full rounded-md border-0 py-1.5" />
-                                                </label>
-                                                @if(confirmPassControl.invalid && confirmPassControl.touched){
-                                                    @if (confirmPassControl.errors?.['required']) {
-                                                        <div class="error-message text-sm text-red-500 pl-3 mb-2">
-                                                          Password must not be null
-                                                        </div>
-                                                      }   
-                                                }
-                                            </div>
-                                            <div class="form-control mt-6">
-                                                <button class="btn bg-[#8644a2] text-white w-full" [disabled]="passForm.invalid">Reset</button>
-                                            </div>
+                                              }
+                                          </div>
+                                          <div class="form-control w-full">
+                                            <label class="input input-bordered flex items-center gap-2 rounded-md mb-4 w-full">
+                                              <input type="password" formControlName="confirmPassword" placeholder="Confirm Password"
+                                                (focus)="clearError('password')" required
+                                                class="block w-full rounded-md border-0 py-1.5" />
+                                            </label>
+                                            @if(passForm.hasError('passwordsMismatch') && confirmPasswordControl.touched) {
+                                              <div class="error-message text-sm text-red-500 pl-3">
+                                                Passwords do not match
+                                              </div>
+                                            }
+                                          </div>
+                                          <div class="form-control mt-6">
+                                            <button class="btn bg-[#8644a2] text-white w-full">Reset</button>
+                                          </div>
                                         </form>
+                                      </div>
                                     </div>
-                                </div>
-                            </div>
+                                </div>       
                         } 
                         @else if (isEditMode){
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
