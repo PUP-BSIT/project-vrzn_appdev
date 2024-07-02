@@ -83,7 +83,7 @@ export class InfoComponent implements OnInit, OnChanges {
     this.infoService.hasSpaceHistory(+this.userId, +this.propertyId).subscribe({
       next: (data: SpaceHistory[]) => {
         if(data.length > 0){
-          this.hasApplication = true;
+          this.hasHistory = true;
         }
       },
       error: () => {
