@@ -13,7 +13,8 @@
           {{ property.title| slice : 0 : 12 }}
           {{ property.title.length > 12 ? "..." : "" }}
         </span>
-        <div class="text-gray-500 text-sm max-h-28 min-h-28 flex-wrap break-words overflow-hidden mt-5">
+        <div class="divider my-0"></div>
+        <div class="text-gray-500 text-sm max-h-28 min-h-28 flex-wrap break-words overflow-hidden">
           <span>Location: </span><span>{{ property.city }}</span><br>
           <span>Applied: </span><span>{{ reservation.created_at | date : 'MMM d, y' }}</span><br>
           <span>Status: </span><span>{{ reservation.status }}</span>
