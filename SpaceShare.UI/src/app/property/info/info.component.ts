@@ -35,39 +35,46 @@ export class InfoComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     if (this.property) {
-      this.propertyLoaded = true;
+      this.initializePropertyData();
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['property'] && !changes['property'].firstChange) {
-      this.property = { ...changes['property'].currentValue };
-      this.ownerId = this.property.owner_id;
-      this.propertyId = this.property.id;
-      this.wishlistItem = {
-        user_id: +this.userId,
-        property_id: this.propertyId,
-      };
-      this.infoService.isWishlisted(this.wishlistItem).subscribe((data) => {
-        if (data) this.isWishlisted = data;
-      });
-
-      if (!this.userId) {
-        this.propertyLoaded = true;
-        return;
-      } else this.isLoggedIn = true;
-
-      this.applicationService
-        .getApplications()
-        .subscribe((data: Reservation[]) => {
-          data.forEach((data) => {
-            if (data.property_id === this.propertyId)
-              this.hasApplication = true;
-          });
-        });
-
-      this.propertyLoaded = true;
+      this.initializePropertyData();
     }
+  }
+
+  private initializePropertyData(): void {
+    this.property = { ...this.property };
+    this.ownerId = this.property.owner_id;
+    this.propertyId = this.property.id;
+    this.wishlistItem = {
+      user_id: +this.userId,
+      property_id: +this.propertyId,
+    };
+
+    this.infoService.isWishlisted(this.wishlistItem).subscribe((data) => {
+      if (data) this.isWishlisted = data;
+    });
+
+    if (!this.userId) { this.propertyLoaded = true; return; }
+    else { this.isLoggedIn = true; }
+
+    this.fetchApplication();
+
+    this.propertyLoaded = true;
+
+  }
+
+  private fetchApplication(): void {
+    this.applicationService
+      .getApplications()
+      .subscribe((data: Reservation[]) => {
+        this.hasApplication = data.some(
+          (app) => app.property_id === this.propertyId
+        );
+      });
   }
 
   toggleWishlist() {
