@@ -1,0 +1,19 @@
+select:disabled {
+    background-color: #f8f8f8;
+    color: #b0b0b0;
+    cursor: not-allowed;
+  }
+  
+  button.disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.7;
+  }
+  
+  .disabled-button {
+    background-color: #cccccc;
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
