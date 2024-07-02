@@ -147,7 +147,7 @@ export class PropertyController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post()
+  @Post('rate')
   async rateProperty(@Body() propertyRating: { id: number; rating: number }) {
     return await this.propertyService.rateProperty(propertyRating);
   }
