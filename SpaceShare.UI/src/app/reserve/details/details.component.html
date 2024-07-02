@@ -25,10 +25,17 @@
           <div>
             <p class="text-sm font-semibold">Dates</p>
             <p class="text-sm">{{ dates }}</p>
+            @if(!isDateValid) {
+              <div class="text-sm text-red-500 mt-1">
+                Please select a valid date within the next 5 months.
+              </div>
+            }
           </div>
+          
           <button class="font-semibold underline" (click)="openModal('dates')">
             Edit
           </button>
+          
         </div>
         <div class="flex justify-between items-center mt-4">
           <div>
@@ -43,8 +50,7 @@
     </div>
     <div class="divider mt-1"></div>
     <div class="mb-5">
-      <label class="block text-md font-bold text-gray-700"
-        >Message to host</label>
+      <label class="block text-md font-bold text-gray-700">Message to host</label>
       <textarea
         class="textarea 
                textarea-bordered 
@@ -81,7 +87,7 @@
              border-none 
            hover:bg-[#9A58B6] 
              w-full"
-      [disabled]="!message.trim()"
+      [disabled]="!message.trim() || !isDateValid"
       (click)="openModal('summary')">
       Continue
     </button>
