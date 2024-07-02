@@ -20,7 +20,7 @@
       } @else if (loaded && reservations.length) { @for (card of reservations;
         track card.property_id) {
       <div class="w-full max-w-md p-2">
-        <app-reservation-card [reservation]="card" class="m-2"/>
+        <app-reservation-card [reservation]="card" (delete)="handleChildDelete($event)" class="m-2"/>
       </div>
       } } @else { @for (n of [1,2,3,4,5,6]; track $index) {
       <div class="w-full max-w-md p-2">
@@ -28,5 +28,11 @@
       </div>
       } }
     </div>
+</div>
+@if(deleted) {
+<div class="toast">
+  <div class="alert alert-success">
+    <span class="text-white font-semibold">Application deleted successfully.</span>
   </div>
-
+</div>
+}

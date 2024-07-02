@@ -1,7 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Reservation } from '../../../model/reservation.model';
 import { PropertyService } from '../../property/property.service';
 import { Property } from '../../../model/property.model';
+import { ReservationCardService } from './reservation-card.service';
 
 @Component({
   selector: 'app-reservation-card',
@@ -10,9 +11,11 @@ import { Property } from '../../../model/property.model';
 })
 export class ReservationCardComponent implements OnInit {
   @Input() reservation!: Reservation;
+  @Output() delete = new EventEmitter<number>();
   property!: Property;
 
-  constructor(private propertyService: PropertyService){}
+  constructor(private propertyService: PropertyService, 
+    private reservationService: ReservationCardService){}
 
   ngOnInit(): void {
     this.propertyService.getProperty(this.reservation.property_id).subscribe({
@@ -20,6 +23,17 @@ export class ReservationCardComponent implements OnInit {
         this.property = data;
       },
     });
+  }
+
+  handleDelete(){
+    this.reservationService.deleteReservation(+this.reservation.id!).subscribe({
+      next: () => {
+        this.delete.emit(this.reservation.id);
+      },
+      error: () => {
+        location.href = '/went-wrong';
+      }
+    })
   }
 
 }
