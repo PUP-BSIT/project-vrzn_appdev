@@ -41,8 +41,8 @@ export class InfoComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['property'] && !changes['property'].firstChange) {
-      this.ownerId = this.property.owner_id;
       this.property = { ...changes['property'].currentValue };
+      this.ownerId = this.property.owner_id;
       this.propertyId = this.property.id;
       this.wishlistItem = {
         user_id: +this.userId,
