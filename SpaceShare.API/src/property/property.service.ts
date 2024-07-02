@@ -23,6 +23,7 @@ export class PropertyService {
       },
       select: {
         id: true,
+        owner_id: true,
         title: true,
         area: true,
         description: true,
