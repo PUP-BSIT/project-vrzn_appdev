@@ -25,6 +25,7 @@
             placeholder="Enter your New Password"
             class="input input-bordered w-full bg-white rounded-lg"
             formControlName="password"
+            [ngClass]="getValidationClass(passwordControl)"
             (focus)="clearError('password')"/>
           @if (passwordControl.invalid && passwordControl.touched) {
             @if (passwordControl.errors?.['strong']) {
@@ -45,6 +46,7 @@
             placeholder="Confirm Your Password"
             class="input input-bordered w-full bg-white rounded-lg"
             formControlName="confirmPassword"
+            [ngClass]="getValidationClass(confirmPasswordControl)"
             (focus)="clearError('confirmPassword')"/>
         </div>
         @if (passForm.hasError('passwordsMismatch') && confirmPasswordControl.touched) {
@@ -56,9 +58,16 @@
             Confirm Password Must Not Be Null 
           </div>
         }
+
         <div class="form-control mt-6">
-          <button type="submit" class="btn bg-[#8644a2] text-white w-full" [disabled]="passForm.invalid">Reset</button>
-        </div>
+          <button
+            type="submit"
+            class="btn bg-[#8644a2] text-white w-full"
+            [class.disabled-button]="passForm.pristine || passForm.hasError('passwordsMismatch')"
+            [disabled]="passForm.pristine || passForm.hasError('passwordsMismatch')">
+            Reset
+          </button>
+      </div>
       </form>
     </div>
   </div>
