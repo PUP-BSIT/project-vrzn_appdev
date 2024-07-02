@@ -358,7 +358,7 @@ export class AuthService {
       html: `
         <p>follow this link to resetPassword:</p>
 
-        <a href="${environment.originUrl}/auth/reset?token=${token}">RESET PASSWORD</a>
+        <a href="${environment.originUrl}/password/reset?token=${token}">RESET PASSWORD</a>
 
         <p>This is team verizon</p>
       `,
