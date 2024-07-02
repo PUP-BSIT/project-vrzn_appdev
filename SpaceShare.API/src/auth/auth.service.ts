@@ -11,6 +11,7 @@ import { ConfigService } from '@nestjs/config';
 import { User } from '@prisma/client';
 import { randomBytes } from 'crypto';
 import { environment } from 'environment/app.settings';
+import { ResetPasswordDto } from './dto/reset.password.dto';
 
 @Injectable()
 export class AuthService {
@@ -172,6 +173,36 @@ export class AuthService {
     return {
       success: true,
       message: 'Reset password mail sent'
+    }
+  }
+
+  async resetPassword(resetPassword: ResetPasswordDto){
+    const { token, newPassword } = resetPassword;
+
+    const user = await this.prismaService.user.findFirst({
+      where: { resetPasswordToken: token },
+    });
+
+    if (!user || user.resetPasswordExpires < new Date()) {
+      throw new BadRequestException(
+        'Password reset token is invalid or has expired',
+      );
+    }
+
+    const hashedPassword = await this.hashPassword(newPassword);
+
+    await this.prismaService.user.update({
+      where: { id: user.id },
+      data: {
+        password: hashedPassword,
+        resetPasswordToken: null,
+        resetPasswordExpires: null,
+      }
+    })
+
+    return {
+      success: true,
+      message: 'Password reset successful'
     }
   }
 
