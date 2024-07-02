@@ -30,7 +30,7 @@ export class ProfileComponent implements OnInit {
 
 
   private unsubscribe$ = new Subject<void>();
-  
+
   constructor(
     private formBuilder: FormBuilder,
     private cookie: CookieService,
@@ -220,7 +220,7 @@ export class ProfileComponent implements OnInit {
           this.passForm.reset();
         }),
         catchError((error) => {
-          alert('Failed to change password');
+          this.isUpdateInvalid = true;
           return of(error);
         }),
         finalize(() => {
