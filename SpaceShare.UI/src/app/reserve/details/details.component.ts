@@ -74,6 +74,12 @@ export class DetailsComponent implements OnInit {
     this.guests[type]++;
   }
 
+  onMessageInput(): void {
+    this.checkMessageLength();
+    this.checkMessageRequired();
+  }
+
+  
   decrement(type: 'adults' | 'children' | 'infants') {
     if (type === 'adults' && this.guests.adults > 1) {
       this.guests.adults--;
