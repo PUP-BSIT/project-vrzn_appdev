@@ -68,3 +68,14 @@
     </div>
   </div>
 </div>
+@if(submitted){
+  <app-wait/>
+}
+@if(success){
+  <app-alert [mainMessage]="'Reset Success'" [state]="'success'"
+    [subMessage]="'Password reset successful'" />
+} 
+@if(error){
+  <app-alert [mainMessage]="'Error Occured'" [state]="'error'" 
+    [subMessage]="'There was an error. Try again later.'" />
+}

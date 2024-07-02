@@ -1,20 +1,38 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/forms';
 import { PasswordValidator, PasswordMatchValidator } from './custom-validator';
+import { ActivatedRoute } from '@angular/router';
+import { ResetPasswordService } from '../reset-password.service';
 
 @Component({
   selector: 'app-reset-form',
   templateUrl: './reset-form.component.html',
-  styleUrls: ['./reset-form.component.css']
+  styleUrls: ['./reset-form.component.css'],
 })
 export class ResetFormComponent implements OnInit {
-  constructor(private formBuilder: FormBuilder) {}
   passForm!: FormGroup;
+  token!: string;
+  message!: string;
+  submitted = false;
+  success = false;
+  error = false;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private resetService: ResetPasswordService
+  ) {}
 
   ngOnInit() {
+    this.route.queryParams.subscribe((params) => {
+      this.token = params['token'];
+      if (!this.token) {
+        location.href = '/went-wrong';
+      }
+    });
+
     this.passForm = this.formBuilder.group(
       {
-        old_password: ['', [Validators.required, Validators.minLength(8)]],
         password: ['', [PasswordValidator.strong, Validators.maxLength(40)]],
         confirmPassword: ['', Validators.required],
       },
@@ -26,7 +44,26 @@ export class ResetFormComponent implements OnInit {
 
   onSubmit() {
     if (!this.passForm.valid) return;
-    // Handle form submission logic
+
+    this.submitted = true;
+
+    const newPassword = this.passwordControl.value;
+
+    console.log(this.token);
+
+    this.resetService.resetPassword(this.token, newPassword).subscribe({
+      next: (data) => {
+        if (data.success) {
+          this.message = data.message;
+          this.submitted = false;
+          this.success = true;
+        }
+      },
+      error: () => {
+        this.submitted = false;
+        this.error = true;
+      },
+    });
   }
 
   get passwordControl(): AbstractControl {
