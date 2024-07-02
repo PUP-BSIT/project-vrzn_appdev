@@ -15,7 +15,8 @@ import { ProfileService } from './profile.service';
 })
 export class ProfileComponent implements OnInit {
   editForm!: FormGroup;
-  isEditMode: boolean = false;
+  isEditMode = false;
+  isForgot = false;
   currentUser!: User;
   user_id = this.cookie.get('id');
 
@@ -59,8 +60,14 @@ export class ProfileComponent implements OnInit {
 
   editMode() {
     this.isEditMode = true;
-    this.initializeForm(this.currentUser);
+    this.isForgot = false;
   }
+  
+  Forgot() {
+    this.isForgot = true;
+    this.isEditMode = false;
+  }
+
 
   initializeForm(user: User): void {
     this.editForm.patchValue({
@@ -122,8 +129,10 @@ export class ProfileComponent implements OnInit {
     this.editForm.reset();
   }
 
+
   cancelChanges(): void {
     this.isEditMode = false;
+    this.isForgot = false;
   }
 
   formatDate(dateString: string, use?: string): string {
