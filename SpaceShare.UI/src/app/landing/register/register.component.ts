@@ -30,6 +30,7 @@ export class RegisterComponent implements OnInit {
   thirdPage = false;
   fourthPage = false;
   verificationMode = false;
+  emailExist = false;
   registerForm!: FormGroup;
 
   regions: Region[] = [];
@@ -220,20 +221,22 @@ export class RegisterComponent implements OnInit {
 
   prevPage() {
     if (this.verificationMode) {
-      this.verificationMode = false;
-      this.firstPage = false;
-      this.secondPage = false;
-      this.thirdPage = false;
+      this.verificationMode = this.thirdPage
+        = this.emailExist = this.secondPage = this.firstPage = false;
       this.fourthPage = true;
     } else if (this.fourthPage) {
-      this.fourthPage = false;
+      this.fourthPage = this.emailExist =  false;
       this.thirdPage = true;
     } else if (this.thirdPage) {
-      this.thirdPage = false;
+      this.thirdPage = this.emailExist = false;
       this.secondPage = true;
     } else if (this.secondPage) {
-      this.secondPage = false;
+      this.secondPage = this.emailExist = false;
       this.firstPage = true;
+    } else if (this.emailExist) {
+      this.firstPage = true;
+      this.secondPage = this.thirdPage = 
+        this.fourthPage = this.emailExist = false;
     }
   }
 
@@ -241,9 +244,48 @@ export class RegisterComponent implements OnInit {
     this.toggleLinkVisibility();
     this.verificationMode = true;
 
-    const data = this.registerForm.value;
+    const {
+      email,
+      firstName,
+      middleName,
+      lastName,
+      birthdate,
+      password,
+      postalCode,
+      phoneNumber,
+    } = this.registerForm.value;
 
-    const body: User = {
+    this.registerService.emailExist(email).subscribe({
+      next: (emailExists) => {
+        if (emailExists) {
+          this.setEmailExistsState();
+          return;
+        }
+        this.proceedWithRegistration({
+          email,
+          firstName,
+          middleName,
+          lastName,
+          birthdate,
+          password,
+          postalCode,
+          phoneNumber,
+        });
+      },
+      error: () => {
+        location.href = '/went-wrong';
+      },
+    });
+  }
+
+  private setEmailExistsState(): void {
+    this.verificationMode = false;
+    this.emailExist = true;
+    this.firstPage = this.secondPage = this.thirdPage = this.fourthPage = false;
+  }
+
+  private proceedWithRegistration(data: any): void {
+    const user: User = {
       first_name: data.firstName,
       middle_name: data.middleName,
       surname: data.lastName,
@@ -254,21 +296,15 @@ export class RegisterComponent implements OnInit {
       province: this.selectedProvinceName,
       city: this.selectedCityName,
       postal_code: data.postalCode,
-      phone_number: [
-        {
-          number: data.phoneNumber,
-          number_type: 'mobile',
-        },
-      ],
+      phone_number: [{ number: data.phoneNumber, number_type: 'mobile' }],
     };
 
-    this.bodyToPass = body;
-
+    this.bodyToPass = user;
     this.randomNumber = this.generateRandomSixDigitNumber();
 
-    const verify = { code: +this.randomNumber, mailTo: data.email };
-
-    this.registerService.sendMail(verify).subscribe();
+    this.registerService
+      .sendMail({ code: +this.randomNumber, mailTo: data.email })
+      .subscribe();
   }
 
   loadRegions(): void {

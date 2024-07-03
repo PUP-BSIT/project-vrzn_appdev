@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/signin-auth.dto';
 import { CreateUserDto } from './dto/signup-auth.dto';
@@ -53,6 +53,11 @@ export class AuthController {
   @Post('reset')
   async resetPassword(@Body() resetPassword: ResetPasswordDto){
     return await this.authService.resetPassword(resetPassword);
+  }
+
+  @Get('mail/exist')
+  async mailExist(@Query('email') email: string ){
+    return await this.authService.mailExist(email);
   }
 
   @UseGuards(JwtAuthGuard)

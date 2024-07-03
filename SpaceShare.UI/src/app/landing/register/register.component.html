@@ -466,6 +466,32 @@
               </p>
             </div>
           }
+          @else if(emailExist){
+            <div class="col-span-1 md:col-span-2 flex justify-center">
+              <div class="card w-66 bg-white shadow-xl">
+                  <div class="card-body items-center text-center">
+                      <img src="../../assets/void.svg" 
+                           class="h-20 w-50">
+                      <h2 class="card-title">
+                          The email address you have entered is already associated with an existing account
+                      </h2>
+                      <p>
+                        Please use a different email address, as each account must have a unique email address|
+                      </p>
+                      <div class="card-actions justify-end">
+                          <button  class="btn 
+                                     btn-primary 
+                                     text-white 
+                                       bg-primary 
+                                       border-none 
+                                     hover:bg-[#9A58B6] mt-5"
+                                     (click)="prevPage()">Go Back
+                          </button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          }
         </form>
 
         @if (!fourthPage) {

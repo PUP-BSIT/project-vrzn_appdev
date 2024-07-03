@@ -22,6 +22,7 @@ export class DetailsComponent implements OnInit {
   minDate!: string;
   maxDate!: string;
   isDateValid = true;
+  isDateTouched = false;
   showAdultValidationMessage = false;
   showCharacterLimitAlert = false;
   showMessageRequiredAlert = false;
@@ -115,7 +116,7 @@ export class DetailsComponent implements OnInit {
       applicant_id: +this.authService.getLoggedUserId(),
       property_id: +this.property.id,
       status: 'Pending',
-      notes: `Planning to move on ${this.dates} \n\n with ${ this.totalGuests() } 
+      notes: `Planning to move on ${this.dates} \n\n with ${this.totalGuests()} 
       \n\n also, ${this.message}`,
     };
 
@@ -134,12 +135,13 @@ export class DetailsComponent implements OnInit {
 
   formatDate(date: Date): string {
     const year = date.getFullYear();
-    const month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are zero-based
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
     const day = ('0' + date.getDate()).slice(-2);
     return `${year}-${month}-${day}`;
   }
 
   validateDate(input: string): void {
+    this.isDateTouched = true;
     const inputDate = new Date(input);
     const minDate = new Date(this.minDate);
     const maxDate = new Date(this.maxDate);
@@ -153,6 +155,11 @@ export class DetailsComponent implements OnInit {
       this.isDateValid = true;
       this.dates = this.formatDate(inputDate);
     }
+  }
+
+  onMessageInput(): void {
+    this.checkMessageLength();
+    this.checkMessageRequired();
   }
 
   checkMessageLength(): void {

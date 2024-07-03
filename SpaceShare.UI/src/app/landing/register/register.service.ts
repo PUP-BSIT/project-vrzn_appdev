@@ -17,4 +17,9 @@ export class RegisterService {
     const url = `${environment.apiUrl}/auth/signup`;
     return this.httpService.post<SignupResponse>(url, user);
   }
+
+  emailExist(email: string): Observable<boolean> {
+    const url = `${environment.apiUrl}/auth/mail/exist?email=${email}`
+    return this.httpService.get<boolean>(url);
+  }
 }
