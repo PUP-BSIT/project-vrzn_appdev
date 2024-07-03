@@ -40,11 +40,11 @@
       <h2 class="card-title text-lg md:text-base lg:text-lg xl:text-xl font-semibold">{{ card.title | slice : 0 : 25 }}
         {{ card.title.length > 25 ? "..." : "" }}</h2>
       <div class="flex align-middle justify-center">
-        <span class="text-yellow-500 mr-1 text-2xl">★ {{ card.rating !== null ? card.rating : 1 }}</span>
+        <span class="mr-1">★ {{ card.rating !== null ? card.rating : 1 }}</span>
       </div>
     </div>
     <div [routerLink]="['/space', cardId]">
-      <p class="flex items-center text-gray-600 mb-1 text-base font-medium">
+      <div class="flex items-center text-gray-600 mb-1 text-base font-medium">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="size-4 md:size-5 mr-0.5 text-red-500"
@@ -58,7 +58,7 @@
           />
         </svg>
         {{ card.barangay }}, {{ card.city }} City
-      </p>
+      </div>
       <p
         class="text-gray-500 text-sm max-h-28 min-h-28 flex-wrap break-words overflow-hidden"
       >
