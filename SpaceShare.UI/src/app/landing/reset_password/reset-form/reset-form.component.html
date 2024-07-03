@@ -17,7 +17,7 @@
       <form [formGroup]="passForm" (ngSubmit)="onSubmit()">
         <div class="form-control mb-4">
           <input
-            type="password"
+            [type]="showPassword ? 'text' : 'password'"
             placeholder="Enter your New Password"
             class="input input-bordered w-full bg-white rounded-lg"
             formControlName="password"
@@ -38,7 +38,7 @@
         </div>
         <div class="form-control mb-4">
           <input
-            type="password"
+            [type]="showPassword ? 'text' : 'password'"
             placeholder="Confirm Your Password"
             class="input input-bordered w-full bg-white rounded-lg"
             formControlName="confirmPassword"
@@ -54,6 +54,12 @@
             Confirm Password Must Not Be Null 
           </div>
         }
+        <div class="flex">
+          <label class="label cursor-pointer">
+            <input type="checkbox" class="checkbox" [checked]="showPassword" (change)="togglePasswordVisibility()" />
+            <span class="label-text ml-2 select-none">Show Password</span>
+          </label>
+        </div>
 
         <div class="form-control mt-6">
           <button
