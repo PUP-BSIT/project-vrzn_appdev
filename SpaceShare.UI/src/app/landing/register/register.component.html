@@ -513,7 +513,8 @@
         <app-verification
           [email]="registerForm.get('email')?.value"
           [code]="randomNumber"
-          [userToCreate]="bodyToPass"/>
+          [userToCreate]="bodyToPass"
+          [close]="closeModal.bind(this)"/>
         <div class="modal-action">
           <label
             for="verification-mdl"

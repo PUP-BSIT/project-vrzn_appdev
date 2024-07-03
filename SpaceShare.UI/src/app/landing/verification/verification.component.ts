@@ -13,13 +13,16 @@ export class VerificationComponent implements OnInit {
   @Input() email!: string;
   @Input() code!: number;
   @Input() userToCreate!: User;
-  verified: boolean = false;
+  @Input() close!: () => void;
+  verified = false;
   message!: string;
-  errorMessage: string = '';
-  showlink: boolean = true;
-  countdownSeconds: number = 3;
+  errorMessage = '';
+  showlink = true;
   disableButton = false;
   triggerToast = false;
+  submitted = false;
+  success = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private readonly registerService: RegisterService
@@ -68,6 +71,8 @@ export class VerificationComponent implements OnInit {
       return;
     }
 
+    this.submitted = true;
+
     try {
       if (+this.otpForm.value.otp === +this.code) {
         this.registerService.registerUser(this.userToCreate).subscribe(
@@ -75,7 +80,10 @@ export class VerificationComponent implements OnInit {
             if (data.success) {
               this.verified = true;
               this.message = data.message;
-              this.startCountdown();
+              this.closeModal();
+              this.close();
+              this.submitted = false;
+              this.success = true;
             } else {
               this.errorMessage = 'Verification failed. Please try again.';
             }
@@ -92,18 +100,6 @@ export class VerificationComponent implements OnInit {
       this.errorMessage =
         'An unexpected error occurred. Please try again later.';
     }
-  }
-
-  startCountdown() {
-    const interval = setInterval(() => {
-      if (this.countdownSeconds > 0) {
-        this.countdownSeconds--;
-      } else {
-        clearInterval(interval);
-        this.closeModal();
-        location.reload();
-      }
-    }, 1000);
   }
 
   goBack() {
