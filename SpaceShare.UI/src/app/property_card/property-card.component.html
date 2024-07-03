@@ -36,11 +36,11 @@
   </figure>
   <div class="card-body p-4">
     <div [routerLink]="['/space', cardId]">
-      <h2 class="card-title md:text-base lg:text-base font-semibold">{{ card.title }}</h2>
-      <p class="flex items-center text-gray-600 mb-2">
+      <h2 class="card-title md:text-base lg:text-lg xl:text-xl font-semibold">{{ card.title }}</h2>
+      <p class="flex items-center text-gray-600 mb-1 text-base font-normal">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5 mr-1 text-red-500"
+          class="h-5 w-5 mr-0.5 text-red-500"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -50,13 +50,13 @@
             clip-rule="evenodd"
           />
         </svg>
-        {{ card.barangay }}, {{ card.city }}
+        {{ card.barangay }}, {{ card.city }} City
       </p>
       <p
         class="text-gray-500 text-sm max-h-28 min-h-28 flex-wrap break-words overflow-hidden"
       >
-        {{ card.description | slice : 0 : 222 }}
-        {{ card.description.length > 222 ? "..." : "" }}
+        {{ card.description | slice : 0 : 250 }}
+        {{ card.description.length > 250 ? "..." : "" }}
       </p>
     </div>
     @if(owned) {
