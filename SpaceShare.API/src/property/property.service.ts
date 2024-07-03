@@ -227,6 +227,18 @@ export class PropertyService {
       },
     });
 
+    await this.prismaService.tenantApplication.deleteMany({
+      where: {
+        property_id: id,
+      }
+    })
+
+    await this.prismaService.spaceHistory.deleteMany({
+      where: {
+        property_id: id,
+      }
+    })
+
     await this.prismaService.wishlist.deleteMany({
       where: {
         property_id: id,
