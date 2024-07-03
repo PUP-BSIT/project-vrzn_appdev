@@ -26,6 +26,9 @@ import { WentWrongComponent } from './went-wrong/went-wrong.component';
 import { OwnedComponent } from './owned/owned.component';
 import { OwnerGuard } from './auth/owner.guard';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { ReserveComponent } from './reserve/reserve.component';
+import { ReservationsComponent } from './reservations/reservations.component';
+import { ApplicationsComponent } from './applications/applications.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -47,12 +50,18 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'space/reserve/:id',
+    component: ReserveComponent,
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'space/:id',
     component: PropertyComponent,
     canActivate: [PropertyExistsGuard],
   },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'wishlist', component: WishlistComponent, canActivate: [AuthGuard] },
+  { path: 'applications', component: ApplicationsComponent },
   { path: 'agreement/terms', component: TermsComponent },
   { path: 'agreement/privacy', component: PrivacyComponent },
   { path: 'agreement/cookie', component: CookieComponent },
@@ -61,18 +70,30 @@ const routes: Routes = [
   { path: 'agreement/renting', component: RentingComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'reset-password/reset-form', component: ResetFormComponent },
+  { path: 'reservations', component: ReservationsComponent },
   {
-    path: 'subscription',
-    component: SubscriptionComponent,
-    canActivate: [AuthGuard],
+    path: 'password/reset', component: ResetFormComponent
   },
   {
     path: 'subscription',
     component: SubscriptionComponent,
     canActivate: [AuthGuard],
   },
-  { path: 'unauthorized', component: UnauthorizedComponent, canActivate: [AuthGuard] },
-  { path: '**', component: WentWrongComponent },
+  {
+    path: 'subscription',
+    component: SubscriptionComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'unauthorized',
+    component: UnauthorizedComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'went-wrong',
+    component: WentWrongComponent,
+  },
+  { path: '**', redirectTo: '/went-wrong' },
 ];
 
 @NgModule({

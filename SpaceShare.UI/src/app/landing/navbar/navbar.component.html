@@ -13,9 +13,9 @@
         </div>   
     } @else{
         <div class="flex items-center space-x-1">
-            <div class="tooltip tooltip-bottom" data-tip="Wishlist">
+            <div class="tooltip tooltip-bottom mr-2" data-tip="Wishlist">
                 <div role="button" tabindex="0"
-                    class="btn btn-ghost btn-circle bg-white hover:bg-white border-none shadow-none mr-5" routerLink="/wishlist">
+                    class="btn btn-ghost btn-circle bg-white hover:bg-white border-none shadow-none mr-3" routerLink="/wishlist">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9 ml-3 heart-icon" [ngClass]="{'red': isOnWishlistPage()}"
                         fill="none" stroke="black" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -29,32 +29,36 @@
                         <img src="../../../assets/add_property.png" alt="house-icon" class="h5 w5">
                     </div>
                 </div>
-            </div>   
-            <div class="dropdown dropdown-end">
-                <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar mx-5 border-gray-50">
-                    <div class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full">
-                        <svg class="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-                        </svg>
+            </div>  
+                <div class="dropdown dropdown-end">
+                    <div class="tooltip tooltip-bottom mr-2" data-tip="Account">
+                    <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar mx-5 border-gray-50">
+                        <div class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full">
+                            <svg class="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
                     </div>
+                </div> 
+                    <ul tabindex="0" class="menu 
+                        menu-sm 
+                        dropdown-content 
+                        mt-3 
+                        z-20 
+                        p-2 
+                        shadow 
+                        bg-white 
+                        rounded-box 
+                        w-52 ">
+                        <li><a class="font-bold" routerLink="/profile">Profile</a></li>
+                        <li><a class="font-bold" routerLink="/space/owned">My Properties</a></li>
+                        <li><a class="font-bold" routerLink="/applications">Space Applications</a></li>
+                        <li><a class="font-bold" routerLink="/reservations">My Reservations</a></li>
+                        <li><a class="font-bold" routerLink="/subscription">Subscription</a></li>
+                        <li><a class="font-bold" (click)="signout()">Logout</a></li>
+                    </ul>
                 </div>
-                <ul tabindex="0" class="menu 
-                    menu-sm 
-                    dropdown-content 
-                    mt-3 
-                    z-20 
-                    p-2 
-                    shadow 
-                    bg-white 
-                    rounded-box 
-                    w-52 ">
-                    <li><a class="font-bold" routerLink="/profile">Profile</a></li>
-                    <li><a class="font-bold" routerLink="/space/owned">My Properties</a></li>
-                    <li><a class="font-bold" routerLink="/subscription">Subscription</a></li>
-                    <li><a class="font-bold" (click)="signout()">Logout</a></li>
-                </ul>
-            </div>
         </div>
     }
     </div>

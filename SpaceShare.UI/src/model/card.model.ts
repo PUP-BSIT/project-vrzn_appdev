@@ -1,6 +1,7 @@
 export type Card = {
   id: number;
   title: string;
+  owner_id: number;
   location: string;
   description: string;
   price: number;

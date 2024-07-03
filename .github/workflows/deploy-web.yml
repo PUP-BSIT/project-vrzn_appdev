@@ -21,7 +21,6 @@ jobs:
     - name: Install Dependencies
       run: npm install --force
 
-      #TODO: change variable depending on the environment
     - name: Substitute variables in environment file (prod)
       if: github.ref == 'refs/heads/main'
       run: |

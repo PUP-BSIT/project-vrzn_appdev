@@ -1,27 +1,30 @@
-import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/signin-auth.dto';
 import { CreateUserDto } from './dto/signup-auth.dto';
 import { verification } from './dto/verify.dto';
 import { User } from '@prisma/client';
+import { ChangePassword } from './dto/change.password.dto';
+import { JwtAuthGuard } from './jwt.guard';
+import { ResetPasswordDto } from './dto/reset.password.dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('signup')
-  signup(@Body() dto: CreateUserDto): Promise<Object> {
-    return this.authService.signup(dto);
+  async signup(@Body() dto: CreateUserDto): Promise<Object> {
+    return await this.authService.signup(dto);
   }
 
   @Post('signin')
-  signin(@Body() dto: SignInDto, @Res() response): Promise<Object> {
-    return this.authService.signin(dto, response);
+  async signin(@Body() dto: SignInDto, @Res() response): Promise<Object> {
+    return await this.authService.signin(dto, response);
   }
 
   @Get('signout')
-  signout(@Res() response): Promise<Object> {
-    return this.authService.signout(response);
+  async signout(@Res() response): Promise<Object> {
+    return await this.authService.signout(response);
   }
 
   @Get(':id')
@@ -38,7 +41,24 @@ export class AuthController {
   }
 
   @Post('verify')
-  sendMailer(@Body() verification: verification) {
-    return this.authService.sendMail(verification);
+  async sendMailer(@Body() verification: verification) {
+    return await this.authService.sendMail(verification);
+  }
+
+  @Post('forgot')
+  async forgotPassword(@Body() mail: { email: string}){
+    return await this.authService.forgotPassword(mail.email);
+  }
+
+  @Post('reset')
+  async resetPassword(@Body() resetPassword: ResetPasswordDto){
+    return await this.authService.resetPassword(resetPassword);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('password/change')
+  async changePassword(@Body() changePassword: ChangePassword){
+    const { userId, currentPassword, newPassword } = changePassword;
+    return await this.authService.changePassword(userId, currentPassword, newPassword);
   }
 }

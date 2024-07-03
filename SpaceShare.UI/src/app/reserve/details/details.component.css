@@ -1,0 +1,11 @@
+.button-grow:hover {
+    transform: scale(1.5);
+    transition: transform 0.3s ease-in-out;
+  }
+
+.btn:disabled, .btn[disabled] {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  border: none;
+}

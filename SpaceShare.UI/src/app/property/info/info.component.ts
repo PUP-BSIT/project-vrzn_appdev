@@ -8,6 +8,9 @@ import {
 import { Property } from '../../../model/property.model';
 import { InfoService } from './info.service';
 import { CookieService } from 'ngx-cookie-service';
+import { ReserveService } from '../../reservations/reserve.service';
+import { Reservation } from '../../../model/reservation.model';
+import { SpaceHistory } from '../../../model/history.model';
 
 @Component({
   selector: 'app-info',
@@ -23,35 +26,70 @@ export class InfoComponent implements OnInit, OnChanges {
   wishlistItem!: { user_id: number; property_id: number };
   userId = this.cookie.get('id');
   isLoggedIn = false;
+  hasApplication = false;
+  hasHistory = false;
 
   constructor(
     private infoService: InfoService,
-    private cookie: CookieService
+    private cookie: CookieService,
+    private applicationService: ReserveService
   ) {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['property'] && !changes['property'].firstChange) {
-      this.ownerId = this.property.owner_id;
-      this.property = { ...changes['property'].currentValue };
-      this.propertyId = this.property.id;
-      this.wishlistItem = {
-        user_id: +this.userId,
-        property_id: this.propertyId,
-      };
-      this.infoService.isWishlisted(this.wishlistItem).subscribe((data) => {
-        if (data) this.isWishlisted = data;
-      });
-
-      if (this.userId) this.isLoggedIn = true;
-
-      this.propertyLoaded = true;
-    }
-  }
 
   ngOnInit(): void {
     if (this.property) {
-      this.propertyLoaded = true;
+      this.initializePropertyData();
     }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['property'] && !changes['property'].firstChange) {
+      this.initializePropertyData();
+    }
+  }
+
+  private initializePropertyData(): void {
+    this.property = { ...this.property };
+    this.ownerId = this.property.owner_id;
+    this.propertyId = this.property.id;
+    this.wishlistItem = {
+      user_id: +this.userId,
+      property_id: +this.propertyId,
+    };
+
+    this.infoService.isWishlisted(this.wishlistItem).subscribe((data) => {
+      if (data) this.isWishlisted = data;
+    });
+
+    if (!this.userId) { this.propertyLoaded = true; return; }
+    else { this.isLoggedIn = true; }
+
+    this.fetchApplication();
+    this.checkSpaceHistory();
+
+    this.propertyLoaded = true;
+  }
+
+  private fetchApplication(): void {
+    this.applicationService
+      .getApplications()
+      .subscribe((data: Reservation[]) => {
+        this.hasApplication = data.some(
+          (app) => app.property_id === this.propertyId
+        );
+      });
+  }
+
+  private checkSpaceHistory(): void {
+    this.infoService.hasSpaceHistory(+this.userId, +this.propertyId).subscribe({
+      next: (data: SpaceHistory[]) => {
+        if(data.length > 0){
+          this.hasHistory = true;
+        }
+      },
+      error: () => {
+        location.href = '/went-wrong'
+      }
+    })
   }
 
   toggleWishlist() {

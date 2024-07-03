@@ -34,3 +34,8 @@ export interface SignupResponse {
   message: string,
   user: User
 }
+
+export interface CommonResponse {
+  success: boolean,
+  message: string
+}

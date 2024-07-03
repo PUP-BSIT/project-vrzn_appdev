@@ -3,13 +3,15 @@ import { PrismaService } from 'prisma/prisma.service';
 import { SignInDto } from './dto/signin-auth.dto';
 import { CreateUserDto } from './dto/signup-auth.dto';
 import * as bcrypt from 'bcrypt';
-import { JwtService } from '@nestjs/jwt'
+import { JwtService } from '@nestjs/jwt';
 import { Response } from 'express';
 import { MailerService } from '@nestjs-modules/mailer';
 import { verification } from './dto/verify.dto';
 import { ConfigService } from '@nestjs/config';
 import { User } from '@prisma/client';
-import { IsPhoneNumber } from 'class-validator';
+import { randomBytes } from 'crypto';
+import { environment } from 'environment/app.settings';
+import { ResetPasswordDto } from './dto/reset.password.dto';
 
 @Injectable()
 export class AuthService {
@@ -128,40 +130,251 @@ export class AuthService {
     });
   }
 
+  async changePassword(userId: number, currentPassword: string, newPassword) {
+    const user = this.prismaService.user.findUnique({ where: { id: userId } });
+
+    if (
+      !user ||
+      !(await this.comparePassword(currentPassword, (await user).password))
+    ) {
+      throw new BadRequestException('Current password is incorrect');
+    }
+
+    const hashedPassword = await this.hashPassword(newPassword);
+
+    await this.prismaService.user.update({
+      where: { id: userId },
+      data: { password: hashedPassword },
+    });
+
+    return { success: true, message: 'Password change successful' };
+  }
+
+  async forgotPassword(email: string) {
+    const user = await this.prismaService.user.findUnique({
+      where: { email, }
+    });
+
+    if (!user) throw new BadRequestException('Email does not exist');
+
+    const token = this.generateResetToken();
+    const oneHour = 3600000;
+
+    await this.prismaService.user.update({
+      where: { email },
+      data: {
+        resetPasswordToken: token,
+        resetPasswordExpires: new Date(Date.now() + oneHour),
+      },
+    });
+
+    await this.sendResetPasswordMail(email, token);
+
+    return {
+      success: true,
+      message: 'Reset password mail sent'
+    }
+  }
+
+  async resetPassword(resetPassword: ResetPasswordDto){
+    const { token, newPassword } = resetPassword;
+
+    const user = await this.prismaService.user.findFirst({
+      where: { resetPasswordToken: token },
+    });
+
+    if (!user || user.resetPasswordExpires < new Date()) {
+      throw new BadRequestException(
+        'Password reset token is invalid or has expired',
+      );
+    }
+
+    const hashedPassword = await this.hashPassword(newPassword);
+
+    await this.prismaService.user.update({
+      where: { id: user.id },
+      data: {
+        password: hashedPassword,
+        resetPasswordToken: null,
+        resetPasswordExpires: null,
+      }
+    })
+
+    return {
+      success: true,
+      message: 'Password reset successful'
+    }
+  }
+
   async sendMail(body: verification) {
     const email = await this.mailService.sendMail({
       to: body.mailTo,
-      subject: 'SpaceShare Signup Verification',
-      html: 
-      `<div style="font-family: Helvetica, Arial, sans-serif; min-width: 1000px; overflow: auto; line-height: 2">
-        <div style="margin: 50px auto; width: 70%; padding: 20px 0">
-          <div style="border-bottom: 1px solid #eee; display: flex; align-items: center;">
-            <img src="https://vrzn-spaceshare-dev.s3.ap-southeast-1.amazonaws.com/logo.png" style="width: 40px; height: 40px; margin-right: 10px;">
-            <a href="" style="font-size: 1.4em; color: #8644a2; text-decoration: none; font-weight: 600;">SpaceShare</a>
-          </div>
-          <p style="font-size: 1.1em">Welcome!</p>
-          <p>Thank you for signin up to <span style="font-weight:bold;color:#8644a2;">SpaceShare</span>! <br>Use the OTP below to complete your Sign-up process</p>
-          <h2 style="background: #8644a2; margin: 0 auto; width: max-content; padding: 0 10px; color: #fff; border-radius: 4px;">${body.code}</h2>
-          <p style="font-size: 0.9em;">Regards,<br />SpaceShare Team</p>
-          <hr style="border: none; border-top: 1px solid #eee;" />
-           <div style="float: left;padding: 8px 0; color: #aaa; font-size: 0.8em; line-height: 1; font-weight: 300;">
-              <p>This is an automatic email please do not reply.</p>
-           </div>
-          <div style="float: right; padding: 8px 0; color: #aaa; font-size: 0.8em; line-height: 1; font-weight: 300;">
-            <p>Team Verizon</p>
-            <p>We care about details.</p>
-          </div>
-        </div>
-      </div>`,
+      subject: 'Get Started with Space Share 🚀',
+      html: `
+        <!DOCTYPE html>
+        <html xmlns="http://www.w3.org/1999/xhtml">
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+            <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+            <style type="text/css">
+                body, p, div {
+                    font-family: 'Poppins', Arial, Helvetica, sans-serif;
+                    font-size: 14px;
+                    color: #000;
+                }
+                body a {
+                    color: #0074a6;
+                    text-decoration: none;
+                }
+                p { margin: 0; padding: 0; }
+                table.wrapper {
+                    width: 100% !important;
+                    table-layout: fixed;
+                    -webkit-font-smoothing: antialiased;
+                    -webkit-text-size-adjust: 100%;
+                    -moz-text-size-adjust: 100%;
+                    -ms-text-size-adjust: 100%;
+                }
+                img.max-width {
+                    max-width: 100% !important;
+                }
+                .title { 
+                    font-weight: bold;
+                    font-size: 24px; 
+                }
+                .title span{
+                    color: #8644a2;
+                }
+                .code-block {
+                    background-color: #8644a2;
+                    border: none;
+                    border-radius: 6px;
+                    color: #fff;
+                    display: inline-block;
+                    padding: 16px 24px;
+                    font-size: 18px; 
+                    margin-top: 2rem;
+                }
+                .contact-text {
+                    font-size: 12px; 
+                }
+                @media screen and (max-width:480px) {
+                    table.wrapper-mobile {
+                        width: 100% !important;
+                        table-layout: fixed;
+                    }
+                    img.max-width {
+                        height: auto !important;
+                        max-width: 100% !important;
+                    }
+                    .columns, .column {
+                        width: 100% !important;
+                        display: block !important;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <center class="wrapper" style="font-size: 14px; font-family: Arial, Helvetica, sans-serif; color: #000; background-color: #f6f7f8;">
+                <div class="webkit">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="wrapper" bgcolor="#f6f7f8">
+                        <tr>
+                            <td valign="top" bgcolor="#f6f7f8" width="100%">
+                                <table width="100%" role="content-container" align="center" cellpadding="0" cellspacing="0" border="0">
+                                    <tr>
+                                        <td width="100%">
+                                            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width: 600px;" align="center">
+                                                <tr>
+                                                    <td style="padding: 0; color: #000; text-align: left;" bgcolor="#fff" width="100%" align="left">
+                                                        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                                            <tr>
+                                                                <td style="padding: 0;" height="20px" bgcolor="#8644a2"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding: 15px 0 10px;" align="center">
+                                                                    <img class="max-width" src="https://vrzn-spaceshare-dev.s3.ap-southeast-1.amazonaws.com/logo.png" alt="" width="60">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding: 18px;" align="center">
+                                                                    <div class= "title" style="text-align: center;">
+                                                                        📍 Welcome to <span>Space Share</span> 📍</span>
+                                                                    </div>
+                                                                    <div style="text-align: center; margin-top: 3rem;">
+                                                                        Thank you for joining us on our mission to <strong>improve access to shared spaces</strong>, and empower everyday people with the tools to manage their spaces efficiently. 🚀
+                                                                    </div>
+                                                                    <div style="text-align: center; margin-top: 2rem;">
+                                                                        You can set up your account now and access everything Space Share has to offer. Get started by verifying your email address with the OTP code:
+                                                                    </div>
+                                                                    <div style="text-align: center;">
+                                                                        <div class="code-block">${body.code}</div>
+                                                                    </div>
+                                                                    <div style="text-align: center; margin-top: 2rem;">
+                                                                        By joining Space Share, you’re one step closer to unlocking essential space management tools and resources. We're so excited to have you onboard!
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding: 10px 0;" align="center"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding: 30px 50px; background-color: #f6f7f8;" align="center">
+                                                                    <div style="text-align: center;">
+                                                                        <span class="contact-text">Need a hand? 👋 </span>
+                                                                    </div>
+                                                                    <div style="text-align: center;">
+                                                                        <span class="contact-text">If you have any questions or need help,</span>
+                                                                    </div>
+                                                                    <div style="text-align: center;">
+                                                                        <span class="contact-text">you can reach us at <a href="mailto:support@spaceshare.site">support@spaceshare.site</a>.</span>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </center>
+        </body>
+        </html>
+        `,
     });
 
     return email;
+  }
+
+  async sendResetPasswordMail(email: string, token: string){
+    const sendMail = await this.mailService.sendMail({
+      to: email,
+      subject: 'Space Share Reset Password',
+      html: `
+        <p>follow this link to resetPassword:</p>
+
+        <a href="${environment.originUrl}/password/reset?token=${token}">RESET PASSWORD</a>
+
+        <p>This is team verizon</p>
+      `,
+    });
+
+    return sendMail;
   }
 
   // #region helper functions
   async hashPassword(password: string) {
     const saltOrRounds = 10;
     return await bcrypt.hash(password, saltOrRounds);
+  }
+
+  private generateResetToken() {
+    return randomBytes(20).toString('hex');
   }
 
   async comparePassword(password: string, hash: string) {

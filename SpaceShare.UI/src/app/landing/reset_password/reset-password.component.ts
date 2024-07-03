@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/forms';
+import { ResetPasswordService } from './reset-password.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -11,9 +12,7 @@ export class ResetPasswordComponent implements OnInit {
   alertMessage: string = '';
   alertClass: string = '';
 
-  validEmails: string[] = ['adrian@gmail.com', 'galope@gmail.com'];
-
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder, private resetService: ResetPasswordService) {}
 
   ngOnInit() {
     this.resetForm = this.formBuilder.group({
@@ -36,14 +35,15 @@ export class ResetPasswordComponent implements OnInit {
 
     const email = this.resetForm.value.email;
 
-    if (this.validEmails.includes(email)) {
-      this.alertMessage = 'Successfully sent the email reset form.';
-      this.alertClass = 'alert-success';
-    } else {
-      this.alertMessage = 'User does not exist.';
-      this.alertClass = 'alert-error';
-    }
-
+    this.resetService.forgotPassword(email).subscribe({
+      next: data => {
+        console.log(data)
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+    
     this.resetForm.reset();
     this.closeModal();
   }

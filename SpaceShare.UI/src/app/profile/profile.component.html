@@ -1,13 +1,29 @@
-<app-navbar></app-navbar>
-<div class="flex items-center justify-center mt-10">
-    <div class="card bg-white w-full sm:w-4/5 md:w-3/5 lg:w-2/5 shadow-xl">
+<div class="flex items-center justify-center mt-20">
+    @if(updatedSuccess){
+        <app-alert
+          [mainMessage]="'Change Password Success'"
+          [state]="'success'"
+          [subMessage]="'Dont share your password to anyone!'"
+        />
+    }@else if(isUpdateInvalid){
+        <app-alert
+          [mainMessage]="'Old Password is Invalid'"
+          [state]="'error'"
+          [subMessage]="'Please Enter valid Old Password '"
+        />
+    }
+    @else if(warning){
+        <app-alert [mainMessage]="'Password must be different'" [state]="'info'"
+            [subMessage]="'Please enter a new password'" />
+    }
+    <div class="card bg-white w-full sm:w-4/5 md:w-11/12 lg:w-3/4 xl:w-3/6 2xl:w-2/5 shadow-xl">
         <div class="card-body">
             <h2 class="text-2xl font-bold text-center mt-2 sm:text-3xl xl:text-5xl">
                 Personal Information
             </h2>
             <div class="container mx-auto p-4 sm:p-6 max-w-2xl">
                 <form class="flex flex-col sm:flex-row mx-auto items-center justify-center" [formGroup]="editForm">
-                    <div class="sm:w-1/3 p-4 mt-4">
+                    <div class="sm:w-1/3 mr-2">
                         <div class="w-40 flex flex-col items-center space-y-2">
                             <div class="overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600 mb-8">
                                 <svg class="w-24 h-24 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20"
@@ -17,11 +33,14 @@
                                         clip-rule="evenodd"></path>
                                 </svg>
                             </div>
-                            @if(!isEditMode) {
-                            <button class="btn btn-sm btn-secondary w-32 bg-primary text-white hover:bg-[#9A58B6]" (click)="editMode()">
+                            @if(!isEditMode && !isForgot) {
+                            <button class="btn btn-sm w-40 bg-primary text-white hover:bg-[#9A58B6]" (click)="editMode()">
                                 Edit
                             </button>
-                            } @else {
+                            <button class="btn btn-sm w-40 bg-white border-gray-300 text-gray-500 hover:bg-white" (click)="Forgot()">
+                                Change Password
+                            </button>
+                            } @if(isEditMode) {
                             <button class="btn btn-sm btn-primary w-36 bg-green-600 text-white hover:bg-green-500 border-none" (click)="onSubmit()"
                                 [disabled]="!editForm.valid"
                                 [ngClass]="{'disabled-button': !editForm.valid}">
@@ -30,11 +49,15 @@
                             <button class="btn btn-sm w-36 bg-white text-gray-500 border-gray-300 shadow-none" (click)="cancelChanges()">
                                 Cancel
                             </button>
+                            }@if(isForgot) {
+                                <button class="btn btn-sm w-36 bg-white text-gray-500 border-gray-300 shadow-none" (click)="cancelChanges()">
+                                    Cancel
+                                </button>
                             }
                         </div>
                     </div>
                     <div class="sm:w-2/3 p-4">
-                        @if(!isEditMode) {
+                        @if(!isEditMode && !isForgot) {
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="font-semibold text-3xl" for="first-name">
@@ -70,8 +93,99 @@
                                     {{ formatDate(currentUser.birthdate.toString(), "display") }}
                                 </p>
                             </div>
+                            <div class="mt-4">
+                                <label class="font-semibold text-3xl" for="email">
+                                    <span class="label-text">Email</span>
+                                </label>
+                                <p class="text-gray-800 text-xl font-medium">
+                                    {{ currentUser.email }}
+                                </p>
+                            </div>
                         </div>
-                        } @else {
+                        }@else if(isForgot){
+                            <div class="container mx-auto p-4 sm:p-6 max-w-2xl">
+                                <div class="grid grid-cols-1 gap-4">
+                                    <div class="text-left text-black">
+                                        <strong>Password Requirements:</strong>
+                                        <ul class="list-disc list-inside mt-2">
+                                            <li>A lowercase character</li>
+                                            <li>A special character</li>
+                                            <li>An uppercase character</li>
+                                            <li>A numeric character</li>
+                                            <li>A minimum of 8 characters</li>
+                                            <li>An alphabetic character</li>
+                                        </ul>
+                                    </div>
+                                    <div class="w-full bg-base-0">
+                                        <form class="w-full" [formGroup]="passForm" (ngSubmit)="onChangePassword()">
+                                            <div class="form-control w-full">
+                                                <label class="input input-bordered flex items-center gap-2 rounded-md mb-4 w-full">
+                                                    <input [type]="oldPasswordFieldType" formControlName="old_password" placeholder="Enter your Old Password"
+                                                      (focus)="clearError('old_password')" required
+                                                      class="block w-full rounded-md border-0 py-1.5" />
+                                                    <button type="button" (click)="togglePasswordVisibility()" class="ml-2" tabindex="-1">
+                                                      <i [class]="passwordFieldType === 'password' ? 'fa fa-eye' : 'fa fa-eye-slash'"></i>
+                                                    </button>
+                                                  </label>                       
+                                                @if (oldPasswordControl.invalid && oldPasswordControl.touched) {
+                                                    @if (passwordControl.errors?.['required']) {
+                                                      <div class="error-message text-sm text-red-500 pl-3 mt-0 mb-3">
+                                                        Must Not be Empty
+                                                      </div>
+                                                    }
+                                                  }
+                                         </div>
+                                          <div class="form-control w-full">
+                                            <label class="input input-bordered flex items-center gap-2 rounded-md mb-4 w-full">
+                                                <input [type]="passwordFieldType" formControlName="password" placeholder="Enter your New Password"
+                                                  (focus)="clearError('password')" required
+                                                  class="block w-full rounded-md border-0 py-1.5" />
+                                                <button type="button" (click)="togglePasswordVisibility()" class="ml-2" tabindex="-1">
+                                                  <i [class]="passwordFieldType === 'password' ? 'fa fa-eye' : 'fa fa-eye-slash'"></i>
+                                                </button>
+                                              </label>                       
+                                            @if (passwordControl.invalid && passwordControl.touched) {
+                                                @if (passwordControl.errors?.['strong']) {
+                                                  <div class="error-message text-sm text-red-500 pl-3 mt-0 mb-3">
+                                                    Must Follow Password Requirements
+                                                  </div>
+                                                }
+                                                @if (passwordControl.errors?.['maxlength']) {
+                                                    <div class="error-message text-sm text-red-500 pl-3 mt-0 mb-3">
+                                                      Max Length Password Chacters exceeded
+                                                    </div>
+                                                  }
+                                              }
+                                          </div>
+                                          <div class="form-control w-full">
+                                            <label class="input input-bordered flex items-center gap-2 rounded-md mb-4 w-full">
+                                                <input [type]="confirmPasswordFieldType" formControlName="confirmPassword" placeholder="Confirm Password"
+                                                  (focus)="clearError('confirmPassword')" required
+                                                  class="block w-full rounded-md border-0 py-1.5" />
+                                                <button type="button" (click)="toggleConfirmPasswordVisibility()" class="ml-2" tabindex="-1">
+                                                  <i [class]="confirmPasswordFieldType === 'password' ? 'fa fa-eye' : 'fa fa-eye-slash'"></i>
+                                                </button>
+                                              </label>
+                                            @if(passForm.hasError('passwordsMismatch') && confirmPasswordControl.touched) {
+                                            
+                                              <div class="error-message text-sm text-red-500 pl-3">
+                                                Passwords do not match
+                                              </div>
+                                            }@else if(confirmPasswordControl.errors?.['required'] && confirmPasswordControl.touched) {
+                                                <div class="error-message text-sm text-red-500 pl-3">
+                                                    Confirm Password Must Not Null 
+                                                </div>
+                                            }
+                                          </div>
+                                          <div class="form-control mt-6">
+                                            <button class="btn bg-[#8644a2] text-white w-full " [disabled]="passForm.invalid">Reset</button>
+                                          </div>
+                                        </form>
+                                      </div>
+                                    </div>
+                                </div>       
+                        } 
+                        @else if (isEditMode){
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="font-semibold text-3xl" for="first-name">
@@ -116,12 +230,12 @@
                                 <input class="input input-bordered w-full px-5 py-3 placeholder-gray-400 bg-white border border-gray-200 rounded-xl focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40 text-xl font-medium text-gray-800"
                                     type="text" id="phone" formControlName="phoneNumber">
                                 @if(phoneNumberControl.invalid && phoneNumberControl.touched) {
-                                @if (phoneNumberControl.errors?.['required']) {
-                                <div class="error-message text-red-500 pl-3">Phone No: Must Not Null</div>
-                                }
-                                @if(phoneNumberControl.errors?.['pattern']) {
-                                <div class="error-message text-red-500 pl-3">Input Valid Phone No Format ex: 09123456789</div>
-                                }
+                                    @if (phoneNumberControl.errors?.['required']) {
+                                        <div class="error-message text-red-500 pl-3">Phone No: Must Not Null</div>
+                                    }
+                                    @if(phoneNumberControl.errors?.['pattern']) {
+                                        <div class="error-message text-red-500 pl-3">Input Valid Phone No Format ex: 09123456789</div>
+                                    }
                                 }
                             </div>
                             <div>
@@ -131,24 +245,24 @@
                                 <input class="input input-bordered w-full px-5 py-3 placeholder-gray-400 bg-white border border-gray-200 rounded-xl focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40 text-xl font-medium text-gray-800"
                                     type="date" id="birthday" formControlName="birthdate">
                                 @if(birthdateControl.invalid && birthdateControl.touched) {
-                                @if (birthdateControl.errors?.['required']) {
-                                <div class="error-message text-red-500 pl-3">Date of Birth must not be null</div>
-                                }
-                                @if (birthdateControl.errors?.['adultAge']) {
-                                <div class="error-message text-red-500 pl-3">Enter Valid Birthday and Must be 18 Years Old</div>
-                                }
+                                    @if (birthdateControl.errors?.['required']) {
+                                        <div class="error-message text-red-500 pl-3">Date of Birth must not be null</div>
+                                    }
+                                    @if (birthdateControl.errors?.['adultAge']) {
+                                        <div class="error-message text-red-500 pl-3">Enter Valid Birthday and Must be 18 Years Old</div>
+                                    }
                                 }
                             </div>
-                        </div>
+                            <div class="col-span-2">
+                                <label class="font-semibold text-3xl" for="email">
+                                    <span class="label-text">Email</span>
+                                </label>
+                                <p class="text-gray-800 text-xl font-medium">
+                                    {{ currentUser.email }}
+                                </p>
+                            </div>
+                        </div>                       
                         }
-                        <div class="mt-4">
-                            <label class="font-semibold text-3xl" for="email">
-                                <span class="label-text">Email</span>
-                            </label>
-                            <p class="text-gray-800 text-xl font-medium">
-                                {{ currentUser.email }}
-                            </p>
-                        </div>
                     </div>
                 </form>
             </div>
@@ -156,4 +270,4 @@
     </div>
 </div>
 
-<app-footer></app-footer>
+

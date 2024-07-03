@@ -31,6 +31,8 @@ export class AlertComponent implements AfterViewInit {
 
   isShownMethod() {
     this.alertService.setUpdateInvalid(false);
+    if(this.state === "error" || 
+      this.mainMessage == 'Change Password Success') { location.reload(); }
     this.closeModal();
   }
 }

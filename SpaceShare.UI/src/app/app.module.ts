@@ -60,6 +60,19 @@ import { AlertComponent } from './alert/alert.component';
 import { WaitComponent } from './wait/wait.component';
 import { AlertService } from './alert/alert.service';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { ReserveComponent } from './reserve/reserve.component';
+import { DetailsComponent } from './reserve/details/details.component';
+import { TotalComponent } from './reserve/total/total.component';
+import { ReservationsComponent } from './reservations/reservations.component';
+import { ReservationCardComponent } from './reservations/reservation-card/reservation-card.component';
+import { ReserveService } from './reservations/reserve.service';
+import { ApplicationsComponent } from './applications/applications.component';
+import { ApplicationsService } from './applications/applications.service';
+import { ApplicationCardComponent } from './applications/application-card/application-card.component';
+import { RatingComponent } from './property/info/rating/rating.component';
+import { RatingService } from './property/info/rating/rating.service';
+import { ReservationCardService } from './reservations/reservation-card/reservation-card.service';
+import { ResetPasswordService } from './landing/reset_password/reset-password.service';
 
 @NgModule({
   declarations: [
@@ -101,6 +114,14 @@ import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
     AlertComponent,
     WaitComponent,
     UnauthorizedComponent,
+    ReserveComponent,
+    DetailsComponent,
+    TotalComponent,
+    ReservationsComponent,
+    ReservationCardComponent,
+    ApplicationsComponent,
+    ApplicationCardComponent,
+    RatingComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -134,7 +155,12 @@ import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
     ProfileService,
     OwnedService,
     PropertyCardService,
-    AlertService
+    AlertService,
+    ReserveService,
+    ApplicationsService,
+    RatingService,
+    ReservationCardService,
+    ResetPasswordService
   ],
   bootstrap: [AppComponent]
 })

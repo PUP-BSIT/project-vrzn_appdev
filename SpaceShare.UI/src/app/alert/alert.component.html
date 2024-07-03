@@ -24,16 +24,22 @@
             }
         </div>
         <p class="py-4 text-center text-sm font-light">{{ subMessage }}</p>
-        @if(state === 'success'){
+        @if(state === 'success' && createdPropery){
             <div class="flex justify-center">
                 <a href="space/{{createdPropery}}"
-                    class="btn w-full align-middle bg-primary border-none outline-none hover:bg-purple-800 text-white">Go To
+                    class="btn w-full align-middle bg-primary border-none outline-none hover:bg-[#9A58B6] text-white">Go To
                     Property</a>
+            </div>
+        }
+        @else if(state === 'success' && mainMessage === "Reset Success"){
+            <div class="flex justify-center">
+                <a href="/home"
+                    class="btn w-full align-middle bg-primary border-none outline-none hover:bg-[#9A58B6] text-white">Okay</a>
             </div>
         }@else {
             <div class="flex justify-center">
                 <button (click)="isShownMethod()" 
-                    class="btn w-full align-middle bg-primary border-none outline-none hover:bg-purple-800 text-white">Okay</button>
+                    class="btn w-full align-middle bg-primary border-none outline-none hover:bg-[#9A58B6] text-white">Okay</button>
             </div>
         }
 

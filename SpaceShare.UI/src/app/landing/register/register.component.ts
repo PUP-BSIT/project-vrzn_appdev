@@ -268,7 +268,7 @@ export class RegisterComponent implements OnInit {
 
     const verify = { code: +this.randomNumber, mailTo: data.email };
 
-    this.registerService.sendMail(verify);
+    this.registerService.sendMail(verify).subscribe();
   }
 
   loadRegions(): void {
