@@ -325,7 +325,7 @@
           @else if (thirdPage) {
             <div>
               <input
-                type="password"
+                [type]="showPassword ? 'text' : 'password'"
                 placeholder="Enter your password"
                 formControlName="password"
                 [ngClass]="getValidationClass(passwordControl)"
@@ -349,7 +349,7 @@
             </div>
             <div>
               <input
-                type="password"
+                [type]="showPassword ? 'text' : 'password'"
                 placeholder="Confirm your Password"
                 formControlName="confirmPassword"
                 [ngClass]="getValidationClass(confirmPasswordControl)"
@@ -371,7 +371,12 @@
                 }
               }
             </div>
-            
+            <div class="flex">
+              <label class="cursor-pointer flex align-middle ml-4">
+                <input type="checkbox" class="checkbox" [checked]="showPassword" (change)="togglePasswordVisibility()" />
+                <span class="label-text ml-2 mt-[2px] select-none">Show Password</span>
+              </label>
+            </div>
             <div class="col-span-1 md:col-span-2 flex justify-center">
               <button
                 (click)="nextPage()"

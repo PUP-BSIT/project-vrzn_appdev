@@ -31,6 +31,7 @@ export class RegisterComponent implements OnInit {
   fourthPage = false;
   verificationMode = false;
   emailExist = false;
+  showPassword = false;
   registerForm!: FormGroup;
 
   regions: Region[] = [];
@@ -122,52 +123,8 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  get firstNameControl(): AbstractControl {
-    return this.registerForm.get('firstName')!;
-  }
-
-  get lastNameControl(): AbstractControl {
-    return this.registerForm.get('lastName')!;
-  }
-
-  get middleNameControl(): AbstractControl {
-    return this.registerForm.get('middleName')!;
-  }
-
-  get emailControl(): AbstractControl {
-    return this.registerForm.get('email')!;
-  }
-
-  get phoneNumberControl() {
-    return this.registerForm.get('phoneNumber')!;
-  }
-
-  get birthdateControl(): AbstractControl {
-    return this.registerForm.get('birthdate')!;
-  }
-
-  get regionControl(): AbstractControl {
-    return this.registerForm.get('region')!;
-  }
-
-  get provinceControl(): AbstractControl {
-    return this.registerForm.get('province')!;
-  }
-
-  get cityControl(): AbstractControl {
-    return this.registerForm.get('city')!;
-  }
-
-  get postalCodeControl(): AbstractControl {
-    return this.registerForm.get('postalCode')!;
-  }
-
-  get passwordControl(): AbstractControl {
-    return this.registerForm.get('password')!;
-  }
-
-  get confirmPasswordControl(): AbstractControl {
-    return this.registerForm.get('confirmPassword')!;
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 
   getValidationClass(control: AbstractControl): string {
@@ -221,11 +178,15 @@ export class RegisterComponent implements OnInit {
 
   prevPage() {
     if (this.verificationMode) {
-      this.verificationMode = this.thirdPage
-        = this.emailExist = this.secondPage = this.firstPage = false;
+      this.verificationMode =
+        this.thirdPage =
+        this.emailExist =
+        this.secondPage =
+        this.firstPage =
+          false;
       this.fourthPage = true;
     } else if (this.fourthPage) {
-      this.fourthPage = this.emailExist =  false;
+      this.fourthPage = this.emailExist = false;
       this.thirdPage = true;
     } else if (this.thirdPage) {
       this.thirdPage = this.emailExist = false;
@@ -235,8 +196,11 @@ export class RegisterComponent implements OnInit {
       this.firstPage = true;
     } else if (this.emailExist) {
       this.firstPage = true;
-      this.secondPage = this.thirdPage = 
-        this.fourthPage = this.emailExist = false;
+      this.secondPage =
+        this.thirdPage =
+        this.fourthPage =
+        this.emailExist =
+          false;
     }
   }
 
@@ -399,4 +363,54 @@ export class RegisterComponent implements OnInit {
       this.modalToggle.nativeElement.checked = false;
     }
   }
+
+  //#region getter functions
+  get firstNameControl(): AbstractControl {
+    return this.registerForm.get('firstName')!;
+  }
+
+  get lastNameControl(): AbstractControl {
+    return this.registerForm.get('lastName')!;
+  }
+
+  get middleNameControl(): AbstractControl {
+    return this.registerForm.get('middleName')!;
+  }
+
+  get emailControl(): AbstractControl {
+    return this.registerForm.get('email')!;
+  }
+
+  get phoneNumberControl() {
+    return this.registerForm.get('phoneNumber')!;
+  }
+
+  get birthdateControl(): AbstractControl {
+    return this.registerForm.get('birthdate')!;
+  }
+
+  get regionControl(): AbstractControl {
+    return this.registerForm.get('region')!;
+  }
+
+  get provinceControl(): AbstractControl {
+    return this.registerForm.get('province')!;
+  }
+
+  get cityControl(): AbstractControl {
+    return this.registerForm.get('city')!;
+  }
+
+  get postalCodeControl(): AbstractControl {
+    return this.registerForm.get('postalCode')!;
+  }
+
+  get passwordControl(): AbstractControl {
+    return this.registerForm.get('password')!;
+  }
+
+  get confirmPasswordControl(): AbstractControl {
+    return this.registerForm.get('confirmPassword')!;
+  }
+  //#endregion
 }
