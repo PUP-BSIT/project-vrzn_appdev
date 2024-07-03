@@ -1,6 +1,6 @@
 <div class="card bg-white shadow-xl rounded-lg overflow-hidden cursor-pointer">
   <figure class="relative">
-    @if(card.images){
+    @if(card.images.length > 0){
       <img [src]="card.images[0].image_url" alt="House 1" class="w-full h-48 object-cover"
             [routerLink]="['/space', cardId]" />
     }@else {
@@ -35,9 +35,20 @@
     </dialog>
     }
   </figure>
-  <div class="card-body p-4">
-    <div [routerLink]="['/space', cardId]">
+  <div class="card-body p-4" [routerLink]="['/space', cardId]">
+    <div class="flex justify-between">
       <h2 class="card-title md:text-base lg:text-base font-semibold">{{ card.title }}</h2>
+      <div class="flex align-middle justify-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false"
+          style="display: block; margin-top: 2px; height: 18px; width: 18px; fill: currentcolor;">
+          <path fill-rule="evenodd"
+            d="m15.1 1.58-4.13 8.88-9.86 1.27a1 1 0 0 0-.54 1.74l7.3 6.57-1.97 9.85a1 1 0 0 0 1.48 1.06l8.62-5 8.63 5a1 1 0 0 0 1.48-1.06l-1.97-9.85 7.3-6.57a1 1 0 0 0-.55-1.73l-9.86-1.28-4.12-8.88a1 1 0 0 0-1.82 0z">
+          </path>
+        </svg>
+        <p>{{ card.rating !== null ? card.rating : 1 }}</p>
+      </div>
+    </div>
+    <div [routerLink]="['/space', cardId]">
       <p class="flex items-center text-gray-600 mb-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -60,6 +71,7 @@
         {{ card.description.length > 222 ? "..." : "" }}
       </p>
     </div>
+    
     @if(owned) {
     <div class="card-actions mt-4 justify-between">
       <div class="flex flex-row gap-2">
