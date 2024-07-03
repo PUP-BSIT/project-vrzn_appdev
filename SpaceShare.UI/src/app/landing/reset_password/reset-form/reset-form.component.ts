@@ -16,6 +16,7 @@ export class ResetFormComponent implements OnInit {
   submitted = false;
   success = false;
   error = false;
+  showPassword = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -27,7 +28,7 @@ export class ResetFormComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       this.token = params['token'];
       if (!this.token) {
-        location.href = '/went-wrong';
+        //location.href = '/went-wrong';
       }
     });
 
@@ -64,6 +65,10 @@ export class ResetFormComponent implements OnInit {
         this.error = true;
       },
     });
+  }
+
+  togglePasswordVisibility(){
+    this.showPassword = !this.showPassword;
   }
 
   get passwordControl(): AbstractControl {
