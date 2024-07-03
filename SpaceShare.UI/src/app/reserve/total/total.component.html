@@ -10,8 +10,11 @@
           }
         </figure>
         <div class="ml-0 md:ml-4 w-full md:w-2/3">
-          <h2 class="card-title text-center md:text-left">{{ property.title }}</h2>
-          <p class="flex items-center text-gray-600 mb-2">{{ property.city }}</p>
+          <h2 class="card-title text-center md:text-left">
+            {{ property.title | slice : 0 : 18 }}
+            {{ property.title.length > 18 ? "..." : "" }}
+          </h2>
+          <p class="flex items-center justify-center text-gray-600 mb-2 md:justify-start md:text-left">{{ property.city }}</p>
           <div class="flex items-center mt-2 justify-center md:justify-start">
             <div class="card-actions">
               <div class="flex flex-row gap-x-1 flex-wrap justify-center md:justify-start">
