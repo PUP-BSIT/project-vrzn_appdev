@@ -30,9 +30,13 @@ export class MainComponent implements OnInit {
     const currentUserId = this.authService.getLoggedUserId();
     this.mainService.getProperties().subscribe(
       (data: Card[]) => {
-        this.cards = data
-          .filter(data => data.owner_id !== +currentUserId)
-          .sort((a, b) => b.rating! - a.rating!);
+        if(currentUserId) {
+          this.cards = data
+            .filter((data) => data.owner_id !== +currentUserId)
+            .sort((a, b) => b.rating! - a.rating!); 
+        } else {
+          this.cards = data;
+        }
         this.uniqueCities = [...new Set(this.cards.map((card) => card.city))];
         this.filterCards();
         this.updatePagination();
