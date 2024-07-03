@@ -293,8 +293,10 @@
 
         <div class="flex flex-wrap mt-4">
           @if(isLoading && isEditing){
-          <div class="skeleton h-40 w-64"></div>
-          <div class="skeleton h-40 w-64"></div>
+            <div class="flex gap-4">
+              <div class="skeleton h-40 w-32 sm:w-44 mt-2"></div>
+              <div class="skeleton h-40 w-32 sm:w-44 mt-2"></div>
+            </div>
           } @for(image of images; track $index) {
           <div class="w-1/4 p-2 relative">
             <div

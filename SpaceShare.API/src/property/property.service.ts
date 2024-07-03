@@ -367,12 +367,25 @@ export class PropertyService {
   }
 
   async rateProperty(propertyRating: { id: number; rating: number }) {
+    const property = await this.getProperty(propertyRating.id);
+    const propertyHistory = await this.prismaService.spaceHistory.findMany({
+      where: { property_id: propertyRating.id }
+    })
+
+    if(!property) return;
+
+    const currentRating = property.rating ?? 0;
+    const currentRatingCount = propertyHistory.length;
+    const newRating =
+      (currentRating * currentRatingCount + propertyRating.rating) /
+      (currentRatingCount + 1);
+
     return await this.prismaService.property.update({
       where: {
         id: propertyRating.id,
       },
       data: {
-        rating: propertyRating.rating,
+        rating: newRating,
       },
     });
   }

@@ -40,7 +40,8 @@ export class NavbarComponent implements OnInit {
   signout() {
     this.navService.signout().subscribe(data => {
       if (data.success) {
-        this.cookieService.deleteAll();
+        this.cookieService.delete('token', '/');
+        if(this.cookieService.get('token')) return;
         location.href = '/home';
       }
     });
