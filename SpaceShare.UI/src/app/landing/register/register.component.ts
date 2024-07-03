@@ -30,6 +30,7 @@ export class RegisterComponent implements OnInit {
   thirdPage = false;
   fourthPage = false;
   verificationMode = false;
+  emailExist = false;
   registerForm!: FormGroup;
 
   regions: Region[] = [];
@@ -225,15 +226,25 @@ export class RegisterComponent implements OnInit {
       this.secondPage = false;
       this.thirdPage = false;
       this.fourthPage = true;
+      this.emailExist= false;
     } else if (this.fourthPage) {
       this.fourthPage = false;
       this.thirdPage = true;
+      this.emailExist= false;
     } else if (this.thirdPage) {
       this.thirdPage = false;
       this.secondPage = true;
+      this.emailExist= false;
     } else if (this.secondPage) {
       this.secondPage = false;
       this.firstPage = true;
+      this.emailExist= false;
+    } else if (this.emailExist){
+      this.firstPage = false;
+      this.secondPage = false;
+      this.thirdPage = false;
+      this.fourthPage = false;
+      this.emailExist= true;
     }
   }
 
@@ -270,6 +281,7 @@ export class RegisterComponent implements OnInit {
 
     this.registerService.sendMail(verify).subscribe();
   }
+
 
   loadRegions(): void {
     this.locationService.getRegions().subscribe((data: Region[]) => {
