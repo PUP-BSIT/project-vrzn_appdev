@@ -367,6 +367,16 @@ export class AuthService {
     return sendMail;
   }
 
+  async mailExist(email: string){
+    const exist = await this.prismaService.user.findUnique({
+      where: { email: email }
+    })
+    
+    if(!exist) return false;
+    
+    return true;
+  }
+
   // #region helper functions
   async hashPassword(password: string) {
     const saltOrRounds = 10;
