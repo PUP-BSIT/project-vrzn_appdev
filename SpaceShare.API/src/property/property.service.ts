@@ -257,6 +257,15 @@ export class PropertyService {
   }
 
   async reserveProperty(application: Reservation) {
+    const hasReserved = await this.prismaService.tenantApplication.findMany({
+      where: { 
+        applicant_id: application.applicant_id,
+        property_id: application.property_id
+      }
+    })
+
+    if(hasReserved.length) return;
+
     return await this.prismaService.tenantApplication.create({
       data: {
         property_id: +application.property_id,
