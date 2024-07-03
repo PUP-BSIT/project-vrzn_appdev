@@ -6,3 +6,22 @@
 .house-image {
     width: 35px;
 }
+
+.active-link {
+    border-bottom: 3px solid #8644A2; 
+}
+
+.btn-ghost {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+}
+
+.navbar .flex.items-center {
+  flex: 1;
+  justify-content: flex-end;
+}
