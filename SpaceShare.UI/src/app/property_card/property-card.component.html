@@ -37,10 +37,10 @@
   </figure>
   <div class="p-4" [routerLink]="['/space', cardId]">
     <div class="flex justify-between">
-      <h2 class="card-title text-lg md:text-base lg:text-lg xl:text-xl font-semibold">{{ card.title | slice : 0 : 25 }}
-        {{ card.title.length > 25 ? "..." : "" }}</h2>
+      <h2 class="card-title text-lg md:text-base lg:text-base xl:text-xl font-semibold">{{ card.title | slice : 0 : 21 }}
+        {{ card.title.length > 21 ? "..." : "" }}</h2>
       <div class="flex align-middle justify-center">
-        <span class="mr-1">★ {{ card.rating !== null ? card.rating : 1 }}</span>
+        <span class="mr-1 text-lg text-black">★ {{ card.rating !== null ? card.rating : 1 }}</span>
       </div>
     </div>
     <div [routerLink]="['/space', cardId]">
@@ -100,7 +100,7 @@
         </div>
       </div>
       <div class="tooltip tooltip-top flex items-center" data-tip="Rent/month">
-        <span class="text-2xl font-bold">₱{{ card.price.toLocaleString() }}</span>
+        <span class="text-lg xl:text-2xl font-bold">₱{{ card.price.toLocaleString() }}</span>
       </div>
     </div>
     }
