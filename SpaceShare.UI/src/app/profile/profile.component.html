@@ -16,7 +16,7 @@
         <app-alert [mainMessage]="'Password must be different'" [state]="'info'"
             [subMessage]="'Please enter a new password'" />
     }
-    <div class="card bg-white w-full sm:w-4/5 md:w-11/12 lg:w-3/4 xl:w-3/6 2xl:w-2/5 shadow-none border-gray-300 border-t border-l border-b border-r rounded-2xl mx-5 md:mx-0">
+    <div class="card bg-white w-full sm:w-4/5 md:w-11/12 lg:w-3/4 xl:w-3/6 2xl:w-2/5 shadow-xl mb-12 mx-5 md:mx-0">
         <div class="card-body">
             <h2 class="text-2xl font-bold text-center mt-2 sm:text-3xl xl:text-5xl">
                 Personal Information
@@ -34,23 +34,23 @@
                                 </svg>
                             </div>
                             @if(!isEditMode && !isForgot) {
-                                <button class="btn btn-sm w-40 bg-primary text-white hover:bg-[#9A58B6] font-medium" (click)="editMode()">
+                                <button class="btn btn-sm w-40 bg-primary text-white hover:bg-[#9A58B6]" (click)="editMode()">
                                     Edit
                                 </button>
-                                <button class="btn btn-sm w-40 bg-white border-gray-300 text-gray-500 font-medium" (click)="Forgot()">
+                                <button class="btn btn-sm w-40 bg-white border-gray-300 text-gray-500 hover:bg-white" (click)="Forgot()">
                                     Change Password
                                 </button>
                             } @if(isEditMode) {
-                                <button class="btn btn-sm btn-primary w-36 bg-green-600 text-white hover:bg-green-500 border-none font-medium" (click)="onSubmit()"
+                                <button class="btn btn-sm btn-primary w-36 bg-green-600 text-white hover:bg-green-500 border-none" (click)="onSubmit()"
                                     [disabled]="!editForm.valid"
                                     [ngClass]="{'disabled-button': !editForm.valid}">
                                     Save Changes
                                 </button>
-                                <button class="btn btn-sm w-36 bg-white text-gray-500 border-gray-300 shadow-none font-medium" (click)="cancelChanges()">
+                                <button class="btn btn-sm w-36 bg-white text-gray-500 border-gray-300 shadow-none" (click)="cancelChanges()">
                                     Cancel
                                 </button>
                             }@if(isForgot) {
-                                <button class="btn btn-sm w-36 bg-white text-gray-500 border-gray-300 shadow-none font-medium" (click)="cancelChanges()">
+                                <button class="btn btn-sm w-36 bg-white text-gray-500 border-gray-300 shadow-none" (click)="cancelChanges()">
                                     Cancel
                                 </button>
                             }
