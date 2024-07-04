@@ -51,10 +51,6 @@ button.disabled {
   transition: transform 0.5s ease-in-out, opacity 0.5s ease;
 }
 
-li.step::before {
-  background-color: white;
-}
-
 .modal::-webkit-scrollbar {
   display: none;
 }
