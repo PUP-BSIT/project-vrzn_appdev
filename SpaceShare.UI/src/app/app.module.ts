@@ -73,6 +73,7 @@ import { RatingComponent } from './property/info/rating/rating.component';
 import { RatingService } from './property/info/rating/rating.service';
 import { ReservationCardService } from './reservations/reservation-card/reservation-card.service';
 import { ResetPasswordService } from './landing/reset_password/reset-password.service';
+import { SseService } from './landing/navbar/sse.service';
 
 @NgModule({
   declarations: [
@@ -160,7 +161,8 @@ import { ResetPasswordService } from './landing/reset_password/reset-password.se
     ApplicationsService,
     RatingService,
     ReservationCardService,
-    ResetPasswordService
+    ResetPasswordService,
+    SseService
   ],
   bootstrap: [AppComponent]
 })

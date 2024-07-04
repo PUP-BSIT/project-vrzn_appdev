@@ -9,6 +9,7 @@ import { MailerModule, MailerService } from '@nestjs-modules/mailer';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { mailerConfig } from './auth/mailer/mailer.config';
 import { AuthService } from './auth/auth.service';
+import { EventModule } from './event/event.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { AuthService } from './auth/auth.service';
       useFactory: async (configService: ConfigService) => mailerConfig(configService),
       inject: [ConfigService]
     }),
+    EventModule,
   ],
   controllers: [AppController],
   providers: [AppService],
