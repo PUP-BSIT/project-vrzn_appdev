@@ -28,10 +28,6 @@ export class SseService {
           this.initializeEventSource();
         }, 3000);
       };
-
-      this.eventSource.onopen = () => {
-        console.log('SSE connection established.');
-      };
    }
 
    getNotificationObservable(): Subject<NotificationEvent> {
@@ -40,7 +36,6 @@ export class SseService {
 
    closeConnection(): void {
     if(this.eventSource){
-      console.log('sse disconnected');
       this.eventSource.close();
     }
    }
