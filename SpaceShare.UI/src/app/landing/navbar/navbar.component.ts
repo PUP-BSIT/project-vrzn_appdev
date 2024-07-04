@@ -70,7 +70,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   toggleReservation() {
     if (this.hasReservationNotif) {
       this.navService
-        .setApplicationNotificationAsRead(this.currentUserId)
+        .setReservationNotificationAsRead(this.currentUserId)
         .subscribe();
       this.hasReservationNotif = false;
     }
