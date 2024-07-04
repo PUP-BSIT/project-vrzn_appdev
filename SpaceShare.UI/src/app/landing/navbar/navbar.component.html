@@ -1,79 +1,181 @@
-<div class="navbar bg-white border-b border-gray-300 p-0 h-20">
-    <div class="flex mx-auto">
-      <img src="../assets/logo.svg" alt="Logo" class="m-1 md:m-0 md:ml-3 logo size-12" />
-      <a class="text-2xl md:text-3xl font-bold text-primary mb-1" routerLink="/home">Space Share</a>
+<div class="overflow-x-hidden">
+  <div class="navbar bg-white border-b border-gray-300 p-0 h-20">
+    <div class="flex ml-2 sm:ml-0 md:mx-auto">
+      <img
+        src="../assets/logo.svg"
+        alt="Logo"
+        class="m-1 md:m-0 md:ml-8 logo sm:size-12 size-10"/>
+      <a
+        class="text-2xl sm:text-3xl font-bold text-primary md:mb-1"
+        routerLink="/home"
+        >Space Share</a>
     </div>
-    
     <div class="container flex justify-end items-center w-full">
-    <div class="flex space-x-1">
-      @if (loggedIn) {
-        <div class="tooltip tooltip-bottom" data-tip="Add Property">
-            <a routerLink="/space/add" routerLinkActive="active-link" class="btn btn-ghost rounded-none hover:bg-white">
-                <svg xmlns="http://www.w3.org/2000/svg" class="size-8" fill="none" viewBox="0 0 24 24" stroke="black">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v16m8-8H4" />
-                  </svg>
-              </a>
-        </div>
+      <div class="flex">
+        @if (loggedIn) {
+        <div class="hidden md:flex space-x-1">
+          <div class="tooltip tooltip-bottom" data-tip="Add Property">
+            <a
+              routerLink="/space/add"
+              routerLinkActive="active-link"
+              class="btn btn-ghost rounded-none hover:bg-white">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="size-8"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="black">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M12 4v16m8-8H4"/>
+              </svg>
+            </a>
+          </div>
           <div class="tooltip tooltip-bottom" data-tip="My Properties">
-              <a routerLink="/space/owned" routerLinkActive="active-link" class="btn btn-ghost rounded-none hover:bg-white">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="size-8">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-                  </svg>
-                </a>
+            <a
+              routerLink="/space/owned"
+              routerLinkActive="active-link"
+              class="btn btn-ghost rounded-none hover:bg-white">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="black"
+                class="size-8">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/>
+              </svg>
+            </a>
           </div>
           <div class="tooltip tooltip-bottom" data-tip="Applications">
-              <a routerLink="/applications" routerLinkActive="active-link" class="btn btn-ghost rounded-none hover:bg-white">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="size-8">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
-                  </svg>
-                </a>
+            <a
+              routerLink="/applications"
+              routerLinkActive="active-link"
+              class="btn btn-ghost rounded-none hover:bg-white">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="black"
+                class="size-8">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"/>
+              </svg>
+            </a>
           </div>
           <div class="tooltip tooltip-bottom" data-tip="Reservations">
-              <a routerLink="/reservations" routerLinkActive="active-link" class="btn btn-ghost rounded-none hover:bg-white">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="size-8">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
-                  </svg>
-                </a>
+            <a
+              routerLink="/reservations"
+              routerLinkActive="active-link"
+              class="btn btn-ghost rounded-none hover:bg-white mr-1">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="black"
+                class="size-8">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"/>
+              </svg>
+            </a>
           </div>
           <div class="tooltip tooltip-bottom mr-2" data-tip="Wishlist">
-              <a routerLink="/wishlist" class="btn btn-ghost btn-circle bg-white border-none shadow-none hover:bg-white">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="size-9 heart-icon" [ngClass]="{'red': isOnWishlistPage()}"
-                        fill="none" stroke="black" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                    </svg>
-                </a>
+            <a
+              routerLink="/wishlist"
+              class="btn btn-ghost btn-circle bg-white border-none shadow-none hover:bg-white">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="size-9 heart-icon"
+                [ngClass]="{ red: isOnWishlistPage() }"
+                fill="none"
+                stroke="black"
+                viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+              </svg>
+            </a>
           </div>
-      }
-      @if (!loggedIn) {
-        <div class="flex items-center space-x-4 xl:mr-6">
-            <label for="log-in-mdl" class="btn rounded-btn bg-white shadow-none hover:bg-white text-primary">Log in</label>
-            <label for="sign-up-mdl" class="btn rounded-btn bg-primary shadow-none text-white hover:bg-[#9A58B6]">Sign Up</label>
-            <app-login></app-login>
-            <app-register></app-register>
         </div>
-      }
-      @else {
         <div class="flex">
-            <div class="dropdown dropdown-end">
-                <div class="tooltip tooltip-bottom md:mr-5 md:ml-5" data-tip="Account">
-                  <div tabindex="0" role="button" class="btn btn-ghost avatar btn-circle border-gray-50 m-0 md:mx-1 ">
-                    <div class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full">
-                      <svg class="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-                      </svg>
-                    </div>
-                  </div>
+          <div class="dropdown dropdown-end">
+            <div
+              class="tooltip tooltip-bottom mr-2.5 md:mr-10 md:ml-4"
+              data-tip="Account">
+              <div
+                tabindex="0"
+                role="button"
+                class="btn btn-ghost avatar btn-circle border-gray-50 m-0">
+                <div
+                  class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full">
+                  <svg
+                    class="absolute w-12 h-12 text-gray-400 -left-1"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      fill-rule="evenodd"
+                      d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                      clip-rule="evenodd"></path>
+                  </svg>
                 </div>
-                <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-20 p-2 shadow bg-white rounded-box w-52">
-                  <li><a class="font-bold" routerLink="/profile">Profile</a></li>
-                  <li><a class="font-bold" routerLink="/subscription">Subscription</a></li>
-                  <li><a class="font-bold" (click)="signout()">Logout</a></li>
-                </ul>
               </div>
+            </div>
+            <ul
+              tabindex="0"
+              class="menu menu-sm dropdown-content mt-3 z-20 p-2 shadow bg-white rounded-box w-36">
+              <li><a class="font-bold" routerLink="/profile">Profile</a></li>
+              <li class="block md:hidden">
+                <a class="font-bold" routerLink="/wishlist">Wishlist</a>
+              </li>
+              <li class="block md:hidden">
+                <a class="font-bold" routerLink="/space/add">Add Property</a>
+              </li>
+              <li class="block md:hidden">
+                <a class="font-bold" routerLink="/space/owned">My Properties</a>
+              </li>
+              <li class="block md:hidden">
+                <a class="font-bold" routerLink="/reservations">Reservations</a>
+              </li>
+              <li class="block md:hidden">
+                <a class="font-bold" routerLink="/applications">Applications</a>
+              </li>
+              <li>
+                <a class="font-bold" routerLink="/subscription">Subscription</a>
+              </li>
+              <li><a class="font-bold" (click)="signout()">Logout</a></li>
+            </ul>
+          </div>
         </div>
-      }
+        } @if (!loggedIn) {
+        <div class="flex items-center space-x-1 md:space-x-4 xl:mr-6">
+          <label
+            for="log-in-mdl"
+            class="btn rounded-btn bg-white shadow-none hover:bg-white text-primary"
+            >Log in</label>
+          <label
+            for="sign-up-mdl"
+            class="btn rounded-btn bg-primary shadow-none text-white hover:bg-[#9A58B6]"
+            >Sign Up</label>
+          <app-login></app-login>
+          <app-register></app-register>
+        </div>
+        }
+      </div>
     </div>
   </div>
+  <router-outlet></router-outlet>
 </div>
-<router-outlet></router-outlet>
