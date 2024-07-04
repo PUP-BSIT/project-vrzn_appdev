@@ -24,7 +24,7 @@
   </p>
 
   @if(isLoggedIn) {
-    <div class="flex items-center mt-8 gap-4 flex-wrap">
+    <div class="flex items-center mt-5 gap-4 flex-wrap">
       @if(+ownerId === +userId){
         <button 
           class="btn w-48 flex items-center justify-center bg-primary text-white hover:bg-[#9A58B6] shadow-lg"
@@ -80,10 +80,20 @@
   }
 
   <!-- Description -->
-  <div class="scrollable-content my-7">
-    <p class="text-xl font-semibold mt-4 mb-6">About this space</p>
+  <div class="scrollable-content mt-7 mb-3">
+    <p class="text-xl font-semibold mb-4">About this space</p>
     <p class="text-gray-500 mt-2 break-words overflow-hidden">
       {{ property.description }}
+    </p>
+  </div>
+
+  <div class="divider my-0"></div>
+  <div>
+    <p class="text-xl font-semibold mt-4 mb-3">Additional details</p>
+    <p class="text-gray-500 mt-2 break-words overflow-hidden">
+      <span>1</span><span> month advanced</span> 
+      <span class="text-gray-900"> │ </span>
+      <span>1</span><span> month deposit</span>
     </p>
   </div>
 
