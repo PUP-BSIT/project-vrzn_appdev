@@ -38,13 +38,13 @@ export class EventService {
 
   async getReservationNotification(userId: number) {
     return await this.prismaService.notification.findMany({
-      where: { id: userId, isReservation: true, is_read: false },
+      where: { userToUpdate: +userId, isReservation: true, is_read: false },
     });
   }
 
   async getApplicationNotification(userId: number) {
     return await this.prismaService.notification.findMany({
-      where: { id: userId, isApplication: true, is_read: false },
+      where: { userToUpdate: +userId, isApplication: true, is_read: false },
     });
   }
 
@@ -52,10 +52,10 @@ export class EventService {
     const now = new Date();
     return await this.prismaService.notification.updateMany({
       where: {
-        userToUpdate: userId,
+        userToUpdate: +userId,
         isReservation: true,
         created_at: {
-          gt: now,
+          lt: now,
         },
       },
       data: {
@@ -68,10 +68,10 @@ export class EventService {
     const now = new Date();
     return await this.prismaService.notification.updateMany({
       where: {
-        userToUpdate: userId,
+        userToUpdate: +userId,
         isApplication: true,
         created_at: {
-          gt: now,
+          lt: now,
         },
       },
       data: {
