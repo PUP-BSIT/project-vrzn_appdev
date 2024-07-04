@@ -32,29 +32,51 @@ export class EventService {
       isApplication,
       isReservation,
     });
-    
+
     return createdNotification;
   }
 
-  async getNotification(userId: number) {
+  async getReservationNotification(userId: number) {
     return await this.prismaService.notification.findMany({
-      where: { id: userId, is_read: false }
-    })
+      where: { id: userId, isReservation: true, is_read: false },
+    });
   }
 
-  async setNotificationAsRead(userId: number) {
+  async getApplicationNotification(userId: number) {
+    return await this.prismaService.notification.findMany({
+      where: { id: userId, isApplication: true, is_read: false },
+    });
+  }
+
+  async setReservationNotificationAsRead(userId: number) {
     const now = new Date();
     return await this.prismaService.notification.updateMany({
-      where: { 
-        userToUpdate: userId,  
+      where: {
+        userToUpdate: userId,
+        isReservation: true,
         created_at: {
-          gt: now
-        }
-      }, 
+          gt: now,
+        },
+      },
       data: {
-        is_read: true
-      }
-   })
+        is_read: true,
+      },
+    });
   }
-  
+
+  async setApplicationNotificationAsRead(userId: number) {
+    const now = new Date();
+    return await this.prismaService.notification.updateMany({
+      where: {
+        userToUpdate: userId,
+        isApplication: true,
+        created_at: {
+          gt: now,
+        },
+      },
+      data: {
+        is_read: true,
+      },
+    });
+  }
 }

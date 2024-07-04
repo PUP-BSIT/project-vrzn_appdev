@@ -13,8 +13,8 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   loggedIn: boolean;
-  hasReservationNotif = false;
-  hasApplicationNotif = false;
+  hasReservationNotif!: boolean;
+  hasApplicationNotif!: boolean;
 
   private notificationSubscription!: Subscription;
 

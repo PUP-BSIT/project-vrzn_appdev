@@ -21,4 +21,8 @@ export class NavbarService {
     const url = `${environment.apiUrl}/auth/signout`;
     return this.http.get<LoginResponse>(url);
   } 
+
+  getNotification(){
+    
+  }
 }

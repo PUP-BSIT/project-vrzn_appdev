@@ -17,14 +17,24 @@ export class EventController {
     );
   }
 
-  @Get('notifications')
-  async getNotifications(@Param('id') userId: number) {
-    return await this.eventService.getNotification(userId);
+  @Get('notification/reservation')
+  async getReservationNotifications(@Param('id') userId: number) {
+    return await this.eventService.getReservationNotification(userId);
   }
 
-  @Post('notified')
-  async setNotificationAsRead(@Body() userId: number){
-    return await this.eventService.setNotificationAsRead(userId);
+  @Get('notification/application')
+  async getApplicationNotification(@Param('id') userId: number){
+    return await this.eventService.getApplicationNotification(userId);
+  }
+
+  @Post('notified/application')
+  async setApplicationNotificationAsRead(@Body() userId: number){
+    return await this.eventService.setApplicationNotificationAsRead(userId);
+  }
+
+  @Post('notified/reservation')
+  async setReservationNotificationAsRead(@Body() userId: number){
+    return await this.eventService.setReservationNotificationAsRead(userId);
   }
 }
 
