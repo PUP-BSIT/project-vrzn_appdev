@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../../environment/appsettings';
-import { AuthService } from '../../auth/auth.service';
 
 // Define a type for the response data
 interface LoginResponse {
@@ -23,21 +22,21 @@ export class NavbarService {
 
   getReservationNotification(userId: number) {
     const url = `${environment.apiUrl}/event/notification/reservation/${userId}`;
-    return this.http.get(url);
+    return this.http.get<Notification[]>(url);
   }
 
   getApplicationNotification(userId: number) {
     const url = `${environment.apiUrl}/event/notification/application/${userId}`;
-    return this.http.get(url);
+    return this.http.get<Notification[]>(url);
   }
 
   setApplicationNotificationAsRead(userId: number) {
     const url = `${environment.apiUrl}/event/notified/application`;
-    return this.http.post(url, { userId });
+    return this.http.post<Notification>(url, { userId });
   }
 
   setReservationNotificationAsRead(userId: number) {
     const url = `${environment.apiUrl}/event/notified/reservation`;
-    return this.http.post(url, { userId });
+    return this.http.post<Notification>(url, { userId });
   }
 }

@@ -282,6 +282,8 @@ export class PropertyService {
       where : { id: application.property_id }
     })
 
+    if(!reservation) return;
+
     await this.eventService.createNotification({
       userToUpdate: +property.owner_id,
       isApplication: true,
@@ -353,6 +355,8 @@ export class PropertyService {
           status: 'Rejected',
         },
       });
+
+      if(!updated) return;
 
       await this.eventService.createNotification({
         userToUpdate: (await updated).applicant_id,

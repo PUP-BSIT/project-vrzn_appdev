@@ -15,6 +15,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   loggedIn: boolean;
   hasReservationNotif!: boolean;
   hasApplicationNotif!: boolean;
+  currentUserId!: number;
 
   private notificationSubscription!: Subscription;
 
@@ -30,24 +31,47 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.checkLoginStatus();
-    console.log(this.loggedIn);
+
     if (!this.loggedIn) return;
+
+    this.currentUserId = +this.authService.getLoggedUserId();
+
     this.sseService.initializeEventSource();
     this.notificationSubscription = this.sseService
       .getNotificationObservable()
       .subscribe((notification: NotificationEvent) => {
         this.handleNotification(notification);
       });
+
+    this.navService.getApplicationNotification(this.currentUserId).subscribe({
+      next: (data: Notification[]) => {
+        if (data.length <= 0) return;
+        this.hasApplicationNotif = true;
+      }
+    })
+
+    this.navService.getReservationNotification(this.currentUserId).subscribe({
+      next: (data: Notification[]) => {
+        if(data.length <= 0) return;
+        this.hasReservationNotif = true;
+      }
+    })
   }
 
   toggleApplication() {
     if (this.hasApplicationNotif) {
+      this.navService
+        .setApplicationNotificationAsRead(this.currentUserId)
+        .subscribe()
       this.hasApplicationNotif = false;
     }
   }
 
   toggleReservation() {
     if (this.hasReservationNotif) {
+      this.navService
+        .setApplicationNotificationAsRead(this.currentUserId)
+        .subscribe();
       this.hasReservationNotif = false;
     }
   }
