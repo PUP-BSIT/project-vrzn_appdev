@@ -34,7 +34,6 @@ model User {
   notifications    Notification[]
   wishlists     Wishlist[]
   phone_number    PhoneNumber[]
-  review    Review[]
   application   TenantApplication[]
   spaceHistories     SpaceHistory[]
 }
@@ -61,7 +60,6 @@ model Property {
   updated_at    DateTime    @updatedAt
 
   wishlists   Wishlist[]
-  review    Review[]
   application   TenantApplication[]
   images    Images[]
   spaceHistories     SpaceHistory[]
@@ -99,18 +97,6 @@ model PhoneNumber {
   user_id   Int
   number    String
   number_type   String
-}
-
-model Review {
-  id            Int    @default(autoincrement()) @id
-  reviewer      User   @relation(fields: [reviewer_id], references: [id])
-  reviewer_id   Int
-  property    Property    @relation(fields: [property_id], references: [id])
-  property_id   Int
-  rating    Float
-  description   String?
-
-  created_at    DateTime    @default(now())
 }
 
 model TenantApplication {
