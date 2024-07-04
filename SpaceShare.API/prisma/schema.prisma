@@ -75,12 +75,13 @@ model Images{
 }
 
 model Notification {
-  id    Int   @default(autoincrement()) @id
-  user    User    @relation(fields: [user_id], references: [id])
-  user_id   Int
-  content   String
-  is_read   Boolean
-  created_at    DateTime    @default(now())
+  id            Int      @id @default(autoincrement())
+  userToUpdate  Int
+  user          User     @relation(fields: [userToUpdate], references: [id])
+  isReservation Boolean
+  isApplication Boolean
+  is_read       Boolean  @default(false)
+  created_at    DateTime @default(now())
 }
 
 model Wishlist {
@@ -133,9 +134,6 @@ model SpaceHistory {
 
   created_at  DateTime    @default(now())
 }
-
-
-
 
 
 
