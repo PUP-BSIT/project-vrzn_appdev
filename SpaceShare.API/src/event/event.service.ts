@@ -35,5 +35,26 @@ export class EventService {
     
     return createdNotification;
   }
+
+  async getNotification(userId: number) {
+    return await this.prismaService.notification.findMany({
+      where: { id: userId, is_read: false }
+    })
+  }
+
+  async setNotificationAsRead(userId: number) {
+    const now = new Date();
+    return await this.prismaService.notification.updateMany({
+      where: { 
+        userToUpdate: userId,  
+        created_at: {
+          gt: now
+        }
+      }, 
+      data: {
+        is_read: true
+      }
+   })
+  }
   
 }
