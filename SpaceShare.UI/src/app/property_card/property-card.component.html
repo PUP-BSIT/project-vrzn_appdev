@@ -40,7 +40,7 @@
       <h2 class="card-title text-lg md:text-base lg:text-base xl:text-xl font-semibold">{{ card.title | slice : 0 : 21 }}
         {{ card.title.length > 21 ? "..." : "" }}</h2>
       <div class="flex align-middle justify-center">
-        <span class="mr-1 text-lg text-black">★ {{ card.rating !== null ? card.rating : 1 }}</span>
+        <span class="mr-1 text-lg text-black">★ {{ card.rating !== null ? card.rating.toFixed(2) : 1 }}</span>
       </div>
     </div>
     <div [routerLink]="['/space', cardId]">
