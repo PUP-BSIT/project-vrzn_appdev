@@ -657,11 +657,11 @@ export class PropertyService {
                                                                     <div style="text-align: center; margin-bottom: 1rem;">
                                                                         <p>Your application was reviewed by the property owner of 
                                                                         <div style="text-align: center;">
-                                                                            <a href="${environment.originUrl}/applications" class="code-block">${property.title}</a>
+                                                                            <a href="${environment.originUrl}/reservations" class="code-block">${property.title}</a>
                                                                         </div>
                                                                         <div class="link" style="text-align: center; margin-top: 1rem;">
                                                                             <p>or copy and paste this link in your browser</p>
-                                                                            <p class="link-copy">${environment.originUrl}/applications</p>
+                                                                            <p class="link-copy">${environment.originUrl}/reservations</p>
                                                                         </div>
                                                                     </div>
                                                                     <div style="text-align: center; margin-top: 2rem;">
