@@ -7,7 +7,7 @@ import { PropertyCardService } from './property-card.service';
   templateUrl: './property-card.component.html',
   styleUrls: ['./property-card.component.css'],
 })
-export class PropertyCardComponent implements OnChanges{
+export class PropertyCardComponent implements OnChanges {
   @Input() card!: Card;
   @Input() cardId!: number;
   @Input() owned!: boolean;
@@ -17,9 +17,9 @@ export class PropertyCardComponent implements OnChanges{
   isOccupied = false;
 
   ngOnChanges(changes: SimpleChanges): void {
-      if(changes['card']){
-        this.isOccupied = this.card.status;
-      }
+    if (changes['card']) {
+      this.isOccupied = this.card.status;
+    }
   }
 
   @ViewChild(`myModal`) modalElement!: ElementRef;
@@ -47,13 +47,17 @@ export class PropertyCardComponent implements OnChanges{
     });
   }
 
+  formatRating(rating: number): string {
+    return rating !== null ? parseFloat(rating.toFixed(2)).toString() : '1';
+  }
+
   closeModal() {
     const modal = this.modalElement.nativeElement as HTMLDialogElement;
     modal.close();
   }
 
   openConfirmationModal() {
-     const modal = this.modalElement.nativeElement as HTMLDialogElement;
-     modal.showModal();
+    const modal = this.modalElement.nativeElement as HTMLDialogElement;
+    modal.showModal();
   }
 }

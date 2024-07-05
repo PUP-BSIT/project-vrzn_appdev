@@ -1,4 +1,4 @@
-<div class="card bg-white shadow-xl rounded-lg overflow-hidden cursor-pointer">
+<div class="card bg-white shadow-xl rounded-xl overflow-hidden cursor-pointer">
   <figure class="relative">
     @if(card.images.length > 0){
       <img [src]="card.images[0].image_url" alt="House 1" class="w-full h-48 object-cover"
@@ -40,7 +40,9 @@
       <h2 class="card-title text-lg md:text-base lg:text-base xl:text-xl font-semibold">{{ card.title | slice : 0 : 21 }}
         {{ card.title.length > 21 ? "..." : "" }}</h2>
       <div class="flex align-middle justify-center">
-        <span class="mr-1 text-lg text-black">★ {{ card.rating !== null ? card.rating.toFixed(2) : 1 }}</span>
+        <div class="tooltip tooltip-bottom flex items-center" data-tip="Rating">
+        <span class="mr-1 text-xl text-primary">★ {{ formatRating(card.rating!) }}</span>
+      </div>
       </div>
     </div>
     <div [routerLink]="['/space', cardId]">
@@ -78,7 +80,7 @@
         /></a>
       </div>
       @if(!isOccupied){
-        <span class="text-2xl font-bold">₱{{ card.price.toLocaleString() }}</span>
+        <span class="text-2xl text-green-800 font-bold">₱{{ card.price.toLocaleString() }}</span>
       }@else {
         <span class="text-xl font-bold">UNAVAILABLE</span>
       }
@@ -100,7 +102,7 @@
         </div>
       </div>
       <div class="tooltip tooltip-top flex items-center" data-tip="Rent/month">
-        <span class="text-lg xl:text-2xl font-bold">₱{{ card.price.toLocaleString() }}</span>
+        <span class="text-lg xl:text-2xl text-green-800 font-bold">₱{{ card.price.toLocaleString() }}</span>
       </div>
     </div>
     }

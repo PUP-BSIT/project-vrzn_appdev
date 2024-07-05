@@ -2,10 +2,10 @@
 <div class="modal">
   <div
     class="modal-box md:mx-300 w-full sm:w-11/12 md:w-4/5 
-    lg:custom-modal-width ml-2">
+    lg:custom-modal-width ml-2 bg-white">
     <div>
       @if (!verificationMode) {
-        <h1 class="text-3xl font-bold text-center">Register Now!</h1>
+        <h1 class="text-3xl font-bold text-center mb-2">Register Now!</h1>
         @if (!firstPage) {
           <div class="modal-action">
             <label
@@ -17,8 +17,8 @@
             </label>
           </div>
         }
-        <div class="flex justify-center mt-4">
-          <ul class="steps w-full">
+        <div class="flex justify-center mt-4 text-sm md:text-base text-black bg-white">
+          <ul class="steps w-full bg-white">
             <li
               class="step"
               [ngClass]="{
