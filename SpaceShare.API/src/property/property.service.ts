@@ -654,22 +654,20 @@ export class PropertyService {
                                                             </tr>
                                                             <tr>
                                                                 <td style="padding: 18px;" align="center">
-                                                                    <div style="text-align: center; margin-bottom: 1rem;">
-                                                                        <p>Your application was reviewed by the property owner of 
-                                                                        <div style="text-align: center;">
-                                                                            <a href="${environment.originUrl}/reservations" class="code-block">${property.title}</a>
-                                                                        </div>
-                                                                        <div class="link" style="text-align: center; margin-top: 1rem;">
-                                                                            <p>or copy and paste this link in your browser</p>
-                                                                            <p class="link-copy">${environment.originUrl}/reservations</p>
-                                                                        </div>
+                                                                    <div style="text-align: center;">
+                                                                        <p>Your reservation was reviewed by the property owner of <strong>${property.title}</strong></p>
                                                                     </div>
-                                                                    <div style="text-align: center; margin-top: 2rem;">
+                                                                    <div style="text-align: center; margin-top: 1rem;">
                                                                         <p>The application status is: 
-                                                                        <span class="status ${status === 'Accepted' ? 'status-accepted' : 'status-rejected'}">
-                                                                            ${status}
-                                                                        </span>.
+                                                                            <span class="status ${status === 'Accepted' ? 'status-accepted' : 'status-rejected'}">
+                                                                                ${status}
+                                                                            </span>.
                                                                         </p>
+                                                                        <a href="${environment.originUrl}/reservations" class="code-block" style="margin-top: 1rem;">Go to Reservations</a>
+                                                                    </div>
+                                                                    <div class="link" style="text-align: center; margin-top: 1rem;">
+                                                                        <p>or copy and paste this link in your browser</p>
+                                                                        <p class="link-copy">${environment.originUrl}/reservations</p>
                                                                     </div>
                                                                     <div style="text-align: center; margin-top: 2rem;">
                                                                         <p>${status === 'Accepted' ? 'Congratulations on your successful application! 🎉 We are thrilled to welcome you to the Space Share community. We hope you enjoy your new space and make the most out of it.' : 'Unfortunately, your application was not successful this time. However, do not be discouraged! We have many other wonderful properties available for you to explore. Keep searching and you will find the perfect space for your needs.'}</p>
