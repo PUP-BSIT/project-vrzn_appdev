@@ -23,12 +23,10 @@ export class ProfileComponent implements OnInit {
   passForm!: FormGroup;
   updated = false;
   updatedSuccess = false;
-  oldPasswordFieldType: string = 'password';
-  passwordFieldType: string = 'password';
-  confirmPasswordFieldType: string = 'password';
   isUpdateInvalid!: boolean;
   warning!: boolean;
-
+  showPassword = false;
+  showPasswordRequirements: boolean = false;
   private unsubscribe$ = new Subject<void>();
 
   constructor(
@@ -89,19 +87,8 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  toggleOldPasswordVisibility(): void {
-    this.oldPasswordFieldType =
-      this.oldPasswordFieldType === 'password' ? 'text' : 'password';
-  }
-
-  togglePasswordVisibility(): void {
-    this.passwordFieldType =
-      this.passwordFieldType === 'password' ? 'text' : 'password';
-  }
-
-  toggleConfirmPasswordVisibility(): void {
-    this.confirmPasswordFieldType =
-      this.confirmPasswordFieldType === 'password' ? 'text' : 'password';
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 
   editMode() {

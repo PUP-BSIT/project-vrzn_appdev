@@ -6,6 +6,8 @@ import { Request } from 'express';
 import { Reservation } from './dto/reserve.dto';
 import { MailerService } from '@nestjs-modules/mailer';
 import { AuthService } from 'src/auth/auth.service';
+import { Notification } from './dto/notification.dto';
+import { EventService } from 'src/event/event.service';
 
 @Injectable()
 export class PropertyService {
@@ -14,6 +16,7 @@ export class PropertyService {
     private s3Service: S3Service,
     private mailService: MailerService,
     private authService: AuthService,
+    private eventService: EventService
   ) {}
 
   async getProperties() {
@@ -266,7 +269,7 @@ export class PropertyService {
 
     if(hasReserved.length) return;
 
-    return await this.prismaService.tenantApplication.create({
+    const reservation =  await this.prismaService.tenantApplication.create({
       data: {
         property_id: +application.property_id,
         applicant_id: +application.applicant_id,
@@ -274,6 +277,20 @@ export class PropertyService {
         notes: application.notes,
       },
     });
+
+    const property = await this.prismaService.property.findUnique({
+      where : { id: application.property_id }
+    })
+
+    if(!reservation) return;
+
+    await this.eventService.createNotification({
+      userToUpdate: +property.owner_id,
+      isApplication: true,
+      isReservation: false,
+    })
+
+    return reservation;
   }
 
   async acceptApplication(id: number) {
@@ -310,6 +327,12 @@ export class PropertyService {
       }
     })
 
+    await this.eventService.createNotification({
+      userToUpdate: +application.applicant_id,
+      isApplication: false,
+      isReservation: true,
+    })
+
     return { success: true };
   }
 
@@ -323,7 +346,7 @@ export class PropertyService {
   }
 
   async rejectApplication(id: number) {
-    return this.prismaService.tenantApplication
+    const updated = this.prismaService.tenantApplication
       .update({
         where: {
           id,
@@ -331,9 +354,17 @@ export class PropertyService {
         data: {
           status: 'Rejected',
         },
+      });
+
+      if(!updated) return;
+
+      await this.eventService.createNotification({
+        userToUpdate: (await updated).applicant_id,
+        isApplication: false,
+        isReservation: true,
       })
-      .then(() => ({ success: true }))
-      .catch(() => ({ success: false }));
+
+      return updated ? { success: true } : { success: false }
   }
 
   async deleteApplication(id: number) {

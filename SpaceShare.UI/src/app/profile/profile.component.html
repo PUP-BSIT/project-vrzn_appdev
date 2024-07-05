@@ -123,9 +123,6 @@
                                                     <input [type]="oldPasswordFieldType" formControlName="old_password" placeholder="Enter your Old Password"
                                                       (focus)="clearError('old_password')" required
                                                       class="block w-full rounded-md border-0 py-1.5" />
-                                                    <button type="button" (click)="togglePasswordVisibility()" class="ml-2" tabindex="-1">
-                                                      <i [class]="passwordFieldType === 'password' ? 'fa fa-eye' : 'fa fa-eye-slash'"></i>
-                                                    </button>
                                                   </label>                       
                                                 @if (oldPasswordControl.invalid && oldPasswordControl.touched) {
                                                     @if (passwordControl.errors?.['required']) {
@@ -140,9 +137,6 @@
                                                 <input [type]="passwordFieldType" formControlName="password" placeholder="Enter your New Password"
                                                   (focus)="clearError('password')" required
                                                   class="block w-full rounded-md border-0 py-1.5" />
-                                                <button type="button" (click)="togglePasswordVisibility()" class="ml-2" tabindex="-1">
-                                                  <i [class]="passwordFieldType === 'password' ? 'fa fa-eye' : 'fa fa-eye-slash'"></i>
-                                                </button>
                                               </label>                       
                                             @if (passwordControl.invalid && passwordControl.touched) {
                                                 @if (passwordControl.errors?.['strong']) {
@@ -162,13 +156,10 @@
                                                 <input [type]="confirmPasswordFieldType" formControlName="confirmPassword" placeholder="Confirm Password"
                                                   (focus)="clearError('confirmPassword')" required
                                                   class="block w-full rounded-md border-0 py-1.5" />
-                                                <button type="button" (click)="toggleConfirmPasswordVisibility()" class="ml-2" tabindex="-1">
-                                                  <i [class]="confirmPasswordFieldType === 'password' ? 'fa fa-eye' : 'fa fa-eye-slash'"></i>
-                                                </button>
                                               </label>
                                             @if(passForm.hasError('passwordsMismatch') && confirmPasswordControl.touched) {
                                             
-                                              <div class="error-message text-sm text-red-500 pl-3">
+                                              <div class="error-message text-sm text-red-500 pl-3 mb-2">
                                                 Passwords do not match
                                               </div>
                                             }@else if(confirmPasswordControl.errors?.['required'] && confirmPasswordControl.touched) {
@@ -177,6 +168,12 @@
                                                 </div>
                                             }
                                           </div>
+                                          <div class="flex">
+                                            <label class="cursor-pointer flex align-middle ml-1">
+                                              <input type="checkbox" class="checkbox" [checked]="showPassword" (change)="togglePasswordVisibility()" />
+                                              <span class="label-text ml-1 mt-[2px] select-none">Show Password</span>
+                                            </label>
+                                        </div>
                                           <div class="form-control mt-6">
                                             <button class="btn bg-[#8644a2] text-white w-full hover:bg-[#9A58B6]" [disabled]="passForm.invalid">Reset</button>
                                           </div>
