@@ -41,7 +41,7 @@
         {{ card.title.length > 21 ? "..." : "" }}</h2>
     <div class="tooltip tooltip-bottom flex items-center" data-tip="Rating">
       <div class="flex align-middle justify-center">
-        <span class="mr-1 text-lg text-black">★ {{ card.rating !== null ? card.rating.toFixed(2) : 1 }}</span>
+        <span class="mr-1 text-xl text-primary">★ {{ card.rating !== null ? card.rating.toFixed(2) : 1 }}</span>
       </div>
     </div>
     <div [routerLink]="['/space', cardId]">
