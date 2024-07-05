@@ -511,7 +511,7 @@ export class PropertyService {
     const email = await this.mailService.sendMail({
       to: owner.email,
       subject: 'New Reservation Application!',
-      text: `${property.title} has a new reservation! \n\n\n 
+      html: `${property.title} has a new reservation! \n\n\n 
               Applicant notes: ${body.notes} \n\n\n
               aBOUT THE APPLICANT: \n
               name: ${applicant.first_name} \n
