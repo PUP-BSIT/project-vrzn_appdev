@@ -1,13 +1,13 @@
-<div class="filter-controls flex flex-wrap justify-evenly items-center mb-6 space-y-4 sm:space-y-0">
+<div class="filter-controls flex flex-wrap justify-around 2xl:justify-center 2xl:gap-32 items-center space-y-4 sm:space-y-0 mt-5 mx-4">
     <div class="w-full sm:w-auto mb-4 sm:mb-0">
-      <label for="city" class="block text-sm font-medium text-gray-700">
+      <label for="city" class="block text-sm font-semibold text-gray-500">
         City
       </label>
       <select
         id="city"
         [(ngModel)]="selectedCity"
         (change)="applyFilters()"
-        class="mt-1 block w-full sm:w-64 pl-3 pr-10 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        class="mt-1 block xl:w-96 w-full sm:w-64 pl-3 pr-10 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
         <option value="">All Cities</option>
         @for(city of uniqueCities; track city) {
           <option [value]="city">{{ city }}</option>
@@ -15,11 +15,11 @@
       </select>
     </div>
     <div class="relative w-full sm:w-auto mb-4 sm:mb-0">
-      <label for="price" class="block text-sm font-medium text-gray-700">
+      <label for="price" class="block text-sm font-semibold text-gray-500">
         Price Range
       </label>
       <button
-        class="mt-1 block w-full sm:w-64 pl-3 pr-10 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        class="mt-1 block xl:w-96 w-full sm:w-64 pl-3 pr-10 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
         (click)="togglePriceDropdown()">
         {{ priceRangeLabel }}
       </button>
@@ -76,8 +76,6 @@
 }
 
 </div>
-
-          
           <div class="flex justify-between">
             <button (click)="clearPriceFilters()" class="btn bg-white text-gray-500 border-gray-300">
               Clear
@@ -87,19 +85,17 @@
             </button>
           </div>
         </div>
-
       }
-
     </div>
     <div class="w-full sm:w-auto mb-4 sm:mb-0">
-      <label for="bedrooms" class="block text-sm font-medium text-gray-700">
+      <label for="bedrooms" class="block text-sm font-semibold text-gray-500">
         Bedrooms
       </label>
       <select
         id="bedrooms"
         [(ngModel)]="selectedBedrooms"
         (change)="applyFilters()"
-        class="mt-1 block w-full sm:w-64 pl-3 pr-10 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        class="mt-1 block w-full xl:w-96 sm:w-64 pl-3 pr-10 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
         <option value="" selected>Any</option>
         @for(bedroom of bedroomOptions; track bedroom) {
           <option [value]="bedroom">{{ bedroom }}</option>
