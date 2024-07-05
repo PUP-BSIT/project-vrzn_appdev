@@ -510,7 +510,7 @@ export class PropertyService {
     const owner = await this.authService.getUser(property.owner_id);
     const email = await this.mailService.sendMail({
       to: owner.email,
-      subject: 'New Reservation Application!',
+      subject: 'New Space Share Reservation!',
       html: `
         <!DOCTYPE html>
         <html xmlns="http://www.w3.org/1999/xhtml">
