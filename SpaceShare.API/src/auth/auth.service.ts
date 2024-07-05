@@ -209,7 +209,7 @@ export class AuthService {
   async sendMail(body: verification) {
     const email = await this.mailService.sendMail({
       to: body.mailTo,
-      subject: 'Get Started with Space Share 🚀',
+      subject: 'Get Started with Space Share!',
       html: `
         <!DOCTYPE html>
         <html xmlns="http://www.w3.org/1999/xhtml">
@@ -299,7 +299,7 @@ export class AuthService {
                                                             <tr>
                                                                 <td style="padding: 18px;" align="center">
                                                                     <div class= "title" style="text-align: center;">
-                                                                        📍 Welcome to <span>Space Share</span> 📍</span>
+                                                                         Welcome to <span>Space Share</span> </span>
                                                                     </div>
                                                                     <div style="text-align: center; margin-top: 3rem;">
                                                                         Thank you for joining us on our mission to <strong>improve access to shared spaces</strong>, and empower everyday people with the tools to manage their spaces efficiently. 🚀
@@ -327,7 +327,7 @@ export class AuthService {
                                                                         <span class="contact-text">If you have any questions or need help,</span>
                                                                     </div>
                                                                     <div style="text-align: center;">
-                                                                        <span class="contact-text">you can reach us at <a href="mailto:support@spaceshare.site">support@spaceshare.site</a>.</span>
+                                                                        <span class="contact-text">you can reach us at <a href="mailto:support@space-share.site">support@space-share.site</a>.</span>
                                                                     </div>
                                                                 </td>
                                                             </tr>
