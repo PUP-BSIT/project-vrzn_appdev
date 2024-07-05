@@ -406,7 +406,7 @@ export class PropertyService {
     if (!property) return;
 
     const currentRating = property.rating ?? 0;
-    const currentRatingCount = propertyHistory.length;
+    const currentRatingCount = propertyHistory.length > 1 ? propertyHistory.length : 0;
     const newRating =
       (currentRating * currentRatingCount + propertyRating.rating) /
       (currentRatingCount + 1);
