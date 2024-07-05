@@ -9,13 +9,7 @@
     <div
       class="flex items-center justify-center w-full h-full my-24 col-span-full"
     >
-      <div class="card w-96 bg-white shadow-xl">
-        <div class="card-body items-center text-center">
-          <img src="../../assets/empty.png" class="h-100 w-100" />
-          <h2 class="card-title">Whoops?!</h2>
-          <p>There's nothing to see here right now.</p>
-        </div>
-      </div>
+      <app-nothing-here/>
     </div>
     } @else if (loaded && wishlistedItem.length) { @for (card of wishlistedItem;
     track card.id) {
