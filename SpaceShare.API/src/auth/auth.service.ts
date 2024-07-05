@@ -484,6 +484,9 @@ export class AuthService {
                                                                         <p>or copy and paste this link in your browser</p>
                                                                         <p class="link-copy">${environment.originUrl}/password/reset?token=${token}</p>
                                                                     </div>
+                                                                    <div class="link" style="text-align: center; margin-top: 1rem;">
+                                                                        <p>Please note that the validity of this link will expire after one hour.</p>
+                                                                    </div>
                                                                     <div style="text-align: center; margin-top: 3rem;">
                                                                         <p>If you did not request this, please ignore this email. Your account security remains unchanged.</p>
                                                                     </div>
