@@ -1,4 +1,4 @@
-<div>
+<div class="mt-8">
   @if(propertyLoaded) {
   <!-- Title -->
   <h2 class="text-3xl text-black font-bold">{{ property.title }}</h2>
@@ -20,11 +20,15 @@
 
   <!-- Price -->
   <p class="text-5xl font-semibold text-green-800 mt-2">
-    PHP {{ property.price.toLocaleString() }} / month
+    @if (!property.status) {
+      PHP {{ property.price.toLocaleString() }} / month
+    } @else {
+      UNAVAILABLE
+    }
   </p>
 
   @if(isLoggedIn) {
-    <div class="flex items-center mt-8 gap-4 flex-wrap">
+    <div class="flex items-center mt-3 gap-4 flex-wrap">
       @if(+ownerId === +userId){
         <button 
           class="btn w-48 flex items-center justify-center bg-primary text-white hover:bg-[#9A58B6] shadow-lg"
@@ -42,7 +46,7 @@
         <!-- wishlist -->
         <button
           (click)="toggleWishlist()"
-          class="btn wishlist-btn my-2 border-gray-300 flex items-center justify-center w-full lg:w-auto">
+          class="btn wishlist-btn my-2 shadow-none border-gray-300 flex items-center justify-center w-full lg:w-auto bg-white hover:bg-[#f0f0f0]">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-6 w-6 heart-icon"
@@ -67,7 +71,7 @@
         }@else{
           <a [routerLink]="['/reservations']" class="btn w-full md:w-48 flex
            items-center justify-center bg-green-700 text-white
-          hover:bg-green-600 shadow-lg my-2 lg:my-0">See Reservations</a>
+          hover:bg-green-600 shadow-none my-2 lg:my-0">See Reservations</a>
         }
       </div> 
       }
@@ -80,8 +84,8 @@
   }
 
   <!-- Description -->
-  <div class="scrollable-content my-7">
-    <p class="text-xl font-semibold mt-4 mb-6">About this space</p>
+  <div class="scrollable-content mt-5 mb-3">
+    <p class="text-xl font-semibold mb-4">About this space</p>
     <p class="text-gray-500 mt-2 break-words overflow-hidden">
       {{ property.description }}
     </p>

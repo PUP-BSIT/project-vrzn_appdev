@@ -1,30 +1,28 @@
-<div class="card bg-white shadow-xl rounded-xl overflow-hidden flex flex-col sm:flex-row md:h-60">
-    <div class="pic sm:w-2/3 my-3 ml-3">
-        <img
-          [src]="property.images[0].image_url"
-          alt="House 1"
-          class="w-full h-32 sm:h-full object-cover rounded-xl"
-          [routerLink]="['/space/', property.id]"
-        />
-      </div>
-    <div class="pt-4 px-4 flex-1">
-        <span class="text-lg sm:text-xl md:text-base xl:text-xl font-semibold sm:mt-5 md:mt-0">
-            {{ property.title| slice : 0 : 15 }}
-            {{ property.title.length > 15 ? "..." : "" }}
-        </span>
-        <div class="divider my-0"></div>
-        <div class="text-gray-500 text-sm max-h-28 min-h-28 flex-wrap break-words overflow-hidden md:w-52 lg:w-40 xl:w-56">
-            <span class="font-semibold">Name: </span><span>{{ applicant.first_name }} {{ applicant.surname }}</span><br>
-            <span class="font-semibold">Email: </span><span>{{ applicant.email }}</span><br>
-            <span class="font-semibold">Phone: </span><span>{{ applicant.phone_number[0].number }}</span><br>
-            <span class="font-semibold">Notes: </span><span>{{ application.notes }}</span>
-        </div>
-        <div class="card-actions mt-7 flex justify-end">
-            <button class="btn btn-sm bg-white text-gray-500 border-gray-300" (click)="handleReject()">Reject</button>
-            <button class="btn btn-sm bg-primary text-white hover:bg-[#9A58B6]" (click)="handleAccept()">Accept</button>
-        </div>
+<div class="card bg-white shadow-xl rounded-lg overflow-hidden cursor-pointer h-[30rem]">
+  <figure class="relative mt-3 mx-3">
+    <img
+      [src]="property.images[0].image_url"
+      alt="House 1"
+      class="w-full h-[12rem] object-cover rounded-xl"
+    />
+  </figure>
+  <div class="card-body p-4">
+    <div>
+      <h2 class="card-title md:text-base lg:text-base font-semibold">{{ property.title }}</h2>
+      <div class="divider my-0"></div>
+      <div class="text-gray-500 text-sm max-h-[26rem] min-h-[10rem] flex-wrap break-words overflow-hidden w-full">
+        <span class="font-semibold">Name: </span><span>{{ applicant.first_name }} {{ applicant.surname }}</span><br>
+        <span class="font-semibold">Email: </span><span>{{ applicant.email }}</span><br>
+        <span class="font-semibold">Phone: </span><span>{{ applicant.phone_number[0].number }}</span><br>
+        <span class="font-semibold">Notes: </span><span>{{ application.notes }}</span>
     </div>
+    </div>
+    <div class="card-actions flex justify-end">
+      <button class="btn btn-sm bg-white text-gray-500 border-gray-300" (click)="handleReject()">Reject</button>
+      <button class="btn btn-sm bg-primary text-white hover:bg-[#9A58B6]" (click)="handleAccept()">Accept</button>
   </div>
+  </div>
+</div>
 @if(submitted){
   <app-wait />
 }
@@ -34,3 +32,4 @@
 }@if(error){
     <app-alert [mainMessage]="'Error'" [state]="'error'" [subMessage]="'Could not proceed with reservation.'" />
 }
+

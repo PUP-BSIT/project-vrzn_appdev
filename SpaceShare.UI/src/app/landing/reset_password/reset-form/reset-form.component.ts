@@ -84,7 +84,8 @@ export class ResetFormComponent implements OnInit {
   }
 
   getValidationClass(control: AbstractControl): string {
-    if (this.passForm.hasError('passwordsMismatch') && control.touched) {
+    if (this.passForm.hasError('passwordsMismatch') && control.touched 
+        && control === this.passForm.get('confirmPassword')) {
       return 'border-red-500';
     } else if (control.valid && control.touched) {
       return 'bg-green-50 border border-green-500 text-green-900 placeholder-green-700';
@@ -95,5 +96,5 @@ export class ResetFormComponent implements OnInit {
     } else {
       return '';
     }
-  }
+  }  
 }

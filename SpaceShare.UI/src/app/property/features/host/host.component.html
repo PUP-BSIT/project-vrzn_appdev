@@ -1,7 +1,8 @@
-<div class="flex justify-center items-center mt-10">
-    <div class="card w-full lg:w-full xl:w-10/12 bg-base-100 border-gray-300 border-1 shadow-xl flex flex-col items-center" [ngClass]="isLoggedIn ? '' : 'p-8'">
+
+<div class="flex justify-center items-center">
+    <div class="card w-full lg:w-full xl:w-10/12 border-gray-300 sm:border-t sm:border-b sm:border-l sm:border-r shadow-none rounded-3xl flex flex-col items-center" [ngClass]="isLoggedIn ? '' : 'pb-4'">
         <b class="font-bold text-2xl text-center mt-6 mb-4">
-            Meet your Host!
+            {{ isLoggedIn ? "Connect with Your Host!" : "Sign in to connect with your host!" }}
         </b>
         <div class="flex flex-col lg:flex-row items-center justify-evenly ml-0 lg:ml-7 gap-4 mb-4">
             <div class="w-24 h-24 flex justify-center items-center rounded-full border-2 border-gray-400 mb-4 lg:mb-0">

@@ -22,6 +22,8 @@ export class LoginComponent implements OnInit {
   showLink = false;
   loginForm!: FormGroup;
   errorMessage: string = '';
+  showPassword = false;
+  
   constructor(
     private formBuilder: FormBuilder,
     private loginService: LoginService,
@@ -82,6 +84,10 @@ export class LoginComponent implements OnInit {
 
   toggleLinkVisibility() {
     this.showLink = !this.showLink;
+  }
+
+  toggleShowPassword(){
+    this.showPassword = !this.showPassword;
   }
 
   closeModal() {

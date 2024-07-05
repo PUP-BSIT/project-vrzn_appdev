@@ -1,11 +1,6 @@
 @if(showlink) {
   <div class="flex justify-center items-center">
     <div class="w-full max-w-96 mx-auto">
-      @if(verified) {
-        <app-success [message]="message"></app-success>
-        <div class="mt-2 text-center text-gray-600">Auto-closing in {{ countdownSeconds }} seconds...</div>
-      }
-      @else {
         <p class="mt-6 mx-4 text-center text-violet-500 text-2xl font-bold">
           One Time Password (OTP) Verification
         </p>
@@ -35,7 +30,7 @@
           }
         </div>
         <div class="form-control mt-6">
-          <button class="btn bg-[#8644a2] text-white" [disabled]="otpControl.invalid">Verify</button>
+          <button class="btn bg-[#8644a2] hover:bg-[#9A58B6] text-white" [disabled]="otpControl.invalid">Verify</button>
         </div>
         </form>
         <div class="col-span-1 md:col-span-2 flex justify-center">
@@ -43,11 +38,8 @@
             Resend OTP Code
           </button>
         </div>
-      }
     </div>
   </div>
-} @else {
-    <app-register/>
 }
 @if(triggerToast){
   <div class="toast">
@@ -55,4 +47,11 @@
       <span>Code has been sent.</span>
     </div>
   </div>
+}
+@if(submitted){
+  <app-wait />
+}
+@if(success){
+  <app-alert [mainMessage]="'Register Successful!'" [state]="'success'"
+    [subMessage]="'Welcome to Space Share!'" />
 }

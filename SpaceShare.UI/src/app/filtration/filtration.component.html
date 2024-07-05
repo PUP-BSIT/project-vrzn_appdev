@@ -1,6 +1,6 @@
-<div class="filter-controls flex flex-wrap justify-evenly items-center mb-6 space-y-4 sm:space-y-0">
+<div class="filter-controls flex flex-wrap justify-evenly items-center space-y-4 sm:space-y-0 mt-5 mx-4">
     <div class="w-full sm:w-auto mb-4 sm:mb-0">
-      <label for="city" class="block text-sm font-medium text-gray-700">
+      <label for="city" class="block text-sm font-semibold text-gray-500">
         City
       </label>
       <select
@@ -15,7 +15,7 @@
       </select>
     </div>
     <div class="relative w-full sm:w-auto mb-4 sm:mb-0">
-      <label for="price" class="block text-sm font-medium text-gray-700">
+      <label for="price" class="block text-sm font-semibold text-gray-500">
         Price Range
       </label>
       <button
@@ -25,7 +25,7 @@
       </button>
       @if(isPriceDropdownOpen){
         <div
-          class="absolute z-10 w-full sm:w-64 bg-white border border-gray-300 rounded-md shadow-lg mt-1 p-4">
+          class="absolute z-50 w-full sm:w-64 bg-white border border-gray-300 rounded-md shadow-lg mt-1 p-4">
           <div class="mb-2">
             <button (click)="setPriceRange(0, 1000)" class="block w-full text-left px-4 py-2 hover:bg-gray-100">
               Below PHP 1k
@@ -76,8 +76,6 @@
 }
 
 </div>
-
-          
           <div class="flex justify-between">
             <button (click)="clearPriceFilters()" class="btn bg-white text-gray-500 border-gray-300">
               Clear
@@ -87,12 +85,10 @@
             </button>
           </div>
         </div>
-
       }
-
     </div>
     <div class="w-full sm:w-auto mb-4 sm:mb-0">
-      <label for="bedrooms" class="block text-sm font-medium text-gray-700">
+      <label for="bedrooms" class="block text-sm font-semibold text-gray-500">
         Bedrooms
       </label>
       <select

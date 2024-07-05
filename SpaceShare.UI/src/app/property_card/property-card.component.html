@@ -1,11 +1,12 @@
-<div class="card bg-white shadow-xl rounded-lg overflow-hidden cursor-pointer">
+<div class="card bg-white shadow-xl rounded-xl overflow-hidden cursor-pointer">
   <figure class="relative">
-    <img
-      [src]="card.images[0].image_url"
-      alt="House 1"
-      class="w-full h-48 object-cover"
-      [routerLink]="['/space', cardId]"
-    />
+    @if(card.images.length > 0){
+      <img [src]="card.images[0].image_url" alt="House 1" class="w-full h-48 object-cover"
+            [routerLink]="['/space', cardId]" />
+    }@else {
+      <img src="../../assets/home.jpg" alt="House 1" class="w-full h-48 object-cover"
+        [routerLink]="['/space', cardId]" />
+    }
     @if(owned) {
     <button class="delete-icon" (click)="openConfirmationModal()">
       <img src="../../assets/trash.svg" alt="delete" />
@@ -34,13 +35,21 @@
     </dialog>
     }
   </figure>
-  <div class="card-body p-4">
+  <div class="p-4" [routerLink]="['/space', cardId]">
+    <div class="flex justify-between">
+      <h2 class="card-title text-lg md:text-base lg:text-base xl:text-xl font-semibold">{{ card.title | slice : 0 : 21 }}
+        {{ card.title.length > 21 ? "..." : "" }}</h2>
+      <div class="flex align-middle justify-center">
+        <div class="tooltip tooltip-bottom flex items-center" data-tip="Rating">
+        <span class="mr-1 text-xl text-primary">★ {{ formatRating(card.rating!) }}</span>
+      </div>
+      </div>
+    </div>
     <div [routerLink]="['/space', cardId]">
-      <h2 class="card-title md:text-base lg:text-base font-semibold">{{ card.title }}</h2>
-      <p class="flex items-center text-gray-600 mb-2">
+      <div class="flex items-center text-gray-600 mb-1 text-base font-medium">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5 mr-1 text-red-500"
+          class="size-4 md:size-5 mr-0.5 text-red-500"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -50,8 +59,8 @@
             clip-rule="evenodd"
           />
         </svg>
-        {{ card.barangay }}, {{ card.city }}
-      </p>
+        {{ card.barangay }}, {{ card.city }} City
+      </div>
       <p
         class="text-gray-500 text-sm max-h-28 min-h-28 flex-wrap break-words overflow-hidden"
       >
@@ -59,6 +68,7 @@
         {{ card.description.length > 222 ? "..." : "" }}
       </p>
     </div>
+    
     @if(owned) {
     <div class="card-actions mt-4 justify-between">
       <div class="flex flex-row gap-2">
@@ -70,7 +80,7 @@
         /></a>
       </div>
       @if(!isOccupied){
-        <span class="text-2xl font-bold">₱{{ card.price.toLocaleString() }}</span>
+        <span class="text-2xl text-green-800 font-bold">₱{{ card.price.toLocaleString() }}</span>
       }@else {
         <span class="text-xl font-bold">UNAVAILABLE</span>
       }
@@ -92,7 +102,7 @@
         </div>
       </div>
       <div class="tooltip tooltip-top flex items-center" data-tip="Rent/month">
-        <span class="text-2xl font-bold">₱{{ card.price.toLocaleString() }}</span>
+        <span class="text-lg xl:text-2xl text-green-800 font-bold">₱{{ card.price.toLocaleString() }}</span>
       </div>
     </div>
     }

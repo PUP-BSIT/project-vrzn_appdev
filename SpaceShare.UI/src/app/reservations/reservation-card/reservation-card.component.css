@@ -1,9 +1,19 @@
-@media (max-width: 640px) {
-    .pic{
-        margin: 0px;
+@media (max-width: 767px) {
+    .pic img{
+        border-radius: 12px;
     }
 
-    .pic img {
-        border-radius: 0%;
+    .pic {
+        margin: 2% 0% 2% 2%;
+    }
+}
+
+@media (max-width: 639px) {
+    .pic img{
+        border-radius: 0px;
+    }
+
+    .pic {
+        margin:0%
     }
 }

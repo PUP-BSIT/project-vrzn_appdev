@@ -25,10 +25,17 @@
           <div>
             <p class="text-sm font-semibold">Dates</p>
             <p class="text-sm">{{ dates }}</p>
+            @if(!isDateValid) {
+              <div class="text-sm text-red-500 mt-1">
+                Please select a valid date within the next 5 months.
+              </div>
+            }
           </div>
+          
           <button class="font-semibold underline" (click)="openModal('dates')">
             Edit
           </button>
+          
         </div>
         <div class="flex justify-between items-center mt-4">
           <div>
@@ -43,25 +50,26 @@
     </div>
     <div class="divider mt-1"></div>
     <div class="mb-5">
-      <label class="block text-md font-bold text-gray-700"
-        >Message to host</label>
+      <label class="block text-md font-bold text-gray-700">Message to host</label>
       <textarea
         class="textarea 
                textarea-bordered 
                resize-none 
                w-full 
                h-40 
-             bg-white 
+               bg-white 
                rounded-lg 
                overflow-auto 
                break-words"
                [(ngModel)]="message"
-               (input)="checkMessageLength()"
+               (input)="onMessageInput()"
                (blur)="checkMessageRequired()"
         placeholder="Add Note to Host"
-        maxlength="125"
-        [(ngModel)]="message">
+        maxlength="125">
       </textarea>
+      <div class="text-gray-500 text-xs mt-1 text-right">
+        {{ message.length }} / 125
+      </div>
       @if(showCharacterLimitAlert){
         <div class="text-red-500 text-sm mt-1">
           Maximum character limit reached.
@@ -73,15 +81,15 @@
         </div>
       }
     </div>
-    <button
+      <button
       class="btn 
-           btn-primary 
-           text-white 
-             bg-primary 
-             border-none 
-           hover:bg-[#9A58B6] 
-             w-full"
-      [disabled]="!message.trim()"
+            btn-primary 
+            text-white 
+            bg-primary 
+            border-none 
+            hover:bg-[#9A58B6] 
+            w-full"
+      [disabled]="!message.trim() || !isDateValid || !isDateTouched"
       (click)="openModal('summary')">
       Continue
     </button>

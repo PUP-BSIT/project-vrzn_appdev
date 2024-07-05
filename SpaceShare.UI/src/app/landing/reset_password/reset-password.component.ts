@@ -30,9 +30,13 @@ export class ResetPasswordComponent implements OnInit {
 
   onSubmit() {
     if (!this.resetForm.valid) {
+      this.alertMessage = 'Please enter a valid email address.';
       return;
     }
-
+    this.alertMessage = `You will receive an email with instructions to reset your password 
+    if an account exists for this email address.`;
+    this.alertClass = 'alert-success';
+    
     const email = this.resetForm.value.email;
 
     this.resetService.forgotPassword(email).subscribe({

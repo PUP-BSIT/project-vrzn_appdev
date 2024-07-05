@@ -152,7 +152,7 @@ export class AuthService {
 
   async forgotPassword(email: string) {
     const user = await this.prismaService.user.findUnique({
-      where: { email, }
+      where: { email },
     });
 
     if (!user) throw new BadRequestException('Email does not exist');
@@ -172,11 +172,11 @@ export class AuthService {
 
     return {
       success: true,
-      message: 'Reset password mail sent'
-    }
+      message: 'Reset password mail sent',
+    };
   }
 
-  async resetPassword(resetPassword: ResetPasswordDto){
+  async resetPassword(resetPassword: ResetPasswordDto) {
     const { token, newPassword } = resetPassword;
 
     const user = await this.prismaService.user.findFirst({
@@ -197,19 +197,19 @@ export class AuthService {
         password: hashedPassword,
         resetPasswordToken: null,
         resetPasswordExpires: null,
-      }
-    })
+      },
+    });
 
     return {
       success: true,
-      message: 'Password reset successful'
-    }
+      message: 'Password reset successful',
+    };
   }
 
   async sendMail(body: verification) {
     const email = await this.mailService.sendMail({
       to: body.mailTo,
-      subject: 'Get Started with Space Share 🚀',
+      subject: 'Get Started with Space Share!',
       html: `
         <!DOCTYPE html>
         <html xmlns="http://www.w3.org/1999/xhtml">
@@ -299,7 +299,7 @@ export class AuthService {
                                                             <tr>
                                                                 <td style="padding: 18px;" align="center">
                                                                     <div class= "title" style="text-align: center;">
-                                                                        📍 Welcome to <span>Space Share</span> 📍</span>
+                                                                         Welcome to <span>Space Share</span> </span>
                                                                     </div>
                                                                     <div style="text-align: center; margin-top: 3rem;">
                                                                         Thank you for joining us on our mission to <strong>improve access to shared spaces</strong>, and empower everyday people with the tools to manage their spaces efficiently. 🚀
@@ -327,7 +327,7 @@ export class AuthService {
                                                                         <span class="contact-text">If you have any questions or need help,</span>
                                                                     </div>
                                                                     <div style="text-align: center;">
-                                                                        <span class="contact-text">you can reach us at <a href="mailto:support@spaceshare.site">support@spaceshare.site</a>.</span>
+                                                                        <span class="contact-text">you can reach us at <a href="mailto:support@space-share.site">support@space-share.site</a>.</span>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -351,20 +351,191 @@ export class AuthService {
     return email;
   }
 
-  async sendResetPasswordMail(email: string, token: string){
+  async sendResetPasswordMail(email: string, token: string) {
     const sendMail = await this.mailService.sendMail({
       to: email,
-      subject: 'Space Share Reset Password',
+      subject: 'Reset your password for Space Share',
       html: `
-        <p>follow this link to resetPassword:</p>
-
-        <a href="${environment.originUrl}/password/reset?token=${token}">RESET PASSWORD</a>
-
-        <p>This is team verizon</p>
+        <!DOCTYPE html>
+        <html xmlns="http://www.w3.org/1999/xhtml">
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum=1">
+            <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+            <style type="text/css">
+                body, p, div {
+                    font-family: 'Poppins', Arial, Helvetica, sans-serif;
+                    font-size: 14px;
+                    color: #000;
+                }
+                body a {
+                    color: #0074a6;
+                    text-decoration: none;
+                }
+                body a:visited {
+                    color: #0074a6;
+                    text-decoration: none;
+                }
+                .code-block, .code-block a {
+                    background-color: #8644a2;
+                    color: #fff !important;
+                    border: none;
+                    border-radius: 6px;
+                    display: inline-block;
+                    padding: 16px 24px;
+                    font-size: 18px;
+                    margin-top: 2rem;
+                    text-decoration: none;
+                }
+                .code-block a:visited {
+                    color: #fff !important;
+                    text-decoration: none;
+                }
+                .code-block a:hover {
+                    color: #fff !important;
+                    text-decoration: none;
+                }
+                .code-block a:active {
+                    color: #fff !important;
+                    text-decoration: none;
+                }
+                p { margin: 0; padding: 0; }
+                table.wrapper {
+                    width: 100% !important;
+                    table-layout: fixed;
+                    -webkit-font-smoothing: antialiased;
+                    -webkit-text-size-adjust: 100%;
+                    -moz-text-size-adjust: 100%;
+                    -ms-text-size-adjust: 100%;
+                }
+                img.max-width {
+                    max-width: 100% !important;
+                }
+                .title { 
+                    font-weight: bold;
+                    font-size: 24px; 
+                }
+                .app-name {
+                    color: #8644a2;
+                    font-weight: bold;
+                }
+                .link p {
+                    font-size: 12px; 
+                }
+                .link-copy, .link-copy:visited {
+                    color: #0074a6;
+                    text-decoration: none;
+                }
+                .contact-text {
+                    font-size: 12px; 
+                }
+                @media screen and (max-width:480px) {
+                    table.wrapper-mobile {
+                        width: 100% !important;
+                        table-layout: fixed;
+                    }
+                    img.max-width {
+                        height: auto !important;
+                        max-width: 100% !important;
+                    }
+                    .columns, .column {
+                        width: 100% !important;
+                        display: block !important;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <center class="wrapper" style="font-size: 14px; font-family: Arial, Helvetica, sans-serif; color: #000; background-color: #f6f7f8;">
+                <div class="webkit">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="wrapper" bgcolor="#f6f7f8">
+                        <tr>
+                            <td valign="top" bgcolor="#f6f7f8" width="100%">
+                                <table width="100%" role="content-container" align="center" cellpadding="0" cellspacing="0" border="0">
+                                    <tr>
+                                        <td width="100%">
+                                            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width: 600px;" align="center">
+                                                <tr>
+                                                    <td style="padding: 0; color: #000; text-align: left;" bgcolor="#fff" width="100%" align="left">
+                                                        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                                            <tr>
+                                                                <td style="padding: 0;" height="20px" bgcolor="#8644a2"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding: 15px 0 10px;" align="center">
+                                                                    <img class="max-width" src="https://vrzn-spaceshare-dev.s3.ap-southeast-1.amazonaws.com/logo.png" alt="" width="60">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding: 18px;" align="center">
+                                                                    <div class="title" style="text-align: center;">
+                                                                        We got your back!
+                                                                    </div>
+                                                                    <div style="text-align: center; margin-top: 1rem;">
+                                                                        <p>You have requested to reset your password for your <span class="app-name">Space Share</span> account.</p>
+                                                                    </div>
+                                                                    <div style="text-align: center; margin-top: 3rem;">
+                                                                        <p>Click the button below to set your new password:</p>
+                                                                    </div>
+                                                                    <div style="text-align: center; ">
+                                                                        <a href="${environment.originUrl}/password/reset?token=${token}" class="code-block">Change Password</a>
+                                                                    </div>
+                                                                    <div class="link" style="text-align: center; margin-top: 1rem;">
+                                                                        <p>or copy and paste this link in your browser</p>
+                                                                        <p class="link-copy">${environment.originUrl}/password/reset?token=${token}</p>
+                                                                    </div>
+                                                                    <div class="link" style="text-align: center; margin-top: 1rem;">
+                                                                        <p>Please note that the validity of this link will expire after one hour.</p>
+                                                                    </div>
+                                                                    <div style="text-align: center; margin-top: 3rem;">
+                                                                        <p>If you did not request this, please ignore this email. Your account security remains unchanged.</p>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding: 10px 0;" align="center"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding: 30px 50px; background-color: #f6f7f8;" align="center">
+                                                                    <div style="text-align: center;">
+                                                                        <span class="contact-text">Need a hand? 👋 </span>
+                                                                    </div>
+                                                                    <div style="text-align: center;">
+                                                                        <span class="contact-text">If you have any questions or need help,</span>
+                                                                    </div>
+                                                                    <div style="text-align: center;">
+                                                                        <span class="contact-text">you can reach us at <a href="mailto:support@space-share.site">support@space-share.site</a>.</span>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </center>
+        </body>
+        </html>
       `,
     });
 
     return sendMail;
+  }
+
+  async mailExist(email: string) {
+    const exist = await this.prismaService.user.findUnique({
+      where: { email: email },
+    });
+
+    if (!exist) return false;
+
+    return true;
   }
 
   // #region helper functions

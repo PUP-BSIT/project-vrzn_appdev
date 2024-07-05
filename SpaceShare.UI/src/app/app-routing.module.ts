@@ -29,6 +29,7 @@ import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { ReserveComponent } from './reserve/reserve.component';
 import { ReservationsComponent } from './reservations/reservations.component';
 import { ApplicationsComponent } from './applications/applications.component';
+import { reserveGuard } from './auth/reserve-guard.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -52,7 +53,7 @@ const routes: Routes = [
   {
     path: 'space/reserve/:id',
     component: ReserveComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, reserveGuard]
   },
   {
     path: 'space/:id',

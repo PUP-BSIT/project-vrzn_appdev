@@ -1,22 +1,23 @@
-<div class="card bg-white shadow-xl rounded-xl h-36 overflow-hidden cursor-pointer flex flex-col sm:flex-row">
-    <div class="pic sm:w-1/3 my-3 ml-3">
-        <img
-          [src]="property.images[0].image_url"
-          alt="House 1"
-          class="w-full h-32 sm:h-full object-cover rounded-xl"
-          [routerLink]="['/space/', property.id]"
-        />
-      </div>
-    <div class="p-4 flex-1">
+<div class="h-auto">
+  <div class="card shadow-lg rounded-2xl border-gray-300 h-auto overflow-hidden cursor-pointer flex flex-col sm:flex-row">
+    <div class="pic sm:w-1/3 w-full md:my-2 md:ml-2">
+      <img
+        [src]="property.images[0].image_url"
+        alt="House 1"
+        class="w-full h-32 object-cover rounded-xl"
+        [routerLink]="['/space/', property.id]"
+      />
+    </div>
+    <div class="p-4 flex-1 relative">
       <div [routerLink]="['/space/', property.id]">
-        <span class="text-lg sm:text-xl md:text-base xl:text-xl font-semibold sm:mt-5 md:mt-0">
-          {{ property.title| slice : 0 : 12 }}
+        <span class="text-lg sm:text-xl md:text-base xl:text-xl font-semibold sm:mt-0">
+          {{ property.title | slice: 0:12 }}
           {{ property.title.length > 12 ? "..." : "" }}
         </span>
         <div class="divider my-0"></div>
-        <div class="text-gray-500 text-sm max-h-28 min-h-28 flex-wrap break-words overflow-hidden">
+        <div class="text-gray-500 text-sm flex-wrap break-words">
           <span>Location: </span><span>{{ property.city }}</span><br>
-          <span>Applied: </span><span>{{ reservation.created_at | date : 'MMM d, y' }}</span><br>
+          <span>Applied: </span><span>{{ reservation.created_at | date: 'MMM d, y' }}</span><br>
           <span>Status: </span><span>{{ reservation.status }}</span>
         </div>
       </div>
@@ -26,9 +27,11 @@
             <img src="../../../assets/kebab.svg" alt="options" class=" w-5 h-5">
           </div>
         </div>
-        <ul tabindex="0" class="menu menu-sm dropdown-content z-20 p-2 shadow-md bg-white rounded-none w-auto">
-          <li><a class="font-bold" (click)="handleDelete()">Delete</a></li>
+        <ul tabindex="0" class="menu menu-sm dropdown-content z-20 p-2 shadow-xl bg-white rounded-none w-auto">
+          <li><a class="font-semibold" (click)="handleDelete()">Delete</a></li>
         </ul>
       </div>
     </div>
   </div>
+</div>
+

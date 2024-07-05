@@ -20,6 +20,10 @@ export class RatingComponent {
     this.ratingModal.nativeElement.showModal();
   }
 
+  closeModal() {
+    this.ratingModal.nativeElement.close();
+  }
+
   submitRating(){
     this.submitted = true;
 

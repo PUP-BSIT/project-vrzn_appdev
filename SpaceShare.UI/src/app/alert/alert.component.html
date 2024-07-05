@@ -36,7 +36,14 @@
                 <a href="/home"
                     class="btn w-full align-middle bg-primary border-none outline-none hover:bg-[#9A58B6] text-white">Okay</a>
             </div>
-        }@else {
+        }
+        @else if(state === 'success' && mainMessage === 'Register Successful!'){
+            <div class="flex justify-center">
+                <a href="/home"
+                    class="btn w-full align-middle bg-primary border-none outline-none hover:bg-[#9A58B6] text-white">Let's Go</a>
+            </div>
+        }
+        @else {
             <div class="flex justify-center">
                 <button (click)="isShownMethod()" 
                     class="btn w-full align-middle bg-primary border-none outline-none hover:bg-[#9A58B6] text-white">Okay</button>

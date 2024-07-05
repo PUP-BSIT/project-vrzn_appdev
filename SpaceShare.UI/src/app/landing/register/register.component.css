@@ -29,7 +29,7 @@ button.disabled {
   border-radius: 4px;
   background-color: #e5e7eb;
   color: #111827;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 .label:hover {
@@ -44,11 +44,19 @@ button.disabled {
 .step-secondary::after {
   background-color: #8644a2 !important;
   color: white;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 .step {
-  transition: transform 0.3s ease-in-out, opacity 0.3s ease;
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease;
+}
+
+.modal::-webkit-scrollbar {
+  display: none;
+}
+
+li.step::before {
+  background-color: white;
 }
 
 @media (min-width: 1024px) {
@@ -56,3 +64,4 @@ button.disabled {
     max-width: 900px;
   }
 }
+
