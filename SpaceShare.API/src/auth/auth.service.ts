@@ -372,6 +372,33 @@ export class AuthService {
                     color: #0074a6;
                     text-decoration: none;
                 }
+                body a:visited {
+                    color: #0074a6;
+                    text-decoration: none;
+                }
+                .code-block, .code-block a {
+                    background-color: #8644a2;
+                    color: #fff !important;
+                    border: none;
+                    border-radius: 6px;
+                    display: inline-block;
+                    padding: 16px 24px;
+                    font-size: 18px;
+                    margin-top: 2rem;
+                    text-decoration: none;
+                }
+                .code-block a:visited {
+                    color: #fff !important;
+                    text-decoration: none;
+                }
+                .code-block a:hover {
+                    color: #fff !important;
+                    text-decoration: none;
+                }
+                .code-block a:active {
+                    color: #fff !important;
+                    text-decoration: none;
+                }
                 p { margin: 0; padding: 0; }
                 table.wrapper {
                     width: 100% !important;
@@ -392,21 +419,12 @@ export class AuthService {
                     color: #8644a2;
                     font-weight: bold;
                 }
-                .code-block {
-                    background-color: #8644a2;
-                    border: none;
-                    border-radius: 6px;
-                    color: #fff;
-                    display: inline-block;
-                    padding: 16px 24px;
-                    font-size: 18px; 
-                    margin-top: 2rem;
-                }
                 .link p {
                     font-size: 12px; 
                 }
-                .link-copy {
+                .link-copy, .link-copy:visited {
                     color: #0074a6;
+                    text-decoration: none;
                 }
                 .contact-text {
                     font-size: 12px; 
