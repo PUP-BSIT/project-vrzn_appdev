@@ -8,6 +8,7 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { AuthService } from 'src/auth/auth.service';
 import { Notification } from './dto/notification.dto';
 import { EventService } from 'src/event/event.service';
+import { environment } from 'environment/app.settings';
 
 @Injectable()
 export class PropertyService {
@@ -16,7 +17,7 @@ export class PropertyService {
     private s3Service: S3Service,
     private mailService: MailerService,
     private authService: AuthService,
-    private eventService: EventService
+    private eventService: EventService,
   ) {}
 
   async getProperties() {
@@ -233,14 +234,14 @@ export class PropertyService {
     await this.prismaService.tenantApplication.deleteMany({
       where: {
         property_id: id,
-      }
-    })
+      },
+    });
 
     await this.prismaService.spaceHistory.deleteMany({
       where: {
         property_id: id,
-      }
-    })
+      },
+    });
 
     await this.prismaService.wishlist.deleteMany({
       where: {
@@ -261,15 +262,15 @@ export class PropertyService {
 
   async reserveProperty(application: Reservation) {
     const hasReserved = await this.prismaService.tenantApplication.findMany({
-      where: { 
+      where: {
         applicant_id: application.applicant_id,
-        property_id: application.property_id
-      }
-    })
+        property_id: application.property_id,
+      },
+    });
 
-    if(hasReserved.length) return;
+    if (hasReserved.length) return;
 
-    const reservation =  await this.prismaService.tenantApplication.create({
+    const reservation = await this.prismaService.tenantApplication.create({
       data: {
         property_id: +application.property_id,
         applicant_id: +application.applicant_id,
@@ -279,16 +280,16 @@ export class PropertyService {
     });
 
     const property = await this.prismaService.property.findUnique({
-      where : { id: application.property_id }
-    })
+      where: { id: application.property_id },
+    });
 
-    if(!reservation) return;
+    if (!reservation) return;
 
     await this.eventService.createNotification({
       userToUpdate: +property.owner_id,
       isApplication: true,
       isReservation: false,
-    })
+    });
 
     return reservation;
   }
@@ -323,48 +324,47 @@ export class PropertyService {
     await this.prismaService.spaceHistory.create({
       data: {
         property_id: +application.property_id,
-        tenant_id: +application.applicant_id
-      }
-    })
+        tenant_id: +application.applicant_id,
+      },
+    });
 
     await this.eventService.createNotification({
       userToUpdate: +application.applicant_id,
       isApplication: false,
       isReservation: true,
-    })
+    });
 
     return { success: true };
   }
 
-  async getSpaceHistories(property_id: number, tenant_id: number){
+  async getSpaceHistories(property_id: number, tenant_id: number) {
     return await this.prismaService.spaceHistory.findMany({
       where: {
         property_id,
         tenant_id,
-      }
-    })  
+      },
+    });
   }
 
   async rejectApplication(id: number) {
-    const updated = this.prismaService.tenantApplication
-      .update({
-        where: {
-          id,
-        },
-        data: {
-          status: 'Rejected',
-        },
-      });
+    const updated = this.prismaService.tenantApplication.update({
+      where: {
+        id,
+      },
+      data: {
+        status: 'Rejected',
+      },
+    });
 
-      if(!updated) return;
+    if (!updated) return;
 
-      await this.eventService.createNotification({
-        userToUpdate: (await updated).applicant_id,
-        isApplication: false,
-        isReservation: true,
-      })
+    await this.eventService.createNotification({
+      userToUpdate: (await updated).applicant_id,
+      isApplication: false,
+      isReservation: true,
+    });
 
-      return updated ? { success: true } : { success: false }
+    return updated ? { success: true } : { success: false };
   }
 
   async deleteApplication(id: number) {
@@ -400,10 +400,10 @@ export class PropertyService {
   async rateProperty(propertyRating: { id: number; rating: number }) {
     const property = await this.getProperty(propertyRating.id);
     const propertyHistory = await this.prismaService.spaceHistory.findMany({
-      where: { property_id: propertyRating.id }
-    })
+      where: { property_id: propertyRating.id },
+    });
 
-    if(!property) return;
+    if (!property) return;
 
     const currentRating = property.rating ?? 0;
     const currentRatingCount = propertyHistory.length;
@@ -533,8 +533,168 @@ export class PropertyService {
       to: applicant.email,
       subject: `${property.title} = Application Update!`,
       html: `
-          <p>Your application on ${property.title} has been ${status} by the owner.</p>
-          <p>Enjoy your Space!<p>
+      <!DOCTYPE html>
+      <html xmlns="http://www.w3.org/1999/xhtml">
+      <head>
+          <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+          <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+          <style type="text/css">
+              body, p, div {
+                  font-family: 'Poppins', Arial, Helvetica, sans-serif;
+                  font-size: 14px;
+                  color: #000;
+              }
+              body a {
+                  color: #0074a6;
+                  text-decoration: none;
+              }
+              p { margin: 0; padding: 0; }
+              table.wrapper {
+                  width: 100% !important;
+                  table-layout: fixed;
+                  -webkit-font-smoothing: antialiased;
+                  -webkit-text-size-adjust: 100%;
+                  -moz-text-size-adjust: 100%;
+                  -ms-text-size-adjust: 100%;
+              }
+              img.max-width {
+                  max-width: 100% !important;
+              }
+              .title { 
+                  font-weight: bold;
+                  font-size: 24px; 
+              }
+              .property-title {
+                  color: #8644a2;
+                  font-weight: bold;
+              }
+              .status {
+                  font-weight: bold;
+              }
+              .status-accepted {
+                  color: green;
+              }
+              .status-rejected {
+                  color: red;
+              }
+              .code-block {
+                  background-color: #8644a2;
+                  border: none;
+                  border-radius: 6px;
+                  color: #fff;
+                  display: inline-block;
+                  padding: 16px 24px;
+                  font-size: 18px; 
+                  margin-top: 2rem;
+                  text-decoration: none;
+              }
+              .contact-text {
+                  font-size: 12px; 
+              }
+              .link p {
+                  font-size: 12px; 
+              }
+              .link-copy {
+                  color: #0074a6;
+              }
+              @media screen and (max-width:480px) {
+                  table.wrapper-mobile {
+                      width: 100% !important;
+                      table-layout: fixed;
+                  }
+                  img.max-width {
+                      height: auto !important;
+                      max-width: 100% !important;
+                  }
+                  .columns, .column {
+                      width: 100% !important;
+                      display: block !important;
+                  }
+              }
+          </style>
+      </head>
+      <body>
+          <center class="wrapper" style="font-size: 14px; font-family: Arial, Helvetica, sans-serif; color: #000; background-color: #f6f7f8;">
+              <div class="webkit">
+                  <table cellpadding="0" cellspacing="0" border="0" width="100%" class="wrapper" bgcolor="#f6f7f8">
+                      <tr>
+                          <td valign="top" bgcolor="#f6f7f8" width="100%">
+                              <table width="100%" role="content-container" align="center" cellpadding="0" cellspacing="0" border="0">
+                                  <tr>
+                                      <td width="100%">
+                                          <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width: 600px;" align="center">
+                                              <tr>
+                                                  <td style="padding: 0; color: #000; text-align: left;" bgcolor="#fff" width="100%" align="left">
+                                                      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                                          <tr>
+                                                              <td style="padding: 0;" height="20px" bgcolor="#8644a2"></td>
+                                                          </tr>
+                                                          <tr>
+                                                              <td style="padding: 15px 0 10px;" align="center">
+                                                                  <img class="max-width" style="margin-top: 1rem;" src="https://vrzn-spaceshare-dev.s3.ap-southeast-1.amazonaws.com/profiles.png" alt="" width="40">
+                                                              </td>
+                                                          </tr>
+                                                          <tr>
+                                                              <td style="padding: 18px;" align="center">
+                                                                  <div style="text-align: center; margin-bottom: 1rem;">
+                                                                      <p>Your application was reviewed by the property owner of 
+                                                                      <div style="text-align: center;">
+                                                                          <a href="${environment.originUrl}/applications" class="code-block">${property.title}</a>
+                                                                      </div>
+                                                                      <div class="link" style="text-align: center; margin-top: 1rem;">
+                                                                          <p>or copy and paste this link in your browser</p>
+                                                                          <p class="link-copy">${environment.originUrl}/applications</p>
+                                                                      </div>
+                                                                  </div>
+                                                                  <div style="text-align: center; margin-top: 2rem;">
+                                                                      <p>The application status is: 
+                                                                      <span class="status ${status === 'Accepted' ? 'status-accepted' : 'status-rejected'}">
+                                                                          ${status}
+                                                                      </span>.
+                                                                      </p>
+                                                                  </div>
+                                                                  <div style="text-align: center; margin-top: 2rem;">
+                                                                      <p>${status === 'Accepted' ? 'Congratulations on your successful application! 🎉 We are thrilled to welcome you to the Space Share community. We hope you enjoy your new space and make the most out of it.' : 'Unfortunately, your application was not successful this time. However, do not be discouraged! We have many other wonderful properties available for you to explore. Keep searching and you will find the perfect space for your needs.'}</p>
+                                                                  </div>
+                                                                  <div style="text-align: center; margin-top: 2rem;">
+                                                                      <p>Thank you for using Space Share. We are committed to helping you find the best spaces to meet your needs.</p>
+                                                                  </div>
+                                                              </td>
+                                                          </tr>
+                                                          <tr>
+                                                              <td style="padding: 10px 0;" align="center"></td>
+                                                          </tr>
+                                                          <tr>
+                                                              <td style="padding: 30px 50px; background-color: #f6f7f8;" align="center">
+                                                                  <div style="text-align: center;">
+                                                                      <img class="max-width" src="https://vrzn-spaceshare-dev.s3.ap-southeast-1.amazonaws.com/logo.png" alt="" width="60">
+                                                                  </div>
+                                                                  <div style="text-align: center;">
+                                                                      <span class="contact-text">Need a hand? 👋 </span>
+                                                                  </div>
+                                                                  <div style="text-align: center;">
+                                                                      <span class="contact-text">If you have any questions or need help,</span>
+                                                                  </div>
+                                                                  <div style="text-align: center;">
+                                                                      <span class="contact-text">you can reach us at <a href="mailto:support@space-share.site">support@space-share.site</a>.</span>
+                                                                  </div>
+                                                              </td>
+                                                          </tr>
+                                                      </table>
+                                                  </td>
+                                              </tr>
+                                          </table>
+                                      </td>
+                                  </tr>
+                              </table>
+                          </td>
+                      </tr>
+                  </table>
+              </div>
+          </center>
+      </body>
+      </html>
         `,
     });
   }
