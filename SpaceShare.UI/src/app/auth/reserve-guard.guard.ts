@@ -28,7 +28,7 @@ export const reserveGuard: CanActivateFn = (
         router.navigate(['/went-wrong']);
         return of(false);
       }
-      if (property.owner_id === +currentUserId) {
+      if (property.owner_id === +currentUserId || property.status) {
         router.navigate(['/went-wrong']);
         return of(false);
       }
