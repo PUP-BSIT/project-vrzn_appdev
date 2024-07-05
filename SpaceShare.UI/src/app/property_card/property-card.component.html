@@ -39,9 +39,11 @@
     <div class="flex justify-between">
       <h2 class="card-title text-lg md:text-base lg:text-base xl:text-xl font-semibold">{{ card.title | slice : 0 : 21 }}
         {{ card.title.length > 21 ? "..." : "" }}</h2>
+    <div class="tooltip tooltip-bottom flex items-center" data-tip="Rating">
       <div class="flex align-middle justify-center">
-        <span class="mr-1 text-lg text-black">★ {{ card.rating !== null ? card.rating : 1 }}</span>
+        <span class="mr-1 text-xl text-primary">★ {{ card.rating !== null ? card.rating : 1 }}</span>
       </div>
+    </div>
     </div>
     <div [routerLink]="['/space', cardId]">
       <div class="flex items-center text-gray-600 mb-1 text-base font-medium">
@@ -78,7 +80,7 @@
         /></a>
       </div>
       @if(!isOccupied){
-        <span class="text-2xl font-bold">₱{{ card.price.toLocaleString() }}</span>
+        <span class="text-2xl font-bold text-green-800">₱{{ card.price.toLocaleString() }}</span>
       }@else {
         <span class="text-xl font-bold">UNAVAILABLE</span>
       }
@@ -100,7 +102,7 @@
         </div>
       </div>
       <div class="tooltip tooltip-top flex items-center" data-tip="Rent/month">
-        <span class="text-lg xl:text-2xl font-bold">₱{{ card.price.toLocaleString() }}</span>
+        <span class="text-lg xl:text-2xl font-bold text-green-800">₱{{ card.price.toLocaleString() }}</span>
       </div>
     </div>
     }
