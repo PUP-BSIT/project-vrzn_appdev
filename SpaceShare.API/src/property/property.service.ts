@@ -531,7 +531,7 @@ export class PropertyService {
 
     return await this.mailService.sendMail({
       to: applicant.email,
-      subject: `${property.title} = Update on Your Space Share Application`,
+      subject: `Update on Your Space Share Application`,
       html: `
         <!DOCTYPE html>
         <html xmlns="http://www.w3.org/1999/xhtml">
