@@ -1,65 +1,64 @@
 <div>
     @if(propertyLoaded) {
-    <div class="flex flex-wrap justify-evenly">
+    <div class="flex flex-wrap justify-center mt-0">
         <div class="flex-col 
-                                items-center 
-                                justify-center
-                                rounded-lg 
-                                p-2 
-                                w-36 
-                                h-36 
-                                text-center 
-                                bg-base-100 
-                                shadow-xl 
-                                m-2">
+                    items-center 
+                    justify-center
+                    rounded-none
+                    p-2 
+                    w-36 
+                    h-36 
+                    text-center  
+                    shadow-none
+                    m-2">
             <div class="flex items-center justify-center">
                 <img src="../../assets/bed.png" alt="Bedroom Icon" class="w-15 h-14 mt-4 mb-5">
             </div>
             <span class="w-full 
-                                     inline 
-                                     font-bold  
-                                     text-black
-                                     text-lg">Bedroom: {{ property.bedroom }}
+                        inline 
+                        font-bold  
+                      text-black
+                        text-lg">Bedroom: {{ property.bedroom }}
             </span>
         </div>
         <div class="flex-col 
-                                items-center 
-                                justify-center 
-                                rounded-lg 
-                                p-2 
-                                w-36 
-                                h-36 
-                                text-center 
-                                bg-base-100 
-                                shadow-xl m-2">
+                    items-center 
+                    justify-center 
+                    rounded-none 
+                    p-2 
+                    w-36 
+                    h-36 
+                    text-center  
+                    shadow-none 
+                    m-2">
             <div class="flex items-center justify-center">
                 <img src="../../assets/area.png" alt="Area Icon" class="w-14 h-14 mt-4 mb-5">
             </div>
             <span class="w-full 
-                                     inline 
-                                     font-bold 
-                                     text-lg 
-                                     text-black">Area: {{ property.area }}m²
+                         inline 
+                         font-bold 
+                         text-lg 
+                       text-black">Area: {{ property.area }}m²
             </span>
         </div>
         <div class="flex-col 
-                                items-center 
-                                justify-center 
-                                rounded-lg 
-                                p-2 
-                                w-36 
-                                h-36 
-                                text-center 
-                                bg-base-100 
-                                shadow-xl m-2">
+                    items-center 
+                    justify-center 
+                    rounded-lg 
+                    p-2 
+                    w-36 
+                    h-36 
+                    text-center  
+                    shadow-none 
+                    m-2">
             <div class="flex items-center justify-center">
                 <img src="../../assets/guest.png " alt="Guest Icon" class="w-14 h-14 mt-4 mb-5">
             </div>
             <span class="w-full 
-                                     inline 
-                                     font-bold 
-                                     text-lg 
-                                     text-black">Guest: {{ property.capacity }}
+                         inline 
+                         font-bold 
+                         text-lg 
+                       text-black">Guest: {{ property.capacity }}
             </span>
         </div>
     </div>

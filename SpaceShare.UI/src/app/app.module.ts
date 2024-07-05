@@ -74,6 +74,7 @@ import { RatingService } from './property/info/rating/rating.service';
 import { ReservationCardService } from './reservations/reservation-card/reservation-card.service';
 import { ResetPasswordService } from './landing/reset_password/reset-password.service';
 import { SseService } from './landing/navbar/sse.service';
+import { NothingHereComponent } from './nothing-here/nothing-here.component';
 
 @NgModule({
   declarations: [
@@ -123,6 +124,7 @@ import { SseService } from './landing/navbar/sse.service';
     ApplicationsComponent,
     ApplicationCardComponent,
     RatingComponent,
+    NothingHereComponent,
   ],
   imports: [
     ReactiveFormsModule,
