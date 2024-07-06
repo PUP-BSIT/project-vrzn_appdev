@@ -309,11 +309,18 @@ export class FormListingComponent implements OnInit {
 
   loadCitiesByRegion(regionCode: string): void {
     this.locationService.getCities().subscribe((data: City[]) => {
+      const excludedCityCodes = [
+        "133901", "133902", "133903", "133904", "133905",
+        "133906", "133907", "133908", "133909", "133910",
+        "133911", "133912", "133913", "133914", 
+      ];
+      
       this.cities = data.filter((entry: City) =>
-        entry.province_code.startsWith(regionCode)
+        entry.province_code.startsWith(regionCode) && !excludedCityCodes.includes(entry.city_code)
       );
     });
   }
+  
 
   onFileChange(): void {
     const inputElement = this.fileInput.nativeElement;
