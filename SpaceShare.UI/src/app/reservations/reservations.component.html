@@ -1,6 +1,6 @@
 <div class="container mx-auto px-4 py-8">
     <div class="w-full max-w-md p-2">
-      <h1 class="text-4xl font-bold card w-full 2xl:ml-8">
+      <h1 class="text-4xl font-bold card w-full 2xl:ml-8 slide-in-top">
         My Reservations
       </h1>
     </div>
@@ -22,7 +22,7 @@
       </div>
       } @else if (loaded && reservations.length) { 
           @for (card of reservations; track card.property_id) {
-            <div class="w-full max-w-md p-2">
+            <div class="w-full max-w-md p-2 slide-in-below">
               <app-reservation-card [reservation]="card" 
                                     (delete)="handleChildDelete($event)" 
                                     class="m-2"/>

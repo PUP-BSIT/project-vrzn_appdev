@@ -32,8 +32,8 @@
     />
     }
     <div class="container mx-auto p-2 md:p-4">
-      <h1 class="text-3xl font-bold mb-4 md:mb-7">{{ title }}</h1>
-      <form class="space-y-6" [formGroup]="propertyForm" (submit)="onSubmit()">
+      <h1 class="text-3xl font-bold mb-4 md:mb-7 slide-in-top">{{ title }}</h1>
+      <form class="space-y-6 slide-in-right" [formGroup]="propertyForm" (submit)="onSubmit()">
         @if(isEditing){
         <div>
           <label class="block text-sm font-bold text-gray-700 mb-1">Available</label>
