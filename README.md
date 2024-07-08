@@ -21,6 +21,10 @@ Access Space Share in different stages of deployment for testing and production:
 
 [Space Share](https://spaceshare.site/) will be sharing soon! Stay tuned for the official launch and start experiencing a better way to rent and list properties.
 
+## UAT Credentials
+email: drakekhendrick@gmail.com
+password: Password@123
+
 ## Project Team
 
 - **Project Manager/Developer**: Christian Harrel Go
