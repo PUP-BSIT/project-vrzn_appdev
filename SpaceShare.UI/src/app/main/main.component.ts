@@ -21,6 +21,7 @@ export class MainComponent implements OnInit {
   itemsPerPage: number = 9;
   totalPages: number = 1;
   uniqueCities: string[] = [];
+  filter = false;
 
   constructor(private mainService: MainService, private router : Router,
     private authService: AuthService
@@ -58,6 +59,10 @@ export class MainComponent implements OnInit {
   onPageChanged(page: number): void {
     this.currentPage = page;
     this.updatePaginatedCards();
+  }
+
+  toggleFilter(){
+    this.filter = !this.filter;
   }
 
   filterCards(filters?: any): void {
