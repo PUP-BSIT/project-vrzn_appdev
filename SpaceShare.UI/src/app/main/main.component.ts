@@ -36,7 +36,7 @@ export class MainComponent implements OnInit {
             .filter((data) => data.owner_id !== +currentUserId)
             .sort((a, b) => b.rating! - a.rating!); 
         } else {
-          this.cards = data;
+          this.cards = data.sort((a, b) => b.rating! - a.rating!);
         }
         this.uniqueCities = [...new Set(this.cards.map((card) => card.city))];
         this.filterCards();
