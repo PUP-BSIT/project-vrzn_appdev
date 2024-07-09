@@ -245,14 +245,14 @@
                 multiple
               />
             </label>
-            @if(filesControl.touched && filesControl.invalid) { @if
-            (filesControl.errors?.['required']) {
-            <div class="error-message text-red-500 mt-1 pl-1">
-              Share some Space View
-            </div>
-            } }
           </div>
         </div>
+        @if(filesControl.touched && filesControl.invalid) { @if
+          (filesControl.errors?.['required']) {
+          <div class="error-message text-red-500 mt-1 pl-1">
+            Space View must not be Empty
+          </div>
+          } }
 
         @if(imageLimitExceeded){
         <div role="alert" class="alert alert-warning">

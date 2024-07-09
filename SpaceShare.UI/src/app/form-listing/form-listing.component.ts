@@ -309,11 +309,18 @@ export class FormListingComponent implements OnInit {
 
   loadCitiesByRegion(regionCode: string): void {
     this.locationService.getCities().subscribe((data: City[]) => {
+      const excludedCityCodes = [
+        "133901", "133902", "133903", "133904", "133905",
+        "133906", "133907", "133908", "133909", "133910",
+        "133911", "133912", "133913", "133914", 
+      ];
+      
       this.cities = data.filter((entry: City) =>
-        entry.province_code.startsWith(regionCode)
+        entry.province_code.startsWith(regionCode) && !excludedCityCodes.includes(entry.city_code)
       );
     });
   }
+  
 
   onFileChange(): void {
     const inputElement = this.fileInput.nativeElement;
@@ -338,23 +345,31 @@ export class FormListingComponent implements OnInit {
     ];
     const validFiles: File[] = [];
     const invalidFiles: File[] = [];
-
+    const sizeLimitExceededFiles: File[] = [];
+    const MAX_SIZE_MB = 5;
+    const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
+  
     files.forEach((file) => {
-      if (validFileTypes.includes(file.type)) {
-        validFiles.push(file);
-      } else {
+      if (!validFileTypes.includes(file.type)) {
         invalidFiles.push(file);
+      } else if (file.size > MAX_SIZE_BYTES) {
+        sizeLimitExceededFiles.push(file);
+      } else {
+        validFiles.push(file);
       }
     });
-
+  
     // Check if any files are invalid
     if (invalidFiles.length > 0) {
       this.fileError =
-        'Some files have invalid formats. Only JPEG, PNG, GIF, and SVG formats are allowed.';
+        'Files have invalid formats. Only JPEG, PNG, GIF, and SVG formats are allowed.';
+    } else if (sizeLimitExceededFiles.length > 0) {
+      this.fileError =
+        'File exceed the size limit of 5 MB. Please upload smaller files.';
     } else {
       this.fileError = null;
     }
-
+  
     // Check if exceeding maximum number of images
     if (validFiles.length + this.images.length > this.maxImages) {
       this.imageLimitExceeded = true;
@@ -367,13 +382,14 @@ export class FormListingComponent implements OnInit {
           preview: URL.createObjectURL(file),
         })),
       ];
-
+  
       this.propertyForm.patchValue({
         files: this.images.map((image) => image.file),
       });
       this.propertyForm.get('files')!.updateValueAndValidity();
     }
   }
+  
 
   setImages(images: { image_url: string }[]): void {
     const dataTransfer = new DataTransfer();

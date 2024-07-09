@@ -4003,6 +4003,7 @@
       "psgc_code": "050509000",
       "region_desc": "05"
     },
+
     {
       "city_code": "050510",
       "city_name": "Malinao",
@@ -4017,6 +4018,7 @@
       "psgc_code": "050511000",
       "region_desc": "05"
     },
+    
     {
       "city_code": "050512",
       "city_name": "Oas",
@@ -9442,6 +9444,14 @@
       "psgc_code": "129804000",
       "region_desc": "12"
     },
+    {
+      "city_code": "133900",
+      "city_name": "Manila",
+      "province_code": "1339",
+      "psgc_code": "133900000",
+      "region_desc": "13"
+    },
+    
     {
       "city_code": "133901",
       "city_name": "Tondo I / Ii",
