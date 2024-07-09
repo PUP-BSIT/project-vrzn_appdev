@@ -1,10 +1,10 @@
 <div class="mt-8">
   @if(propertyLoaded) {
   <!-- Title -->
-  <h2 class="text-3xl text-black font-bold">{{ property.title }}</h2>
+  <h2 class="text-3xl text-black font-bold slide-in-top">{{ property.title }}</h2>
 
   <!-- Address -->
-  <p class="flex items-center text-gray-600 mb-2 font-medium text-xl">
+  <p class="flex items-center text-gray-600 mb-2 font-medium text-xl slide-in-top">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       class="h-5 w-5 mr-1 text-red-500"
@@ -19,7 +19,7 @@
   </p>
 
   <!-- Price -->
-  <p class="text-5xl font-semibold text-green-800 mt-2">
+  <p class="text-5xl font-semibold text-green-800 mt-2 slide-in-top">
     @if (!property.status) {
       PHP {{ property.price.toLocaleString() }} / month
     } @else {
@@ -28,7 +28,7 @@
   </p>
 
   @if(isLoggedIn) {
-    <div class="flex items-center mt-3 gap-4 flex-wrap">
+    <div class="flex items-center mt-3 gap-4 flex-wrap slide-in-top">
       @if(+ownerId === +userId){
         <button 
           class="btn w-48 flex items-center justify-center bg-primary text-white hover:bg-[#9A58B6] shadow-lg"
@@ -77,14 +77,14 @@
       }
     </div>
     @if(hasHistory){
-      <div class="mt-4">
+      <div class="mt-4 slide-in-left">
         <app-rating [propertyId]="propertyId"/>
       </div>
     }
   }
 
   <!-- Description -->
-  <div class="scrollable-content mt-5 mb-3">
+  <div class="scrollable-content mt-5 mb-3 slide-in-below">
     <p class="text-xl font-semibold mb-4">About this space</p>
     <p class="text-gray-500 mt-2 break-words overflow-hidden">
       {{ property.description }}

@@ -1,6 +1,6 @@
-<div class="overflow-x-hidden">
-  <div class="navbar bg-white border-b border-gray-300 p-0 h-20">
-    <div class="flex ml-2 sm:ml-0 md:mx-auto">
+
+  <div class="navbar bg-white shadow-md p-0 h-20 sticky top-0 z-50">
+    <div class="flex ml-2 sm:ml-0 md:mx-auto slide-in-left">
       <img
         src="../assets/logo.svg"
         alt="Logo"
@@ -10,10 +10,10 @@
         routerLink="/home"
         >Space Share</a>
     </div>
-    <div class="container flex justify-end items-center w-full">
+    <div class="container flex justify-end items-center w-full mr-auto">
       <div class="flex">
         @if (loggedIn) {
-        <div class="hidden md:flex space-x-1">
+        <div class="hidden md:flex space-x-1 slide-in-top">
           <!-- add property -->
           <div class="tooltip tooltip-bottom" data-tip="Add Property">
             <a
@@ -123,7 +123,7 @@
             </a>
           </div>
         </div>
-        <div class="flex">
+        <div class="flex slide-in-right">
           <div class="dropdown dropdown-end">
             <div class="mr-2.5 md:mr-10 md:ml-4">
               <div
@@ -172,7 +172,7 @@
           </div>
         </div>
         } @if (!loggedIn) {
-        <div class="flex items-center space-x-1 md:space-x-4 xl:mr-6">
+        <div class="flex items-center space-x-1 md:space-x-4 xl:mr-6 slide-in-right">
           <label
             for="log-in-mdl"
             class="btn rounded-btn bg-white shadow-none hover:bg-white text-primary"
@@ -189,4 +189,3 @@
     </div>
   </div>
   <router-outlet></router-outlet>
-</div>

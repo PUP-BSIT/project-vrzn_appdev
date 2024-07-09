@@ -8,6 +8,7 @@ import { NgForm } from '@angular/forms'; // Import NgForm for form validation
 })
 export class FiltrationComponent implements OnInit {
   @Input() uniqueCities: string[] = [];
+  @Input() closeFilter!: () => void;
   @Output() filtersChanged = new EventEmitter<any>();
 
   bedroomOptions: number[] = [1, 2, 3, 4, 5];

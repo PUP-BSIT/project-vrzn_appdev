@@ -2,23 +2,41 @@
   <div class="carousel w-full">
     @for(image of images; track image) {
       <div class="carousel-item w-full items-center justify-center transition-all ease-in-out" #carouselItems>
-        <img src="{{ image.image_url }}" class="w-full" />
+        <img src="{{ image.image_url }}" class="w-full cursor-pointer h-[400px]" (click)="openModal()"/>
       </div>
     }
   </div>
+  <dialog class="modal" #imageModal>
+    <div class="modal-box min-w-[60%] min-h-[80%] flex flex-col justify-center items-center bg-opacity-0 shadow-none">
+      <div class="carousel flex items-center justify-center w-full h-full" #modalCarousel>
+        @for(image of images; track $index){
+          <div [id]="'slide' + ($index + 1)" class="carousel-item flex justify-center items-center w-full min-h-full relative">
+            <img [src]="image.image_url" class="min-w-full min-h-full object-contain" />
+            <div class="absolute left-5 right-5 top-[90%] md:top-1/2 flex -translate-y-1/2 transform justify-between">
+              <a (click)="previousSlide($index)" class="btn btn-circle">❮</a>
+              <a (click)="nextSlide($index)" class="btn btn-circle">❯</a>
+            </div>
+          </div>
+        }
+        </div>
+      </div>
+      <form method="dialog">  
+        <button class="btn btn-sm btn-circle 
+                        btn-ghost absolute right-2 top-4 md:right-16 md:top-8 text-2xl bg-white">&#x2715;</button>
+      </form>
+  </dialog>
   <div class="flex justify-center w-full py-0 gap-1.5">
     @for(image of images; track image; let i = $index){
       <button (click)="showItem(i)" class="btn btn-xs my-0 bg-white shadow-none border-gray-300">{{ i + 1 }}</button>
     }
   </div>
 } @else {
-    <div class="carousel h-100 skeleton flex items-center justify-center mt-16 ml-32 mr-32">
-      <div class="h-96 flex items-center justify-center">
-          <div class="skeleton-image rounded-xl animate-pulse"></div>
-      </div>
+  <div class="carousel h-100 skeleton flex items-center justify-center mt-16 ml-32 mr-32">
+    <div class="h-96 flex items-center justify-center">
+      <div class="skeleton-image rounded-xl animate-pulse"></div>
     </div>
-    <div class="flex justify-center w-full py-2 gap-2">
-      <button class="btn btn-xs w-32 animate-pulse">&nbsp;</button>
-    </div>
+  </div>
+  <div class="flex justify-center w-full py-2 gap-2">
+    <button class="btn btn-xs w-32 animate-pulse">&nbsp;</button>
+  </div>
 }
-
