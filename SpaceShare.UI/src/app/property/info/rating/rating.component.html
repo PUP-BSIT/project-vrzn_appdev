@@ -1,0 +1,40 @@
+<button class="btn text-white bg-primary hover:bg-[#9A58B6]" (click)="openModal()">Rate Property</button>
+<dialog #ratingModal class="modal">
+    <div class="modal-box flex flex-col justify-center align-middle w-72 bg-white relative">
+        <button (click)="closeModal()" class="absolute top-0 right-0 m-2 text-gray-500 hover:text-gray-800">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+              </svg>              
+        </button>
+        <h1 class="text-center font-semibold">How would you rate this?</h1>
+        <div class="modal-action mt-2">
+            <form method="dialog" (ngSubmit)="submitRating()">
+                <div class="rating rating-lg rating-half ml-4 mb-4">
+                    <input type="radio" [(ngModel)]="rating" name="rating-10" class="rating-hidden" [value]="0"/>
+                    <input type="radio" [(ngModel)]="rating" name="rating-10" class="mask mask-star-2 mask-half-1 bg-yellow-500" [value]="0.5" />
+                    <input type="radio" [(ngModel)]="rating" name="rating-10" class="mask mask-star-2 mask-half-2 bg-yellow-500" [value]="1" />
+                    <input type="radio" [(ngModel)]="rating" name="rating-10" class="mask mask-star-2 mask-half-1 bg-yellow-500" [value]="1.5" />
+                    <input type="radio" [(ngModel)]="rating" name="rating-10" class="mask mask-star-2 mask-half-2 bg-yellow-500" [value]="2" />
+                    <input type="radio" [(ngModel)]="rating" name="rating-10" class="mask mask-star-2 mask-half-1 bg-yellow-500" [value]="2.5" />
+                    <input type="radio" [(ngModel)]="rating" name="rating-10" class="mask mask-star-2 mask-half-2 bg-yellow-500" [value]="3"/>
+                    <input type="radio" [(ngModel)]="rating" name="rating-10" class="mask mask-star-2 mask-half-1 bg-yellow-500" [value]="3.5" />
+                    <input type="radio" [(ngModel)]="rating" name="rating-10" class="mask mask-star-2 mask-half-2 bg-yellow-500" [value]="4" />
+                    <input type="radio" [(ngModel)]="rating" name="rating-10" class="mask mask-star-2 mask-half-1 bg-yellow-500" [value]="4.5" />
+                    <input type="radio" [(ngModel)]="rating" name="rating-10" class="mask mask-star-2 mask-half-2 bg-yellow-500" [value]="5" />
+                </div>
+                <button class="btn w-full bg-primary text-white hover:bg-[#9A58B6] font-medium">Rate</button>
+            </form>
+        </div>
+    </div>
+</dialog>
+
+@if(submitted){
+    <app-wait />
+}
+@if(success){
+    <app-alert [mainMessage]="'Rating Submitted!'" [state]="'success'"
+        [subMessage]="'Thank you for making Space Share better!'" />
+}@if(error){
+    <app-alert [mainMessage]="'Error'" [state]="'error'" [subMessage]="'Rating failed, please try again later.'" />
+}
+

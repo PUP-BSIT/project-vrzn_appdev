@@ -1,0 +1,35 @@
+<div class="card bg-white shadow-xl rounded-lg overflow-hidden cursor-pointer h-[30rem]">
+  <figure class="relative mt-3 mx-3">
+    <img
+      [src]="property.images[0].image_url"
+      alt="House 1"
+      class="w-full h-[12rem] object-cover rounded-xl"
+    />
+  </figure>
+  <div class="card-body p-4">
+    <div>
+      <h2 class="card-title md:text-base lg:text-base font-semibold">{{ property.title }}</h2>
+      <div class="divider my-0"></div>
+      <div class="text-gray-500 text-sm max-h-[26rem] min-h-[10rem] flex-wrap break-words overflow-hidden w-full">
+        <span class="font-semibold">Name: </span><span>{{ applicant.first_name }} {{ applicant.surname }}</span><br>
+        <span class="font-semibold">Email: </span><span>{{ applicant.email }}</span><br>
+        <span class="font-semibold">Phone: </span><span>{{ applicant.phone_number[0].number }}</span><br>
+        <span class="font-semibold">Notes: </span><span>{{ application.notes }}</span>
+    </div>
+    </div>
+    <div class="card-actions flex justify-end">
+      <button class="btn btn-sm bg-white text-gray-500 border-gray-300" (click)="handleReject()">Reject</button>
+      <button class="btn btn-sm bg-primary text-white hover:bg-[#9A58B6]" (click)="handleAccept()">Accept</button>
+  </div>
+  </div>
+</div>
+@if(submitted){
+  <app-wait />
+}
+@if(success){
+    <app-alert [mainMessage]="'Application Updated!'" [state]="'success'"
+        [subMessage]="'The tenant has been notified about your update!'" />
+}@if(error){
+    <app-alert [mainMessage]="'Error'" [state]="'error'" [subMessage]="'Could not proceed with reservation.'" />
+}
+

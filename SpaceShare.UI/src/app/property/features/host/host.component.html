@@ -1,0 +1,34 @@
+
+<div class="flex justify-center items-center slide-in-below">
+    <div class="card w-full lg:w-full xl:w-10/12 border-gray-300 sm:border-t sm:border-b sm:border-l sm:border-r shadow-none rounded-3xl flex flex-col items-center" [ngClass]="isLoggedIn ? '' : 'pb-4'">
+        <b class="font-bold text-2xl text-center mt-6 mb-4">
+            {{ isLoggedIn ? "Connect with Your Host!" : "Sign in to connect with your host!" }}
+        </b>
+        <div class="flex flex-col lg:flex-row items-center justify-evenly ml-0 lg:ml-7 gap-4 mb-4">
+            <div class="w-24 h-24 flex justify-center items-center rounded-full border-2 border-gray-400 mb-4 lg:mb-0">
+                <svg class="w-20 h-20 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd">
+                    </path>
+                </svg>
+            </div>
+            <div class="text-center md:text-left">
+                <b class="text-lg text-black block" for="log-in-mdl">{{ firstName }} {{ surname }}</b>
+                <b class="text-lg text-black block">{{ phoneNumber }}</b>
+                <b class="text-lg text-black block">{{ email }}</b>
+            </div>
+        </div>
+        @if(isLoggedIn){
+            <a href="mailto:{{ email }}" class="btn w-2/3 bg-primary text-white hover:bg-[#9A58B6]">
+                Contact Host</a>
+            <p class="text-center mb-8 w-11/12 mt-4">By clicking Contact Host,
+                you are accepting Spaceshare's <a href="/agreement/terms" class="text-blue-600 hover:underline"> Terms and
+                    Conditions</a>
+                and <a href="/agreement/privacy" class="text-blue-600 hover:underline">
+                    Privacy Policy.</a>
+            </p>
+        }
+    </div>
+</div>
+
+
+

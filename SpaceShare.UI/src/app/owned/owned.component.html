@@ -1,0 +1,27 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="w-full max-w-md p-2">
+    <h1 class="text-4xl font-bold card w-full 2xl:ml-8 slide-in-top">My Properties</h1>
+  </div>
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center"
+  >
+    @if(loaded && !ownedItems.length){
+    <div
+      class="flex items-center justify-center w-full h-full my-24 col-span-full"
+    >
+      <app-nothing-here/>
+    </div>
+    } @else if (loaded && ownedItems.length) { @for (card of ownedItems; track
+    card.id) {
+    <div class="w-full max-w-md p-2 slide-in-below">
+      <app-property-card [card]="card" [cardId]="card.id" [owned]="true" (cardDeleted)="onCardDeleted($event)" class="m-2" />
+    </div>
+    } } @else { @for (n of [1,2,3,4,5,6]; track $index) {
+    <div class="w-full max-w-md p-2 slide-in-right">
+      <app-card-skeleton></app-card-skeleton>
+    </div>
+    } }
+  </div>
+</div>
+
+

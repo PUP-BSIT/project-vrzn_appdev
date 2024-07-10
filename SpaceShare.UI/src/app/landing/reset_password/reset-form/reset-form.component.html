@@ -1,0 +1,87 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+  <div class="w-full max-w-md">
+    <img src='./../../../../assets/logo.svg' class="w-full mb-4 h-24 flex justify-center items-center" />
+    <div class="bg-white p-8 rounded-lg shadow-md">
+      <h2 class="text-2xl font-semibold mb-6 text-center">Reset Password</h2>
+      <div class="mb-6 text-left text-black">
+        <p class="font-semibold mb-2">Password Requirements:</p>
+        <ul class="list-disc list-inside text-sm">
+          <li>A lowercase character</li>
+          <li>A special character</li>
+          <li>An uppercase character</li>
+          <li>A numeric character</li>
+          <li>A minimum of 8 characters</li>
+          <li>An alphabetic character</li>
+        </ul>
+      </div>
+      <form [formGroup]="passForm" (ngSubmit)="onSubmit()">
+        <div class="form-control mb-4">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            placeholder="Enter your New Password"
+            class="input input-bordered w-full bg-white rounded-lg"
+            formControlName="password"
+            [ngClass]="getValidationClass(passwordControl)"
+            (focus)="clearError('password')"/>
+          @if (passwordControl.invalid && passwordControl.touched) {
+            @if (passwordControl.errors?.['strong']) {
+              <div class="error-message text-sm text-red-500 pl-3 mt-0 mb-3">
+                Must Follow Password Requirements
+              </div>
+            }
+            @if (passwordControl.errors?.['maxlength']) {
+              <div class="error-message text-sm text-red-500 pl-3 mt-0 mb-3">
+                Max Length Password Characters exceeded
+              </div>
+            }
+          }
+        </div>
+        <div class="form-control mb-4">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            placeholder="Confirm Your Password"
+            class="input input-bordered w-full bg-white rounded-lg"
+            formControlName="confirmPassword"
+            [ngClass]="getValidationClass(confirmPasswordControl)"
+            (focus)="clearError('confirmPassword')"/>
+        </div>
+        @if (passForm.hasError('passwordsMismatch') && confirmPasswordControl.touched) {
+          <div class="error-message text-sm text-red-500 pl-3">
+            Passwords do not match
+          </div>
+        } @else if (confirmPasswordControl.errors?.['required'] && confirmPasswordControl.touched) {
+          <div class="error-message text-sm text-red-500 pl-3">
+            Confirm Password Must Not Be Null 
+          </div>
+        }
+        <div class="flex">
+          <label class="label cursor-pointer">
+            <input type="checkbox" class="checkbox" [checked]="showPassword" (change)="togglePasswordVisibility()" />
+            <span class="label-text ml-2 select-none">Show Password</span>
+          </label>
+        </div>
+
+        <div class="form-control mt-6">
+          <button
+            type="submit"
+            class="btn bg-[#8644a2] text-white w-full"
+            [class.disabled-button]="passForm.pristine || passForm.hasError('passwordsMismatch')"
+            [disabled]="passForm.pristine || passForm.hasError('passwordsMismatch')">
+            Reset
+          </button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+@if(submitted){
+  <app-wait/>
+}
+@if(success){
+  <app-alert [mainMessage]="'Reset Success'" [state]="'success'"
+    [subMessage]="'Password reset successful'" />
+} 
+@if(error){
+  <app-alert [mainMessage]="'Error Occured'" [state]="'error'" 
+    [subMessage]="'There was an error. Try again later.'" />
+}

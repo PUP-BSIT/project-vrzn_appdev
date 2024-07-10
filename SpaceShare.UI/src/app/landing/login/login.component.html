@@ -1,0 +1,79 @@
+<!-- login.component.html -->
+<input type="checkbox" id="log-in-mdl" class="modal-toggle" #modalToggle />
+<div class="modal">
+  <div class="modal-box w-11/12 max-w-md p-6 bg-white">
+    @if(!showLink){
+      <h1 class="text-3xl font-bold grid justify-items-center pt-9">Login now!</h1>
+      <div class="card shrink-1 w-full max-w-w bg-base-0">
+        <form class="card-body" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="form-control">
+            @if(errorMessage) {  
+              <div class="error-message text-red-500 gap-2 rounded-md mb-3">
+                <div role="alert" class="alert alert-error">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6 " fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  <span>{{ errorMessage }}</span>
+                </div>
+              </div>  
+            }
+              <label class="input input-bordered flex items-center gap-2 rounded-md mb-3 bg-white" [class.input-error]="emailControl.invalid && emailControl.touched">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70">
+                      <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
+                      <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
+                  </svg>
+                  <input type="email" formControlName="email" placeholder="Email" (focus)="clearError('email')" required class="block w-full rounded-md border-0 py-1.5"/>
+              </label>
+              @if(emailControl.invalid && emailControl.touched) {  
+                <div class="error-message text-red-500">Invalid email format</div>  
+              }
+          </div>
+          <div class="form-control">
+            <label class="input input-bordered flex items-center gap-2 rounded-md mb-4 bg-white" [class.input-error]="passwordControl.invalid && passwordControl.touched">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70">
+                <path fill-rule="evenodd" d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z" clip-rule="evenodd" />
+              </svg>
+              <input [type]="showPassword ? 'text' : 'password'" formControlName="password" class="grow" placeholder="Password" (focus)="clearError('password')" required class="block w-full rounded-md border-0 py-1.5"/>
+              @if(!showPassword){
+                <button type="button" (click)="toggleShowPassword()">
+                  <img src="../../../assets/eye-closed.svg" class="w-8">
+                </button>
+              }@else {
+                <button type="button" (click)="toggleShowPassword()">
+                  <img src="../../../assets/eye-open.svg" class="w-8">
+                </button>
+              }
+            </label>
+            @if(passwordControl.invalid && passwordControl.touched) {  
+              <div class="error-message text-red-500">Password is required</div>  
+            }  
+            <label class="label">
+              <button (click)="toggleLinkVisibility()" type="button" class="text-sm text-blue-500 hover:underline dark:text-blue-400 cursor-pointer" >Forgot password?</button>
+            </label>
+          </div>
+          <div class="form-control mt-3">
+            <button class="btn bg-[#8644a2] text-white hover:bg-[#9A58B6]" type="submit" [disabled]="loginForm.invalid">Login</button>
+          </div>
+          <div class="col-span-1 md:col-span-2 flex justify-center pt-2">
+            <span class="text-sm">
+              Don't have an account yet? 
+              <label for="sign-up-mdl" class="text-blue-500 hover:underline dark:text-blue-400 cursor-pointer" (click)="closeModal()">
+                Sign up!
+              </label>
+            </span>
+          </div>          
+        </form>
+      </div>
+    }@else{
+      <div class="flex justify-center items-center">
+        <div class="w-full max-w-96 mx-auto">
+          <app-reset-password></app-reset-password>
+        </div>
+        <div class="modal-action">
+          <label for="verification-mdl" class="btn btn-sm btn-circle btn-ghost font-bold text-2xl absolute left-2 top-2" (click)="toggleLinkVisibility()">&#8592;</label>
+        </div>
+      </div>
+    }
+    <div class="modal-action">
+      <label for="log-in-mdl" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">&#x2715;</label>  
+    </div>
+  </div>
+</div>

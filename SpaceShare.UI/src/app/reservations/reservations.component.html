@@ -1,0 +1,32 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="w-full max-w-md p-2">
+    <h1 class="text-4xl font-bold card w-full 2xl:ml-8 slide-in-top">My Reservations</h1>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center">
+    @if(loaded && !reservations.length){
+    <div class="flex items-center justify-center w-full h-full my-24 col-span-full">
+      <app-nothing-here />
+    </div>
+    } @else if (loaded && reservations.length) { @for (card of reservations; track
+    card.property_id) {
+    <div class="w-full max-w-md p-2 slide-in-right">
+      <app-reservation-card [reservation]="card" 
+      (delete)="handleChildDelete($event)" class="m-2" />
+    </div>
+    } } @else { @for (n of [1,2,3,4,5,6]; track $index) {
+    <div class="w-full max-w-md p-2 slide-in-below">
+      <app-card-skeleton></app-card-skeleton>
+    </div>
+    } }
+  </div>
+</div>
+@if(deleted) {
+<div class="toast">
+  <div class="alert 
+              alert-success">
+    <span class="text-white 
+                   font-semibold">Application deleted successfully.
+    </span>
+  </div>
+</div>
+}

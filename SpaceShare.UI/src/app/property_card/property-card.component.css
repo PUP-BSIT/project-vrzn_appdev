@@ -1,0 +1,28 @@
+.card {
+    max-width: 400px;
+    margin: auto;
+}
+
+.delete-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .delete-icon img {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .delete-icon:hover {
+    background-color: rgba(255, 0, 0, 0.7);
+  }
+  

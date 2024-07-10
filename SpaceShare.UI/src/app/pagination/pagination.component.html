@@ -1,0 +1,18 @@
+<div class="pagination-controls flex justify-center items-center mt-8 slide-in-top">
+    <button
+      (click)="previousPage()"
+      [disabled]="currentPage === 1"
+      class="bg-primary text-white py-2 px-4 rounded transition-colors duration-300 disabled:bg-gray-400 hover:bg-[#9A58B6]">
+      Previous
+    </button>
+    <span class="mx-4 text-lg font-semibold">
+      Page {{ currentPage }} of {{ totalPages }}
+    </span>
+    <button
+      (click)="nextPage()"
+      [disabled]="currentPage === totalPages"
+      class="bg-primary text-white py-2 px-4 rounded transition-colors duration-300 disabled:bg-gray-400 hover:bg-[#9A58B6]">
+      Next
+    </button>
+  </div>
+  

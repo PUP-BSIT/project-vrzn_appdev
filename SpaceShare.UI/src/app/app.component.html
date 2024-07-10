@@ -1,6 +1,6 @@
-<div class="placeholder">
-
-  <h1>SpaceShare</h1>
-  <p>sharing soon..</p>
-
-</div>
+@if(!hideHeaderFooter){
+    <app-navbar/>
+    <app-footer/>
+}@else {
+    <router-outlet/>
+}

@@ -1,0 +1,126 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    Int   @default(autoincrement()) @id
+  first_name    String    
+  middle_name   String?
+  surname   String
+  birthdate   DateTime
+  email   String    @unique
+  password    String
+  region    String
+  province    String?
+  city    String
+  postal_code   String
+  resetPasswordToken  String?
+  resetPasswordExpires  DateTime?
+  created_at    DateTime    @default(now())
+  updated_at    DateTime    @updatedAt
+  properties    Property[]
+  notifications    Notification[]
+  wishlists     Wishlist[]
+  phone_number    PhoneNumber[]
+  application   TenantApplication[]
+  spaceHistories     SpaceHistory[]
+}
+
+model Property {
+  id    Int   @default(autoincrement()) @id
+  property    User    @relation(fields: [owner_id], references: [id])
+  owner_id    Int
+  title   String
+  description   String?
+  region    String
+  province    String?
+  city    String
+  barangay    String
+  postal_code   String
+  price   Int
+  status    Boolean
+  rating    Float?
+  capacity    Int
+  bedroom   Int
+  area    Int
+
+  created_at    DateTime    @default(now())
+  updated_at    DateTime    @updatedAt
+
+  wishlists   Wishlist[]
+  application   TenantApplication[]
+  images    Images[]
+  spaceHistories     SpaceHistory[]
+}
+
+model Images{
+  id    Int   @default(autoincrement()) @id
+  property    Property    @relation(fields: [property_id], references: [id])
+  property_id   Int
+  image_url   String
+}
+
+model Notification {
+  id            Int      @id @default(autoincrement())
+  userToUpdate  Int
+  user          User     @relation(fields: [userToUpdate], references: [id])
+  isReservation Boolean
+  isApplication Boolean
+  is_read       Boolean  @default(false)
+  created_at    DateTime @default(now())
+}
+
+model Wishlist {
+  id    Int   @default(autoincrement()) @id
+  user    User    @relation(fields: [user_id], references: [id])
+  user_id   Int
+  property    Property    @relation(fields: [property_id], references: [id])
+  property_id   Int
+  added_at    DateTime    @default(now())
+}
+
+model PhoneNumber {
+  id    Int   @default(autoincrement()) @id
+  user    User    @relation(fields: [user_id], references: [id])
+  user_id   Int
+  number    String
+  number_type   String
+}
+
+model TenantApplication {
+  id    Int     @default(autoincrement())  @id
+  property    Property    @relation(fields: [property_id], references: [id])
+  property_id   Int
+  user    User    @relation(fields: [applicant_id], references: [id])
+  applicant_id    Int
+  status    String
+  notes   String?
+
+  created_at DateTime   @default(now())
+}
+
+model SpaceHistory {
+  id    Int     @default(autoincrement()) @id
+  property    Property    @relation(fields: [property_id], references: [id])
+  property_id   Int
+  user    User    @relation(fields: [tenant_id], references: [id])
+  tenant_id   Int
+
+  created_at  DateTime    @default(now())
+}
+
+
+
+

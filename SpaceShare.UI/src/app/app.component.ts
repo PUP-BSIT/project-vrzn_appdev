@@ -1,18 +1,31 @@
 import { Component, OnInit } from '@angular/core';
-import { AppService } from './app.service';
-import { TestModel } from '../../model/TestModel';
+import { NavigationEnd, Router } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.css'], 
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit{
+  showModal: boolean = false;
+  phoneNumber!: string;
+  hideHeaderFooter = false
 
-  constructor(private appService: AppService){}
+  constructor(private router: Router){}
 
-  ngOnInit() {
-    this.appService.getTestApi().subscribe((data: TestModel) => {
-      console.log(data);
+  ngOnInit(): void {
+    this.router.events
+    .subscribe({
+      next: data => {
+        if(data instanceof NavigationEnd){
+          const excludedRoutes = ['unauthorized', 'went-wrong', 'password/reset']
+          this.hideHeaderFooter = excludedRoutes.some(route => this.router.url.includes(route));          
+        }
+      }
     })
   }
+
+  closeModal() {
+    this.showModal = false;
+  }
+
 }

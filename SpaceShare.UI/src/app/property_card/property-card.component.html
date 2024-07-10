@@ -1,0 +1,122 @@
+<div class="card bg-white shadow-xl rounded-xl overflow-hidden cursor-pointer">
+  <figure class="relative">
+    @if(card.images.length > 0){
+      <img [src]="card.images[0].image_url" alt="House 1" class="w-full h-48 object-cover"
+            [routerLink]="['/space', cardId]" />
+    }@else {
+      <img src="../../assets/home.jpg" alt="House 1" class="w-full h-48 object-cover"
+        [routerLink]="['/space', cardId]" />
+    }
+    @if(owned) {
+    <button class="delete-icon" (click)="openConfirmationModal()">
+      <img src="../../assets/trash.svg" alt="delete" />
+    </button>
+    <dialog id="my_modal_{{ card.id }}" class="modal" #myModal>
+      <div class="modal-box w-80 max-w-5xl bg-white">
+        <h3 class="text-2xl font-bold">Warning!</h3>
+        <p class="pt-2">Are you sure you want to delete this Space?</p>
+        <div class="modal-action items-center justify-center">
+          <button
+            class="btn w-32 bg-white text-gray-500 border-gray-300 shadow-none mr-5"
+            type="button"
+            (click)="closeModal()"
+          >
+            Cancel
+          </button>
+          <button
+            class="btn w-32 bg-red-500 text-white hover:bg-red-600 ml-5"
+            type="button"
+            (click)="deleteCard(card.id)"
+          >
+            Confirm
+          </button>
+        </div>
+      </div>
+    </dialog>
+    }
+  </figure>
+  <div class="p-4" [routerLink]="['/space', cardId]">
+    <div class="flex justify-between">
+      <h2 class="card-title text-lg md:text-base lg:text-base xl:text-xl font-semibold">{{ card.title | slice : 0 : 21 }}
+        {{ card.title.length > 21 ? "..." : "" }}</h2>
+      <div class="flex align-middle justify-center">
+        <div class="tooltip tooltip-bottom flex items-center" data-tip="Rating">
+        <span class="mr-1 text-xl text-primary">★ {{ formatRating(card.rating!) }}</span>
+      </div>
+      </div>
+    </div>
+    <div [routerLink]="['/space', cardId]">
+      <div class="flex items-center text-gray-600 mb-1 text-base font-medium">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="size-4 md:size-5 mr-0.5 text-red-500"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M10 0c3.78 0 6.863 3.083 6.863 6.863 0 6.252-6.863 12.137-6.863 12.137S3.137 13.115 3.137 6.863C3.137 3.083 6.22 0 10 0zm0 9a2.75 2.75 0 100-5.5 2.75 2.75 0 000 5.5z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        {{ card.barangay }}, {{ card.city }} City
+      </div>
+      <p
+        class="text-gray-500 text-sm max-h-28 min-h-28 flex-wrap break-words overflow-hidden"
+      >
+        {{ card.description | slice : 0 : 222 }}
+        {{ card.description.length > 222 ? "..." : "" }}
+      </p>
+    </div>
+    
+    @if(owned) {
+    <div class="card-actions mt-4 justify-between">
+      <div class="flex flex-row gap-2">
+        <a
+          href="/space/edit/{{ card.id }}"
+          class="tooltip tooltip-top"
+          data-tip="Edit"
+          ><img src="../../assets/edit.png" alt="edit-icon" class="w-8 h-8"
+        /></a>
+      </div>
+      @if(!isOccupied){
+        <span class="text-2xl text-green-800 font-bold">₱{{ card.price.toLocaleString() }}</span>
+      }@else {
+        <span class="text-xl font-bold">UNAVAILABLE</span>
+      }
+    </div>
+    } @else {
+    <div class="card-actions mt-4 justify-between ml-1">
+      <div class="flex flex-row gap-2 items-center">
+        <div class="tooltip tooltip-top flex items-center" data-tip="Bedroom">
+          <img src="../../assets/bed.png" alt="bed" class="w-7 h-6" />
+          <span class="ml-1">{{ card.bedroom }}</span>
+        </div>
+        <div class="tooltip tooltip-top flex items-center" data-tip="Guest">
+          <img src="../../assets/guest.png" alt="guest" class="w-6 h-6" />
+          <span class="ml-1">{{ card.capacity }}</span>
+        </div>
+        <div class="tooltip tooltip-top flex items-center" data-tip="Floor Area">
+          <img src="../../assets/area.png" alt="area" class="w-6 h-6" />
+          <span class="ml-1">{{ card.area }}m²</span>
+        </div>
+      </div>
+      <div class="tooltip tooltip-top flex items-center" data-tip="Rent/month">
+        <span class="text-lg xl:text-2xl text-green-800 font-bold">₱{{ card.price.toLocaleString() }}</span>
+      </div>
+    </div>
+    }
+  </div>
+</div>
+@if(isDeleting) {
+<div class="toast">
+  <div class="alert alert-info">
+    <span class="text-white font-semibold">Property being deleted...</span>
+  </div>
+  @if(isDeleted) {
+  <div class="alert alert-success">
+    <span class="text-white font-semibold">Card deleted successfully.</span>
+  </div>
+  }
+</div>
+}

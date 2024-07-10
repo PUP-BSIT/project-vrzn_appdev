@@ -1,1 +1,104 @@
-/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: "Inter", sans-serif;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.text-primary {
+  color: #8644a2;
+}
+
+.text-secondary{
+  color: aliceblue;
+}
+
+.bg-primary {
+  background-color: #8644a2;
+}
+
+.bg-secondary {
+  background-color: aliceblue;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888; 
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInBelow {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInTop {
+  from {
+    transform: translateY(-300%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.5s ease;
+}
+
+.slide-in-right {
+  animation: slideInRight 0.5s ease;
+}
+
+.slide-in-below {
+  animation: slideInBelow 0.5s ease;
+}
+
+.slide-in-top {
+  animation: slideInTop 0.5s ease;
+}
