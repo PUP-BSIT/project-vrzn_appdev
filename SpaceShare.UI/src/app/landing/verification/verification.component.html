@@ -45,6 +45,7 @@
               formControlName="otp" 
               placeholder="Verify Code" 
               (focus)="clearError('otp')" 
+              (paste)="preventPaste($event)"
               required 
               class="block w-full rounded-md border-0 py-1.5" 
             />
@@ -84,7 +85,7 @@
   </div>
 }
 
-@if(submitted) {
+@if(submitted && +otpForm.value.otp === +code) {
   <app-wait />
 }
 
