@@ -17,7 +17,8 @@
             </label>
           </div>
         }
-        <div class="flex justify-center mt-4 text-sm md:text-base text-black bg-white">
+        <div class="flex justify-center mt-4 text-sm md:text-base text-black
+          bg-white">
           <ul class="steps w-full bg-white">
             <li
               class="step"
@@ -373,8 +374,12 @@
             </div>
             <div class="flex">
               <label class="cursor-pointer flex align-middle ml-4">
-                <input type="checkbox" class="checkbox" [checked]="showPassword" (change)="togglePasswordVisibility()" />
-                <span class="label-text ml-2 mt-[2px] select-none">Show Password</span>
+                <input type="checkbox" class="checkbox" 
+                  [checked]="showPassword" 
+                  (change)="togglePasswordVisibility()" />
+                <span class="label-text ml-2 mt-[2px] select-none">
+                  Show Password
+                </span>
               </label>
             </div>
             <div class="col-span-1 md:col-span-2 flex justify-center">
@@ -478,10 +483,12 @@
                       <img src="../../assets/void.svg" 
                            class="h-20 w-50">
                       <h2 class="card-title">
-                          The email address you have entered is already associated with an existing account
+                          The email address you have entered is already 
+                          associated with an existing account
                       </h2>
                       <p>
-                        Please use a different email address, as each account must have a unique email address|
+                        Please use a different email address, as each account 
+                        must have a unique email address|
                       </p>
                       <div class="card-actions justify-end">
                           <button  class="btn 
@@ -490,7 +497,8 @@
                                        bg-primary 
                                        border-none 
                                      hover:bg-[#9A58B6] mt-5"
-                                     (click)="prevPage()">Go Back
+                                     (click)="prevPage()">
+                                     Go Back
                           </button>
                       </div>
                   </div>
