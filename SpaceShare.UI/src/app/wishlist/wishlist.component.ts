@@ -11,7 +11,7 @@ import { CookieService } from 'ngx-cookie-service';
 export class WishlistComponent implements OnInit {
   wishlistedItem!: Card[];
   user_id!: number;
-  loaded: boolean = false;
+  loaded = false;
 
   constructor(
     private wishlistService: WishlistService,

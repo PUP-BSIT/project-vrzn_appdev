@@ -17,9 +17,9 @@ export class MainComponent implements OnInit {
   subscription!: Subscription;
   loaded = false;
 
-  currentPage: number = 1;
-  itemsPerPage: number = 9;
-  totalPages: number = 1;
+  currentPage = 1;
+  itemsPerPage = 9;
+  totalPages = 1;
   uniqueCities: string[] = [];
   filter = false;
 

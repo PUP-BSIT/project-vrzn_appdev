@@ -9,8 +9,8 @@ import { ResetPasswordService } from './reset-password.service';
 })
 export class ResetPasswordComponent implements OnInit {
   resetForm!: FormGroup;
-  alertMessage: string = '';
-  alertClass: string = '';
+  alertMessage = '';
+  alertClass = '';
 
   constructor(private formBuilder: FormBuilder, private resetService: ResetPasswordService) {}
 

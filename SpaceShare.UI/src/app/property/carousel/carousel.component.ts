@@ -14,7 +14,7 @@ export class CarouselComponent implements OnInit, OnChanges {
   @ViewChild('modalCarousel') modalCarousel!: ElementRef<HTMLDivElement>;
   propertyLoaded: boolean = false;
   images!: { image_url: string }[];
-  currentIndex: number = 0;
+  currentIndex = 0;
   autoSlideInterval!: number;
 
   ngOnInit(): void {

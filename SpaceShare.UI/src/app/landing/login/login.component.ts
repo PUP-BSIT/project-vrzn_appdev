@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   @ViewChild('resetPasswordComponent') resetPasswordComponent!: LoginComponent;
   showLink = false;
   loginForm!: FormGroup;
-  errorMessage: string = '';
+  errorMessage = '';
   showPassword = false;
   
   constructor(

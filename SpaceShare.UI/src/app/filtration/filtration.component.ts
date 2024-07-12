@@ -6,7 +6,7 @@ import { NgForm } from '@angular/forms';
   templateUrl: './filtration.component.html',
   styleUrls: ['./filtration.component.css'],
 })
-export class FiltrationComponent implements OnInit {
+export class FiltrationComponent {
   @Input() uniqueCities: string[] = [];
   @Input() closeFilter!: () => void;
   @Output() filtersChanged = new EventEmitter<any>();
@@ -14,17 +14,13 @@ export class FiltrationComponent implements OnInit {
   bedroomOptions: number[] = [1, 2, 3, 4, 5];
 
   selectedCity = '';
-  minPrice: number = 0;
-  maxPrice: number = 1000000;
+  minPrice = 0;
+  maxPrice = 1000000;
 
   selectedBedrooms = '';
 
-  isPriceDropdownOpen: boolean = false;
-  priceRangeLabel: string = 'Select Price Range';
-
-  constructor() {}
-
-  ngOnInit(): void {}
+  isPriceDropdownOpen = false;
+  priceRangeLabel = 'Select Price Range';
 
   applyFilters(): void {
     if (this.isValidPriceRange()) {

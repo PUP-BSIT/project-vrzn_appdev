@@ -26,7 +26,7 @@ export class ProfileComponent implements OnInit {
   isUpdateInvalid!: boolean;
   warning!: boolean;
   showPassword = false;
-  showPasswordRequirements: boolean = false;
+  showPasswordRequirements = false;
   private unsubscribe$ = new Subject<void>();
 
   constructor(

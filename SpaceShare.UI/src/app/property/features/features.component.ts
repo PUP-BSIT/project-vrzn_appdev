@@ -8,7 +8,7 @@ import { Property } from '../../../model/property.model';
 })
 export class FeaturesComponent implements OnInit, OnChanges {
   @Input() property!: Property;
-  propertyLoaded: boolean = false;
+  propertyLoaded = false;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['property'] && !changes['property'].firstChange) {

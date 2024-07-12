@@ -11,7 +11,7 @@ import { Card } from '../../model/card.model';
 export class OwnedComponent {
   ownedItems!: Card[];
   user_id!: number;
-  loaded: boolean = false;
+  loaded = false;
 
   constructor(
     private ownedService: OwnedService,
