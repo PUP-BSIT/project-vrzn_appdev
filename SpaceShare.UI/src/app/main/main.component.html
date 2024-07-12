@@ -45,7 +45,7 @@
         <app-nothing-here />
       </div>
     }
-    @if(cards.length > 9){
+    @if(filteredCards.length > 9){
     <app-pagination [currentPage]="currentPage" [totalPages]="totalPages"
       (pageChanged)="onPageChanged($event)"></app-pagination>
     }
