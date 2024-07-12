@@ -9,8 +9,8 @@ import { ResetPasswordService } from './reset-password.service';
 })
 export class ResetPasswordComponent implements OnInit {
   resetForm!: FormGroup;
-  alertMessage: string = '';
-  alertClass: string = '';
+  alertMessage = '';
+  alertClass = '';
 
   constructor(private formBuilder: FormBuilder, private resetService: ResetPasswordService) {}
 
@@ -39,14 +39,7 @@ export class ResetPasswordComponent implements OnInit {
     
     const email = this.resetForm.value.email;
 
-    this.resetService.forgotPassword(email).subscribe({
-      next: data => {
-        console.log(data)
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    })
+    this.resetService.forgotPassword(email).subscribe();
     
     this.resetForm.reset();
     this.closeModal();

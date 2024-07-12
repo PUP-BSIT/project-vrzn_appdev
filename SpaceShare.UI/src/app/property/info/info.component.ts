@@ -19,8 +19,8 @@ import { SpaceHistory } from '../../../model/history.model';
 })
 export class InfoComponent implements OnInit, OnChanges {
   @Input() property!: Property;
-  propertyLoaded: boolean = false;
-  isWishlisted: boolean = false;
+  propertyLoaded = false;
+  isWishlisted = false;
   propertyId!: number;
   ownerId!: number;
   wishlistItem!: { user_id: number; property_id: number };

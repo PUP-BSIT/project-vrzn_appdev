@@ -17,7 +17,7 @@ export class DetailsComponent implements OnInit {
     children: 0,
     infants: 0,
   };
-  message: string = '';
+  message = '';
   modalType!: string;
   minDate!: string;
   maxDate!: string;

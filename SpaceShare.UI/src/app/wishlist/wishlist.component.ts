@@ -11,22 +11,23 @@ import { CookieService } from 'ngx-cookie-service';
 export class WishlistComponent implements OnInit {
   wishlistedItem!: Card[];
   user_id!: number;
-  loaded:boolean = false;
+  loaded = false;
 
-  constructor(private wishlistService: WishlistService, private cookie: CookieService) {}
+  constructor(
+    private wishlistService: WishlistService,
+    private cookie: CookieService
+  ) {}
 
   ngOnInit(): void {
-      this.user_id = +this.cookie.get("id");
-      this.wishlistService.getProperties(this.user_id).subscribe((data: Card[]) => {
+    this.user_id = +this.cookie.get('id');
+    this.wishlistService
+      .getProperties(this.user_id)
+      .subscribe((data: Card[]) => {
         this.wishlistedItem = data;
-      })
+      });
 
-      setTimeout(() => {
-        this.loaded = true;
-      }, 800);
+    setTimeout(() => {
+      this.loaded = true;
+    }, 800);
   }
-
-
-
-
 }
