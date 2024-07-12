@@ -21,30 +21,30 @@
                 lg:grid-cols-3 
                 gap-6 
                 place-items-center">
-      @if(loaded && !paginatedCards){
-      <div class="flex 
-                  items-center 
-                  justify-center 
-                  w-full 
-                  h-full 
-                  my-24">
-        <app-nothing-here />
-      </div>
-      } @else if (loaded && paginatedCards) {
-      @for (card of paginatedCards; track card.id) {
-      <div class="w-full max-w-md p-2 slide-in-below">
-        <app-property-card [card]="card" [cardId]="card.id">
-        </app-property-card>
-      </div>
-      }
-      } @else {
-      @for (n of [1,2,3,4,5,6,7,8,9]; track $index) {
-      <div class="w-full max-w-md p-2 slide-in-right">
-        <app-card-skeleton></app-card-skeleton>
-      </div>
-      }
+      @if (loaded && paginatedCards) {
+        @for (card of paginatedCards; track card.id) {
+          <div class="w-full max-w-md p-2 slide-in-below">
+            <app-property-card [card]="card" [cardId]="card.id">
+            </app-property-card>
+          </div>
+        }
+      }@else {
+        @for (n of [1,2,3,4,5,6,7,8,9]; track $index) {
+          <div class="w-full max-w-md p-2 slide-in-right">
+            <app-card-skeleton></app-card-skeleton>
+          </div>
+        }
       }
     </div>
+    @if(loaded && !filteredCards.length){
+      <div class="flex 
+                        items-center 
+                        justify-center 
+                        w-full 
+                        h-full">
+        <app-nothing-here />
+      </div>
+    }
     @if(cards.length > 9){
     <app-pagination [currentPage]="currentPage" [totalPages]="totalPages"
       (pageChanged)="onPageChanged($event)"></app-pagination>
