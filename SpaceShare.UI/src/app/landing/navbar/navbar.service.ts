@@ -2,14 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../../environment/appsettings';
 
-// Define a type for the response data
 interface LoginResponse {
   success: boolean;
   message: string;
-  id: string,
-  token: string
+  id: string;
+  token: string;
 }
-
 
 @Injectable()
 export class NavbarService {
