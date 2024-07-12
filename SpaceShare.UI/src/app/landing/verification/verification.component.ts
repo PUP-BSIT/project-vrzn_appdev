@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/forms';
 import { User } from '../../../model/user.model';
 import { RegisterService } from '../register/register.service';
@@ -25,7 +25,8 @@ export class VerificationComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private readonly registerService: RegisterService
+    private readonly registerService: RegisterService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -43,8 +44,8 @@ export class VerificationComponent implements OnInit {
 
   sendAgain() {
     const verify = { code: this.code, mailTo: this.email };
-    this.registerService.sendMail(verify).subscribe(data => {
-      if(data.hasOwnProperty('messageId')){
+    this.registerService.sendMail(verify).subscribe((data) => {
+      if (data.hasOwnProperty('messageId')) {
         this.disableButton = true;
         this.triggerToast = true;
         setTimeout(() => {
@@ -86,20 +87,38 @@ export class VerificationComponent implements OnInit {
               this.success = true;
             } else {
               this.errorMessage = 'Verification failed. Please try again.';
+              this.submitted = false;
             }
           },
           () => {
             this.errorMessage =
               'An unexpected error occurred. Please try again later.';
+            this.submitted = false;
+            
           }
         );
       } else {
         this.errorMessage = 'Incorrect Code';
+        this.submitted = false;
+
       }
     } catch {
       this.errorMessage =
         'An unexpected error occurred. Please try again later.';
+      this.submitted = false;
     }
+  }
+
+  preventPaste(event: ClipboardEvent) {
+    event.preventDefault();
+    const clipboardData = event.clipboardData!;
+    const pastedText = clipboardData.getData('text');
+    const currentValue = this.otpForm.get('otp')?.value || '';
+    this.otpForm.patchValue({
+      otp: currentValue + pastedText,
+    });
+
+    this.cdr.detectChanges();
   }
 
   goBack() {
