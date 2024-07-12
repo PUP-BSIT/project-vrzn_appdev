@@ -23,7 +23,9 @@ export class MainComponent implements OnInit {
   uniqueCities: string[] = [];
   filter = false;
 
-  constructor(private mainService: MainService, private router : Router,
+  constructor(
+    private mainService: MainService,
+    private router: Router,
     private authService: AuthService
   ) {}
 
@@ -31,10 +33,10 @@ export class MainComponent implements OnInit {
     const currentUserId = this.authService.getLoggedUserId();
     this.mainService.getProperties().subscribe(
       (data: Card[]) => {
-        if(currentUserId) {
+        if (currentUserId) {
           this.cards = data
             .filter((data) => data.owner_id !== +currentUserId)
-            .sort((a, b) => b.rating! - a.rating!); 
+            .sort((a, b) => b.rating! - a.rating!);
         } else {
           this.cards = data.sort((a, b) => b.rating! - a.rating!);
         }
@@ -43,7 +45,7 @@ export class MainComponent implements OnInit {
         this.updatePagination();
         setTimeout(() => {
           this.loaded = true;
-        }, 1000)
+        }, 1000);
       },
       () => {
         this.router.navigate(['/went-wrong']);
@@ -61,7 +63,7 @@ export class MainComponent implements OnInit {
     this.updatePaginatedCards();
   }
 
-  toggleFilter(){
+  toggleFilter() {
     this.filter = !this.filter;
   }
 
@@ -70,7 +72,8 @@ export class MainComponent implements OnInit {
       this.filteredCards = this.cards.filter((card) => {
         return (
           (!filters.selectedCity || card.city === filters.selectedCity) &&
-          (!filters.selectedBedrooms || card.bedroom === +filters.selectedBedrooms) &&
+          (!filters.selectedBedrooms ||
+            card.bedroom === +filters.selectedBedrooms) &&
           card.price >= filters.minPrice &&
           card.price <= filters.maxPrice
         );
@@ -91,5 +94,4 @@ export class MainComponent implements OnInit {
     const endIndex = startIndex + this.itemsPerPage;
     this.paginatedCards = this.filteredCards.slice(startIndex, endIndex);
   }
-  
 }
