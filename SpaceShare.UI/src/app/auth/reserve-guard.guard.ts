@@ -41,7 +41,6 @@ export const reserveGuard: CanActivateFn = (
             router.navigate(['/went-wrong']);
             return false;
           }
-          console.log(applications);
           return true;
         }),
         catchError(() => {

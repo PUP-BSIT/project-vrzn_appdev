@@ -47,7 +47,6 @@ export class ApplicationCardComponent implements OnInit {
 
     this.applicationService.handleAcceptApplication(this.application).subscribe({
       next: data => {
-        console.log(data);
         this.submitted = false;
         this.success = true;
       },

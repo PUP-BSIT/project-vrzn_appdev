@@ -39,14 +39,7 @@ export class ResetPasswordComponent implements OnInit {
     
     const email = this.resetForm.value.email;
 
-    this.resetService.forgotPassword(email).subscribe({
-      next: data => {
-        console.log(data)
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    })
+    this.resetService.forgotPassword(email).subscribe();
     
     this.resetForm.reset();
     this.closeModal();

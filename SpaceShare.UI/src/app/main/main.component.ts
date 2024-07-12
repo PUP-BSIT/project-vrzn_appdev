@@ -78,8 +78,6 @@ export class MainComponent implements OnInit {
     } else {
       this.filteredCards = this.cards;
     }
-
-    console.log(this.filteredCards.length, this.loaded);
   }
 
   updatePagination(): void {
