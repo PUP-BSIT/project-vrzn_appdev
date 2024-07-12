@@ -11,7 +11,7 @@ import { ApplicationsService } from '../applications.service';
 @Component({
   selector: 'app-application-card',
   templateUrl: './application-card.component.html',
-  styleUrl: './application-card.component.css'
+  styleUrl: './application-card.component.css',
 })
 export class ApplicationCardComponent implements OnInit {
   @Input() application!: Application;
@@ -21,44 +21,48 @@ export class ApplicationCardComponent implements OnInit {
   success!: boolean;
   error!: boolean;
 
-  constructor(private propertyService: PropertyService, 
-    private authService: ProfileService, private applicationService: ApplicationsService){}
+  constructor(
+    private propertyService: PropertyService,
+    private authService: ProfileService,
+    private applicationService: ApplicationsService
+  ) {}
 
   ngOnInit(): void {
-      this.propertyService.getProperty(this.application.property_id).subscribe({
-        next: (data: Property) => {
-          this.property = data;
-        }
-      })
-      this.authService.getUserProfile(this.application.applicant_id).subscribe({
-        next: (data: User) => {
-          this.applicant = data;
-        }
-      })
+    this.propertyService.getProperty(this.application.property_id).subscribe({
+      next: (data: Property) => {
+        this.property = data;
+      },
+    });
+    this.authService.getUserProfile(this.application.applicant_id).subscribe({
+      next: (data: User) => {
+        this.applicant = data;
+      },
+    });
   }
 
-  handleAccept(){
-    this.submitted = true
+  handleAccept() {
+    this.submitted = true;
 
-    if(!this.application) {
+    if (!this.application) {
       this.submitted = false;
       this.error = true;
     }
 
-    this.applicationService.handleAcceptApplication(this.application).subscribe({
-      next: data => {
-        this.submitted = false;
-        this.success = true;
-      },
-      error: () => {
-        this.submitted = false;
-        this.error = true;
-      }
-    })
-
+    this.applicationService
+      .handleAcceptApplication(this.application)
+      .subscribe({
+        next: (data) => {
+          this.submitted = false;
+          this.success = true;
+        },
+        error: () => {
+          this.submitted = false;
+          this.error = true;
+        },
+      });
   }
 
-  handleReject(){
+  handleReject() {
     this.submitted = true;
 
     if (!this.application) {
@@ -69,8 +73,8 @@ export class ApplicationCardComponent implements OnInit {
     this.applicationService
       .handleRejectApplication(this.application)
       .subscribe({
-        next: (data : { success: boolean}) => {
-          if(data.success) {
+        next: (data: { success: boolean }) => {
+          if (data.success) {
             this.submitted = false;
             this.success = true;
           }
@@ -79,6 +83,6 @@ export class ApplicationCardComponent implements OnInit {
           this.submitted = false;
           this.error = true;
         },
-    });
+      });
   }
 }

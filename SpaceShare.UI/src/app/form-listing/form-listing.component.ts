@@ -294,7 +294,12 @@ export class FormListingComponent implements OnInit {
   }
 
   validateUpdateForm(): boolean {
-    if (!this.propertyForm.touched || this.propertyForm. pristine || !this.propertyForm.valid) return false;
+    if (
+      !this.propertyForm.touched ||
+      this.propertyForm.pristine ||
+      !this.propertyForm.valid
+    )
+      return false;
 
     return this.images.length > 0;
   }
@@ -310,17 +315,29 @@ export class FormListingComponent implements OnInit {
   loadCitiesByRegion(regionCode: string): void {
     this.locationService.getCities().subscribe((data: City[]) => {
       const excludedCityCodes = [
-        "133901", "133902", "133903", "133904", "133905",
-        "133906", "133907", "133908", "133909", "133910",
-        "133911", "133912", "133913", "133914", 
+        '133901',
+        '133902',
+        '133903',
+        '133904',
+        '133905',
+        '133906',
+        '133907',
+        '133908',
+        '133909',
+        '133910',
+        '133911',
+        '133912',
+        '133913',
+        '133914',
       ];
-      
-      this.cities = data.filter((entry: City) =>
-        entry.province_code.startsWith(regionCode) && !excludedCityCodes.includes(entry.city_code)
+
+      this.cities = data.filter(
+        (entry: City) =>
+          entry.province_code.startsWith(regionCode) &&
+          !excludedCityCodes.includes(entry.city_code)
       );
     });
   }
-  
 
   onFileChange(): void {
     const inputElement = this.fileInput.nativeElement;
@@ -329,7 +346,7 @@ export class FormListingComponent implements OnInit {
       const files = Array.from(inputElement.files) as File[];
       this.handleFiles(files);
 
-      if(this.isInitializing) return;
+      if (this.isInitializing) return;
 
       this.propertyForm.get('files')?.markAsTouched();
       this.propertyForm.get('files')?.markAsDirty();
@@ -348,7 +365,7 @@ export class FormListingComponent implements OnInit {
     const sizeLimitExceededFiles: File[] = [];
     const MAX_SIZE_MB = 5;
     const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
-  
+
     files.forEach((file) => {
       if (!validFileTypes.includes(file.type)) {
         invalidFiles.push(file);
@@ -358,8 +375,7 @@ export class FormListingComponent implements OnInit {
         validFiles.push(file);
       }
     });
-  
-    // Check if any files are invalid
+
     if (invalidFiles.length > 0) {
       this.fileError =
         'Files have invalid formats. Only JPEG, PNG, GIF, and SVG formats are allowed.';
@@ -369,8 +385,7 @@ export class FormListingComponent implements OnInit {
     } else {
       this.fileError = null;
     }
-  
-    // Check if exceeding maximum number of images
+
     if (validFiles.length + this.images.length > this.maxImages) {
       this.imageLimitExceeded = true;
     } else {
@@ -382,14 +397,13 @@ export class FormListingComponent implements OnInit {
           preview: URL.createObjectURL(file),
         })),
       ];
-  
+
       this.propertyForm.patchValue({
         files: this.images.map((image) => image.file),
       });
       this.propertyForm.get('files')!.updateValueAndValidity();
     }
   }
-  
 
   setImages(images: { image_url: string }[]): void {
     const dataTransfer = new DataTransfer();
@@ -427,7 +441,7 @@ export class FormListingComponent implements OnInit {
     });
 
     const filesControl = this.propertyForm.get('files');
-    if(filesControl){
+    if (filesControl) {
       filesControl.markAsTouched();
       filesControl.markAsDirty();
       filesControl.updateValueAndValidity();

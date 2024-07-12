@@ -11,14 +11,12 @@ export class AddListingService {
   createProperty(property: Property, files: File[]) {
     const formData = new FormData();
 
-    // Append property data
     for (const key in property) {
       if (property.hasOwnProperty(key)) {
         formData.append(key, property[key]!.toString());
       }
     }
 
-    // Append files
     for (const file of files) {
       formData.append('files', file, file.name);
     }
@@ -34,7 +32,6 @@ export class AddListingService {
   }
 
   getImages(url: string): Observable<File> {
-    //temporary workaround cuz chrome with them caching bugs 
     const headers = new HttpHeaders({
       'Cache-Control': 'no-cache',
       'Pragma': 'no-cache',

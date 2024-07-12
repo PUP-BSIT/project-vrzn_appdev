@@ -12,8 +12,8 @@ export class PropertyCardComponent implements OnChanges {
   @Input() cardId!: number;
   @Input() owned!: boolean;
   @Output() cardDeleted = new EventEmitter<number>();
-  isDeleting: boolean = false;
-  isDeleted: boolean = false;
+  isDeleting = false;
+  isDeleted = false;
   isOccupied = false;
 
   ngOnChanges(changes: SimpleChanges): void {

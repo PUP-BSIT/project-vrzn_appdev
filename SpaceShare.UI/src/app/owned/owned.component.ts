@@ -6,27 +6,32 @@ import { Card } from '../../model/card.model';
 @Component({
   selector: 'app-owned',
   templateUrl: './owned.component.html',
-  styleUrl: './owned.component.css'
+  styleUrl: './owned.component.css',
 })
 export class OwnedComponent {
   ownedItems!: Card[];
   user_id!: number;
-  loaded:boolean = false;
+  loaded = false;
 
-  constructor(private ownedService: OwnedService, private cookie: CookieService) {}
+  constructor(
+    private ownedService: OwnedService,
+    private cookie: CookieService
+  ) {}
 
   ngOnInit(): void {
-      this.user_id = +this.cookie.get("id");
-      this.ownedService.getOwnProperties(this.user_id).subscribe((data: Card[]) => {
+    this.user_id = +this.cookie.get('id');
+    this.ownedService
+      .getOwnProperties(this.user_id)
+      .subscribe((data: Card[]) => {
         this.ownedItems = data;
-      })
+      });
 
-      setTimeout(() => {
-        this.loaded = true;
-      }, 800);
+    setTimeout(() => {
+      this.loaded = true;
+    }, 800);
   }
 
   onCardDeleted(cardId: number) {
-    this.ownedItems = this.ownedItems.filter(card => cardId !== card.id);
+    this.ownedItems = this.ownedItems.filter((card) => cardId !== card.id);
   }
 }

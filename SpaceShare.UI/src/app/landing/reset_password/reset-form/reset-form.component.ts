@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/forms';
+import {
+  FormGroup,
+  Validators,
+  FormBuilder,
+  AbstractControl,
+} from '@angular/forms';
 import { PasswordValidator, PasswordMatchValidator } from './custom-validator';
 import { ActivatedRoute } from '@angular/router';
 import { ResetPasswordService } from '../reset-password.service';
@@ -28,7 +33,6 @@ export class ResetFormComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       this.token = params['token'];
       if (!this.token) {
-        //location.href = '/went-wrong';
       }
     });
 
@@ -65,7 +69,7 @@ export class ResetFormComponent implements OnInit {
     });
   }
 
-  togglePasswordVisibility(){
+  togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
 
@@ -82,8 +86,11 @@ export class ResetFormComponent implements OnInit {
   }
 
   getValidationClass(control: AbstractControl): string {
-    if (this.passForm.hasError('passwordsMismatch') && control.touched 
-        && control === this.passForm.get('confirmPassword')) {
+    if (
+      this.passForm.hasError('passwordsMismatch') &&
+      control.touched &&
+      control === this.passForm.get('confirmPassword')
+    ) {
       return 'border-red-500';
     } else if (control.valid && control.touched) {
       return 'bg-green-50 border border-green-500 text-green-900 placeholder-green-700';
@@ -94,5 +101,5 @@ export class ResetFormComponent implements OnInit {
     } else {
       return '';
     }
-  }  
+  }
 }
