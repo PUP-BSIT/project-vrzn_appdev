@@ -14,7 +14,7 @@ export class MainComponent implements OnInit {
   cards: Card[] = [];
   filteredCards: Card[] = [];
   paginatedCards: Card[] = [];
-  subscription!: Subscription;
+  spaceShareSubscription!: Subscription;
   loaded = false;
 
   currentPage = 1;
@@ -49,6 +49,12 @@ export class MainComponent implements OnInit {
       },
       () => {
         this.router.navigate(['/went-wrong']);
+      }
+    );
+
+    this.spaceShareSubscription = this.mainService.spaceShareClicked$.subscribe(
+      () => {
+        this.spaceShareClick();
       }
     );
   }
@@ -93,5 +99,10 @@ export class MainComponent implements OnInit {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     this.paginatedCards = this.filteredCards.slice(startIndex, endIndex);
+  }
+
+  spaceShareClick(): void {
+    this.filteredCards = this.cards;
+    this.updatePagination();
   }
 }

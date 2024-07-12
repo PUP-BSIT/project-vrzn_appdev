@@ -2,9 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { NavbarService } from './navbar.service';
-import { Subscription, timeout } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { NotificationEvent, SseService } from './sse.service';
 import { AuthService } from '../../auth/auth.service';
+import { MainService } from '../../main/main.service';
 
 @Component({
   selector: 'app-navbar',
@@ -24,7 +25,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private cookieService: CookieService,
     private navService: NavbarService,
     private sseService: SseService,
-    private authService: AuthService
+    private authService: AuthService,
+    private mainService: MainService
   ) {
     this.loggedIn = false;
   }
@@ -74,6 +76,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
         .subscribe();
       this.hasReservationNotif = false;
     }
+  }
+
+  onSpaceShareClick(){
+    this.mainService.spaceShareClick();
   }
 
   ngOnDestroy(): void {
