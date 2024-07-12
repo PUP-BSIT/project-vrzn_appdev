@@ -1,10 +1,14 @@
-import { AbstractControl, ValidationErrors, ValidatorFn, FormControl, FormGroup } from '@angular/forms';
-
+import {
+  AbstractControl,
+  ValidationErrors,
+  ValidatorFn,
+  FormControl,
+  FormGroup,
+} from '@angular/forms';
 
 export interface ValidationResult {
   [key: string]: boolean;
 }
-
 
 export class PasswordValidator {
   public static strong(control: FormControl): ValidationResult | null {
@@ -31,7 +35,9 @@ export class PasswordMatchValidator {
         return null;
       }
 
-      return password.value === confirmPassword.value ? null : { passwordsMismatch: true };
+      return password.value === confirmPassword.value
+        ? null
+        : { passwordsMismatch: true };
     };
   }
 }
