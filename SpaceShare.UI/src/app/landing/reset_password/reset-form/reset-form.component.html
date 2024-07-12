@@ -1,6 +1,7 @@
 <div class="min-h-screen flex items-center justify-center bg-gray-100">
   <div class="w-full max-w-md">
-    <img src='./../../../../assets/logo.svg' class="w-full mb-4 h-24 flex justify-center items-center" />
+    <img src='./../../../../assets/logo.svg' class="w-full mb-4 h-24 flex 
+    justify-center items-center" />
     <div class="bg-white p-8 rounded-lg shadow-md">
       <h2 class="text-2xl font-semibold mb-6 text-center">Reset Password</h2>
       <div class="mb-6 text-left text-black">
@@ -45,18 +46,21 @@
             [ngClass]="getValidationClass(confirmPasswordControl)"
             (focus)="clearError('confirmPassword')"/>
         </div>
-        @if (passForm.hasError('passwordsMismatch') && confirmPasswordControl.touched) {
+        @if (passForm.hasError('passwordsMismatch') && 
+          confirmPasswordControl.touched) {
           <div class="error-message text-sm text-red-500 pl-3">
             Passwords do not match
           </div>
-        } @else if (confirmPasswordControl.errors?.['required'] && confirmPasswordControl.touched) {
+        } @else if (confirmPasswordControl.errors?.['required'] && 
+          confirmPasswordControl.touched) {
           <div class="error-message text-sm text-red-500 pl-3">
             Confirm Password Must Not Be Null 
           </div>
         }
         <div class="flex">
           <label class="label cursor-pointer">
-            <input type="checkbox" class="checkbox" [checked]="showPassword" (change)="togglePasswordVisibility()" />
+            <input type="checkbox" class="checkbox" [checked]="showPassword" 
+            (change)="togglePasswordVisibility()" />
             <span class="label-text ml-2 select-none">Show Password</span>
           </label>
         </div>
@@ -65,8 +69,10 @@
           <button
             type="submit"
             class="btn bg-[#8644a2] text-white w-full"
-            [class.disabled-button]="passForm.pristine || passForm.hasError('passwordsMismatch')"
-            [disabled]="passForm.pristine || passForm.hasError('passwordsMismatch')">
+            [class.disabled-button]="passForm.pristine ||
+             passForm.hasError('passwordsMismatch')"
+            [disabled]="passForm.pristine || 
+              passForm.hasError('passwordsMismatch')">
             Reset
           </button>
       </div>

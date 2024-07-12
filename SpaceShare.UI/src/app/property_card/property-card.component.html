@@ -1,14 +1,12 @@
-<div class="card bg-white shadow-xl rounded-xl overflow-hidden cursor-pointer">
+<div class="card bg-white shadow-xl rounded-xl overflow-hidden cursor-pointer" [routerLink]="['/space', cardId]" >
   <figure class="relative">
     @if(card.images.length > 0){
-      <img [src]="card.images[0].image_url" alt="House 1" class="w-full h-48 object-cover"
-            [routerLink]="['/space', cardId]" />
+      <img [src]="card.images[0].image_url" alt="House 1" class="w-full h-48 object-cover"/>
     }@else {
-      <img src="../../assets/home.jpg" alt="House 1" class="w-full h-48 object-cover"
-        [routerLink]="['/space', cardId]" />
+      <img src="../../assets/home.jpg" alt="House 1" class="w-full h-48 object-cover"/>
     }
     @if(owned) {
-    <button class="delete-icon" (click)="openConfirmationModal()">
+    <button class="delete-icon" (click)="openConfirmationModal($event)">
       <img src="../../assets/trash.svg" alt="delete" />
     </button>
     <dialog id="my_modal_{{ card.id }}" class="modal" #myModal>
@@ -19,14 +17,14 @@
           <button
             class="btn w-32 bg-white text-gray-500 border-gray-300 shadow-none mr-5"
             type="button"
-            (click)="closeModal()"
+            (click)="closeModal($event)"
           >
             Cancel
           </button>
           <button
             class="btn w-32 bg-red-500 text-white hover:bg-red-600 ml-5"
             type="button"
-            (click)="deleteCard(card.id)"
+            (click)="deleteCard(card.id, $event)"
           >
             Confirm
           </button>
@@ -35,7 +33,7 @@
     </dialog>
     }
   </figure>
-  <div class="p-4" [routerLink]="['/space', cardId]">
+  <div class="p-4">
     <div class="flex justify-between">
       <h2 class="card-title text-lg md:text-base lg:text-base xl:text-xl font-semibold">{{ card.title | slice : 0 : 21 }}
         {{ card.title.length > 21 ? "..." : "" }}</h2>
@@ -45,7 +43,7 @@
       </div>
       </div>
     </div>
-    <div [routerLink]="['/space', cardId]">
+    <div>
       <div class="flex items-center text-gray-600 mb-1 text-base font-medium">
         <svg
           xmlns="http://www.w3.org/2000/svg"

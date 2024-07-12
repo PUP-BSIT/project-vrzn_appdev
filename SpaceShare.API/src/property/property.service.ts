@@ -295,30 +295,26 @@ export class PropertyService {
   }
 
   async acceptApplication(id: number) {
-    const updated = await this.prismaService.tenantApplication.update({
-      where: {
-        id,
-      },
-      data: {
-        status: 'Approved',
-      },
-    });
-
-    if (!updated) return { success: false };
-
     const application = await this.prismaService.tenantApplication.findUnique({
-      where: {
-        id,
-      },
+      where: { id },
     });
+
+    if (!application || application.status !== 'Pending') {
+      return { success: false };
+    }
+
+    const updated = await this.prismaService.tenantApplication.update({
+      where: { id },
+      data: { status: 'Approved' },
+    });
+
+    if (!updated) {
+      return { success: false };
+    }
 
     await this.prismaService.property.update({
-      where: {
-        id: application.property_id,
-      },
-      data: {
-        status: true,
-      },
+      where: { id: application.property_id },
+      data: { status: true },
     });
 
     await this.prismaService.spaceHistory.create({
@@ -328,11 +324,31 @@ export class PropertyService {
       },
     });
 
-    await this.eventService.createNotification({
-      userToUpdate: +application.applicant_id,
-      isApplication: false,
-      isReservation: true,
+    await this.prismaService.tenantApplication.updateMany({
+        where: { property_id: application.property_id, status: 'Pending' },
+        data: { status: 'Rejected' },
     });
+
+    const applicants = await this.prismaService.tenantApplication.findMany({
+      where: { property_id: application.property_id },
+      select: { applicant_id: true },
+    });
+
+    const uniqueApplicantIds = new Set(
+      applicants.map((app) => app.applicant_id),
+    );
+
+    const notificationPromises = Array.from(uniqueApplicantIds).map(
+      async (applicantId) => {
+        await this.eventService.createNotification({
+          userToUpdate: applicantId,
+          isApplication: false,
+          isReservation: true,
+        });
+      },
+    );
+
+    await Promise.all(notificationPromises);
 
     return { success: true };
   }

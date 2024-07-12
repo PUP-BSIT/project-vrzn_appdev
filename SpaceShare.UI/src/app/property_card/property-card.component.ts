@@ -12,8 +12,8 @@ export class PropertyCardComponent implements OnChanges {
   @Input() cardId!: number;
   @Input() owned!: boolean;
   @Output() cardDeleted = new EventEmitter<number>();
-  isDeleting: boolean = false;
-  isDeleted: boolean = false;
+  isDeleting = false;
+  isDeleted = false;
   isOccupied = false;
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -26,8 +26,8 @@ export class PropertyCardComponent implements OnChanges {
 
   constructor(private cardService: PropertyCardService) {}
 
-  deleteCard(id: number) {
-    this.closeModal();
+  deleteCard(id: number, event: Event) {
+    this.closeModal(event);
 
     this.isDeleting = true;
 
@@ -51,12 +51,14 @@ export class PropertyCardComponent implements OnChanges {
     return rating !== null ? parseFloat(rating.toFixed(2)).toString() : '1';
   }
 
-  closeModal() {
+  closeModal(event?: Event) {
+    event?.stopPropagation();
     const modal = this.modalElement.nativeElement as HTMLDialogElement;
     modal.close();
   }
 
-  openConfirmationModal() {
+  openConfirmationModal(event: Event) {
+    event.stopPropagation();
     const modal = this.modalElement.nativeElement as HTMLDialogElement;
     modal.showModal();
   }

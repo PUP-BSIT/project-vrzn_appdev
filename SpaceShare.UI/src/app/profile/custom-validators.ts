@@ -9,16 +9,13 @@ export class CustomValidators {
         return null;
       }
 
-      // Calculate age based on the birthdate
       const today = new Date();
       const birthDate = new Date(birthdate);
       const age = today.getFullYear() - birthDate.getFullYear();
 
-      // Check if age is less than 18
       if (age < 18) {
-        return { 'adultAge': { fieldName } };
+        return { adultAge: { fieldName } };
       }
-
       return null;
     };
   }
@@ -27,7 +24,6 @@ export class CustomValidators {
 export interface ValidationResult {
   [key: string]: boolean;
 }
-
 
 export class PasswordValidator {
   public static strong(control: FormControl): ValidationResult | null {
@@ -54,7 +50,9 @@ export class PasswordMatchValidator {
         return null;
       }
 
-      return password.value === confirmPassword.value ? null : { passwordsMismatch: true };
+      return password.value === confirmPassword.value
+        ? null
+        : { passwordsMismatch: true };
     };
   }
 }

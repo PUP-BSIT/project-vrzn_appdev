@@ -1,14 +1,17 @@
-<div
-  class="flex flex-wrap xl:flex-col justify-evenly items-center space-y-4 sm:space-y-0 mt-5 mx-4 xl:ml-14 xl:sticky xl:top-28 xl:gap-4 xl:pr-7">
+<div class="flex flex-wrap xl:flex-col justify-evenly items-center space-y-4 
+            sm:space-y-0 mt-5 mx-4 xl:ml-14 xl:sticky xl:top-28 
+            xl:gap-4 xl:pr-7">
   <div class="w-full sm:w-auto mb-4 sm:mb-0 slide-in-left">
     <label for="city" class="block text-sm font-semibold text-gray-500">
       City
     </label>
     <select id="city" [(ngModel)]="selectedCity" (change)="applyFilters()"
-      class="mt-1 block w-full sm:w-64 pl-3 pr-10 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      class="mt-1 block w-full sm:w-64 pl-3 pr-10 py-2 border border-gray-300 
+             bg-white rounded-md shadow-sm focus:outline-none 
+             focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
       <option value="">All Cities</option>
       @for(city of uniqueCities; track city) {
-      <option [value]="city">{{ city }}</option>
+        <option [value]="city">{{ city }}</option>
       }
     </select>
   </div>
@@ -17,82 +20,101 @@
       Price Range
     </label>
     <button
-      class="mt-1 block w-full sm:w-64 pl-3 pr-10 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      class="mt-1 block w-full sm:w-64 pl-3 pr-10 py-2 border border-gray-300 
+             bg-white rounded-md shadow-sm focus:outline-none 
+             focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
       (click)="togglePriceDropdown()">
       {{ priceRangeLabel }}
     </button>
-    @if(isPriceDropdownOpen){
-    <div class="absolute z-50 w-full sm:w-64 bg-white border border-gray-300 rounded-md shadow-lg mt-1 p-4">
-      <div class="mb-2">
-        <button (click)="setPriceRange(0, 1000)" class="block w-full text-left px-4 py-2 hover:bg-gray-100">
-          Below PHP 1k
-        </button>
-        <button (click)="setPriceRange(1000, 2000)" class="block w-full text-left px-4 py-2 hover:bg-gray-100">
-          PHP 1k to 2k
-        </button>
-        <button (click)="setPriceRange(2000, 3000)" class="block w-full text-left px-4 py-2 hover:bg-gray-100">
-          PHP 2k to 3k
-        </button>
-        <button (click)="setPriceRange(3000, 5000)" class="block w-full text-left px-4 py-2 hover:bg-gray-100">
-          PHP 3k to 5k
-        </button>
-      </div>
-      <div class="mb-4">
-        <div class="flex items-center">
-          <input type="number" [(ngModel)]="minPrice" name="minPrice" #minPriceInput="ngModel"
-            class="block w-full pl-3 pr-2 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            placeholder="Min" min="0" max="1000000" required />
-          <span class="mx-2">-</span>
-          <input type="number" [(ngModel)]="maxPrice" name="maxPrice" #maxPriceInput="ngModel"
-            class="block w-full pl-3 pr-2 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            placeholder="Max" min="0" max="1000000" required />
+    @if(isPriceDropdownOpen) {
+      <div class="absolute z-50 w-full sm:w-64 bg-white border border-gray-300 
+                  rounded-md shadow-lg mt-1 p-4">
+        <div class="mb-2">
+          <button (click)="setPriceRange(0, 1000)" 
+                  class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+            Below PHP 1k
+          </button>
+          <button (click)="setPriceRange(1000, 2000)" 
+                  class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+            PHP 1k to 2k
+          </button>
+          <button (click)="setPriceRange(2000, 3000)" 
+                  class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+            PHP 2k to 3k
+          </button>
+          <button (click)="setPriceRange(3000, 5000)" 
+                  class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+            PHP 3k to 5k
+          </button>
         </div>
+        <div class="mb-4">
+          <div class="flex items-center">
+            <input type="number" [(ngModel)]="minPrice" name="minPrice" 
+              #minPriceInput="ngModel"
+              class="block w-full pl-3 pr-2 py-2 border border-gray-300 
+                     bg-white rounded-md shadow-sm focus:outline-none 
+                     focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              placeholder="Min" min="0" max="1000000" required />
+            <span class="mx-2">-</span>
+            <input type="number" [(ngModel)]="maxPrice" name="maxPrice" 
+              #maxPriceInput="ngModel"
+              class="block w-full pl-3 pr-2 py-2 border border-gray-300 
+                     bg-white rounded-md shadow-sm focus:outline-none 
+                     focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              placeholder="Max" min="0" max="1000000" required />
+          </div>
 
-        @if (minPriceInput.invalid && (minPriceInput.dirty || minPriceInput.touched)) {
-        <div class="text-red-500 text-sm mt-1">
-          @if (minPriceInput.errors?.['min']) {
-          Minimum price must be at least 0.
-          } @else if (minPriceInput.errors?.['max']) {
-          Maximum price cannot exceed 1,000,000
-          } @else if (minPriceInput.errors?.['required']) {
-          Minimum price is required.
+          @if (minPriceInput.invalid && 
+               (minPriceInput.dirty || minPriceInput.touched)) {
+            <div class="text-red-500 text-sm mt-1">
+              @if (minPriceInput.errors?.['min']) {
+                Minimum price must be at least 0.
+              } @else if (minPriceInput.errors?.['max']) {
+                Maximum price cannot exceed 1,000,000
+              } @else if (minPriceInput.errors?.['required']) {
+                Minimum price is required.
+              }
+            </div>
+          }
+
+          @if (maxPriceInput.invalid && 
+               (maxPriceInput.dirty || maxPriceInput.touched)) {
+            <div class="text-red-500 text-sm mt-1">
+              @if (maxPriceInput.errors?.['min']) {
+                Price cannot be empty.
+              } @else if (maxPriceInput.errors?.['max']) {
+                Maximum price cannot exceed 1,000,000
+              } @else if (maxPriceInput.errors?.['required']) {
+                Maximum price is required.
+              }
+            </div>
           }
         </div>
-        }
-
-        @if (maxPriceInput.invalid && (maxPriceInput.dirty || maxPriceInput.touched)) {
-        <div class="text-red-500 text-sm mt-1">
-          @if (maxPriceInput.errors?.['min']) {
-          Price cannot be empty.
-          } @else if (maxPriceInput.errors?.['max']) {
-          Maximum price cannot exceed 1,000,000
-          } @else if (maxPriceInput.errors?.['required']) {
-          Maximum price is required.
-          }
+        <div class="flex justify-between">
+          <button (click)="clearPriceFilters()" 
+                  class="btn bg-white text-gray-500 border-gray-300">
+            Clear
+          </button>
+          <button (click)="applyFilters()" 
+                  class="btn bg-primary text-white hover:bg-[#9A58B6]">
+            Apply
+          </button>
         </div>
-        }
-
       </div>
-      <div class="flex justify-between">
-        <button (click)="clearPriceFilters()" class="btn bg-white text-gray-500 border-gray-300">
-          Clear
-        </button>
-        <button (click)="applyFilters()" class="btn bg-primary text-white hover:bg-[#9A58B6]">
-          Apply
-        </button>
-      </div>
-    </div>
     }
   </div>
   <div class="w-full sm:w-auto mb-4 sm:mb-0 slide-in-left">
     <label for="bedrooms" class="block text-sm font-semibold text-gray-500">
       Bedrooms
     </label>
-    <select id="bedrooms" [(ngModel)]="selectedBedrooms" (change)="applyFilters()"
-      class="mt-1 block w-full sm:w-64 pl-3 pr-10 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+    <select id="bedrooms" [(ngModel)]="selectedBedrooms" 
+      (change)="applyFilters()"
+      class="mt-1 block w-full sm:w-64 pl-3 pr-10 py-2 border border-gray-300 
+             bg-white rounded-md shadow-sm focus:outline-none 
+             focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
       <option value="" selected>Any</option>
       @for(bedroom of bedroomOptions; track bedroom) {
-      <option [value]="bedroom">{{ bedroom }}</option>
+        <option [value]="bedroom">{{ bedroom }}</option>
       }
     </select>
   </div>

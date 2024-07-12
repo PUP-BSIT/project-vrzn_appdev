@@ -33,8 +33,7 @@ export class RatingComponent {
     }
 
     this.ratingService.rateProperty(ratingToPass).subscribe({
-      next: data => {
-        console.log(data);
+      next: () => {
         this.submitted = false;
         this.success = true;
       },

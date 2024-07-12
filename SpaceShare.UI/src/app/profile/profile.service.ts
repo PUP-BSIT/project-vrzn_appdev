@@ -30,9 +30,6 @@ export class ProfileService {
     const headers = new HttpHeaders().set('Accept', 'application/json');
     const changeurl = `${environment.apiUrl}/auth/password/change`;
   
-    console.log('Change Password URL:', changeurl);
-    console.log('Password Change Request:', passwordChangeRequest);
-  
     return this.http.post(changeurl, passwordChangeRequest, {
       headers: headers,
       withCredentials: true,
