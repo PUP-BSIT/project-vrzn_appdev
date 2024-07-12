@@ -1,100 +1,93 @@
 <dialog id="my_modal_1" class="modal" #SuccessModal>
-    <div class="modal-box max-w-96">
-        <h3 class="text-lg font-bold text-center">{{ mainMessage }}</h3>
-        <div class="flex justify-center mt-3">
-            @if(state === 'success') {
-                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="96" height="96" viewBox="0 0 48 48">
-                    <path fill="#c8e6c9" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
-                    <path fill="#4caf50"
-                        d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
-                </svg>
-            }
-            @else if(state === 'info') {
-                <svg xmlns="http://www.w3.org/2000/svg" 
-                    x="0px" 
-                    y="0px"
-                    width="100" 
-                    height="100" 
-                    viewBox="0 0 48 48">
-                        <path fill="#2196f3" 
-                            d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z">
-                        </path>
-                        <path fill="#fff"
-                            d="M22 22h4v11h-4V22zM26.5 16.5c0 1.379-1.121 2.5-2.5 2.5s-2.5-1.121-2.5-2.5S22.621 14 24 14 26.5 15.121 26.5 16.5z">
-                        </path>
-                </svg>
-            }
-            @else if(state === 'error') {
-                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 48 48">
-                    <path fill="#f44336" 
-                        d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z">
-                    </path>
-                    <path fill="#fff" 
-                        d="M29.656,15.516l2.828,2.828l-14.14,14.14l-2.828-2.828L29.656,15.516z">
-                    </path>
-                    <path fill="#fff" 
-                        d="M32.484,29.656l-2.828,2.828l-14.14-14.14l2.828-2.828L32.484,29.656z">
-                    </path>
-                </svg>
-            }
-        </div>
-        <p class="py-4 text-center text-sm font-light">{{ subMessage }}</p>
-        
-        @if(state === 'success' && createdPropery) {
-            <div class="flex justify-center">
-                <a href="space/{{createdPropery}}"
-                   class="btn w-full 
-                          align-middle 
-                          bg-primary 
-                          border-none 
-                          outline-none 
-                          hover:bg-[#9A58B6] 
-                          text-white">
-                    Go To Property
-                </a>
-            </div>
-        }
-        @else if(state === 'success' && mainMessage === "Reset Success") {
-            <div class="flex justify-center">
-                <a href="/home"
-                   class="btn w-full 
-                          align-middle 
-                          bg-primary 
-                          border-none 
-                          outline-none 
-                          hover:bg-[#9A58B6] 
-                          text-white">
-                    Okay
-                </a>
-            </div>
-        }
-        @else if(state === 'success' && mainMessage === 'Register Successful!') {
-            <div class="flex justify-center">
-                <a href="/home"
-                   class="btn w-full 
-                          align-middle 
-                          bg-primary 
-                          border-none 
-                          outline-none 
-                          hover:bg-[#9A58B6] 
-                          text-white">
-                    Let's Go
-                </a>
-            </div>
-        }
-        @else {
-            <div class="flex justify-center">
-                <button (click)="isShownMethod()" 
-                        class="btn w-full 
-                               align-middle 
-                               bg-primary 
-                               border-none 
-                               outline-none 
-                               hover:bg-[#9A58B6] 
-                               text-white">
-                    Okay
-                </button>
-            </div>
-        }
-    </div>
+	<div class="modal-box max-w-96">
+			<h3 class="text-lg font-bold text-center">{{ mainMessage }}</h3>
+			<div class="flex justify-center mt-3">
+					@if(state === 'success') {
+							<svg xmlns="http://www.w3.org/2000/svg" 
+									 x="0px" 
+									 y="0px" 
+									 width="96" 
+									 height="96" 
+									 viewBox="0 0 48 48">
+									<path fill="#c8e6c9" 
+												d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z">
+									</path>
+									<path fill="#4caf50"
+												d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z">
+									</path>
+							</svg>
+					}
+					@else if(state === 'info') {
+							<svg xmlns="http://www.w3.org/2000/svg" 
+									 x="0px" 
+									 y="0px"
+									 width="100" 
+									 height="100" 
+									 viewBox="0 0 48 48">
+									<path fill="#2196f3" 
+												d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z">
+									</path>
+									<path fill="#fff"
+												d="M22 22h4v11h-4V22zM26.5 16.5c0 1.379-1.121 2.5-2.5 2.5s-2.5-1.121-2.5-2.5S22.621 14 24 14 26.5 15.121 26.5 16.5z">
+									</path>
+							</svg>
+					}
+					@else if(state === 'error') {
+							<svg xmlns="http://www.w3.org/2000/svg" 
+									 x="0px" 
+									 y="0px" 
+									 width="100" 
+									 height="100" 
+									 viewBox="0 0 48 48">
+									<path fill="#f44336" 
+												d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z">
+									</path>
+									<path fill="#fff" 
+												d="M29.656,15.516l2.828,2.828l-14.14,14.14l-2.828-2.828L29.656,15.516z">
+									</path>
+									<path fill="#fff" 
+												d="M32.484,29.656l-2.828,2.828l-14.14-14.14l2.828-2.828L32.484,29.656z">
+									</path>
+							</svg>
+					}
+			</div>
+			<p class="py-4 text-center text-sm font-light">{{ subMessage }}</p>
+			
+			@if(state === 'success' && createdPropery) {
+					<div class="flex justify-center">
+							<a href="space/{{createdPropery}}"
+								 class="btn w-full align-middle bg-primary border-none 
+												outline-none hover:bg-[#9A58B6] text-white">
+									Go To Property
+							</a>
+					</div>
+			}
+			@else if(state === 'success' && mainMessage === "Reset Success") {
+					<div class="flex justify-center">
+							<a href="/home"
+								 class="btn w-full align-middle bg-primary border-none 
+												outline-none hover:bg-[#9A58B6] text-white">
+									Okay
+							</a>
+					</div>
+			}
+			@else if(state === 'success' && mainMessage === 'Register Successful!') {
+					<div class="flex justify-center">
+							<a href="/home"
+								 class="btn w-full align-middle bg-primary border-none 
+												outline-none hover:bg-[#9A58B6] text-white">
+									Let's Go
+							</a>
+					</div>
+			}
+			@else {
+					<div class="flex justify-center">
+							<button (click)="isShownMethod()" 
+											class="btn w-full align-middle bg-primary border-none 
+														 outline-none hover:bg-[#9A58B6] text-white">
+									Okay
+							</button>
+					</div>
+			}
+	</div>
 </dialog>
